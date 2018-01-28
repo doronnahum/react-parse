@@ -1,9 +1,15 @@
 # `react-parse`
-render props components for [react](https://reactjs.org) and [react-native](https://facebook.github.io/react-native/) apps with [parse-server](hhttps://github.com/parse-community/parse-server) that using [redux+saga](https://github.com/redux-saga/redux-saga).
+data provider components for [react](https://reactjs.org) and [react-native](https://facebook.github.io/react-native/) apps with [parse-server](hhttps://github.com/parse-community/parse-server) that using [redux+saga](https://github.com/redux-saga/redux-saga).
 read about [render props](https://reactjs.org/docs/render-props.html) pattern.
 
 ### Way i need this
-this components help you to get data from server or create/update data on server without repeat your self.
+this components help you to get data from server or create/update data on server without writing any code except your ui.
+tell the component what you want and pass function that return component to render on the screen, you component get all waht you need:
+  - query status- LOADING, SUCCESS, ERROR
+  - data
+  - refreshMethod - run this methos and the query to server run again and you get refresh data...
+there are alot of option that help you build faster and smarter, check our [documentation](https://doronnahum.github.io/react-parse/):
+
 
 #### Document Exapmle:
 With `FetchDocument` you can get specific document by collection name and objectId
