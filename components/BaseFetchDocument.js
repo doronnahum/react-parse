@@ -303,7 +303,7 @@ FetchDocument.propTypes = {
   addMemberPointerToDataOnPost: PropTypes.bool,
   cleanDataOnComponentWillUnmount: PropTypes.bool,
   getDataWithPostFinishCallBack: PropTypes.bool, // this trigger a GET method after POST and the data pass with onPostDocumentFinish
-  localFirst: PropTypes.bool, // get data from server only if data didn't found in store
+  localFirst: PropTypes.bool, // get data from server only if data didn't found in store.
   localOnly: PropTypes.bool, // get data only from local store
   parseDataBeforeSave: PropTypes.func,
   actions: PropTypes.shape({
