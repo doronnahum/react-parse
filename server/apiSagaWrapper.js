@@ -1,7 +1,6 @@
 import { call, put } from 'redux-saga/effects';
 import { dig } from '../helpers';
 import types from '../types';
-import { debug } from 'util';
 
 export function* httpRequest(...params) {
   try {
