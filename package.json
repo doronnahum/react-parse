@@ -2,7 +2,7 @@
   "name": "react-parse",
   "version": "1.0.4",
   "description": "react components with redux and saga ready to use for easy and fast fetch data from and parse server",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "babel-node src/index.es6",
     "lint": "eslint src/**/*.es6",

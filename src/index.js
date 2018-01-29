@@ -11,7 +11,8 @@ import * as componentsHelpers from './components/helpers';
 // Parse
 import parse from './parse/reducer';
 import parseWatcher from './parse/sagaWatcher';
-
+// Selectors
+import selectors from './parse/selectors';
 export {
   api,
   httpRequest,
@@ -25,4 +26,7 @@ export {
   // Parse
   parseWatcher,
   parse,
+  // Selectors
+  selectors
+
 };

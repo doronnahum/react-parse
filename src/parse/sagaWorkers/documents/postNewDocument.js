@@ -15,7 +15,7 @@ export default function* postNewDocument(action) {
     className,
     uniqueId,
     parseDataBeforeSave,
-    getDataWithPostQueryStatusSuccessfully,
+    refreshDataAfterSave,
   } = action;
   let documentData;
   let objectToUpdate = null;
@@ -45,7 +45,7 @@ export default function* postNewDocument(action) {
     // Set query status to error
     yield put(setNewDocumentStatus(uniqueId, FAILED));
   } else {
-    if (getDataWithPostQueryStatusSuccessfully) {
+    if (refreshDataAfterSave) {
       documentData = yield* httpRequest(api.query, className, {
         objectId: res.data.objectId,
       });
