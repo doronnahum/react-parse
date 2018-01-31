@@ -1,8 +1,26 @@
 import isEqual from 'lodash/isEqual';
-
+import types from '../../types'
+const {
+  GET_START,
+  GET_FAILED,
+  GET_FAILED_NETWORK,
+  GET_FINISHED,
+  CREATE_START,
+  CREATE_FAILED,
+  CREATE_FAILED_NETWORK,
+  CREATE_FINISHED,
+  DELETE_START,
+  DELETE_FAILED,
+  DELETE_FAILED,
+  DELETE_FINISHED,
+  UPDATE_START,
+  UPDATE_FAILED,
+  UPDATE_FAILED,
+  UPDATE_FINISHED,
+} = types.statues
 export const isCreateDocumentFinish = function (props, nextProps) {
-    const isCreateStart = props.queryStatus === CREATE_DOCUMENT_START
-    const isCreateFinish = nextProps.queryStatus === CREATE_DOCUMENT_SUCCESS ||
+    const isCreateStart = props.queryStatus === CREATE_START
+    const isCreateFinish = nextProps.queryStatus === CREATE_FIN ||
     nextProps.queryStatus === CREATE_DOCUMENT_FAILED
     return isCreateStart && isCreateFinish
   }
@@ -31,7 +49,7 @@ export const isCreateDocumentFinish = function (props, nextProps) {
   export const isDataChanged = function (props, nextProps) {
     return props.data !== nextProps.data;
   }
-  export const isParamsChanged = function (props, nextProps) {
+  export const isDocumentParamsChanged = function (props, nextProps) {
     // collectionName was change, get data from server
     if (props.collectionName !== nextProps.collectionName) {
         return true;
@@ -47,4 +65,3 @@ export const isCreateDocumentFinish = function (props, nextProps) {
       }
       return false;
   }
-  

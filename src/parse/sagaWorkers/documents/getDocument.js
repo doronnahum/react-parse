@@ -3,10 +3,20 @@ import { httpRequest } from '../../../server/apiSagaWrapper';
 import types from '../../../types';
 import api from '../../../server/api';
 import { setDocumentStatus } from '../../actions/documents';
+const {
+  GET_START,
+  GET_FAILED,
+  GET_FAILED_NETWORK,
+  GET_FINISHED,
+} = types.statues
+const START = GET_START;
+const FAILED = GET_FAILED;
+const FAILED_NETWORK = GET_FAILED_NETWORK;
+const FINISHED = GET_FINISHED;
 
 export default function* getDocument(action) {
   const { className, objectId, include } = action;
-  yield put(setDocumentStatus(objectId, types.LOADING));
+  yield put(setDocumentStatus(objectId, START));
   const res = yield* httpRequest(
     api.query,
     className,
@@ -19,19 +29,16 @@ export default function* getDocument(action) {
     null,
   );
   if (res.error) {
-    const errType =
-      res.message === 'Network Error' ? types.NETWORK_ERROR : types.ERROR;
+    const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('get document err', objectId, res.error);
     yield put(setDocumentStatus(objectId, errType));
   } else {
     const data = res.data.results ? res.data.results : []; // extricate data from server response
-    const queryStatus =
-      data.length > 0 ? types.SUCCESS : types.SUCCESS_WITH_ZERO_RESULTS;
     yield put({
       type: types.SET_DOCUMENTS_PARAMETERS,
       objectId,
       data: data[0],
-      status: queryStatus,
+      status: FINISHED,
       info: {
         timestamp: Date.now(),
       },

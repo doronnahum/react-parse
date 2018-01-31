@@ -2,21 +2,18 @@ import { put } from 'redux-saga/effects';
 import { httpRequest } from '../../../server/apiSagaWrapper';
 import types from '../../../types';
 import api from '../../../server/api';
-import { setCollectionStatus, setCollection } from '../../actions/collections';
+import { setCollectionStatus  as setStatus , setCollection } from '../../actions/collections';
 import { dig } from '../../../helpers';
 
-const {
-  LOADING,
-  SUCCESS_WITH_ZERO_RESULTS,
-  ERROR,
-  NETWORK_ERROR,
-  SUCCESS,
-} = types;
+const START = types.GET_START;
+const FAILED = types.GET_FAILED;
+const FAILED_NETWORK = types.GET_FAILED_NETWORK;
+const FINISHED = types.GET_FINISHED;
 
 export default function* getCollection(action) {
   const { collectionName, perPage, page, enableCount, query } = action;
   const targetName = action.targetName || action.collectionName;
-  yield put(setCollectionStatus(targetName, LOADING));
+  yield put(setStatus(targetName, START));
   const skip = perPage && page && page - 1 > 0 ? (page - 1) * perPage : null;
   const res = yield* httpRequest(
     api.query,
@@ -30,15 +27,14 @@ export default function* getCollection(action) {
     '-createdAt',
   );
   if (res.error) {
-    const errType = res.message === 'Network Error' ? NETWORK_ERROR : ERROR;
-    yield put(setCollectionStatus(targetName, errType));
+    const errType = res.message === 'Network Error' ? FAILED_NETWORK : ERROR;
+    yield put(setStatus(targetName, errType));
     console.error('query err: ', collectionName, res.error);
   } else {
     const data = dig(res, 'data.results');
-    const queryStatus = data.length > 0 ? SUCCESS : SUCCESS_WITH_ZERO_RESULTS;
     yield put(
       setCollection(targetName, {
-        status: queryStatus,
+        status: FINISHED,
         data,
         info: {
           collectionName,

@@ -4,15 +4,22 @@ import types from '../../../types';
 import api from '../../../server/api';
 import { setDocumentStatus } from '../../actions/documents';
 import { getImmutableDocumentData } from '../../selectors/documents';
-
-const START = types.UPDATE_DOCUMENT_START;
-const FAILED = types.UPDATE_DOCUMENT_FAILED;
-const FINISHED = types.UPDATE_DOCUMENT_FINISHED;
+const {
+  UPDATE_START,
+  UPDATE_FAILED,
+  UPDATE_FAILED,
+  UPDATE_FINISHED,
+} = types.statues
+const START = UPDATE_START;
+const FAILED = UPDATE_FAILED;
+const FAILED_NETWORK = UPDATE_FAILED_NETWORK;
+const FINISHED = UPDATE_FINISHED;
 
 export default function* updateDocumentOnServerWorker(action) {
   const { className, objectId, keys, parseDataBeforeSave } = action;
+  if (!objectId) return
+  yield put(setDocumentStatus(objectId, START));
   let objectToUpdate = null;
-  if (objectId) {
     const imputableData = yield select(state =>
       getImmutableDocumentData(state, objectId),
     );
@@ -30,11 +37,9 @@ export default function* updateDocumentOnServerWorker(action) {
     }
     // create new instance and convert to javascript
     objectToUpdate = Object.assign({}, objectToUpdate.toJS());
-  }
   if (parseDataBeforeSave) {
     objectToUpdate = parseDataBeforeSave(objectToUpdate);
   }
-  yield put(setDocumentStatus(objectId, START));
   const res = yield* httpRequest(
     api.updateObject,
     className,
@@ -42,7 +47,8 @@ export default function* updateDocumentOnServerWorker(action) {
     objectToUpdate,
   );
   if (res.error) {
-    yield put(setDocumentStatus(objectId, FAILED));
+    const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
+    yield put(setDocumentStatus(objectId, errType));
   } else {
     yield put(setDocumentStatus(objectId, FINISHED));
   }

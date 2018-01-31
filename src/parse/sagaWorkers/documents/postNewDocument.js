@@ -5,21 +5,23 @@ import api from '../../../server/api';
 import { dig } from '../../../helpers';
 import { setNewDocumentStatus } from '../../actions/localDocuments';
 import { getImmutableNewDocumentData } from '../../selectors/documents';
-
-const START = types.CREATE_DOCUMENT_START;
-const FAILED = types.CREATE_DOCUMENT_FAILED;
-const FINISHED = types.CREATE_DOCUMENT_SUCCESS;
+const {
+  CREATE_START,
+  CREATE_FAILED,
+  CREATE_FAILED_NETWORK,
+  CREATE_FINISHED,
+} = types.statues
+const START = CREATE_START;
+const FAILED = CREATE_FAILED;
+const FAILED_NETWORK = CREATE_FAILED_NETWORK;
+const FINISHED = CREATE_FINISHED;
 
 export default function* postNewDocument(action) {
-  const {
-    className,
-    uniqueId,
-    parseDataBeforeSave,
-    refreshDataAfterSave,
-  } = action;
+  const { className, uniqueId, parseDataBeforeSave, refreshDataAfterSave} = action;
+  if (!uniqueId) return
+  yield put(setNewDocumentStatus(uniqueId, START));
   let documentData;
   let objectToUpdate = null;
-  if (uniqueId) {
     const imputableData = yield select(state =>
       getImmutableNewDocumentData(state, uniqueId),
     );
@@ -31,19 +33,17 @@ export default function* postNewDocument(action) {
     );
     // convert to javascript
     objectToUpdate = objectToUpdate.toJS();
-  }
   if (parseDataBeforeSave) {
     objectToUpdate = parseDataBeforeSave(objectToUpdate);
   }
-
-  yield put(setNewDocumentStatus(uniqueId, START));
   // Second - run http Request with httpRequest wrapper that handle error
   // const res = yield * httpRequest(api.query, 'DummyDataCategoriesConfig', query, null, null, null, null, include, order) // Make the request
   const res = yield* httpRequest(api.createObject, className, objectToUpdate); // Make the request
   // Check For error
   if (res.error) {
     // Set query status to error
-    yield put(setNewDocumentStatus(uniqueId, FAILED));
+    const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
+    yield put(setNewDocumentStatus(uniqueId, errType));
   } else {
     if (refreshDataAfterSave) {
       documentData = yield* httpRequest(api.query, className, {

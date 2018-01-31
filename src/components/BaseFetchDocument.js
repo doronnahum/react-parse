@@ -14,7 +14,8 @@ import {
 import {
   isCreateDocumentFinish,
   isDeleteDocumentFinish,
-  isUpdateDocumentFinish} from './methods/document'
+  isDocumentParamsChanged,
+  isUpdateDocumentFinish} from './methods/statusChecker'
 const {
   LOADING,
   CREATE_DOCUMENT_START,
