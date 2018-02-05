@@ -1,4 +1,5 @@
 # `react-parse`
+## not ready for production
 Data provider components for [react](https://reactjs.org) and [react-native](https://facebook.github.io/react-native/) apps with [parse-server](hhttps://github.com/parse-community/parse-server) that using [redux+saga](https://github.com/redux-saga/redux-saga).
 read about [render props](https://reactjs.org/docs/render-props.html) pattern.
 
