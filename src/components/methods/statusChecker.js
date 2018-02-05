@@ -17,39 +17,55 @@ const {
   UPDATE_FAILED,
   UPDATE_FAILED,
   UPDATE_FINISHED,
-} = types.statues
-export const isCreateDocumentFinish = function (props, nextProps) {
-    const isCreateStart = props.queryStatus === CREATE_START
-    const isCreateFinish = nextProps.queryStatus === CREATE_FIN ||
-    nextProps.queryStatus === CREATE_DOCUMENT_FAILED
-    return isCreateStart && isCreateFinish
-  }
-  export const isDeleteDocumentFinish = function (props, nextProps) {
-    const isDeleteStart = props.queryStatus === DELETE_DOCUMENT_START
-    const isDeleteFinished = nextProps.queryStatus === DELETE_DOCUMENT_FINISHED ||
-    nextProps.queryStatus === DELETE_DOCUMENT_FAILED
-    return isDeleteStart && isDeleteFinished
-  }
-  export const isUpdateDocumentFinish = function (props, nextProps) {
-    const isUpdateStart = props.queryStatus === UPDATE_DOCUMENT_START
-    const isUpdateFinished = nextProps.queryStatus === UPDATE_DOCUMENT_FINISHED ||
-    nextProps.queryStatus === UPDATE_DOCUMENT_FAILED
-    return isUpdateStart && isUpdateFinished
-  }
-  export const isGetFinish = function (props, nextProps, getDataFlag) {
-    if (
-        queryStatus === LOADING &&
-        nextProps.queryStatus !== LOADING &&
-        (getDataFlag || isDataChanged(props, nextProps))
-      ) {
-        return true;
-      }
-      return false;
-  }
-  export const isDataChanged = function (props, nextProps) {
+} = types
+export const isCreateFinish = function (props, nextProps) {
+  const now = props.queryStatus;
+  const next = nextProps.queryStatus;
+  const isStart = (now === CREATE_START)
+  const isFinished = (next === CREATE_FINISHED)
+  const isFailed = (next === CREATE_FAILED)
+  const isFailedNetwork = (next === CREATE_FAILED_NETWORK)
+  const isEnd = (isFinished || isFailed || isFailedNetwork)
+  return isStart && isEnd
+}
+
+export const isDeleteFinish = function (props, nextProps) {
+    const now = props.queryStatus;
+    const next = nextProps.queryStatus;
+    const isStart = (now === DELETE_START)
+    const isFinished = (next === DELETE_FINISHED)
+    const isFailed = (next === DELETE_FAILED)
+    const isFailedNetwork = (next === DELETE_FAILED_NETWORK)
+    const isEnd = (isFinished || isFailed || isFailedNetwork)
+    return isStart && isEnd
+}
+
+export const isUpdateFinish = function (props, nextProps) {
+    const now = props.queryStatus;
+    const next = nextProps.queryStatus;
+    const isStart = (now === UPDATE_START)
+    const isFinished = (next === UPDATE_FINISHED)
+    const isFailed = (next === UPDATE_FAILED)
+    const isFailedNetwork = (next === UPDATE_FAILED_NETWORK)
+    const isEnd = (isFinished || isFailed || isFailedNetwork)
+    return isStart && isEnd
+}
+
+export const isGetFinish = function (props, nextProps) {
+    const now = props.queryStatus;
+    const next = nextProps.queryStatus;
+    const isStart = (now === GET_START)
+    const isFinished = (next === GET_FINISHED)
+    const isFailed = (next === GET_FAILED)
+    const isFailedNetwork = (next === GET_FAILED_NETWORK)
+    const isEnd = (isFinished || isFailed || isFailedNetwork)
+    return isStart && isEnd
+}
+
+export const isDataChanged = function (props, nextProps) {
     return props.data !== nextProps.data;
   }
-  export const isDocumentParamsChanged = function (props, nextProps) {
+export const isDocumentParamsChanged = function (props, nextProps) {
     // collectionName was change, get data from server
     if (props.collectionName !== nextProps.collectionName) {
         return true;
@@ -64,4 +80,23 @@ export const isCreateDocumentFinish = function (props, nextProps) {
         return false; // initialValues only on load fow noe
       }
       return false;
+}
+export const isCollectionParamsChanged = function(nextProps) {
+  // filters was change, get data from server
+  if (this.isQueryFilterChanged(nextProps)) {
+    return true;
   }
+  // page was change, get data from server
+  if (this.props.page !== nextProps.page) {
+    return true;
+  }
+  // collectionName was change, get data from server
+  if (this.props.collectionName !== nextProps.collectionName) {
+    return true;
+  }
+  // keys was change, get data from server
+  if (this.props.keys !== nextProps.keys) {
+    return true;
+  }
+  return false;
+}

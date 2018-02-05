@@ -26,7 +26,7 @@ import updateDocumentFromCollection from './sagaWorkers/collections/updateDocume
 // Documents
 import getDocument from './sagaWorkers/documents/getDocument';
 import updateDocumentOnServer from './sagaWorkers/documents/updateDocumentOnServer';
-import deleteDocumentFromServer from './sagaWorkers/documents/deleteDocumentFromServer';
+import deleteDocument from './sagaWorkers/documents/deleteDocument';
 // local Documents
 import postNewDocument from './sagaWorkers/documents/postNewDocument';
 // Cloud Codes
@@ -47,7 +47,7 @@ function* parseWatcher() {
   // Documents
   yield takeEvery(types.GET_DOCUMENT, getDocument);
   yield takeEvery(types.UPDATE_DOCUMENT_ON_SERVER, updateDocumentOnServer);
-  yield takeEvery(types.DELETE_DOCUMENT_FROM_SERVER, deleteDocumentFromServer);
+  yield takeEvery(types.DELETE_DOCUMENT, deleteDocument);
   yield takeEvery(types.POST_NEW_DOCUMENT, postNewDocument);
   // Cloud code
   yield takeEvery(types.GET_CLOUD_CODE, getCloudCode);

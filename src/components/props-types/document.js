@@ -9,23 +9,18 @@ export const propTypes =  {
     // configuration
     localFirst: PropTypes.bool, // get data from server only if data didn't found in the store.
     localOnly: PropTypes.bool, // Work with data from store, disabled the get data from server method.s
-    getDataWithPostFinishCallBack: PropTypes.bool, // this trigger a GET method after POST and the data pass with onPostDocumentFinish
     parseDataBeforeSave: PropTypes.func,
-    actions: PropTypes.shape({}).isRequired,
-    initialValues: PropTypes.shape({}),
-    cleanDataOnComponentWillUnmount: PropTypes.bool,
+    initialValues: PropTypes.shape({}), // Start Local document with initial values
+    leaveClean: PropTypes.bool, // default true, data removed from store componentWillUnmount
     // render view 
     render: PropTypes.func.isRequired, // render({data, queryStatus, refreshData, deleteDocument, updateDocument})
     // Callbacks
     onGetStart: PropTypes.func,
     onGetFinish: PropTypes.func,
     onCreateLocalDocument: PropTypes.func,
-    onPostDocumentStart: PropTypes.func,
-    onPostDocumentFinish: PropTypes.func,
-    onDeleteDocumentStart: PropTypes.func,
-    onDeleteDocumentFinish: PropTypes.func,
-    onPutDocumentStart: PropTypes.func,
-    onPutDocumentFinish: PropTypes.func,
+    onCreateFinish: PropTypes.func,
+    onDeleteFinish: PropTypes.func,
+    onUpdateFinish: PropTypes.func,
   };
   
 export const defaultProps =  {
@@ -35,18 +30,12 @@ export const defaultProps =  {
     data: null,
     initialValues: null,
     uniqueId: null,
-    queryStatus: null,
     include: null,
-    cleanDataOnComponentWillUnmount: true,
-    getDataWithPostFinishCallBack: false,
-    onCreateLocalDocument: () => {},
-    onGetFinish: () => {},
+    leaveClean: true,
     onGetStart: () => {},
-    onDeleteDocumentStart: () => {},
-    onDeleteDocumentFinish: () => {},
-    onPutDocumentStart: () => {},
-    onPutDocumentFinish: () => {},
-    onPostDocumentStart: () => {},
-    onPostDocumentFinish: () => {},
-    parseDataBeforeSave: data => data,
+    onGetFinish: () => {},
+    onCreateLocalDocument: () => {},
+    onCreateFinish: () => {},
+    onDeleteFinish: () => {},
+    onUpdateFinish: () => {},
   }

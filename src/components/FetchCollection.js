@@ -11,20 +11,17 @@ import {
 } from '../parse/selectors/collections';
 import consts from '../types';
 
-const {
-  LOADING,
-  DELETE_DOCUMENT_FROM_COLLECTION_START,
-  DELETE_DOCUMENT_FROM_COLLECTION_FINISHED,
-  DELETE_DOCUMENT_FROM_COLLECTION_FAILED,
-  UPDATE_DOCUMENT_FROM_COLLECTION_START,
-  UPDATE_DOCUMENT_FROM_COLLECTION_FINISHED,
-  UPDATE_DOCUMENT_FROM_COLLECTION_FAILED,
-} = consts;
+import {
+  isCreateFinish,
+  isDeleteFinish,
+  isParamsChanged,
+  isUpdateFinish,
+  isCollectionParamsChanged as isParamsChanged
+} from './methods/statusChecker'
 
 class FetchCollection extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.getDataFromServerIsRun = false;
     this.getDataFromServer = this.getDataFromServer.bind(this);
     this.onDeleteDocument = this.onDeleteDocument.bind(this);
     this.onUpdateDocument = this.onUpdateDocument.bind(this);
@@ -32,51 +29,28 @@ class FetchCollection extends React.PureComponent {
   }
 
   componentWillMount() {
-    const {
-      localFirst,
-      collectionName,
-      memberFieldName,
-      filterByMemberId,
-      include,
-      perPage,
-      enableCount,
-    } = this.props;
-    console.warn(
-      memberFieldName,
-      filterByMemberId,
-      include,
-      perPage,
-      enableCount,
-    );
-    if (
-      collectionName &&
-      (!localFirst || !this.isDataExistOrQueryIsLoading())
+    const { localFirst, collectionName, data } = this.props;
+    if ( collectionName &&
+      (!localFirst || (localFirst && !data))
     ) {
       this.getDataFromServer();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    // Params from parent was changed
-    if (this.isParamsChanged(nextProps)) {
+    if (isParamsChanged(nextProps)) {
       this.getDataFromServer(nextProps);
     }
-    // GET DATA FINISH
-    if (this.isGetFinish(nextProps)) {
-      this.getDataFromServerIsRun = false;
+    if (isGetFinish(this.props, nextProps)) {
       this.props.onGetFinish({
         queryStatus: nextProps.queryStatus,
         data: nextProps.data,
         info: nextProps.info,
       });
-    }
-    // DELETE DOCUMENT FINISH
-    if (this.isDeleteDocumentFinish(nextProps)) {
+    } else if (isDeleteFinish(this.props, nextProps)) {
       this.getDataFromServer(nextProps);
       this.props.onDeleteDocumentFinish(nextProps.queryStatus);
-    }
-    // UPDATE DOCUMENT FINISH
-    if (this.isUpdateDocumentFinish(nextProps)) {
+    } else if (this.isUpdateDocumentFinish(nextProps)) {
       this.getDataFromServer(nextProps);
       this.props.onPutDocumentFinish(nextProps.queryStatus);
     }
@@ -125,7 +99,6 @@ class FetchCollection extends React.PureComponent {
   getDataFromServer(props = this.props, localOnly = this.props.localOnly) {
     if (localOnly) return;
     if (!props.collectionName) return;
-    this.getDataFromServerIsRun = true;
     this.props.onGetStart();
     this.props.actions.getCollection({
       collectionName: props.collectionName,
@@ -158,32 +131,7 @@ class FetchCollection extends React.PureComponent {
   isQueryStatusChanged(nextProps) {
     return this.props.queryStatus !== nextProps.queryStatus;
   }
-  isParamsChanged(nextProps) {
-    // filters was change, get data from server
-    if (this.isQueryFilterChanged(nextProps)) {
-      return true;
-    }
-    // page was change, get data from server
-    if (this.props.page !== nextProps.page) {
-      return true;
-    }
-    // collectionName was change, get data from server
-    if (this.props.collectionName !== nextProps.collectionName) {
-      return true;
-    }
-    // keys was change, get data from server
-    if (this.props.keys !== nextProps.keys) {
-      return true;
-    }
-    return false;
-  }
-  isDataExistOrQueryIsLoading() {
-    const { queryStatus, data } = this.props;
-    if (data || queryStatus === LOADING) {
-      return true;
-    }
-    return false;
-  }
+
   removerDataFromStore() {
     const keyForData = this.props.targetName || this.props.collectionName;
     this.props.actions.clearCollection(keyForData);
@@ -203,7 +151,7 @@ class FetchCollection extends React.PureComponent {
     if (
       this.props.queryStatus === LOADING &&
       nextProps.queryStatus !== LOADING &&
-      (this.getDataFromServerIsRun || this.isDataChanged(nextProps))
+      (this.isDataChanged(nextProps))
     ) {
       return true;
     }

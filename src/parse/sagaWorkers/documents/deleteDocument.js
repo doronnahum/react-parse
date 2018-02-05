@@ -9,7 +9,7 @@ const FAILED = types.DELETE_FAILED;
 const FAILED_NETWORK = types.DELETE_FAILED_NETWORK;
 const FINISHED = types.DELETE_FINISHED;
 
-export default function* deleteDocumentFromServer(action) {
+export default function* deleteDocument(action) {
   const { className, objectId } = action;
   yield put(setDocumentStatus(objectId, START));
   const res = yield* httpRequest(api.deleteObject, className, objectId);

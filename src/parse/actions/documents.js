@@ -43,8 +43,8 @@ export const updateDocumentOnServer = (
   disabledAutoGetAfterSave, // set true if you want that getDocument will not run after the update - not recommended
   parseDataBeforeSave, // pass function that ger object and return object with parse data
 });
-export const deleteDocumentFromServer = (className, objectId) => ({
-  type: types.DELETE_DOCUMENT_FROM_SERVER,
+export const deleteDocument = (className, objectId) => ({
+  type: types.DELETE_DOCUMENT,
   className,
   objectId,
 });
