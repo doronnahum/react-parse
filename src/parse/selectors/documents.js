@@ -18,12 +18,12 @@ export const getImmutableDocumentData = createSelector(
   getImmutableDocument,
   immutableDocument => immutableDocument.get('data'),
 );
-export const getDocumentData = createSelector(
+export const getData = createSelector(
   getImmutableDocument,
   immutableDocument =>
     immutableDocument.get('data') && immutableDocument.get('data').toJS(),
 );
-export const getDocumentStatus = createSelector(
+export const getStatus = createSelector(
   getImmutableDocument,
   immutableDocument => immutableDocument.get('status'),
 );

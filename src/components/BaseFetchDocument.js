@@ -6,8 +6,8 @@ import * as localDocumentsActions from '../parse/actions/localDocuments';
 import consts from '../types';
 import {propTypes, defaultprops} from './props-types/document'
 import {
-  getDocumentStatus,
-  getDocumentData,
+  getStatus,
+  getData,
   getNewDocumentData,
   getNewDocumentStatus,
 } from '../parse/selectors/documents';
@@ -171,8 +171,8 @@ function mapStateToProps(state, props) {
   const { objectId, uniqueId } = props;
   if (objectId) {
     return {
-      data: getDocumentData(state, objectId),
-      queryStatus: getDocumentStatus(state, objectId),
+      data: getData(state, objectId),
+      queryStatus: getStatus(state, objectId),
     };
   }
   return {

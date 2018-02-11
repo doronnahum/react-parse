@@ -15,6 +15,8 @@ import {
   isCreateFinish,
   isDeleteFinish,
   isParamsChanged,
+  isDataChanged,
+  isQueryStatusChanged,
   isUpdateFinish,
   isCollectionParamsChanged as isParamsChanged
 } from './methods/statusChecker'
@@ -30,9 +32,8 @@ class FetchCollection extends React.PureComponent {
 
   componentWillMount() {
     const { localFirst, collectionName, data } = this.props;
-    if ( collectionName &&
-      (!localFirst || (localFirst && !data))
-    ) {
+    if(!collectionName) return
+    if ( localFirst || (localFirst && !data)) {
       this.getDataFromServer();
     }
   }
@@ -50,33 +51,36 @@ class FetchCollection extends React.PureComponent {
     } else if (isDeleteFinish(this.props, nextProps)) {
       this.getDataFromServer(nextProps);
       this.props.onDeleteDocumentFinish(nextProps.queryStatus);
-    } else if (this.isUpdateDocumentFinish(nextProps)) {
+    } else if (isUpdateFinish(nextProps)) {
       this.getDataFromServer(nextProps);
       this.props.onPutDocumentFinish(nextProps.queryStatus);
     }
   }
-  // Clean data on Mount
+
   componentWillUnmount() {
-    if (this.props.cleanDataOnComponentWillUnmount) {
+    if (this.props.leaveClean) {
       this.removerDataFromStore();
     }
   }
+
   onDeleteDocument(objectId) {
-    // DELETE document from collection
+    const {queryStatus, actions, collectionName, targetName} = this.props
     if (!objectId) {
       console.warn('onDeleteDocument: missing objectId ');
       return;
     }
-    if (this.props.queryStatus === consts.DELETE_DOCUMENT_FROM_COLLECTION_START)
+    if (queryStatus === consts.DELETE_START){
       return;
-    this.props.onDeleteDocumentStart(objectId);
-    this.props.actions.deleteDocumentFromCollection(
-      this.props.collectionName,
-      this.props.targetName,
+    }
+    actions.deleteDocumentFromCollection(
+      collectionName,
+      targetName,
       objectId,
     );
   }
+
   onUpdateDocument(objectId, data) {
+    const { actions, collectionName, targetName} = this.props
     if (!objectId) {
       console.warn('onUpdateDocument: missing objectId ');
       return;
@@ -85,20 +89,20 @@ class FetchCollection extends React.PureComponent {
       console.warn('onUpdateDocument: missing data object ');
       return;
     }
-    this.props.onPutDocumentStart(objectId);
-    this.props.actions.updateDocumentFromCollection(
-      this.props.collectionName,
-      this.props.targetName,
+    actions.updateDocumentFromCollection(
+      collectionName,
+      targetName,
       objectId,
       data,
     );
   }
+
   onRefreshData() {
     this.getDataFromServer(this.props, false);
   }
+
   getDataFromServer(props = this.props, localOnly = this.props.localOnly) {
-    if (localOnly) return;
-    if (!props.collectionName) return;
+    if (localOnly || !props.collectionName) return;
     this.props.onGetStart();
     this.props.actions.getCollection({
       collectionName: props.collectionName,
@@ -111,52 +115,12 @@ class FetchCollection extends React.PureComponent {
       enableCount: props.enableCount,
     });
   }
-  isDeleteDocumentFinish(nextProps) {
-    return (
-      this.props.queryStatus === DELETE_DOCUMENT_FROM_COLLECTION_START &&
-      (nextProps.queryStatus === DELETE_DOCUMENT_FROM_COLLECTION_FINISHED ||
-        nextProps.queryStatus === DELETE_DOCUMENT_FROM_COLLECTION_FAILED)
-    );
-  }
-  isUpdateDocumentFinish(nextProps) {
-    return (
-      this.props.queryStatus === UPDATE_DOCUMENT_FROM_COLLECTION_START &&
-      (nextProps.queryStatus === UPDATE_DOCUMENT_FROM_COLLECTION_FINISHED ||
-        nextProps.queryStatus === UPDATE_DOCUMENT_FROM_COLLECTION_FAILED)
-    );
-  }
-  isDataChanged(nextProps) {
-    return this.props.data !== nextProps.data;
-  }
-  isQueryStatusChanged(nextProps) {
-    return this.props.queryStatus !== nextProps.queryStatus;
-  }
 
   removerDataFromStore() {
     const keyForData = this.props.targetName || this.props.collectionName;
     this.props.actions.clearCollection(keyForData);
   }
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   if(this.isDataChanged(nextProps) || this.isQueryStatusChanged(nextProps) || this.isParamsChanged(nextProps)) {
-  //     return true
-  //   }
-  //   return false
-  // }
 
-  isQueryFilterChanged(nextProps) {
-    return !isEqual(this.props.query, nextProps.query);
-  }
-
-  isGetFinish(nextProps) {
-    if (
-      this.props.queryStatus === LOADING &&
-      nextProps.queryStatus !== LOADING &&
-      (this.isDataChanged(nextProps))
-    ) {
-      return true;
-    }
-    return false;
-  }
   render() {
     const { data, queryStatus, info } = this.props;
     const deleteDocument = this.onDeleteDocument;
@@ -214,12 +178,10 @@ FetchCollection.propTypes = {
   enableCount: PropTypes.bool,
   onGetStart: PropTypes.func,
   onGetFinish: PropTypes.func,
-  onDeleteDocumentStart: PropTypes.func,
   onDeleteDocumentFinish: PropTypes.func,
-  onPutDocumentStart: PropTypes.func,
   onPutDocumentFinish: PropTypes.func,
   filterByMemberId: PropTypes.bool,
-  cleanDataOnComponentWillUnmount: PropTypes.bool,
+  leaveClean: PropTypes.bool,
   localFirst: PropTypes.bool, // get data from server only if data didn't found in store
   localOnly: PropTypes.bool, // get data only from local store
   memberFieldName: PropTypes.string,
@@ -239,7 +201,7 @@ FetchCollection.defaultProps = {
   perPage: 25,
   memberFieldName: 'member',
   enableCount: false,
-  cleanDataOnComponentWillUnmount: true,
+  leaveClean: true,
   targetName: null,
   onGetFinish: () => {},
   onGetStart: () => {},

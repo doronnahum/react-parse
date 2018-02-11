@@ -5,54 +5,47 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import * as parseActions from '../parse/actions/cloudCodes';
 import consts from '../types';
-import {
-  getDataFromCloudCode,
-  getStatusFromCloudCode,
-  getInfoFromCloudCode,
-} from '../parse/selectors/cloudCodes';
-
+import { getData, getStatus, getInfo} from '../parse/selectors/cloudCodes';
+import { isGetFinish} from './methods/statusChecker'
 const { LOADING } = consts;
 
 class FetchCloudCode extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.getDataFromServerIsRun = false;
-    this.getDataFromServer = this.getDataFromServer.bind(this);
-    this.onRefreshData = this.onRefreshData.bind(this);
+    this.getData = this.getData.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
   }
   componentWillMount() {
-    const { localFirst, functionName } = this.props;
-    if (functionName && (!localFirst || !this.isDataExistOrQueryIsLoading())) {
-      this.getDataFromServer();
+    const { localFirst, functionName, data, queryStatus } = this.props;
+    if(!functionName) return;
+    if (!localFirst || (localFirst && !data && queryStatus !== LOADING)) {
+      this.getData();
     }
   }
   componentWillReceiveProps(nextProps) {
-    // Params from parent was changed
     if (this.isPropsFromParentChanged(nextProps)) {
-      this.getDataFromServer(nextProps);
+      this.getData(nextProps);
     }
-    // GET DATA FINISH
-    if (this.isGetFinish(nextProps)) {
-      this.getDataFromServerIsRun = false;
+
+    if (isGetFinish(nextProps)) {
       this.props.onGetFinish({
         queryStatus: nextProps.queryStatus,
         data: nextProps.data,
       });
     }
   }
-  // Clean data on Mount
+
   componentWillUnmount() {
-    if (this.props.cleanDataOnComponentWillUnmount) {
+    if (this.props.leaveClean) {
       this.removerDataFromStore();
     }
   }
-  onRefreshData() {
-    this.getDataFromServer(this.props, false);
+  onRefresh() {
+    this.getData(this.props, false);
   }
-  getDataFromServer(props = this.props, localOnly = this.props.localOnly) {
+  getData(props = this.props, localOnly = this.props.localOnly) {
     if (localOnly) return;
-    if (!props.functionName) return;
-    this.getDataFromServerIsRun = true;
+    if (!props.functionName) return;;
     this.props.onGetStart();
     this.props.actions.getCloudCode(
       props.functionName,
@@ -64,23 +57,6 @@ class FetchCloudCode extends React.PureComponent {
     );
   }
 
-  isGetFinish(nextProps) {
-    if (
-      this.props.queryStatus === LOADING &&
-      nextProps.queryStatus !== LOADING &&
-      (this.getDataFromServerIsRun || this.isDataChanged(nextProps))
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  isDataChanged(nextProps) {
-    return this.props.data !== nextProps.data;
-  }
-  isQueryStatusChanged(nextProps) {
-    return this.props.queryStatus !== nextProps.queryStatus;
-  }
   isPropsFromParentChanged(nextProps) {
     // filters was change, get data from server
     if (this.isParamsChanged(nextProps)) {
@@ -92,13 +68,7 @@ class FetchCloudCode extends React.PureComponent {
     }
     return false;
   }
-  isDataExistOrQueryIsLoading() {
-    const { queryStatus, data } = this.props;
-    if (data || queryStatus === LOADING) {
-      return true;
-    }
-    return false;
-  }
+
   removerDataFromStore() {
     const keyForData = this.props.collectionTarget || this.props.functionName;
     this.props.actions.removeCloudCode(keyForData);
@@ -110,7 +80,7 @@ class FetchCloudCode extends React.PureComponent {
 
   render() {
     const { data, queryStatus, info } = this.props;
-    const refreshData = this.onRefreshData;
+    const refreshData = this.onRefresh;
     return this.props.render({
       data,
       queryStatus,
@@ -123,9 +93,9 @@ class FetchCloudCode extends React.PureComponent {
 function mapStateToProps(state, props) {
   const keyForData = props.collectionTarget || props.functionName;
   return {
-    data: getDataFromCloudCode(state, keyForData),
-    queryStatus: getStatusFromCloudCode(state, keyForData),
-    info: getInfoFromCloudCode(state, keyForData),
+    data: getData(state, keyForData),
+    queryStatus: getStatus(state, keyForData),
+    info: getInfo(state, keyForData),
   };
 }
 
@@ -143,7 +113,7 @@ FetchCloudCode.propTypes = {
   params: PropTypes.object,
   onGetStart: PropTypes.func,
   onGetFinish: PropTypes.func,
-  cleanDataOnComponentWillUnmount: PropTypes.bool,
+  leaveClean: PropTypes.bool,
   localFirst: PropTypes.bool, // get data from server only if data didn't found in store
   localOnly: PropTypes.bool, // get data only from local store
   digToDataString: PropTypes.string,
@@ -151,7 +121,7 @@ FetchCloudCode.propTypes = {
 
 FetchCloudCode.defaultProps = {
   digToDataString: 'data.result',
-  cleanDataOnComponentWillUnmount: true,
+  leaveClean: true,
   onGetFinish: () => {},
   onGetStart: () => {},
 };

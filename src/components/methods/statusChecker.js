@@ -64,7 +64,10 @@ export const isGetFinish = function (props, nextProps) {
 
 export const isDataChanged = function (props, nextProps) {
     return props.data !== nextProps.data;
-  }
+}
+export const isQueryStatusChanged = function (props, nextProps) {
+    return props.queryStatus !== nextProps.queryStatus;
+}
 export const isDocumentParamsChanged = function (props, nextProps) {
     // collectionName was change, get data from server
     if (props.collectionName !== nextProps.collectionName) {
