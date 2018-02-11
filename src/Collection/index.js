@@ -19,7 +19,6 @@ import consts from '../types';
 import {
   isCreateFinish,
   isDeleteFinish,
-  isParamsChanged,
   isDataChanged,
   isQueryStatusChanged,
   isUpdateFinish,

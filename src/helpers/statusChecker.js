@@ -13,12 +13,12 @@ const {
 
   DELETE_START,
   DELETE_FAILED,
-  DELETE_FAILED,
+  DELETE_FAILED_NETWORK,
   DELETE_FINISHED,
 
   UPDATE_START,
   UPDATE_FAILED,
-  UPDATE_FAILED,
+  UPDATE_FAILED_NETWORK,
   UPDATE_FINISHED,
 } = types
 export const isCreateFinish = function (props, nextProps) {

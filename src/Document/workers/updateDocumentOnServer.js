@@ -7,7 +7,7 @@ import { getImmutableDocumentData } from '../../selectors/documents';
 const {
   UPDATE_START,
   UPDATE_FAILED,
-  UPDATE_FAILED,
+  UPDATE_FAILED_NETWORK,
   UPDATE_FINISHED,
 } = types.statues
 const START = UPDATE_START;

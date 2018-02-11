@@ -25,31 +25,33 @@ var helpers = _interopRequireWildcard(_helpers);
 
 // Components
 
-var _componentsFetchCollection = require('./components/FetchCollection');
+var _Collection = require('./Collection');
 
-var _componentsFetchCollection2 = _interopRequireDefault(_componentsFetchCollection);
+var _Collection2 = _interopRequireDefault(_Collection);
 
-var _componentsFetchDocument = require('./components/FetchDocument');
+var _Document = require('./Document');
 
-var _componentsFetchDocument2 = _interopRequireDefault(_componentsFetchDocument);
+var _Document2 = _interopRequireDefault(_Document);
 
-var _componentsFetchCloudCode = require('./components/FetchCloudCode');
+var _CloudCode = require('./CloudCode');
 
-var _componentsFetchCloudCode2 = _interopRequireDefault(_componentsFetchCloudCode);
-
-var _componentsHelpers = require('./components/helpers');
-
-var componentsHelpers = _interopRequireWildcard(_componentsHelpers);
+var _CloudCode2 = _interopRequireDefault(_CloudCode);
 
 // Parse
 
-var _parseReducer = require('./parse/reducer');
+var _reducer = require('./reducer');
 
-var _parseReducer2 = _interopRequireDefault(_parseReducer);
+var _reducer2 = _interopRequireDefault(_reducer);
 
-var _parseSagaWatcher = require('./parse/sagaWatcher');
+var _saga = require('./saga');
 
-var _parseSagaWatcher2 = _interopRequireDefault(_parseSagaWatcher);
+var _saga2 = _interopRequireDefault(_saga);
+
+// Selectors
+
+var _selectors = require('./selectors');
+
+var _selectors2 = _interopRequireDefault(_selectors);
 
 exports.api = _serverApi2['default'];
 exports.httpRequest = _serverApiSagaWrapper.httpRequest;
@@ -57,11 +59,13 @@ exports.types = _types2['default'];
 exports.helpers = helpers;
 exports.
 // Components
-FetchCollection = _componentsFetchCollection2['default'];
-exports.FetchDocument = _componentsFetchDocument2['default'];
-exports.FetchCloudCode = _componentsFetchCloudCode2['default'];
-exports.componentsHelpers = componentsHelpers;
+FetchCollection = _Collection2['default'];
+exports.FetchDocument = _Document2['default'];
+exports.FetchCloudCode = _CloudCode2['default'];
 exports.
 // Parse
-parseWatcher = _parseSagaWatcher2['default'];
-exports.parse = _parseReducer2['default'];
+parseWatcher = _saga2['default'];
+exports.parseReducer = _reducer2['default'];
+exports.
+// Selectors
+selectors = _selectors2['default'];

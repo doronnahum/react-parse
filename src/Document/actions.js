@@ -49,8 +49,6 @@ export const deleteDocument = (className, objectId) => ({
   objectId,
 });
 
-import types from '../../types';
-
 // New documents
 export const createNewDocument = (uniqueId, defaultValues) => ({
   type: types.CREATE_NEW_DOCUMENT,
