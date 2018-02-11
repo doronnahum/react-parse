@@ -1,31 +1,66 @@
+# OSX
+#
+.DS_Store
 
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace
 
-# Dependencies
+# Android/IntelliJ
+#
+## build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# node.js
+#
 node_modules/
+npm-debug.log*
+yarn-error.log
 
-# Compiled output
-build
+# BUCK
+buck-out/
+\.buckd/
+android/app/libs
+## *.keystore
 
-# Runtime data
-database.sqlite
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
-# Test coverage
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+
+# Jest test coverage
 coverage
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Editors and IDEs
-.idea
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+node_modules/
 
-# Misc
-.DS_Store
-src/logic/config.js
+main.jsbundle*
+
+src/images/dummy/
+*.orig
+key

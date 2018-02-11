@@ -4,9 +4,9 @@ import { httpRequest } from './server/apiSagaWrapper';
 import types from './types';
 import * as helpers from './helpers';
 // Components
-import FetchCollection from './components/FetchCollection';
-import FetchDocument from './components/FetchDocument';
-import FetchCloudCode from './components/FetchCloudCode';
+import FetchCollection from './Collection';
+import FetchDocument from './Document';
+import FetchCloudCode from './CloudCode';
 import * as componentsHelpers from './components/helpers';
 // Parse
 import parse from './parse/reducer';
