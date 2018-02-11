@@ -1,17 +1,20 @@
 import {takeEvery} from 'redux-saga/effects';
 import types from '../types';
 // Collections
-import getCollection from './Collection/saga/getCollection';
-import deleteDocumentFromCollection from './Collection/saga/deleteDocumentFromCollection';
-import updateDocumentFromCollection from './Collection/saga/updateDocumentFromCollection';
+import {
+  getCollection,
+  deleteDocumentFromCollection,
+  updateDocumentFromCollection
+} from './Collection/saga';
 // Documents
-import getDocument from './sagaWorkers/documents/getDocument';
-import updateDocumentOnServer from './sagaWorkers/documents/updateDocumentOnServer';
-import deleteDocument from './sagaWorkers/documents/deleteDocument';
-// local Documents
-import postNewDocument from './sagaWorkers/documents/postNewDocument';
+import {
+  getDocument,
+  updateDocumentOnServer,
+  deleteDocument,
+  postNewDocument
+} from './Document/saga';
 // Cloud Codes
-import getCloudCode from './sagaWorkers/cloudCodes/getCloudCode';
+import getCloudCode from './CloudCode/saga';
 
 // all market watchers
 function* parseWatcher() {

@@ -7,12 +7,11 @@ import * as helpers from './helpers';
 import FetchCollection from './Collection';
 import FetchDocument from './Document';
 import FetchCloudCode from './CloudCode';
-import * as componentsHelpers from './components/helpers';
 // Parse
-import parse from './parse/reducer';
-import parseWatcher from './parse/sagaWatcher';
+import parseReducer from './reducer';
+import parseWatcher from './saga';
 // Selectors
-import selectors from './parse/selectors';
+import selectors from './selectors';
 export {
   api,
   httpRequest,
@@ -22,10 +21,9 @@ export {
   FetchCollection,
   FetchDocument,
   FetchCloudCode,
-  componentsHelpers,
   // Parse
   parseWatcher,
-  parse,
+  parseReducer,
   // Selectors
   selectors
 

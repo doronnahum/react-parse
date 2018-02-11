@@ -21,7 +21,6 @@
   "devDependencies": {
     "argg": "0.0.2",
     "babel": "^5",
-    "babel-eslint": "^4.1.0",
     "coveralls": "^2.11.4",
     "istanbul": "^0.3.18",
     "plato": "^1.5.0",

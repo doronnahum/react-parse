@@ -1,22 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as documentsActions from '../parse/actions/documents';
-import * as localDocumentsActions from '../parse/actions/localDocuments';
+import * as actions from './actions';
+
 import consts from '../types';
-import {propTypes, defaultprops} from './props-types/document'
+import {propTypes, defaultProps} from './prop-types'
 import {
   getStatus,
   getData,
   getNewDocumentData,
   getNewDocumentStatus,
-} from '../parse/selectors/documents';
+} from './selectors';
 import {
   isCreateFinish,
   isDeleteFinish,
   isParamsChanged,
   isUpdateFinish
-} from './methods/statusChecker'
+} from '../helpers/statusChecker'
 
 
 class FetchDocument extends React.PureComponent {
@@ -38,21 +38,25 @@ class FetchDocument extends React.PureComponent {
     if (isParamsChanged(this.props, nextProps)) {
       this.initialState(nextProps);
     }
-    if (isGetFinish(this.props, nextProps)) {
-      nextProps.onGetFinish({
+    this.handleCallBacks(this.props, nextProps)
+  }
+
+  handleCallBacks(props, nextProps){
+    if (isGetFinish(props, nextProps)) {
+      props.onGetFinish({
         queryStatus: nextProps.queryStatus,
         data: nextProps.data,
       });
-    } else if (isCreateFinish(this.props, nextProps)) {
-      nextProps.onCreateFinish({
+    } else if (isCreateFinish(props, nextProps)) {
+      props.onCreateFinish({
         status: nextProps.queryStatus.status,
         objectId: nextProps.queryStatus.objectId,
         data: nextProps.queryStatus.data,
       });
-    } else if (isDeleteFinish(this.props, nextProps)) {
-      nextProps.onDeleteFinish(nextProps.queryStatus);
-    } else if (isUpdateFinish(this.props, nextProps)) {
-      nextProps.onUpdateFinish(nextProps.queryStatus);
+    } else if (isDeleteFinish(props, nextProps)) {
+      props.onDeleteFinish(nextProps.queryStatus);
+    } else if (isUpdateFinish(props, nextProps)) {
+      props.onUpdateFinish(nextProps.queryStatus);
     }
   }
 
@@ -114,9 +118,8 @@ class FetchDocument extends React.PureComponent {
 
   getData(props, localOnly = this.props.localOnly) {
     props = props || this.props;
-    if (localOnly) return;
     const { collectionName, objectId, include } = props;
-    if (!objectId || !collectionName) return;
+    if (localOnly || !objectId || !collectionName) return;
     this.props.onGetStart();
     this.props.actions.getDocument(collectionName, objectId, include);
   }
@@ -183,10 +186,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(
-      { ...documentsActions, ...localDocumentsActions },
-      dispatch,
-    ),
+    actions: bindActionCreators({ ...actions },dispatch,)
   };
 }
 
