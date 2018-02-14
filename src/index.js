@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime'
 // Common
 import api from './server/api';
-import { httpRequest } from './server/apiSagaWrapper';
+import httpRequest from './server/apiSagaWrapper';
 import types from './types';
 import * as helpers from './helpers';
 // Components

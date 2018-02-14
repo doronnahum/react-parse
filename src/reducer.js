@@ -4,12 +4,6 @@ import InitialState from './InitialState';
 const initialState = new InitialState();
 const { Map, List } = require('immutable');
 
-export const getDataFromState = (state, target) => {
-  if (!target) {
-    return state.market;
-  }
-  return state.market[target];
-};
 export default function parseReducer(state = initialState, action) {
   if (!(state instanceof InitialState)) {return initialState.merge(state);}
   switch (action.type) {

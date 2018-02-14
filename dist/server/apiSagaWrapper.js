@@ -3,11 +3,8 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.httpRequest = httpRequest;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var marked0$0 = [httpRequest].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
@@ -19,10 +16,10 @@ var _types2 = _interopRequireDefault(_types);
 
 var regeneratorRuntime = require("regenerator-runtime");
 
-function httpRequest() {
+var http = regeneratorRuntime.mark(function http() {
   var res,
       args$1$0 = arguments;
-  return regeneratorRuntime.wrap(function httpRequest$(context$1$0) {
+  return regeneratorRuntime.wrap(function http$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
         context$1$0.prev = 0;
@@ -54,7 +51,9 @@ function httpRequest() {
       case 'end':
         return context$1$0.stop();
     }
-  }, marked0$0[0], this, [[0, 7]]);
-}
+  }, http, this, [[0, 7]]);
+});
+var httpRequest = http;
+exports.httpRequest = httpRequest;
 
 // invalid session token

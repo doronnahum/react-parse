@@ -3,7 +3,7 @@ import { call, put } from 'redux-saga/effects';
 import { dig } from '../helpers';
 import types from '../types';
 
-export function* httpRequest(...params) {
+const http = function* (...params) {
   try {
     const res = yield call(...params);
     return res;
@@ -16,3 +16,4 @@ export function* httpRequest(...params) {
     return error;
   }
 }
+export const httpRequest = http;

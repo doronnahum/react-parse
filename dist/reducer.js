@@ -21,13 +21,6 @@ var _require = require('immutable');
 
 var Map = _require.Map;
 var List = _require.List;
-var getDataFromState = function getDataFromState(state, target) {
-  if (!target) {
-    return state.market;
-  }
-  return state.market[target];
-};
-exports.getDataFromState = getDataFromState;
 
 function parseReducer(state, action) {
   if (state === undefined) state = initialState;
@@ -201,3 +194,5 @@ function parseReducer(state, action) {
       return state;
   }
 }
+
+module.exports = exports['default'];

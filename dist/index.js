@@ -18,6 +18,8 @@ var _serverApi2 = _interopRequireDefault(_serverApi);
 
 var _serverApiSagaWrapper = require('./server/apiSagaWrapper');
 
+var _serverApiSagaWrapper2 = _interopRequireDefault(_serverApiSagaWrapper);
+
 var _types = require('./types');
 
 var _types2 = _interopRequireDefault(_types);
@@ -57,7 +59,7 @@ var _selectors = require('./selectors');
 var _selectors2 = _interopRequireDefault(_selectors);
 
 exports.api = _serverApi2['default'];
-exports.httpRequest = _serverApiSagaWrapper.httpRequest;
+exports.httpRequest = _serverApiSagaWrapper2['default'];
 exports.types = _types2['default'];
 exports.helpers = helpers;
 exports.
