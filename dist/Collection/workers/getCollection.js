@@ -25,6 +25,8 @@ var _actions = require('../actions');
 
 var _helpers = require('../../helpers');
 
+var regeneratorRuntime = require("regenerator-runtime");
+
 var START = _types2['default'].GET_START;
 var FAILED = _types2['default'].GET_FAILED;
 var FAILED_NETWORK = _types2['default'].GET_FAILED_NETWORK;

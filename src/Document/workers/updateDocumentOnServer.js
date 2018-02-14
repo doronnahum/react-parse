@@ -1,3 +1,5 @@
+var regeneratorRuntime = require("regenerator-runtime");
+
 import { select, put } from 'redux-saga/effects';
 import { httpRequest } from '../../server/apiSagaWrapper';
 import types from '../../types';

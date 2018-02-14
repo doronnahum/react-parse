@@ -23,6 +23,8 @@ var _serverApi2 = _interopRequireDefault(_serverApi);
 
 var _actions = require('../actions');
 
+var regeneratorRuntime = require("regenerator-runtime");
+
 var GET_START = _types2['default'].GET_START;
 var GET_FAILED = _types2['default'].GET_FAILED;
 var GET_FAILED_NETWORK = _types2['default'].GET_FAILED_NETWORK;

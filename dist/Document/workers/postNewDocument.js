@@ -27,6 +27,8 @@ var _actions = require('../actions');
 
 var _selectors = require('../selectors');
 
+var regeneratorRuntime = require("regenerator-runtime");
+
 var CREATE_START = _types2['default'].CREATE_START;
 var CREATE_FAILED = _types2['default'].CREATE_FAILED;
 var CREATE_FAILED_NETWORK = _types2['default'].CREATE_FAILED_NETWORK;

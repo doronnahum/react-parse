@@ -1,3 +1,5 @@
+var regeneratorRuntime = require("regenerator-runtime");
+
 import { put } from 'redux-saga/effects';
 import isArray from 'lodash/isArray';
 import { httpRequest } from '../server/apiSagaWrapper';

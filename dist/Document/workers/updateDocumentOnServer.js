@@ -27,6 +27,8 @@ var _actions = require('../actions');
 
 var _selectors = require('../selectors');
 
+var regeneratorRuntime = require("regenerator-runtime");
+
 var UPDATE_START = _types2['default'].UPDATE_START;
 var UPDATE_FAILED = _types2['default'].UPDATE_FAILED;
 var UPDATE_FAILED_NETWORK = _types2['default'].UPDATE_FAILED_NETWORK;
