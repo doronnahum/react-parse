@@ -2,9 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from './actions';
-
-import consts from '../types';
-import {propTypes, defaultProps} from './prop-types'
+import {propTypes, defaultProps} from './prop-types';
 import {
   getStatus,
   getData,
@@ -12,11 +10,13 @@ import {
   getNewDocumentStatus,
 } from './selectors';
 import {
+  isGetFinish,
   isCreateFinish,
+  isDeleteStart,
   isDeleteFinish,
   isParamsChanged,
   isUpdateFinish
-} from '../helpers/statusChecker'
+} from '../helpers/statusChecker';
 
 
 class FetchDocument extends React.PureComponent {
@@ -38,10 +38,10 @@ class FetchDocument extends React.PureComponent {
     if (isParamsChanged(this.props, nextProps)) {
       this.initialState(nextProps);
     }
-    this.handleCallBacks(this.props, nextProps)
+    this.handleCallBacks(this.props, nextProps);
   }
 
-  handleCallBacks(props, nextProps){
+  handleCallBacks(props, nextProps) {
     if (isGetFinish(props, nextProps)) {
       props.onGetFinish({
         queryStatus: nextProps.queryStatus,
@@ -67,13 +67,17 @@ class FetchDocument extends React.PureComponent {
   }
 
   onDelete() {
-    const { objectId, uniqueId, collectionName, queryStatus } = this.props;
-    if(!objectId) return
+    const { objectId, uniqueId, collectionName } = this.props;
+    if(!objectId) {
+      return;
+    }
     if (objectId) {
-      if (queryStatus === DELETE_DOCUMENT_START) return;
+      if (isDeleteStart(this.props)) {
+        return;
+      }
       this.props.actions.deleteDocument(collectionName, objectId);
     } else {
-      this.props.actions.removeNewDocument(this.props.uniqueId);
+      this.props.actions.removeNewDocument(uniqueId);
     }
   }
 
@@ -83,13 +87,13 @@ class FetchDocument extends React.PureComponent {
 
   onSave() {
     if (this.props.objectId) {
-      this.updateDocument(this.props)
+      this.updateDocument(this.props);
     } else {
-      this.createDocument(this.props)
+      this.createDocument(this.props);
     }
   }
 
-  createDocument(props){
+  createDocument(props) {
     props.actions.postNewDocument(
       props.collectionName,
       props.uniqueId,
@@ -97,7 +101,7 @@ class FetchDocument extends React.PureComponent {
     );
   }
 
-  updateDocument(props){
+  updateDocument(props) {
     props.actions.updateDocumentOnServer(
       props.collectionName,
       props.objectId,
@@ -108,18 +112,20 @@ class FetchDocument extends React.PureComponent {
   }
 
   updateField(key, value) {
-    const { objectId, uniqueId, actions } = this.props;
+    const { objectId, uniqueId } = this.props;
     if (objectId) {
-      actions.updateDocumentOnStore(objectId, key, value);
+      this.props.actions.updateDocumentOnStore(objectId, key, value);
     } else {
-      actions.updateNewDocument(uniqueId, key, value);
+      this.props.actions.updateNewDocument(uniqueId, key, value);
     }
   }
 
   getData(props, localOnly = this.props.localOnly) {
-    props = props || this.props;
-    const { collectionName, objectId, include } = props;
-    if (localOnly || !objectId || !collectionName) return;
+    const _props = props || this.props;
+    const { collectionName, objectId, include } = _props;
+    if (localOnly || !objectId || !collectionName) {
+      return;
+    }
     this.props.onGetStart();
     this.props.actions.getDocument(collectionName, objectId, include);
   }
@@ -141,7 +147,7 @@ class FetchDocument extends React.PureComponent {
   }
 
   initialState(props = this.props) {
-    const { localFirst, collectionName, objectId } = props;
+    const { localFirst, collectionName, objectId, data } = props;
     if (objectId && collectionName) {
       if (!localFirst || (localFirst && !data)) {
         this.getData(props);
@@ -186,7 +192,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...actions },dispatch,)
+    actions: bindActionCreators({ ...actions }, dispatch,)
   };
 }
 

@@ -18,17 +18,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _reactRedux = require('react-redux');
 
 var _redux = require('redux');
-
-var _lodashIsEqual = require('lodash/isEqual');
-
-var _lodashIsEqual2 = _interopRequireDefault(_lodashIsEqual);
 
 var _actions = require('./actions');
 
@@ -40,7 +32,7 @@ var _types2 = _interopRequireDefault(_types);
 
 var _helpersStatusChecker = require('../helpers/statusChecker');
 
-var _propTypes3 = require('./prop-types');
+var _propTypes = require('./prop-types');
 
 var FetchCollection = (function (_React$PureComponent) {
   _inherits(FetchCollection, _React$PureComponent);
@@ -63,7 +55,10 @@ var FetchCollection = (function (_React$PureComponent) {
       var collectionName = _props.collectionName;
       var data = _props.data;
 
-      if (!collectionName) return;
+      if (!collectionName) {
+        return;
+      }
+
       if (localFirst || localFirst && !data) {
         this.getDataFromServer();
       }
@@ -79,7 +74,7 @@ var FetchCollection = (function (_React$PureComponent) {
   }, {
     key: 'handleCallBacks',
     value: function handleCallBacks(props, nextProps) {
-      if (isGetFinish(props, nextProps)) {
+      if ((0, _helpersStatusChecker.isGetFinish)(props, nextProps)) {
         props.onGetFinish({
           queryStatus: nextProps.queryStatus,
           data: nextProps.data,
@@ -147,7 +142,9 @@ var FetchCollection = (function (_React$PureComponent) {
       var props = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
       var localOnly = arguments.length <= 1 || arguments[1] === undefined ? this.props.localOnly : arguments[1];
 
-      if (localOnly || !props.collectionName) return;
+      if (localOnly || !props.collectionName) {
+        return;
+      }
       this.props.onGetStart();
       this.props.actions.getCollection({
         collectionName: props.collectionName,
@@ -174,16 +171,14 @@ var FetchCollection = (function (_React$PureComponent) {
       var queryStatus = _props4.queryStatus;
       var info = _props4.info;
 
-      var deleteDocument = this.onDeleteDocument;
-      var updateDocument = this.onUpdateDocument;
       var refreshData = this.onRefreshData;
       return this.props.render({
         data: data,
         queryStatus: queryStatus,
         info: info,
         refreshData: refreshData,
-        deleteDocument: deleteDocument,
-        updateDocument: updateDocument
+        deleteDocument: this.onDeleteDocument,
+        updateDocument: this.onUpdateDocument
       });
     }
   }]);
@@ -194,9 +189,9 @@ var FetchCollection = (function (_React$PureComponent) {
 function mapStateToProps(state, props) {
   var keyForData = props.targetName || props.collectionName;
   return {
-    data: getCollectionData(state, keyForData),
-    queryStatus: getCollectionStatus(state, keyForData),
-    info: getCollectionInfo(state, keyForData)
+    data: (0, _selectors.getData)(state, keyForData),
+    queryStatus: (0, _selectors.getStatus)(state, keyForData),
+    info: (0, _selectors.getInfo)(state, keyForData)
   };
 }
 
@@ -207,7 +202,7 @@ function mapDispatchToProps(dispatch) {
 }
 exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FetchCollection);
 
-FetchCollection.propTypes = _propTypes3.propTypes;
+FetchCollection.propTypes = _propTypes.propTypes;
 
-FetchCollection.defaultProps = _propTypes3.defaultProps;
+FetchCollection.defaultProps = _propTypes.defaultProps;
 module.exports = exports['default'];

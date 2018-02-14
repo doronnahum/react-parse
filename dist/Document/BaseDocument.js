@@ -30,10 +30,6 @@ var _actions = require('./actions');
 
 var actions = _interopRequireWildcard(_actions);
 
-var _types = require('../types');
-
-var _types2 = _interopRequireDefault(_types);
-
 var _propTypes = require('./prop-types');
 
 var _selectors = require('./selectors');
@@ -71,7 +67,7 @@ var FetchDocument = (function (_React$PureComponent) {
   }, {
     key: 'handleCallBacks',
     value: function handleCallBacks(props, nextProps) {
-      if (isGetFinish(props, nextProps)) {
+      if ((0, _helpersStatusChecker.isGetFinish)(props, nextProps)) {
         props.onGetFinish({
           queryStatus: nextProps.queryStatus,
           data: nextProps.data
@@ -98,18 +94,21 @@ var FetchDocument = (function (_React$PureComponent) {
   }, {
     key: 'onDelete',
     value: function onDelete() {
-      var _props = this.props;
-      var objectId = _props.objectId;
-      var uniqueId = _props.uniqueId;
-      var collectionName = _props.collectionName;
-      var queryStatus = _props.queryStatus;
+      var _props2 = this.props;
+      var objectId = _props2.objectId;
+      var uniqueId = _props2.uniqueId;
+      var collectionName = _props2.collectionName;
 
-      if (!objectId) return;
+      if (!objectId) {
+        return;
+      }
       if (objectId) {
-        if (queryStatus === DELETE_DOCUMENT_START) return;
+        if ((0, _helpersStatusChecker.isDeleteStart)(this.props)) {
+          return;
+        }
         this.props.actions.deleteDocument(collectionName, objectId);
       } else {
-        this.props.actions.removeNewDocument(this.props.uniqueId);
+        this.props.actions.removeNewDocument(uniqueId);
       }
     }
   }, {
@@ -139,15 +138,14 @@ var FetchDocument = (function (_React$PureComponent) {
   }, {
     key: 'updateField',
     value: function updateField(key, value) {
-      var _props2 = this.props;
-      var objectId = _props2.objectId;
-      var uniqueId = _props2.uniqueId;
-      var actions = _props2.actions;
+      var _props3 = this.props;
+      var objectId = _props3.objectId;
+      var uniqueId = _props3.uniqueId;
 
       if (objectId) {
-        actions.updateDocumentOnStore(objectId, key, value);
+        this.props.actions.updateDocumentOnStore(objectId, key, value);
       } else {
-        actions.updateNewDocument(uniqueId, key, value);
+        this.props.actions.updateNewDocument(uniqueId, key, value);
       }
     }
   }, {
@@ -155,13 +153,14 @@ var FetchDocument = (function (_React$PureComponent) {
     value: function getData(props) {
       var localOnly = arguments.length <= 1 || arguments[1] === undefined ? this.props.localOnly : arguments[1];
 
-      props = props || this.props;
-      var _props3 = props;
-      var collectionName = _props3.collectionName;
-      var objectId = _props3.objectId;
-      var include = _props3.include;
+      var _props = props || this.props;
+      var collectionName = _props.collectionName;
+      var objectId = _props.objectId;
+      var include = _props.include;
 
-      if (localOnly || !objectId || !collectionName) return;
+      if (localOnly || !objectId || !collectionName) {
+        return;
+      }
       this.props.onGetStart();
       this.props.actions.getDocument(collectionName, objectId, include);
     }
@@ -187,6 +186,7 @@ var FetchDocument = (function (_React$PureComponent) {
       var localFirst = props.localFirst;
       var collectionName = props.collectionName;
       var objectId = props.objectId;
+      var data = props.data;
 
       if (objectId && collectionName) {
         if (!localFirst || localFirst && !data) {

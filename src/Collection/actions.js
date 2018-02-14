@@ -1,4 +1,4 @@
-import types from '../../types';
+import types from '../types';
 
 // Collection
 export const clearCollections = () => ({
@@ -12,9 +12,9 @@ export const clearCollection = targetName => ({
  * getCollection
  * @param {obj} {collectionName, targetName, query, perPage, page, include, keys, enableCount}
  */
-export const getCollection = res => ({
+export const getCollection = payload => ({
   type: types.GET_COLLECTION,
-  ...res,
+  payload,
 });
 export const setCollection = (targetName, dataToSet) => ({
   type: types.SET_COLLECTION,

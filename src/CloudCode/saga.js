@@ -1,10 +1,10 @@
 import { put } from 'redux-saga/effects';
 import isArray from 'lodash/isArray';
-import { httpRequest } from '../../server/apiSagaWrapper';
-import types from '../../types';
-import Api from '../../server/api';
-import { dig } from '../../helpers';
-import { setCloudCodeRequestStatus as setStatus } from '../actions/cloudCodes';
+import { httpRequest } from '../server/apiSagaWrapper';
+import types from '../types';
+import Api from '../server/api';
+import { dig } from '../helpers';
+import { setCloudCodeRequestStatus as setStatus } from './actions';
 
 const START = types.GET_START;
 const FAILED = types.GET_FAILED;

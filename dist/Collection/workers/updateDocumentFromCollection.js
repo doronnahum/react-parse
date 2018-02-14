@@ -11,17 +11,17 @@ var marked0$0 = [updateDocumentFromCollection].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
-var _serverApiSagaWrapper = require('../../../server/apiSagaWrapper');
+var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
 
-var _types = require('../../../types');
+var _types = require('../../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var _serverApi = require('../../../server/api');
+var _serverApi = require('../../server/api');
 
 var _serverApi2 = _interopRequireDefault(_serverApi);
 
-var _actionsCollections = require('../../actions/collections');
+var _actions = require('../actions');
 
 var START = _types2['default'].UPDATE_START;
 var FAILED = _types2['default'].UPDATE_FAILED;
@@ -38,7 +38,7 @@ function updateDocumentFromCollection(action) {
         data = action.data;
         targetName = action.targetName || action.collectionName;
         context$1$0.next = 6;
-        return (0, _reduxSagaEffects.put)((0, _actionsCollections.setStatus)(targetName, START));
+        return (0, _reduxSagaEffects.put)((0, _actions.setStatus)(targetName, START));
 
       case 6:
         return context$1$0.delegateYield((0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].updateObject, collectionName, objectId, data), 't0', 7);
@@ -53,7 +53,7 @@ function updateDocumentFromCollection(action) {
 
         errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
         context$1$0.next = 12;
-        return (0, _reduxSagaEffects.put)((0, _actionsCollections.setStatus)(targetName, errType));
+        return (0, _reduxSagaEffects.put)((0, _actions.setStatus)(targetName, errType));
 
       case 12:
         console.error('deleteObject err', collectionName, objectId, res.err);
@@ -62,7 +62,7 @@ function updateDocumentFromCollection(action) {
 
       case 15:
         context$1$0.next = 17;
-        return (0, _reduxSagaEffects.put)((0, _actionsCollections.setStatus)(targetName, FINISHED));
+        return (0, _reduxSagaEffects.put)((0, _actions.setStatus)(targetName, FINISHED));
 
       case 17:
       case 'end':

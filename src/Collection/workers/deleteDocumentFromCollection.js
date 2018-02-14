@@ -1,8 +1,8 @@
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../../server/apiSagaWrapper';
-import types from '../../../types';
-import api from '../../../server/api';
-import { setCollectionStatus as setStatus } from '../../actions/collections';
+import { httpRequest } from '../../server/apiSagaWrapper';
+import types from '../../types';
+import api from '../../server/api';
+import { setCollectionStatus as setStatus } from '../actions';
 
 const START = types.DELETE_START;
 const FAILED = types.DELETE_FAILED;

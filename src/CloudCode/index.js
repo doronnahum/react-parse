@@ -1,13 +1,12 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import {getCloudCode, removeCloudCode} from './actions';
 import consts from '../types';
 import { getData, getStatus, getInfo} from './selectors';
-import { isGetFinish} from './methods/statusChecker'
-import {propTypes, defaultProps} from './props-types/document'
+import { isGetFinish} from '../helpers/statusChecker';
+import {propTypes, defaultProps} from './prop-types';
 const { LOADING } = consts;
 
 class FetchCloudCode extends React.PureComponent {

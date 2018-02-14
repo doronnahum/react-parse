@@ -1,14 +1,14 @@
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../../server/apiSagaWrapper';
-import types from '../../../types';
-import api from '../../../server/api';
-import { setDocumentStatus } from '../../actions/documents';
+import { httpRequest } from '../../server/apiSagaWrapper';
+import types from '../../types';
+import api from '../../server/api';
+import { setDocumentStatus } from '../actions';
 const {
   GET_START,
   GET_FAILED,
   GET_FAILED_NETWORK,
   GET_FINISHED,
-} = types.statues
+} = types
 const START = GET_START;
 const FAILED = GET_FAILED;
 const FAILED_NETWORK = GET_FAILED_NETWORK;

@@ -7,7 +7,7 @@ exports['default'] = parseReducer;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _types = require('../types');
+var _types = require('./types');
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -32,7 +32,9 @@ exports.getDataFromState = getDataFromState;
 function parseReducer(state, action) {
   if (state === undefined) state = initialState;
 
-  if (!(state instanceof _InitialState2['default'])) return initialState.merge(state);
+  if (!(state instanceof _InitialState2['default'])) {
+    return initialState.merge(state);
+  }
   switch (action.type) {
     // Collection
     case _types2['default'].CLEAR_COLLECTIONS:
@@ -68,7 +70,9 @@ function parseReducer(state, action) {
         var targetName = action.targetName;
 
         var collectionState = state.collections.get(targetName);
-        if (!collectionState) return state;
+        if (!collectionState) {
+          return state;
+        }
         return state.setIn(['collections', action.targetName], null);
       }
     // Document

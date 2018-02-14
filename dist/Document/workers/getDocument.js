@@ -11,23 +11,22 @@ var marked0$0 = [getDocument].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
-var _serverApiSagaWrapper = require('../../../server/apiSagaWrapper');
+var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
 
-var _types = require('../../../types');
+var _types = require('../../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var _serverApi = require('../../../server/api');
+var _serverApi = require('../../server/api');
 
 var _serverApi2 = _interopRequireDefault(_serverApi);
 
-var _actionsDocuments = require('../../actions/documents');
+var _actions = require('../actions');
 
-var _types$statues = _types2['default'].statues;
-var GET_START = _types$statues.GET_START;
-var GET_FAILED = _types$statues.GET_FAILED;
-var GET_FAILED_NETWORK = _types$statues.GET_FAILED_NETWORK;
-var GET_FINISHED = _types$statues.GET_FINISHED;
+var GET_START = _types2['default'].GET_START;
+var GET_FAILED = _types2['default'].GET_FAILED;
+var GET_FAILED_NETWORK = _types2['default'].GET_FAILED_NETWORK;
+var GET_FINISHED = _types2['default'].GET_FINISHED;
 
 var START = GET_START;
 var FAILED = GET_FAILED;
@@ -43,7 +42,7 @@ function getDocument(action) {
         objectId = action.objectId;
         include = action.include;
         context$1$0.next = 5;
-        return (0, _reduxSagaEffects.put)((0, _actionsDocuments.setDocumentStatus)(objectId, START));
+        return (0, _reduxSagaEffects.put)((0, _actions.setDocumentStatus)(objectId, START));
 
       case 5:
         return context$1$0.delegateYield((0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].query, className, { objectId: objectId }, null, null, null, null, include, null), 't0', 6);
@@ -60,7 +59,7 @@ function getDocument(action) {
 
         console.error('get document err', objectId, res.error);
         context$1$0.next = 12;
-        return (0, _reduxSagaEffects.put)((0, _actionsDocuments.setDocumentStatus)(objectId, errType));
+        return (0, _reduxSagaEffects.put)((0, _actions.setDocumentStatus)(objectId, errType));
 
       case 12:
         context$1$0.next = 17;

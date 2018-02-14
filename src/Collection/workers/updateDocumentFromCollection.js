@@ -1,8 +1,8 @@
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../../server/apiSagaWrapper';
-import types from '../../../types';
-import api from '../../../server/api';
-import { setStatus as setStatus  } from '../../actions/collections';
+import { httpRequest } from '../../server/apiSagaWrapper';
+import types from '../../types';
+import api from '../../server/api';
+import { setStatus as setStatus  } from '../actions';
 
 const START = types.UPDATE_START;
 const FAILED = types.UPDATE_FAILED;

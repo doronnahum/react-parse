@@ -10,7 +10,7 @@ var marked0$0 = [parseWatcher].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
-var _types = require('../types');
+var _types = require('./types');
 
 var _types2 = _interopRequireDefault(_types);
 

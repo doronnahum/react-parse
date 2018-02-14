@@ -4,11 +4,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _types = require('../../types');
+var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -30,10 +28,11 @@ exports.clearCollection = clearCollection;
  * getCollection
  * @param {obj} {collectionName, targetName, query, perPage, page, include, keys, enableCount}
  */
-var getCollection = function getCollection(res) {
-  return _extends({
-    type: _types2['default'].GET_COLLECTION
-  }, res);
+var getCollection = function getCollection(payload) {
+  return {
+    type: _types2['default'].GET_COLLECTION,
+    payload: payload
+  };
 };
 exports.getCollection = getCollection;
 var setCollection = function setCollection(targetName, dataToSet) {

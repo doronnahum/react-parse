@@ -26,26 +26,50 @@ var createUniqueId = function createUniqueId() {
 };
 exports.createUniqueId = createUniqueId;
 var isDocumentLoading = function isDocumentLoading(queryStatus) {
-  if (!queryStatus) return false;
-  if (queryStatus === LOADING) return true;
-  if (queryStatus === UPDATE_DOCUMENT_START) return true;
-  if (queryStatus === DELETE_DOCUMENT_START) return true;
-  if (queryStatus === CREATE_DOCUMENT_START) return true;
+  if (!queryStatus) {
+    return false;
+  }
+  if (queryStatus === LOADING) {
+    return true;
+  }
+  if (queryStatus === UPDATE_DOCUMENT_START) {
+    return true;
+  }
+  if (queryStatus === DELETE_DOCUMENT_START) {
+    return true;
+  }
+  if (queryStatus === CREATE_DOCUMENT_START) {
+    return true;
+  }
   return false;
 };
 exports.isDocumentLoading = isDocumentLoading;
 var isCollectionLoading = function isCollectionLoading(queryStatus) {
-  if (!queryStatus) return false;
-  if (queryStatus === LOADING) return true;
-  if (queryStatus === DELETE_DOCUMENT_FROM_COLLECTION_START) return true;
-  if (queryStatus === UPDATE_DOCUMENT_FROM_COLLECTION_START) return true;
+  if (!queryStatus) {
+    return false;
+  }
+  if (queryStatus === LOADING) {
+    return true;
+  }
+  if (queryStatus === DELETE_DOCUMENT_FROM_COLLECTION_START) {
+    return true;
+  }
+  if (queryStatus === UPDATE_DOCUMENT_FROM_COLLECTION_START) {
+    return true;
+  }
   return false;
 };
 exports.isCollectionLoading = isCollectionLoading;
 var isCollectionError = function isCollectionError(queryStatus) {
-  if (!queryStatus) return false;
-  if (queryStatus === ERROR) return true;
-  if (queryStatus === NETWORK_ERROR) return true;
+  if (!queryStatus) {
+    return false;
+  }
+  if (queryStatus === ERROR) {
+    return true;
+  }
+  if (queryStatus === NETWORK_ERROR) {
+    return true;
+  }
   return false;
 };
 

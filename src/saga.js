@@ -1,5 +1,5 @@
 import {takeEvery} from 'redux-saga/effects';
-import types from '../types';
+import types from './types';
 // Collections
 import {
   getCollection,

@@ -11,17 +11,17 @@ var marked0$0 = [deleteDocumentFromCollection].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
-var _serverApiSagaWrapper = require('../../../server/apiSagaWrapper');
+var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
 
-var _types = require('../../../types');
+var _types = require('../../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var _serverApi = require('../../../server/api');
+var _serverApi = require('../../server/api');
 
 var _serverApi2 = _interopRequireDefault(_serverApi);
 
-var _actionsCollections = require('../../actions/collections');
+var _actions = require('../actions');
 
 var START = _types2['default'].DELETE_START;
 var FAILED = _types2['default'].DELETE_FAILED;
@@ -37,7 +37,7 @@ function deleteDocumentFromCollection(action) {
         objectId = action.objectId;
         targetName = action.targetName || action.collectionName;
         context$1$0.next = 5;
-        return (0, _reduxSagaEffects.put)((0, _actionsCollections.setCollectionStatus)(targetName, START));
+        return (0, _reduxSagaEffects.put)((0, _actions.setCollectionStatus)(targetName, START));
 
       case 5:
         return context$1$0.delegateYield((0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].deleteObject, collectionName, objectId), 't0', 6);
@@ -52,7 +52,7 @@ function deleteDocumentFromCollection(action) {
 
         errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
         context$1$0.next = 11;
-        return (0, _reduxSagaEffects.put)((0, _actionsCollections.setCollectionStatus)(targetName, errType));
+        return (0, _reduxSagaEffects.put)((0, _actions.setCollectionStatus)(targetName, errType));
 
       case 11:
         console.error('deleteObject err', collectionName, objectId, res.err);
@@ -61,7 +61,7 @@ function deleteDocumentFromCollection(action) {
 
       case 14:
         context$1$0.next = 16;
-        return (0, _reduxSagaEffects.put)((0, _actionsCollections.setCollectionStatus)(targetName, FINISHED));
+        return (0, _reduxSagaEffects.put)((0, _actions.setCollectionStatus)(targetName, FINISHED));
 
       case 16:
       case 'end':

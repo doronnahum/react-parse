@@ -11,27 +11,26 @@ var marked0$0 = [postNewDocument].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
-var _serverApiSagaWrapper = require('../../../server/apiSagaWrapper');
+var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
 
-var _types = require('../../../types');
+var _types = require('../../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var _serverApi = require('../../../server/api');
+var _serverApi = require('../../server/api');
 
 var _serverApi2 = _interopRequireDefault(_serverApi);
 
-var _helpers = require('../../../helpers');
+var _helpers = require('../../helpers');
 
-var _actionsLocalDocuments = require('../../actions/localDocuments');
+var _actions = require('../actions');
 
-var _selectorsDocuments = require('../../selectors/documents');
+var _selectors = require('../selectors');
 
-var _types$statues = _types2['default'].statues;
-var CREATE_START = _types$statues.CREATE_START;
-var CREATE_FAILED = _types$statues.CREATE_FAILED;
-var CREATE_FAILED_NETWORK = _types$statues.CREATE_FAILED_NETWORK;
-var CREATE_FINISHED = _types$statues.CREATE_FINISHED;
+var CREATE_START = _types2['default'].CREATE_START;
+var CREATE_FAILED = _types2['default'].CREATE_FAILED;
+var CREATE_FAILED_NETWORK = _types2['default'].CREATE_FAILED_NETWORK;
+var CREATE_FINISHED = _types2['default'].CREATE_FINISHED;
 
 var START = CREATE_START;
 var FAILED = CREATE_FAILED;
@@ -57,14 +56,14 @@ function postNewDocument(action) {
 
       case 6:
         context$1$0.next = 8;
-        return (0, _reduxSagaEffects.put)((0, _actionsLocalDocuments.setNewDocumentStatus)(uniqueId, START));
+        return (0, _reduxSagaEffects.put)((0, _actions.setNewDocumentStatus)(uniqueId, START));
 
       case 8:
         documentData = undefined;
         objectToUpdate = null;
         context$1$0.next = 12;
         return (0, _reduxSagaEffects.select)(function (state) {
-          return (0, _selectorsDocuments.getImmutableNewDocumentData)(state, uniqueId);
+          return (0, _selectors.getImmutableNewDocumentData)(state, uniqueId);
         });
 
       case 12:
@@ -101,7 +100,7 @@ function postNewDocument(action) {
 
         errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
         context$1$0.next = 24;
-        return (0, _reduxSagaEffects.put)((0, _actionsLocalDocuments.setNewDocumentStatus)(uniqueId, errType));
+        return (0, _reduxSagaEffects.put)((0, _actions.setNewDocumentStatus)(uniqueId, errType));
 
       case 24:
         context$1$0.next = 31;

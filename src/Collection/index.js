@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import isEqual from 'lodash/isEqual';
 import {
   deleteDocumentFromCollection as deleteDocument,
   updateDocumentFromCollection as updateDocument,
@@ -17,15 +15,13 @@ import {
 import consts from '../types';
 
 import {
-  isCreateFinish,
+  isGetFinish,
   isDeleteFinish,
-  isDataChanged,
-  isQueryStatusChanged,
   isUpdateFinish,
   isCollectionParamsChanged as isParamsChanged
-} from '../helpers/statusChecker'
+} from '../helpers/statusChecker';
 
-import {defaultProps, propTypes} from './prop-types'
+import {defaultProps, propTypes} from './prop-types';
 
 class FetchCollection extends React.PureComponent {
   constructor(props) {
@@ -38,8 +34,11 @@ class FetchCollection extends React.PureComponent {
 
   componentWillMount() {
     const { localFirst, collectionName, data } = this.props;
-    if(!collectionName) return
-    if ( localFirst || (localFirst && !data)) {
+    if(!collectionName) {
+      return; 
+    }
+    
+    if (localFirst || (localFirst && !data)) {
       this.getDataFromServer();
     }
   }
@@ -48,9 +47,9 @@ class FetchCollection extends React.PureComponent {
     if (isParamsChanged(nextProps)) {
       this.getDataFromServer(nextProps);
     }
-    this.handleCallBacks(this.props, nextProps)
+    this.handleCallBacks(this.props, nextProps);
   }
-  handleCallBacks(props, nextProps){
+  handleCallBacks(props, nextProps) {
     if (isGetFinish(props, nextProps)) {
       props.onGetFinish({
         queryStatus: nextProps.queryStatus,
@@ -73,12 +72,12 @@ class FetchCollection extends React.PureComponent {
   }
 
   onDeleteDocument(objectId) {
-    const {queryStatus, actions, collectionName, targetName} = this.props
+    const {queryStatus, actions, collectionName, targetName} = this.props;
     if (!objectId) {
       console.warn('onDeleteDocument: missing objectId ');
       return;
     }
-    if (queryStatus === consts.DELETE_START){
+    if (queryStatus === consts.DELETE_START) {
       return;
     }
     actions.deleteDocument(
@@ -89,7 +88,7 @@ class FetchCollection extends React.PureComponent {
   }
 
   onUpdateDocument(objectId, data) {
-    const { actions, collectionName, targetName} = this.props
+    const { actions, collectionName, targetName} = this.props;
     if (!objectId) {
       console.warn('onUpdateDocument: missing objectId ');
       return;
@@ -111,7 +110,9 @@ class FetchCollection extends React.PureComponent {
   }
 
   getDataFromServer(props = this.props, localOnly = this.props.localOnly) {
-    if (localOnly || !props.collectionName) return;
+    if (localOnly || !props.collectionName) {
+return;
+}
     this.props.onGetStart();
     this.props.actions.getCollection({
       collectionName: props.collectionName,
@@ -132,16 +133,14 @@ class FetchCollection extends React.PureComponent {
 
   render() {
     const { data, queryStatus, info } = this.props;
-    const deleteDocument = this.onDeleteDocument;
-    const updateDocument = this.onUpdateDocument;
     const refreshData = this.onRefreshData;
     return this.props.render({
       data,
       queryStatus,
       info,
       refreshData,
-      deleteDocument,
-      updateDocument,
+      deleteDocument: this.onDeleteDocument,
+      updateDocument: this.onUpdateDocument,
     });
   }
 }
@@ -149,9 +148,9 @@ class FetchCollection extends React.PureComponent {
 function mapStateToProps(state, props) {
   const keyForData = props.targetName || props.collectionName;
   return {
-    data: getCollectionData(state, keyForData),
-    queryStatus: getCollectionStatus(state, keyForData),
-    info: getCollectionInfo(state, keyForData),
+    data: getData(state, keyForData),
+    queryStatus: getStatus(state, keyForData),
+    info: getInfo(state, keyForData),
   };
 }
 
@@ -161,6 +160,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FetchCollection);
-FetchCollection.propTypes = propTypes
+FetchCollection.propTypes = propTypes;
 
-FetchCollection.defaultProps = defaultProps
+FetchCollection.defaultProps = defaultProps;

@@ -6,7 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _types = require('../../types');
+var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 

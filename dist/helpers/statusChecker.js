@@ -10,7 +10,7 @@ var _lodashIsEqual = require('lodash/isEqual');
 
 var _lodashIsEqual2 = _interopRequireDefault(_lodashIsEqual);
 
-var _types = require('../../types');
+var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 
@@ -42,6 +42,12 @@ var isCreateFinish = function isCreateFinish(props, nextProps) {
 };
 
 exports.isCreateFinish = isCreateFinish;
+var isDeleteStart = function isDeleteStart(props) {
+  var now = props.queryStatus;
+  var isStart = now === DELETE_START;
+  return isStart;
+};
+exports.isDeleteStart = isDeleteStart;
 var isDeleteFinish = function isDeleteFinish(props, nextProps) {
   var now = props.queryStatus;
   var next = nextProps.queryStatus;

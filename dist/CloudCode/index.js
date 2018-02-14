@@ -22,10 +22,6 @@ var _redux = require('redux');
 
 var _reactRedux = require('react-redux');
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _lodashIsEqual = require('lodash/isEqual');
 
 var _lodashIsEqual2 = _interopRequireDefault(_lodashIsEqual);
@@ -38,9 +34,9 @@ var _types2 = _interopRequireDefault(_types);
 
 var _selectors = require('./selectors');
 
-var _methodsStatusChecker = require('./methods/statusChecker');
+var _helpersStatusChecker = require('../helpers/statusChecker');
 
-var _propsTypesDocument = require('./props-types/document');
+var _propTypes = require('./prop-types');
 
 var LOADING = _types2['default'].LOADING;
 
@@ -76,7 +72,7 @@ var FetchCloudCode = (function (_React$PureComponent) {
         this.getData(nextProps);
       }
 
-      if ((0, _methodsStatusChecker.isGetFinish)(nextProps)) {
+      if ((0, _helpersStatusChecker.isGetFinish)(nextProps)) {
         this.props.onGetFinish({
           queryStatus: nextProps.queryStatus,
           data: nextProps.data
@@ -167,7 +163,7 @@ function mapDispatchToProps(dispatch) {
 }
 exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FetchCloudCode);
 
-FetchCloudCode.propTypes = _propsTypesDocument.propTypes;
+FetchCloudCode.propTypes = _propTypes.propTypes;
 
-FetchCloudCode.defaultProps = _propsTypesDocument.defaultProps;
+FetchCloudCode.defaultProps = _propTypes.defaultProps;
 module.exports = exports['default'];

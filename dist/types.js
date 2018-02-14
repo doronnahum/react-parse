@@ -20,7 +20,7 @@ exports['default'] = {
   UPDATE_FAILED: 'UPDATE_FAILED',
   UPDATE_FAILED_NETWORK: 'UPDATE_FAILED_NETWORK',
   UPDATE_FINISHED: 'UPDATE_FINISHED',
-  //OLD
+  // OLD
   // DATA
   LOG_OUT: '_LOG_OUT',
   data: '_data',

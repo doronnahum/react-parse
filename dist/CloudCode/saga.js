@@ -15,19 +15,19 @@ var _lodashIsArray = require('lodash/isArray');
 
 var _lodashIsArray2 = _interopRequireDefault(_lodashIsArray);
 
-var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
+var _serverApiSagaWrapper = require('../server/apiSagaWrapper');
 
-var _types = require('../../types');
+var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var _serverApi = require('../../server/api');
+var _serverApi = require('../server/api');
 
 var _serverApi2 = _interopRequireDefault(_serverApi);
 
-var _helpers = require('../../helpers');
+var _helpers = require('../helpers');
 
-var _actionsCloudCodes = require('../actions/cloudCodes');
+var _actions = require('./actions');
 
 var START = _types2['default'].GET_START;
 var FAILED = _types2['default'].GET_FAILED;
@@ -43,7 +43,7 @@ function getCloudCode(action) {
         params = action.params;
         targetName = action.targetName || functionName;
         context$1$0.next = 5;
-        return (0, _reduxSagaEffects.put)((0, _actionsCloudCodes.setCloudCodeRequestStatus)(targetName, START));
+        return (0, _reduxSagaEffects.put)((0, _actions.setCloudCodeRequestStatus)(targetName, START));
 
       case 5:
         context$1$0.next = 7;
@@ -59,7 +59,7 @@ function getCloudCode(action) {
 
         errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
         context$1$0.next = 12;
-        return (0, _reduxSagaEffects.put)((0, _actionsCloudCodes.setCloudCodeRequestStatus)(targetName, errType));
+        return (0, _reduxSagaEffects.put)((0, _actions.setCloudCodeRequestStatus)(targetName, errType));
 
       case 12:
         console.error('getCloudFunction err: ', functionName, res.error);

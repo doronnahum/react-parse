@@ -13,25 +13,24 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var _reduxSagaEffects = require('redux-saga/effects');
 
-var _serverApiSagaWrapper = require('../../../server/apiSagaWrapper');
+var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
 
-var _types = require('../../../types');
+var _types = require('../../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var _serverApi = require('../../../server/api');
+var _serverApi = require('../../server/api');
 
 var _serverApi2 = _interopRequireDefault(_serverApi);
 
-var _actionsDocuments = require('../../actions/documents');
+var _actions = require('../actions');
 
-var _selectorsDocuments = require('../../selectors/documents');
+var _selectors = require('../selectors');
 
-var _types$statues = _types2['default'].statues;
-var UPDATE_START = _types$statues.UPDATE_START;
-var UPDATE_FAILED = _types$statues.UPDATE_FAILED;
-var UPDATE_FAILED_NETWORK = _types$statues.UPDATE_FAILED_NETWORK;
-var UPDATE_FINISHED = _types$statues.UPDATE_FINISHED;
+var UPDATE_START = _types2['default'].UPDATE_START;
+var UPDATE_FAILED = _types2['default'].UPDATE_FAILED;
+var UPDATE_FAILED_NETWORK = _types2['default'].UPDATE_FAILED_NETWORK;
+var UPDATE_FINISHED = _types2['default'].UPDATE_FINISHED;
 
 var START = UPDATE_START;
 var FAILED = UPDATE_FAILED;
@@ -57,13 +56,13 @@ function updateDocumentOnServerWorker(action) {
 
       case 6:
         context$1$0.next = 8;
-        return (0, _reduxSagaEffects.put)((0, _actionsDocuments.setDocumentStatus)(objectId, START));
+        return (0, _reduxSagaEffects.put)((0, _actions.setDocumentStatus)(objectId, START));
 
       case 8:
         objectToUpdate = null;
         context$1$0.next = 11;
         return (0, _reduxSagaEffects.select)(function (state) {
-          return (0, _selectorsDocuments.getImmutableDocumentData)(state, objectId);
+          return (0, _selectors.getImmutableDocumentData)(state, objectId);
         });
 
       case 11:
@@ -104,7 +103,7 @@ function updateDocumentOnServerWorker(action) {
 
         errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
         context$1$0.next = 24;
-        return (0, _reduxSagaEffects.put)((0, _actionsDocuments.setDocumentStatus)(objectId, errType));
+        return (0, _reduxSagaEffects.put)((0, _actions.setDocumentStatus)(objectId, errType));
 
       case 24:
         context$1$0.next = 28;
@@ -112,7 +111,7 @@ function updateDocumentOnServerWorker(action) {
 
       case 26:
         context$1$0.next = 28;
-        return (0, _reduxSagaEffects.put)((0, _actionsDocuments.setDocumentStatus)(objectId, FINISHED));
+        return (0, _reduxSagaEffects.put)((0, _actions.setDocumentStatus)(objectId, FINISHED));
 
       case 28:
       case 'end':

@@ -1,42 +1,45 @@
 import { select, put } from 'redux-saga/effects';
-import { httpRequest } from '../../../server/apiSagaWrapper';
-import types from '../../../types';
-import api from '../../../server/api';
-import { setDocumentStatus } from '../../actions/documents';
-import { getImmutableDocumentData } from '../../selectors/documents';
+import { httpRequest } from '../../server/apiSagaWrapper';
+import types from '../../types';
+import api from '../../server/api';
+import { setDocumentStatus } from '../actions';
+import { getImmutableDocumentData } from '../selectors';
 const {
   UPDATE_START,
   UPDATE_FAILED,
   UPDATE_FAILED_NETWORK,
   UPDATE_FINISHED,
-} = types.statues
+} = types;
 const START = UPDATE_START;
 const FAILED = UPDATE_FAILED;
 const FAILED_NETWORK = UPDATE_FAILED_NETWORK;
 const FINISHED = UPDATE_FINISHED;
 
-export default function* updateDocumentOnServerWorker(action) {
+export default function*updateDocumentOnServerWorker(action) {
   const { className, objectId, keys, parseDataBeforeSave } = action;
-  if (!objectId) return
+  if (!objectId) {
+    return
+  }
+
   yield put(setDocumentStatus(objectId, START));
   let objectToUpdate = null;
-    const imputableData = yield select(state =>
-      getImmutableDocumentData(state, objectId),
+  const imputableData = yield select(state =>
+    getImmutableDocumentData(state, objectId),
+  );
+  if (!imputableData) {return;}
+  // remove readonly keys
+  objectToUpdate = imputableData.filter(
+    (key, i) =>
+      ['createdAt', 'updatedAt', 'objectId', 'ACL'].indexOf(i) === -1,
+  );
+  // if action contain keys then update only this keys
+  if (keys && keys.length > 0) {
+    objectToUpdate = objectToUpdate.filter(
+      (key, i) => [...keys].indexOf(i) !== -1,
     );
-    if (!imputableData) return;
-    // remove readonly keys
-    objectToUpdate = imputableData.filter(
-      (key, i) =>
-        ['createdAt', 'updatedAt', 'objectId', 'ACL'].indexOf(i) === -1,
-    );
-    // if action contain keys then update only this keys
-    if (keys && keys.length > 0) {
-      objectToUpdate = objectToUpdate.filter(
-        (key, i) => [...keys].indexOf(i) !== -1,
-      );
-    }
-    // create new instance and convert to javascript
-    objectToUpdate = Object.assign({}, objectToUpdate.toJS());
+  }
+  // create new instance and convert to javascript
+  objectToUpdate = Object.assign({}, objectToUpdate.toJS());
   if (parseDataBeforeSave) {
     objectToUpdate = parseDataBeforeSave(objectToUpdate);
   }

@@ -1,38 +1,41 @@
 import { select, put } from 'redux-saga/effects';
-import { httpRequest } from '../../../server/apiSagaWrapper';
-import types from '../../../types';
-import api from '../../../server/api';
-import { dig } from '../../../helpers';
-import { setNewDocumentStatus } from '../../actions/localDocuments';
-import { getImmutableNewDocumentData } from '../../selectors/documents';
+import { httpRequest } from '../../server/apiSagaWrapper';
+import types from '../../types';
+import api from '../../server/api';
+import { dig } from '../../helpers';
+import { setNewDocumentStatus } from '../actions';
+import { getImmutableNewDocumentData } from '../selectors';
 const {
   CREATE_START,
   CREATE_FAILED,
   CREATE_FAILED_NETWORK,
   CREATE_FINISHED,
-} = types.statues
+} = types;
 const START = CREATE_START;
 const FAILED = CREATE_FAILED;
 const FAILED_NETWORK = CREATE_FAILED_NETWORK;
 const FINISHED = CREATE_FINISHED;
 
-export default function* postNewDocument(action) {
+export default function * postNewDocument(action) {
   const { className, uniqueId, parseDataBeforeSave, refreshDataAfterSave} = action;
-  if (!uniqueId) return
+  if (!uniqueId) {
+    return
+  }
+
   yield put(setNewDocumentStatus(uniqueId, START));
   let documentData;
   let objectToUpdate = null;
-    const imputableData = yield select(state =>
-      getImmutableNewDocumentData(state, uniqueId),
-    );
-    if (!imputableData) return;
-    // remove readonly keys
-    objectToUpdate = imputableData.filter(
-      (key, i) =>
-        ['createdAt', 'updatedAt', 'objectId', 'ACL'].indexOf(i) === -1,
-    );
-    // convert to javascript
-    objectToUpdate = objectToUpdate.toJS();
+  const imputableData = yield select(state =>
+    getImmutableNewDocumentData(state, uniqueId),
+  );
+  if (!imputableData) {return;}
+  // remove readonly keys
+  objectToUpdate = imputableData.filter(
+    (key, i) =>
+      ['createdAt', 'updatedAt', 'objectId', 'ACL'].indexOf(i) === -1,
+  );
+  // convert to javascript
+  objectToUpdate = objectToUpdate.toJS();
   if (parseDataBeforeSave) {
     objectToUpdate = parseDataBeforeSave(objectToUpdate);
   }

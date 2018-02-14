@@ -83,7 +83,9 @@ var Api = {
   getAppId: function getAppId() {
     console.log(initConfig);
 
-    if (!initConfig) return '';
+    if (!initConfig) {
+      return '';
+    }
     return initConfig.appId;
   },
   // query
