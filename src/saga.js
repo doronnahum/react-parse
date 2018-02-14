@@ -1,3 +1,5 @@
+const regeneratorRuntime = require("regenerator-runtime");
+
 import {takeEvery} from 'redux-saga/effects';
 import types from './types';
 // Collections
@@ -17,7 +19,7 @@ import {
 import getCloudCode from './CloudCode/saga';
 
 // all market watchers
-function* parseWatcher() {
+const watcher = function* () {
   // Collections
   yield takeEvery(types.GET_COLLECTION, getCollection);
   yield takeEvery(
@@ -37,4 +39,4 @@ function* parseWatcher() {
   yield takeEvery(types.GET_CLOUD_CODE, getCloudCode);
 }
 
-export default parseWatcher;
+export const parseWatcher = watcher;

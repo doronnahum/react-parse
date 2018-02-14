@@ -6,8 +6,6 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var marked0$0 = [parseWatcher].map(regeneratorRuntime.mark);
-
 var _reduxSagaEffects = require('redux-saga/effects');
 
 var _types = require('./types');
@@ -29,8 +27,10 @@ var _CloudCodeSaga = require('./CloudCode/saga');
 var _CloudCodeSaga2 = _interopRequireDefault(_CloudCodeSaga);
 
 // all market watchers
-function parseWatcher() {
-  return regeneratorRuntime.wrap(function parseWatcher$(context$1$0) {
+var regeneratorRuntime = require("regenerator-runtime");
+
+var watcher = regeneratorRuntime.mark(function watcher() {
+  return regeneratorRuntime.wrap(function watcher$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
         context$1$0.next = 2;
@@ -68,11 +68,11 @@ function parseWatcher() {
       case 'end':
         return context$1$0.stop();
     }
-  }, marked0$0[0], this);
-}
+  }, watcher, this);
+});
 
-exports['default'] = parseWatcher;
-module.exports = exports['default'];
+var parseWatcher = watcher;
+exports.parseWatcher = parseWatcher;
 
 // Collections
 
