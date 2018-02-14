@@ -20,7 +20,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _helpers = require('./helpers');
+var _helpers = require('../helpers');
 
 var _BaseFetchDocument = require('./BaseFetchDocument');
 
