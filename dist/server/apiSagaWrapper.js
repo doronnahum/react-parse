@@ -17,6 +17,8 @@ var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 
+var regeneratorRuntime = require("regenerator-runtime");
+
 function httpRequest() {
   var res,
       args$1$0 = arguments;

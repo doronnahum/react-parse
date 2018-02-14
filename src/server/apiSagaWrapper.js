@@ -1,3 +1,4 @@
+const regeneratorRuntime = require("regenerator-runtime");
 import { call, put } from 'redux-saga/effects';
 import { dig } from '../helpers';
 import types from '../types';
