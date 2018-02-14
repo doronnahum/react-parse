@@ -1,6 +1,6 @@
 import React from 'react';
 import { createUniqueId } from '../helpers';
-import BaseFetchDocument from './BaseFetchDocument';
+import BaseDocument from './BaseDocument';
 
 export default class FetchDocumentWithUniqueId extends React.PureComponent {
   constructor(props) {
@@ -8,6 +8,6 @@ export default class FetchDocumentWithUniqueId extends React.PureComponent {
     this.uniqueId = this.props.uniqueId || createUniqueId();
   }
   render() {
-    return <BaseFetchDocument {...this.props} uniqueId={this.uniqueId} />;
+    return <BaseDocument {...this.props} uniqueId={this.uniqueId} />;
   }
 }

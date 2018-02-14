@@ -22,9 +22,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _helpers = require('../helpers');
 
-var _BaseFetchDocument = require('./BaseFetchDocument');
+var _BaseDocument = require('./BaseDocument');
 
-var _BaseFetchDocument2 = _interopRequireDefault(_BaseFetchDocument);
+var _BaseDocument2 = _interopRequireDefault(_BaseDocument);
 
 var FetchDocumentWithUniqueId = (function (_React$PureComponent) {
   _inherits(FetchDocumentWithUniqueId, _React$PureComponent);
@@ -39,7 +39,7 @@ var FetchDocumentWithUniqueId = (function (_React$PureComponent) {
   _createClass(FetchDocumentWithUniqueId, [{
     key: 'render',
     value: function render() {
-      return _react2['default'].createElement(_BaseFetchDocument2['default'], _extends({}, this.props, { uniqueId: this.uniqueId }));
+      return _react2['default'].createElement(_BaseDocument2['default'], _extends({}, this.props, { uniqueId: this.uniqueId }));
     }
   }]);
 
