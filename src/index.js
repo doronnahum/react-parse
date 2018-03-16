@@ -1,4 +1,5 @@
 // Common
+import 'babel-polyfill';
 import api from './server/api';
 import httpRequest from './server/apiSagaWrapper';
 import types from './types';

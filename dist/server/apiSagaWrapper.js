@@ -26,10 +26,10 @@
     };
   }
 
-  var http = regeneratorRuntime.mark(function http() {
+  var http = regeneratorRuntime.mark(function _callee() {
     var res,
         _args = arguments;
-    return regeneratorRuntime.wrap(function http$(_context) {
+    return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -63,7 +63,7 @@
             return _context.stop();
         }
       }
-    }, http, this, [[0, 7]]);
+    }, _callee, this, [[0, 7]]);
   });
   var httpRequest = exports.httpRequest = http;
 });

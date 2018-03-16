@@ -1,22 +1,24 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions);
     global.putDoc = mod.exports;
   }
-})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions) {
+})(this, function (exports, _regeneratorRuntime, _effects, _apiSagaWrapper, _types, _api, _actions) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = putDoc;
+
+  var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -28,7 +30,7 @@
     };
   }
 
-  var _marked = regeneratorRuntime.mark(putDoc);
+  var _marked = _regeneratorRuntime2.default.mark(putDoc);
 
   var START = _types2.default.PUT_START;
   var FAILED = _types2.default.PUT_FAILED;
@@ -38,7 +40,7 @@
   function putDoc(action) {
     var _action$payload, targetName, schemaName, objectId, data, target, res, errType;
 
-    return regeneratorRuntime.wrap(function putDoc$(_context) {
+    return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:

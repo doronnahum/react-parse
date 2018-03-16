@@ -1,13 +1,13 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', './server/api', './server/apiSagaWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './reducer', './saga', './selectors'], factory);
+    define(['exports', './server/api', './server/apiSagaWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './reducer', './saga', './selectors', 'babel-polyfill'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./server/api'), require('./server/apiSagaWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./reducer'), require('./saga'), require('./selectors'));
+    factory(exports, require('./server/api'), require('./server/apiSagaWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./reducer'), require('./saga'), require('./selectors'), require('babel-polyfill'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.api, global.apiSagaWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.reducer, global.saga, global.selectors);
+    factory(mod.exports, global.api, global.apiSagaWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.reducer, global.saga, global.selectors, global.babelPolyfill);
     global.index = mod.exports;
   }
 })(this, function (exports, _api, _apiSagaWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _reducer, _saga, _selectors) {

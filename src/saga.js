@@ -1,3 +1,4 @@
+import regeneratorRuntime from "regenerator-runtime";
 import { takeEvery } from 'redux-saga/effects';
 import types from './types';
 import * as Collection from './Collection/saga';

@@ -1,22 +1,24 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
     global.fetchCollection = mod.exports;
   }
-})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
+})(this, function (exports, _regeneratorRuntime, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = fetchCollection;
+
+  var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -28,7 +30,7 @@
     };
   }
 
-  var _marked = regeneratorRuntime.mark(fetchCollection);
+  var _marked = _regeneratorRuntime2.default.mark(fetchCollection);
 
   var START = _types2.default.FETCH_START;
   var FAILED = _types2.default.FETCH_FAILED;
@@ -38,7 +40,7 @@
   function fetchCollection(action) {
     var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, target, res, errType, data, info;
 
-    return regeneratorRuntime.wrap(function fetchCollection$(_context) {
+    return _regeneratorRuntime2.default.wrap(function fetchCollection$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:

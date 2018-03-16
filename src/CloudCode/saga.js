@@ -1,3 +1,4 @@
+import regeneratorRuntime from "regenerator-runtime";
 import { put } from 'redux-saga/effects';
 import { httpRequest } from '../server/apiSagaWrapper';
 import types from '../types';

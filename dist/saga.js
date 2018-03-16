@@ -1,22 +1,24 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', './types', './Collection/saga', './Document/saga', './CloudCode/saga'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', './types', './Collection/saga', './Document/saga', './CloudCode/saga'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('./types'), require('./Collection/saga'), require('./Document/saga'), require('./CloudCode/saga'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('./types'), require('./Collection/saga'), require('./Document/saga'), require('./CloudCode/saga'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.effects, global.types, global.saga, global.saga, global.saga);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.types, global.saga, global.saga, global.saga);
     global.saga = mod.exports;
   }
-})(this, function (exports, _effects, _types, _saga, _saga2, _saga3) {
+})(this, function (exports, _regeneratorRuntime, _effects, _types, _saga, _saga2, _saga3) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = parseWatcher;
+
+  var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -49,7 +51,7 @@
     };
   }
 
-  var _marked = regeneratorRuntime.mark(parseWatcher);
+  var _marked = _regeneratorRuntime2.default.mark(parseWatcher);
 
   var FETCH_CLOUD_CODE = _types2.default.FETCH_CLOUD_CODE,
       FETCH_COLLECTION = _types2.default.FETCH_COLLECTION,
@@ -65,7 +67,7 @@
 
   // all market watchers
   function parseWatcher() {
-    return regeneratorRuntime.wrap(function parseWatcher$(_context) {
+    return _regeneratorRuntime2.default.wrap(function parseWatcher$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:

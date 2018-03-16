@@ -1,22 +1,24 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions);
     global.postDoc = mod.exports;
   }
-})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions) {
+})(this, function (exports, _regeneratorRuntime, _effects, _apiSagaWrapper, _types, _api, _actions) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = postDoc;
+
+  var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -28,7 +30,7 @@
     };
   }
 
-  var _marked = regeneratorRuntime.mark(postDoc);
+  var _marked = _regeneratorRuntime2.default.mark(postDoc);
 
   var START = _types2.default.POST_START;
   var FAILED = _types2.default.POST_FAILED;
@@ -38,7 +40,7 @@
   function postDoc(action) {
     var _action$payload, schemaName, data, targetName, target, res, errType;
 
-    return regeneratorRuntime.wrap(function postDoc$(_context) {
+    return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:

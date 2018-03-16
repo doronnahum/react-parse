@@ -1,22 +1,24 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
     global.putDoc = mod.exports;
   }
-})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
+})(this, function (exports, _regeneratorRuntime, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = putDoc;
+
+  var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -28,7 +30,7 @@
     };
   }
 
-  var _marked = regeneratorRuntime.mark(putDoc);
+  var _marked = _regeneratorRuntime2.default.mark(putDoc);
 
   var START = _types2.default.POST_START;
   var FAILED = _types2.default.POST_FAILED;
@@ -38,7 +40,7 @@
   function putDoc(action) {
     var _action$payload, targetName, schemaName, data, objectId, target, res, errType, info;
 
-    return regeneratorRuntime.wrap(function putDoc$(_context) {
+    return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
