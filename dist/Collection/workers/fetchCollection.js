@@ -1,106 +1,102 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
+    global.fetchCollection = mod.exports;
+  }
+})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = fetchCollection;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = fetchCollection;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _types2 = _interopRequireDefault(_types);
 
-var marked0$0 = [fetchCollection].map(regeneratorRuntime.mark);
+  var _api2 = _interopRequireDefault(_api);
 
-var _reduxSagaEffects = require('redux-saga/effects');
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
-var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
+  var _marked = regeneratorRuntime.mark(fetchCollection);
 
-var _types = require('../../types');
+  var START = _types2.default.FETCH_START;
+  var FAILED = _types2.default.FETCH_FAILED;
+  var FAILED_NETWORK = _types2.default.FETCH_FAILED_NETWORK;
+  var FINISHED = _types2.default.FETCH_FINISHED;
 
-var _types2 = _interopRequireDefault(_types);
+  function fetchCollection(action) {
+    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, target, res, errType, data, info;
 
-var _serverApi = require('../../server/api');
+    return regeneratorRuntime.wrap(function fetchCollection$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit;
+            target = targetName || schemaName;
+            _context.next = 4;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
-var _serverApi2 = _interopRequireDefault(_serverApi);
+          case 4:
+            return _context.delegateYield((0, _apiSagaWrapper.httpRequest)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 5);
 
-var _actions = require('../actions');
+          case 5:
+            res = _context.t0;
 
-var _helpers = require('../../helpers');
+            if (!res.error) {
+              _context.next = 13;
+              break;
+            }
 
-var START = _types2['default'].FETCH_START;
-var FAILED = _types2['default'].FETCH_FAILED;
-var FAILED_NETWORK = _types2['default'].FETCH_FAILED_NETWORK;
-var FINISHED = _types2['default'].FETCH_FINISHED;
+            errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
+            _context.next = 10;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-function fetchCollection(action) {
-  var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, target, res, errType, data, info;
+          case 10:
+            console.error('fetchCollection err: ', schemaName, res.error);
+            _context.next = 17;
+            break;
 
-  return regeneratorRuntime.wrap(function fetchCollection$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _action$payload = action.payload;
-        targetName = _action$payload.targetName;
-        schemaName = _action$payload.schemaName;
-        query = _action$payload.query;
-        skip = _action$payload.skip;
-        page = _action$payload.page;
-        enableCount = _action$payload.enableCount;
-        keys = _action$payload.keys;
-        include = _action$payload.include;
-        order = _action$payload.order;
-        limit = _action$payload.limit;
-        target = targetName || schemaName;
-        context$1$0.next = 14;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+          case 13:
+            data = (0, _helpers.dig)(res, 'data.results');
+            info = {
+              schemaName: schemaName,
+              query: query,
+              skip: skip,
+              page: page,
+              enableCount: enableCount,
+              keys: keys,
+              include: include,
+              order: order,
+              limit: limit,
+              count: res.data.count,
+              timestamp: Date.now()
+            };
+            _context.next = 17;
+            return (0, _effects.put)((0, _actions.setOnStore)({
+              targetName: target,
+              status: FINISHED,
+              error: null,
+              data: data,
+              info: info
+            }));
 
-      case 14:
-        return context$1$0.delegateYield((0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 15);
-
-      case 15:
-        res = context$1$0.t0;
-
-        if (!res.error) {
-          context$1$0.next = 23;
-          break;
+          case 17:
+          case 'end':
+            return _context.stop();
         }
-
-        errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-        context$1$0.next = 20;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
-
-      case 20:
-        console.error('fetchCollection err: ', schemaName, res.error);
-        context$1$0.next = 27;
-        break;
-
-      case 23:
-        data = (0, _helpers.dig)(res, 'data.results');
-        info = {
-          schemaName: schemaName,
-          query: query,
-          skip: skip,
-          page: page,
-          enableCount: enableCount,
-          keys: keys,
-          include: include,
-          order: order,
-          limit: limit,
-          count: res.data.count,
-          timestamp: Date.now()
-        };
-        context$1$0.next = 27;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({
-          targetName: target,
-          status: FINISHED,
-          error: null,
-          data: data,
-          info: info
-        }));
-
-      case 27:
-      case 'end':
-        return context$1$0.stop();
-    }
-  }, marked0$0[0], this);
-}
-
-// worker
-module.exports = exports['default'];
+      }
+    }, _marked, this);
+  }
+  // worker
+});

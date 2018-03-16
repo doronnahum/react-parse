@@ -1,90 +1,92 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'redux-saga/effects', '../server/apiSagaWrapper', '../types', '../server/api', '../helpers', './actions'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('redux-saga/effects'), require('../server/apiSagaWrapper'), require('../types'), require('../server/api'), require('../helpers'), require('./actions'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.helpers, global.actions);
+    global.saga = mod.exports;
+  }
+})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _helpers, _actions) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = fetchCloudCode;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = fetchCloudCode;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _types2 = _interopRequireDefault(_types);
 
-var marked0$0 = [fetchCloudCode].map(regeneratorRuntime.mark);
+  var _api2 = _interopRequireDefault(_api);
 
-var _reduxSagaEffects = require('redux-saga/effects');
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
-var _serverApiSagaWrapper = require('../server/apiSagaWrapper');
+  var _marked = regeneratorRuntime.mark(fetchCloudCode);
 
-var _types = require('../types');
+  var START = _types2.default.FETCH_START;
+  var FAILED = _types2.default.FETCH_FAILED;
+  var FAILED_NETWORK = _types2.default.FETCH_FAILED_NETWORK;
+  var FINISHED = _types2.default.FETCH_FINISHED;
 
-var _types2 = _interopRequireDefault(_types);
+  function fetchCloudCode(action) {
+    var _action$payload, functionName, targetName, params, digToData, target, res, errType, data;
 
-var _serverApi = require('../server/api');
+    return regeneratorRuntime.wrap(function fetchCloudCode$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _action$payload = action.payload, functionName = _action$payload.functionName, targetName = _action$payload.targetName, params = _action$payload.params, digToData = _action$payload.digToData;
+            target = targetName || functionName;
+            _context.next = 4;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
-var _serverApi2 = _interopRequireDefault(_serverApi);
+          case 4:
+            _context.next = 6;
+            return (0, _apiSagaWrapper.httpRequest)(_api2.default.getCloudFunction, functionName, params);
 
-var _helpers = require('../helpers');
+          case 6:
+            res = _context.sent;
 
-var _actions = require('./actions');
+            if (!(res.error || (0, _helpers.dig)(res, 'response.data.error'))) {
+              _context.next = 14;
+              break;
+            }
 
-var START = _types2['default'].FETCH_START;
-var FAILED = _types2['default'].FETCH_FAILED;
-var FAILED_NETWORK = _types2['default'].FETCH_FAILED_NETWORK;
-var FINISHED = _types2['default'].FETCH_FINISHED;
+            errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
+            _context.next = 11;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-function fetchCloudCode(action) {
-  var _action$payload, functionName, targetName, params, digToData, target, res, errType, data;
+          case 11:
+            console.error('getCloudFunction err: ', functionName, res.error);
+            _context.next = 17;
+            break;
 
-  return regeneratorRuntime.wrap(function fetchCloudCode$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _action$payload = action.payload;
-        functionName = _action$payload.functionName;
-        targetName = _action$payload.targetName;
-        params = _action$payload.params;
-        digToData = _action$payload.digToData;
-        target = targetName || functionName;
-        context$1$0.next = 8;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+          case 14:
+            data = (0, _helpers.dig)(res, digToData);
+            _context.next = 17;
+            return (0, _effects.put)((0, _actions.setOnStore)({
+              targetName: target,
+              status: FINISHED,
+              error: null,
+              data: data,
+              info: {
+                params: params,
+                timestamp: Date.now()
+              }
+            }));
 
-      case 8:
-        context$1$0.next = 10;
-        return (0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].getCloudFunction, functionName, params);
-
-      case 10:
-        res = context$1$0.sent;
-
-        if (!(res.error || (0, _helpers.dig)(res, 'response.data.error'))) {
-          context$1$0.next = 18;
-          break;
+          case 17:
+          case 'end':
+            return _context.stop();
         }
-
-        errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-        context$1$0.next = 15;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
-
-      case 15:
-        console.error('getCloudFunction err: ', functionName, res.error);
-        context$1$0.next = 21;
-        break;
-
-      case 18:
-        data = (0, _helpers.dig)(res, digToData);
-        context$1$0.next = 21;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({
-          targetName: target,
-          status: FINISHED,
-          error: null,
-          data: data,
-          info: {
-            params: params,
-            timestamp: Date.now()
-          }
-        }));
-
-      case 21:
-      case 'end':
-        return context$1$0.stop();
-    }
-  }, marked0$0[0], this);
-}
-
-module.exports = exports['default'];
+      }
+    }, _marked, this);
+  }
+});

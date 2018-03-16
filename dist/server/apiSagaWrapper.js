@@ -1,59 +1,69 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'redux-saga/effects', '../helpers', '../types', "regenerator-runtime"], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('redux-saga/effects'), require('../helpers'), require('../types'), require("regenerator-runtime"));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.effects, global.helpers, global.types, global.regeneratorRuntime);
+    global.apiSagaWrapper = mod.exports;
+  }
+})(this, function (exports, _effects, _helpers, _types, regeneratorRuntime) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.httpRequest = undefined;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _types2 = _interopRequireDefault(_types);
 
-var _reduxSagaEffects = require('redux-saga/effects');
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
-var _helpers = require('../helpers');
+  var http = regeneratorRuntime.mark(function http() {
+    var res,
+        _args = arguments;
+    return regeneratorRuntime.wrap(function http$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return _effects.call.apply(undefined, _args);
 
-var _types = require('../types');
+          case 3:
+            res = _context.sent;
+            return _context.abrupt('return', res);
 
-var _types2 = _interopRequireDefault(_types);
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context['catch'](0);
 
-var regeneratorRuntime = require("regenerator-runtime");
+            _context.t0.error = true;
 
-var http = regeneratorRuntime.mark(function http() {
-  var res,
-      args$1$0 = arguments;
-  return regeneratorRuntime.wrap(function http$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        context$1$0.prev = 0;
-        context$1$0.next = 3;
-        return _reduxSagaEffects.call.apply(undefined, args$1$0);
+            if (!((0, _helpers.dig)(_context.t0, 'response.data.code') === 209)) {
+              _context.next = 13;
+              break;
+            }
 
-      case 3:
-        res = context$1$0.sent;
-        return context$1$0.abrupt('return', res);
+            _context.next = 13;
+            return (0, _effects.put)({ type: _types2.default.INVALID_SESSION_TOKEN });
 
-      case 7:
-        context$1$0.prev = 7;
-        context$1$0.t0 = context$1$0['catch'](0);
+          case 13:
+            return _context.abrupt('return', _context.t0);
 
-        context$1$0.t0.error = true;
-
-        if (!((0, _helpers.dig)(context$1$0.t0, 'response.data.code') === 209)) {
-          context$1$0.next = 13;
-          break;
+          case 14:
+          case 'end':
+            return _context.stop();
         }
-
-        context$1$0.next = 13;
-        return (0, _reduxSagaEffects.put)({ type: _types2['default'].INVALID_SESSION_TOKEN });
-
-      case 13:
-        return context$1$0.abrupt('return', context$1$0.t0);
-
-      case 14:
-      case 'end':
-        return context$1$0.stop();
-    }
-  }, http, this, [[0, 7]]);
+      }
+    }, http, this, [[0, 7]]);
+  });
+  var httpRequest = exports.httpRequest = http;
 });
-var httpRequest = http;
-exports.httpRequest = httpRequest;
-
-// invalid session token

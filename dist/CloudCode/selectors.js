@@ -1,41 +1,48 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'reselect', 'immutable'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('reselect'), require('immutable'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.reselect, global.immutable);
+    global.selectors = mod.exports;
+  }
+})(this, function (exports, _reselect, _immutable) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.getError = exports.getInfo = exports.getStatus = exports.getData = exports.getCloudCodes = undefined;
 
-var _reselect = require('reselect');
 
-var _immutable = require('immutable');
+  var MAP = (0, _immutable.Map)();
 
-var MAP = (0, _immutable.Map)();
+  var getTargetName = function getTargetName(state, targetName) {
+    return targetName;
+  };
 
-var getTargetName = function getTargetName(state, targetName) {
-  return targetName;
-};
-
-// --- Cloud codes ---/
-var getCloudCodes = function getCloudCodes(state, targetName) {
-  return state.parse.cloudCodes;
-};
-exports.getCloudCodes = getCloudCodes;
-// -- Get specific collections
-var getImmutableCloudCodes = (0, _reselect.createSelector)([getCloudCodes, getTargetName], function (cloudCodes, targetName) {
-  return cloudCodes.get(targetName) || MAP;
+  // --- Cloud codes ---/
+  var getCloudCodes = exports.getCloudCodes = function getCloudCodes(state, targetName) {
+    return state.parse.cloudCodes;
+  };
+  // -- Get specific collections
+  var getImmutableCloudCodes = (0, _reselect.createSelector)([getCloudCodes, getTargetName], function (cloudCodes, targetName) {
+    return cloudCodes.get(targetName) || MAP;
+  });
+  var getData = exports.getData = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
+    return dataImmutable.get('data') && dataImmutable.get('data');
+  });
+  var getStatus = exports.getStatus = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
+    return dataImmutable.get('status');
+  });
+  var getInfo = exports.getInfo = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
+    return dataImmutable.get('info');
+  });
+  var getError = exports.getError = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
+    return dataImmutable.get('error');
+  });
 });
-var getData = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
-  return dataImmutable.get('data') && dataImmutable.get('data');
-});
-exports.getData = getData;
-var getStatus = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
-  return dataImmutable.get('status');
-});
-exports.getStatus = getStatus;
-var getInfo = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
-  return dataImmutable.get('info');
-});
-exports.getInfo = getInfo;
-var getError = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
-  return dataImmutable.get('error');
-});
-exports.getError = getError;

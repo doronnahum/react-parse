@@ -1,93 +1,95 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
+    global.putDoc = mod.exports;
+  }
+})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = putDoc;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = putDoc;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _types2 = _interopRequireDefault(_types);
 
-var marked0$0 = [putDoc].map(regeneratorRuntime.mark);
+  var _api2 = _interopRequireDefault(_api);
 
-var _reduxSagaEffects = require('redux-saga/effects');
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
-var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
+  var _marked = regeneratorRuntime.mark(putDoc);
 
-var _types = require('../../types');
+  var START = _types2.default.POST_START;
+  var FAILED = _types2.default.POST_FAILED;
+  var FAILED_NETWORK = _types2.default.POST_FAILED_NETWORK;
+  var FINISHED = _types2.default.POST_FINISHED;
 
-var _types2 = _interopRequireDefault(_types);
+  function putDoc(action) {
+    var _action$payload, targetName, schemaName, data, objectId, target, res, errType, info;
 
-var _serverApi = require('../../server/api');
+    return regeneratorRuntime.wrap(function putDoc$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, objectId = _action$payload.objectId;
+            target = targetName || objectId;
+            _context.next = 4;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
-var _serverApi2 = _interopRequireDefault(_serverApi);
+          case 4:
+            return _context.delegateYield((0, _apiSagaWrapper.httpRequest)(_api2.default.updateObject, schemaName, objectId, data), 't0', 5);
 
-var _actions = require('../actions');
+          case 5:
+            res = _context.t0;
 
-var _helpers = require('../../helpers');
+            if (!res.error) {
+              _context.next = 13;
+              break;
+            }
 
-var START = _types2['default'].POST_START;
-var FAILED = _types2['default'].POST_FAILED;
-var FAILED_NETWORK = _types2['default'].POST_FAILED_NETWORK;
-var FINISHED = _types2['default'].POST_FINISHED;
+            errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
-function putDoc(action) {
-  var _action$payload, targetName, schemaName, data, objectId, target, res, errType, info;
+            console.error('putDoc err', targetName, res.error);
+            _context.next = 11;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-  return regeneratorRuntime.wrap(function putDoc$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _action$payload = action.payload;
-        targetName = _action$payload.targetName;
-        schemaName = _action$payload.schemaName;
-        data = _action$payload.data;
-        objectId = _action$payload.objectId;
-        target = targetName || objectId;
-        context$1$0.next = 8;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+          case 11:
+            _context.next = 16;
+            break;
 
-      case 8:
-        return context$1$0.delegateYield((0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].updateObject, schemaName, objectId, data), 't0', 9);
+          case 13:
+            info = {
+              timestamp: Date.now(),
+              schemaName: schemaName,
+              objectId: objectId,
+              data: data,
+              resData: (0, _helpers.dig)(res, 'data.results[0]')
+            };
+            _context.next = 16;
+            return (0, _effects.put)((0, _actions.setOnStore)({
+              targetName: target,
+              status: FINISHED,
+              info: info,
+              error: null
+            }));
 
-      case 9:
-        res = context$1$0.t0;
-
-        if (!res.error) {
-          context$1$0.next = 17;
-          break;
+          case 16:
+          case 'end':
+            return _context.stop();
         }
-
-        errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-
-        console.error('putDoc err', targetName, res.error);
-        context$1$0.next = 15;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
-
-      case 15:
-        context$1$0.next = 20;
-        break;
-
-      case 17:
-        info = {
-          timestamp: Date.now(),
-          schemaName: schemaName,
-          objectId: objectId,
-          data: data,
-          resData: (0, _helpers.dig)(res, 'data.results[0]')
-        };
-        context$1$0.next = 20;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({
-          targetName: target,
-          status: FINISHED,
-          info: info,
-          error: null
-        }));
-
-      case 20:
-      case 'end':
-        return context$1$0.stop();
-    }
-  }, marked0$0[0], this);
-}
-
-// worker
-module.exports = exports['default'];
+      }
+    }, _marked, this);
+  }
+  // worker
+});

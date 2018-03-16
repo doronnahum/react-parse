@@ -1,96 +1,99 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions);
+    global.fetchDoc = mod.exports;
+  }
+})(this, function (exports, _effects, _apiSagaWrapper, _types, _api, _actions) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = fetchDoc;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = fetchDoc;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+  var _types2 = _interopRequireDefault(_types);
 
-var marked0$0 = [fetchDoc].map(regeneratorRuntime.mark);
+  var _api2 = _interopRequireDefault(_api);
 
-var _reduxSagaEffects = require('redux-saga/effects');
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
 
-var _serverApiSagaWrapper = require('../../server/apiSagaWrapper');
+  var _marked = regeneratorRuntime.mark(fetchDoc);
 
-var _types = require('../../types');
+  var START = _types2.default.FETCH_START;
+  var FAILED = _types2.default.FETCH_FAILED;
+  var FAILED_NETWORK = _types2.default.FETCH_FAILED_NETWORK;
+  var FINISHED = _types2.default.FETCH_FINISHED;
 
-var _types2 = _interopRequireDefault(_types);
+  function fetchDoc(action) {
+    var _action$payload, targetName, schemaName, objectId, include, keys, target, res, errType, info, data;
 
-var _serverApi = require('../../server/api');
+    return regeneratorRuntime.wrap(function fetchDoc$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys;
+            target = targetName || objectId;
+            _context.next = 4;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
-var _serverApi2 = _interopRequireDefault(_serverApi);
+          case 4:
+            debugger;
+            return _context.delegateYield((0, _apiSagaWrapper.httpRequest)(_api2.default.getObjectById, schemaName, objectId, keys, include), 't0', 6);
 
-var _actions = require('../actions');
+          case 6:
+            res = _context.t0;
 
-var START = _types2['default'].FETCH_START;
-var FAILED = _types2['default'].FETCH_FAILED;
-var FAILED_NETWORK = _types2['default'].FETCH_FAILED_NETWORK;
-var FINISHED = _types2['default'].FETCH_FINISHED;
+            debugger;
 
-function fetchDoc(action) {
-  var _action$payload, targetName, schemaName, objectId, include, keys, target, res, errType, info, data;
+            if (!res.error) {
+              _context.next = 15;
+              break;
+            }
 
-  return regeneratorRuntime.wrap(function fetchDoc$(context$1$0) {
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        _action$payload = action.payload;
-        targetName = _action$payload.targetName;
-        schemaName = _action$payload.schemaName;
-        objectId = _action$payload.objectId;
-        include = _action$payload.include;
-        keys = _action$payload.keys;
-        target = targetName || objectId;
-        context$1$0.next = 9;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+            errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
-      case 9:
-        debugger;
-        return context$1$0.delegateYield((0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].getObjectById, schemaName, objectId, keys, include), 't0', 11);
+            console.error('get document err', objectId, res.error);
+            _context.next = 13;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-      case 11:
-        res = context$1$0.t0;
+          case 13:
+            _context.next = 19;
+            break;
 
-        debugger;
+          case 15:
+            info = {
+              timestamp: Date.now(),
+              keys: keys,
+              include: include,
+              schemaName: schemaName
+            };
+            data = res.data;
+            _context.next = 19;
+            return (0, _effects.put)((0, _actions.setOnStore)({
+              targetName: target,
+              status: FINISHED,
+              data: data,
+              info: info,
+              error: null
+            }));
 
-        if (!res.error) {
-          context$1$0.next = 20;
-          break;
+          case 19:
+          case 'end':
+            return _context.stop();
         }
-
-        errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-
-        console.error('get document err', objectId, res.error);
-        context$1$0.next = 18;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
-
-      case 18:
-        context$1$0.next = 24;
-        break;
-
-      case 20:
-        info = {
-          timestamp: Date.now(),
-          keys: keys,
-          include: include,
-          schemaName: schemaName
-        };
-        data = res.data;
-        context$1$0.next = 24;
-        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({
-          targetName: target,
-          status: FINISHED,
-          data: data,
-          info: info,
-          error: null
-        }));
-
-      case 24:
-      case 'end':
-        return context$1$0.stop();
-    }
-  }, marked0$0[0], this);
-}
-
-// worker
-module.exports = exports['default'];
+      }
+    }, _marked, this);
+  }
+  // worker
+});

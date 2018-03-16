@@ -1,28 +1,39 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['exports', './workers/fetchCollection', './workers/deleteDoc', './workers/putDoc', './workers/postDoc'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(exports, require('./workers/fetchCollection'), require('./workers/deleteDoc'), require('./workers/putDoc'), require('./workers/postDoc'));
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod.exports, global.fetchCollection, global.deleteDoc, global.putDoc, global.postDoc);
+    global.saga = mod.exports;
+  }
+})(this, function (exports, _fetchCollection, _deleteDoc, _putDoc, _postDoc) {
+  'use strict';
 
-Object.defineProperty(exports, '__esModule', {
-  value: true
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.postDoc = exports.putDoc = exports.deleteDoc = exports.fetchCollection = undefined;
+
+  var _fetchCollection2 = _interopRequireDefault(_fetchCollection);
+
+  var _deleteDoc2 = _interopRequireDefault(_deleteDoc);
+
+  var _putDoc2 = _interopRequireDefault(_putDoc);
+
+  var _postDoc2 = _interopRequireDefault(_postDoc);
+
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  exports.fetchCollection = _fetchCollection2.default;
+  exports.deleteDoc = _deleteDoc2.default;
+  exports.putDoc = _putDoc2.default;
+  exports.postDoc = _postDoc2.default;
 });
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _workersFetchCollection = require('./workers/fetchCollection');
-
-var _workersFetchCollection2 = _interopRequireDefault(_workersFetchCollection);
-
-var _workersDeleteDoc = require('./workers/deleteDoc');
-
-var _workersDeleteDoc2 = _interopRequireDefault(_workersDeleteDoc);
-
-var _workersPutDoc = require('./workers/putDoc');
-
-var _workersPutDoc2 = _interopRequireDefault(_workersPutDoc);
-
-var _workersPostDoc = require('./workers/postDoc');
-
-var _workersPostDoc2 = _interopRequireDefault(_workersPostDoc);
-
-exports.fetchCollection = _workersFetchCollection2['default'];
-exports.deleteDoc = _workersDeleteDoc2['default'];
-exports.putDoc = _workersPutDoc2['default'];
-exports.postDoc = _workersPostDoc2['default'];
