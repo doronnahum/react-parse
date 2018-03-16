@@ -1,32 +1,47 @@
 import types from '../types';
 
-// Get data by clodCodeName
-export const getCloudCode = (
-  functionName,
-  targetName,
-  params,
-  digToDataString = 'data.result',
-) => ({
-  type: types.GET_CLOUD_CODE,
-  functionName,
-  targetName,
-  params,
-  digToDataString,
+const {
+  FETCH_CLOUD_CODE,
+  SET_CLOUD_CODE,
+  CLEAN_CLOUD_CODE,
+  CLEAN_ALL_CLOUD_CODE,
+} = types;
+
+/**
+ * fetchData
+ * get data from parse server cloud code by function and find the data
+ * on redux store by targetName
+ * @param {object} payload {functionName, targetName, params, digToData}
+ */
+export const fetchData = payload => ({
+  type: FETCH_CLOUD_CODE,
+  payload,
 });
-export const setCloudCode = (targetName, data) => ({
-  type: types.SET_CLOUD_CODE,
-  targetName,
-  data,
+
+/**
+ * setOnStore
+ * set and update data on store.parse.clodeCodes by targetName
+ * @param {object} payload {targetName, status, data, info, error}
+ */
+export const setOnStore = payload => ({
+  type: SET_CLOUD_CODE,
+  payload,
 });
-export const clearAllCloudCodes = () => ({
-  type: types.CLEAR_ALL_CLOUD_CODES,
+
+/**
+ * cleanData
+ * clean data from store by target name
+ * @param {*} payload {targetName}
+ */
+export const cleanData = payload => ({
+  type: CLEAN_CLOUD_CODE,
+  payload,
 });
-export const setCloudCodeRequestStatus = (targetName, status) => ({
-  type: types.SET_CLOUD_CODE_REQUEST_STATUS,
-  targetName,
-  status,
-});
-export const removeCloudCode = targetName => ({
-  type: types.REMOVE_CLOUD_CODE,
-  targetName,
+
+/**
+ * cleanCloudCode
+ * clean all data inside cloudCode
+ */
+export const cleanCloudCode = () => ({
+  type: CLEAN_ALL_CLOUD_CODE,
 });

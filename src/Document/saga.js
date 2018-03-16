@@ -1,12 +1,6 @@
+import fetchDoc from './workers/fetchDoc';
+import putDoc from './workers/putDoc';
+import deleteDoc from './workers/deleteDoc';
+import postDoc from './workers/postDoc';
 
-import getDocument from './workers/getDocument';
-import updateDocumentOnServer from './workers/updateDocumentOnServer';
-import deleteDocument from './workers/deleteDocument';
-import postNewDocument from './workers/postNewDocument';
-
-export {
-  getDocument,
-  updateDocumentOnServer,
-  deleteDocument,
-  postNewDocument
-}; 
+export { fetchDoc, putDoc, deleteDoc, postDoc };

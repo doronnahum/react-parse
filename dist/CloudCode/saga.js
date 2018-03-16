@@ -3,17 +3,13 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports['default'] = getCloudCode;
+exports['default'] = fetchCloudCode;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var marked0$0 = [getCloudCode].map(regeneratorRuntime.mark);
+var marked0$0 = [fetchCloudCode].map(regeneratorRuntime.mark);
 
 var _reduxSagaEffects = require('redux-saga/effects');
-
-var _lodashIsArray = require('lodash/isArray');
-
-var _lodashIsArray2 = _interopRequireDefault(_lodashIsArray);
 
 var _serverApiSagaWrapper = require('../server/apiSagaWrapper');
 
@@ -29,67 +25,66 @@ var _helpers = require('../helpers');
 
 var _actions = require('./actions');
 
-var regeneratorRuntime = require("regenerator-runtime");
+var START = _types2['default'].FETCH_START;
+var FAILED = _types2['default'].FETCH_FAILED;
+var FAILED_NETWORK = _types2['default'].FETCH_FAILED_NETWORK;
+var FINISHED = _types2['default'].FETCH_FINISHED;
 
-var START = _types2['default'].GET_START;
-var FAILED = _types2['default'].GET_FAILED;
-var FAILED_NETWORK = _types2['default'].GET_FAILED_NETWORK;
-var FINISHED = _types2['default'].GET_FINISHED;
+function fetchCloudCode(action) {
+  var _action$payload, functionName, targetName, params, digToData, target, res, errType, data;
 
-function getCloudCode(action) {
-  var functionName, params, targetName, res, errType, data;
-  return regeneratorRuntime.wrap(function getCloudCode$(context$1$0) {
+  return regeneratorRuntime.wrap(function fetchCloudCode$(context$1$0) {
     while (1) switch (context$1$0.prev = context$1$0.next) {
       case 0:
-        functionName = action.functionName;
-        params = action.params;
-        targetName = action.targetName || functionName;
-        context$1$0.next = 5;
-        return (0, _reduxSagaEffects.put)((0, _actions.setCloudCodeRequestStatus)(targetName, START));
+        _action$payload = action.payload;
+        functionName = _action$payload.functionName;
+        targetName = _action$payload.targetName;
+        params = _action$payload.params;
+        digToData = _action$payload.digToData;
+        target = targetName || functionName;
+        context$1$0.next = 8;
+        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
-      case 5:
-        context$1$0.next = 7;
+      case 8:
+        context$1$0.next = 10;
         return (0, _serverApiSagaWrapper.httpRequest)(_serverApi2['default'].getCloudFunction, functionName, params);
 
-      case 7:
+      case 10:
         res = context$1$0.sent;
 
         if (!(res.error || (0, _helpers.dig)(res, 'response.data.error'))) {
-          context$1$0.next = 15;
+          context$1$0.next = 18;
           break;
         }
 
         errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-        context$1$0.next = 12;
-        return (0, _reduxSagaEffects.put)((0, _actions.setCloudCodeRequestStatus)(targetName, errType));
-
-      case 12:
-        console.error('getCloudFunction err: ', functionName, res.error);
-        context$1$0.next = 18;
-        break;
+        context$1$0.next = 15;
+        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
       case 15:
-        data = (0, _helpers.dig)(res, action.digToDataString);
-        context$1$0.next = 18;
-        return (0, _reduxSagaEffects.put)({
-          type: _types2['default'].SET_CLOUD_CODE_PARAMETERS,
-          targetName: targetName,
+        console.error('getCloudFunction err: ', functionName, res.error);
+        context$1$0.next = 21;
+        break;
+
+      case 18:
+        data = (0, _helpers.dig)(res, digToData);
+        context$1$0.next = 21;
+        return (0, _reduxSagaEffects.put)((0, _actions.setOnStore)({
+          targetName: target,
           status: FINISHED,
-          data: (0, _lodashIsArray2['default'])(data) ? data : [data],
+          error: null,
+          data: data,
           info: {
             params: params,
             timestamp: Date.now()
           }
-        });
+        }));
 
-      case 18:
+      case 21:
       case 'end':
         return context$1$0.stop();
     }
   }, marked0$0[0], this);
 }
 
-// worker
 module.exports = exports['default'];
-// Make the request
-// extricate data from server response

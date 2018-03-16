@@ -1,39 +1,37 @@
-var regeneratorRuntime = require("regenerator-runtime");
-
 import { put } from 'redux-saga/effects';
-import isArray from 'lodash/isArray';
 import { httpRequest } from '../server/apiSagaWrapper';
 import types from '../types';
 import Api from '../server/api';
 import { dig } from '../helpers';
-import { setCloudCodeRequestStatus as setStatus } from './actions';
+import { setOnStore } from './actions';
 
-const START = types.GET_START;
-const FAILED = types.GET_FAILED;
-const FAILED_NETWORK = types.GET_FAILED_NETWORK;
-const FINISHED = types.GET_FINISHED;
+const START = types.FETCH_START;
+const FAILED = types.FETCH_FAILED;
+const FAILED_NETWORK = types.FETCH_FAILED_NETWORK;
+const FINISHED = types.FETCH_FINISHED;
 
-export default function* getCloudCode(action) {
-  const { functionName, params } = action;
-  const targetName = action.targetName || functionName;
-  yield put(setStatus(targetName, START));
-  const res = yield httpRequest(Api.getCloudFunction, functionName, params); // Make the request
+export default function* fetchCloudCode(action) {
+  const { functionName, targetName, params, digToData } = action.payload;
+  const target = targetName || functionName;
+  yield put(setOnStore({ targetName: target, status: START, error: null }));
+  const res = yield httpRequest(Api.getCloudFunction, functionName, params);
   if (res.error || dig(res, 'response.data.error')) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-    yield put(setStatus(targetName, errType));
+    yield put(setOnStore({ targetName: target, status: errType, error: res }));
     console.error('getCloudFunction err: ', functionName, res.error);
   } else {
-    const data = dig(res, action.digToDataString); // extricate data from server response
-    yield put({
-      type: types.SET_CLOUD_CODE_PARAMETERS,
-      targetName,
-      status: FINISHED,
-      data: isArray(data) ? data : [data],
-      info: {
-        params,
-        timestamp: Date.now(),
-      },
-    });
+    const data = dig(res, digToData);
+    yield put(
+      setOnStore({
+        targetName: target,
+        status: FINISHED,
+        error: null,
+        data,
+        info: {
+          params,
+          timestamp: Date.now(),
+        },
+      }),
+    );
   }
 }
-// worker

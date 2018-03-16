@@ -1,42 +1,34 @@
-const regeneratorRuntime = require("regenerator-runtime");
-
-import {takeEvery} from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga/effects';
 import types from './types';
+import * as Collection from './Collection/saga';
+import * as Document from './Document/saga';
+import CloudCode from './CloudCode/saga';
+
+const {
+  FETCH_CLOUD_CODE,
+  FETCH_COLLECTION,
+  DELETE_COLLECTION_DOC,
+  PUT_COLLECTION_DOC,
+  POST_COLLECTION_DOC,
+  FETCH_DOCUMENT,
+  PUT_DOCUMENT,
+  DELETE_DOCUMENT,
+  POST_DOCUMENT,
+} = types;
 // Collections
-import {
-  getCollection,
-  deleteDocumentFromCollection,
-  updateDocumentFromCollection
-} from './Collection/saga';
-// Documents
-import {
-  getDocument,
-  updateDocumentOnServer,
-  deleteDocument,
-  postNewDocument
-} from './Document/saga';
-// Cloud Codes
-import getCloudCode from './CloudCode/saga';
 
 // all market watchers
-const watcher = function* () {
+export default function* parseWatcher() {
   // Collections
-  yield takeEvery(types.GET_COLLECTION, getCollection);
-  yield takeEvery(
-    types.DELETE_DOCUMENT_FROM_COLLECTION,
-    deleteDocumentFromCollection,
-  );
-  yield takeEvery(
-    types.UPDATE_DOCUMENT_FROM_COLLECTION,
-    updateDocumentFromCollection,
-  );
+  yield takeEvery(FETCH_COLLECTION, Collection.fetchCollection);
+  yield takeEvery(DELETE_COLLECTION_DOC, Collection.deleteDoc);
+  yield takeEvery(PUT_COLLECTION_DOC, Collection.putDoc);
+  yield takeEvery(POST_COLLECTION_DOC, Collection.postDoc);
   // Documents
-  yield takeEvery(types.GET_DOCUMENT, getDocument);
-  yield takeEvery(types.UPDATE_DOCUMENT_ON_SERVER, updateDocumentOnServer);
-  yield takeEvery(types.DELETE_DOCUMENT, deleteDocument);
-  yield takeEvery(types.POST_NEW_DOCUMENT, postNewDocument);
+  yield takeEvery(FETCH_DOCUMENT, Document.fetchDoc);
+  yield takeEvery(PUT_DOCUMENT, Document.putDoc);
+  yield takeEvery(DELETE_DOCUMENT, Document.deleteDoc);
+  yield takeEvery(POST_DOCUMENT, Document.postDoc);
   // Cloud code
-  yield takeEvery(types.GET_CLOUD_CODE, getCloudCode);
+  yield takeEvery(FETCH_CLOUD_CODE, CloudCode);
 }
-
-export const parseWatcher = watcher;

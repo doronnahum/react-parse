@@ -1,3 +1,4 @@
+import isEqual from 'lodash/isEqual';
 import consts from '../types';
 
 const {
@@ -9,6 +10,25 @@ const {
   UPDATE_DOCUMENT_FROM_COLLECTION_START,
   ERROR,
   NETWORK_ERROR,
+  FETCH_START,
+  FETCH_FAILED,
+  FETCH_FAILED_NETWORK,
+  FETCH_FINISHED,
+
+  POST_START,
+  POST_FAILED,
+  POST_FAILED_NETWORK,
+  POST_FINISHED,
+
+  DELETE_START,
+  DELETE_FAILED,
+  DELETE_FAILED_NETWORK,
+  DELETE_FINISHED,
+
+  PUT_START,
+  PUT_FAILED,
+  PUT_FAILED_NETWORK,
+  PUT_FINISHED,
 } = consts;
 export const createUniqueId = function createUniqueId() {
   function s4() {
@@ -17,27 +37,6 @@ export const createUniqueId = function createUniqueId() {
       .substring(1);
   }
   return `${s4() + s4()}-${s4()}`;
-};
-export const isDocumentLoading = function isDocumentLoading(queryStatus) {
-  if (!queryStatus) {return false;}
-  if (queryStatus === LOADING) {return true;}
-  if (queryStatus === UPDATE_DOCUMENT_START) {return true;}
-  if (queryStatus === DELETE_DOCUMENT_START) {return true;}
-  if (queryStatus === CREATE_DOCUMENT_START) {return true;}
-  return false;
-};
-export const isCollectionLoading = function isCollectionLoading(queryStatus) {
-  if (!queryStatus) {return false;}
-  if (queryStatus === LOADING) {return true;}
-  if (queryStatus === DELETE_DOCUMENT_FROM_COLLECTION_START) {return true;}
-  if (queryStatus === UPDATE_DOCUMENT_FROM_COLLECTION_START) {return true;}
-  return false;
-};
-export const isCollectionError = function isCollectionError(queryStatus) {
-  if (!queryStatus) {return false;}
-  if (queryStatus === ERROR) {return true;}
-  if (queryStatus === NETWORK_ERROR) {return true;}
-  return false;
 };
 
 /**
@@ -71,3 +70,138 @@ export const GetPointerObject = (className, objectId) => ({
   className,
   objectId,
 });
+
+const isParamsChanged = function isParamsChanged(props, nextProps) {
+  return !isEqual(props.params, nextProps.params);
+};
+export const isDocTargetChanged = function isTargetChanged(props, nextProps) {
+  let status = true;
+  if (props.targetName !== nextProps.targetName) {
+    status = false;
+  } else if (props.objectId !== nextProps.objectId) {
+    status = false;
+  } else if (props.uniqueId !== nextProps.uniqueId) {
+    status = false;
+  }
+  return status;
+};
+export const isTargetChanged = function isTargetChanged(props, nextProps) {
+  let status = true;
+  if (props.targetName !== nextProps.targetName) {
+    status = false;
+  } else if (props.functionName !== nextProps.functionName) {
+    status = false;
+  } else if (props.schemaName !== nextProps.schemaName) {
+    status = false;
+  }
+  return status;
+};
+export const isFunctionChanged = function isFunctionChanged(props, nextProps) {
+  return props.functionName !== nextProps.functionName;
+};
+export const isCloudCodePropsChanged = function isChanged(props, nextProps) {
+  let status = false;
+  if (isParamsChanged(props, nextProps)) {
+    status = true;
+  } else if (isFunctionChanged(props, nextProps)) {
+    status = true;
+  }
+  return status;
+};
+
+export const isLoading = function(status) {
+  const isLoadingStatus =
+    status === FETCH_START ||
+    status === POST_START ||
+    status === DELETE_START ||
+    status === PUT_START;
+  return isLoadingStatus;
+};
+export const isCreateFinish = function(props, nextProps) {
+  const now = props.queryStatus;
+  const next = nextProps.queryStatus;
+  const isStart = now === POST_START;
+  const isFinished = next === POST_FINISHED;
+  const isFailed = next === POST_FAILED;
+  const isFailedNetwork = next === POST_FAILED_NETWORK;
+  const isEnd = isFinished || isFailed || isFailedNetwork;
+  return isStart && isEnd;
+};
+
+export const isDeleteStart = function(queryStatus) {
+  return queryStatus === DELETE_START;
+};
+export const isDeleteFinish = function(props, nextProps) {
+  const now = props.queryStatus;
+  const next = nextProps.queryStatus;
+  const isStart = now === DELETE_START;
+  const isFinished = next === DELETE_FINISHED;
+  const isFailed = next === DELETE_FAILED;
+  const isFailedNetwork = next === DELETE_FAILED_NETWORK;
+  const isEnd = isFinished || isFailed || isFailedNetwork;
+  return isStart && isEnd;
+};
+
+export const isUpdateFinish = function(props, nextProps) {
+  const now = props.queryStatus;
+  const next = nextProps.queryStatus;
+  const isStart = now === PUT_START;
+  const isFinished = next === PUT_FINISHED;
+  const isFailed = next === PUT_FAILED;
+  const isFailedNetwork = next === PUT_FAILED_NETWORK;
+  const isEnd = isFinished || isFailed || isFailedNetwork;
+  return isStart && isEnd;
+};
+
+export const isFetchFinish = function(props, nextProps) {
+  const now = props.queryStatus;
+  const next = nextProps.queryStatus;
+  const isStart = now === FETCH_START;
+  const isFinished = next === FETCH_FINISHED;
+  const isFailed = next === FETCH_FAILED;
+  const isFailedNetwork = next === FETCH_FAILED_NETWORK;
+  const isEnd = isFinished || isFailed || isFailedNetwork;
+  return isStart && isEnd;
+};
+
+export const isDataChanged = function(props, nextProps) {
+  return props.data !== nextProps.data;
+};
+export const isQueryStatusChanged = function(props, nextProps) {
+  return props.queryStatus !== nextProps.queryStatus;
+};
+export const isDocumentParamsChanged = function(props, nextProps) {
+  // schemaName was change, get data from server
+  if (props.schemaName !== nextProps.schemaName) {
+    return true;
+  }
+  if (props.objectId !== nextProps.objectId) {
+    return true;
+  }
+  if (props.include !== nextProps.include) {
+    return true;
+  }
+  if (!isEqual(props.initialValues, nextProps.initialValues)) {
+    return false; // initialValues only on load fow noe
+  }
+  return false;
+};
+export const isCollectionParamsChanged = function(props, nextProps) {
+  // filters was change, get data from server
+  if (!isEqual(props.query, nextProps.query)) {
+    return true;
+  }
+  // page was change, get data from server
+  if (props.page !== nextProps.page) {
+    return true;
+  }
+  // schemaName was change, get data from server
+  if (props.schemaName !== nextProps.schemaName) {
+    return true;
+  }
+  // keys was change, get data from server
+  if (props.keys !== nextProps.keys) {
+    return true;
+  }
+  return false;
+};

@@ -11,60 +11,122 @@ var _propTypes = require('prop-types');
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var defaultProps = {
-  query: null,
-  include: null,
-  queryStatus: null,
-  info: null,
-  data: null,
-  keys: null,
-  page: null,
-  filterByMemberId: null,
-  localFirst: false,
-  localOnly: false,
-  perPage: 25,
-  memberFieldName: 'member',
-  enableCount: false,
-  leaveClean: true,
-  targetName: null,
-  onGetFinish: function onGetFinish() {},
-  onGetStart: function onGetStart() {},
-  onDeleteDocumentFinish: function onDeleteDocumentFinish() {},
-  onPutDocumentFinish: function onPutDocumentFinish() {}
+  order: '-createdAt',
+  autoRefresh: true,
+  onFetchEnd: function onFetchEnd() {},
+  onPostEnd: function onPostEnd() {},
+  onPutEnd: function onPutEnd() {},
+  onDeleteEnd: function onDeleteEnd() {}
 };
 
 exports.defaultProps = defaultProps;
 var propTypes = {
-  collectionName: _propTypes2['default'].string.isRequired,
-  actions: _propTypes2['default'].shape({
-    updateDocument: _propTypes2['default'].func,
-    deleteDocument: _propTypes2['default'].func,
-    clearCollection: _propTypes2['default'].func,
-    getCollection: _propTypes2['default'].func
-  }).isRequired,
-  render: _propTypes2['default'].func.isRequired, // render({data, queryStatus, refreshData, deleteDocument, updateDocument})
+  schemaName: _propTypes2['default'].string.isRequired,
+  /**
+   * targetName
+   * place to set server response - store.collections[targetName]
+   * optional- if empty then target is schemaName
+   */
   targetName: _propTypes2['default'].string,
-  query: _propTypes2['default'].shape({}),
-  data: _propTypes2['default'].array,
-  include: _propTypes2['default'].string,
-  queryStatus: _propTypes2['default'].string,
-  keys: _propTypes2['default'].string,
-  perPage: _propTypes2['default'].number,
-  info: _propTypes2['default'].shape({
-    count: _propTypes2['default'].number,
-    timestamp: _propTypes2['default'].number,
-    page: _propTypes2['default'].number,
-    skip: _propTypes2['default'].number
-  }),
-  page: _propTypes2['default'].number,
+  /**
+   * query
+   * object with parameters that pass on fetch
+   * example {title:'59D454c'}
+   */
+  query: _propTypes2['default'].object,
+  /**
+   * limit
+   * 	Limit the number of objects returned by the query
+   */
+  limit: _propTypes2['default'].number,
+  /**
+   * skip
+   * Use with limit to paginate through results
+   */
+  skip: _propTypes2['default'].number,
+  /**
+   * enableCount
+   * return the amount of results in data base
+   */
   enableCount: _propTypes2['default'].bool,
-  onGetStart: _propTypes2['default'].func,
-  onGetFinish: _propTypes2['default'].func,
-  onDeleteDocumentFinish: _propTypes2['default'].func,
-  onPutDocumentFinish: _propTypes2['default'].func,
-  filterByMemberId: _propTypes2['default'].bool,
+  /**
+   * keys
+   * example: 'title,body'
+   * Restrict the fields returned by the query
+   */
+  keys: _propTypes2['default'].string,
+  /**
+   * include
+   * example: 'post,categories'
+   * Use on Pointer columns to return the full object
+   */
+  include: _propTypes2['default'].string,
+  /**
+   * order
+   * default is '-createdAt'
+   * 	Specify a field to sort by
+   */
+  order: _propTypes2['default'].string,
+  /**
+   * onFetchEnd
+   * call back after fetch end
+   * onFetchEnd(error, {data, queryStatus})
+   */
+  onFetchEnd: _propTypes2['default'].func,
+  /**
+   * onPostEnd
+   * call back after fetch end
+   * onPostEnd(error, {data, queryStatus})
+   */
+  onPostEnd: _propTypes2['default'].func,
+  /**
+   * onPutEnd
+   * call back after fetch end
+   * onPutEnd(error, {data, queryStatus})
+   */
+  onPutEnd: _propTypes2['default'].func,
+  /**
+   * onDeleteEnd
+   * call back after fetch end
+   * onDeleteEnd(error, {data, queryStatus})
+   */
+  onDeleteEnd: _propTypes2['default'].func,
+  /**
+   * leaveClean
+   * we remove data from store on componentWillUnmount
+   * default is true
+   */
   leaveClean: _propTypes2['default'].bool,
-  localFirst: _propTypes2['default'].bool, // get data from server only if data didn't found in store
-  localOnly: _propTypes2['default'].bool, // get data only from local store
-  memberFieldName: _propTypes2['default'].string
+  /**
+   * localFirst
+   * fetch data from server only if we can found your data on local store
+   */
+  localFirst: _propTypes2['default'].bool,
+  /**
+   * localOnly
+   * never fetch data from store
+   */
+  localOnly: _propTypes2['default'].bool,
+  /**
+   * autoRefresh
+   * default true
+   * Get data after each create/update/delete doc
+   */
+  autoRefresh: _propTypes2['default'].bool,
+  /**
+   * render props - pass function that get props and return component.
+   * (error, props) => <MYCOMPONENT />
+   * props = {
+   *  data,
+      isLoading,
+      queryStatus,
+      info,
+      refreshData,
+      deleteDocument,
+      putDocument,
+      postDocument
+    }
+   */
+  render: _propTypes2['default'].func.isRequired
 };
 exports.propTypes = propTypes;

@@ -11,23 +11,69 @@ var _propTypes = require('prop-types');
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var propTypes = {
+  /**
+   * Cloud Function name
+   * look at: http://docs.parseplatform.org/rest/guide/#cloud-code
+   */
   functionName: _propTypes2['default'].string.isRequired,
-  collectionTarget: _propTypes2['default'].string,
-  render: _propTypes2['default'].func.isRequired, // render({data, queryStatus, refreshData, deleteDocument, updateDocument})
+  /**
+   * targetName
+   * place to set server response - store.cloudCodes[targetName]
+   * optional- if empty then target is functionName
+   */
+  targetName: _propTypes2['default'].string,
+  /**
+   * params
+   * object with parameters that pass on fetch
+   * example {objectId:'59D454c'}
+   */
   params: _propTypes2['default'].object,
-  onGetStart: _propTypes2['default'].func,
-  onGetFinish: _propTypes2['default'].func,
+  /**
+   * onFetchEnd
+   * call back after fetch end
+   * onFetchEnd(error, {data, queryStatus})
+   */
+  onFetchEnd: _propTypes2['default'].func,
+  /**
+   * leaveClean
+   * we remove data from store on componentWillUnmount
+   * default is true
+   */
   leaveClean: _propTypes2['default'].bool,
-  localFirst: _propTypes2['default'].bool, // get data from server only if data didn't found in store
+  /**
+   * localFirst
+   * fetch data from server only if we can found your data on local store
+   */
+  localFirst: _propTypes2['default'].bool,
+  /**
+   * localOnly
+   * never fetch data from store
+   */
   localOnly: _propTypes2['default'].bool, // get data only from local store
-  digToDataString: _propTypes2['default'].string
+  /**
+   * digToData
+   * the location of the data on server response
+   * default is 'data.result'
+   */
+  digToData: _propTypes2['default'].string,
+  /**
+   * render props - pass function that get props and return component.
+   * (error, props) => <MYCOMPONENT />
+   * props = {
+   *  data,
+      queryStatus,
+      isLoading,
+      info,
+      refreshData
+    }
+   */
+  render: _propTypes2['default'].func.isRequired
 };
 
 exports.propTypes = propTypes;
 var defaultProps = {
-  digToDataString: 'data.result',
+  digToData: 'data.result',
   leaveClean: true,
-  onGetFinish: function onGetFinish() {},
-  onGetStart: function onGetStart() {}
+  onFetchEnd: function onFetchEnd() {}
 };
 exports.defaultProps = defaultProps;

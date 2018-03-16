@@ -22,23 +22,13 @@ var _redux = require('redux');
 
 var _reactRedux = require('react-redux');
 
-var _lodashIsEqual = require('lodash/isEqual');
-
-var _lodashIsEqual2 = _interopRequireDefault(_lodashIsEqual);
-
 var _actions = require('./actions');
-
-var _types = require('../types');
-
-var _types2 = _interopRequireDefault(_types);
 
 var _selectors = require('./selectors');
 
-var _helpersStatusChecker = require('../helpers/statusChecker');
+var _helpers = require('../helpers');
 
 var _propTypes = require('./prop-types');
-
-var LOADING = _types2['default'].LOADING;
 
 var FetchCloudCode = (function (_React$PureComponent) {
   _inherits(FetchCloudCode, _React$PureComponent);
@@ -47,7 +37,7 @@ var FetchCloudCode = (function (_React$PureComponent) {
     _classCallCheck(this, FetchCloudCode);
 
     _get(Object.getPrototypeOf(FetchCloudCode.prototype), 'constructor', this).call(this, props);
-    this.getData = this.getData.bind(this);
+    this.fetchData = this.fetchData.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
   }
 
@@ -61,70 +51,61 @@ var FetchCloudCode = (function (_React$PureComponent) {
       var queryStatus = _props.queryStatus;
 
       if (!functionName) return;
-      if (!localFirst || localFirst && !data && queryStatus !== LOADING) {
-        this.getData();
+      if (!localFirst || localFirst && !data && !(0, _helpers.isLoading)(queryStatus)) {
+        this.fetchData();
       }
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (this.isPropsFromParentChanged(nextProps)) {
-        this.getData(nextProps);
-      }
+      var queryStatus = nextProps.queryStatus;
+      var data = nextProps.data;
+      var error = nextProps.error;
 
-      if ((0, _helpersStatusChecker.isGetFinish)(nextProps)) {
-        this.props.onGetFinish({
-          queryStatus: nextProps.queryStatus,
-          data: nextProps.data
-        });
+      if ((0, _helpers.isCloudCodePropsChanged)(this.props, nextProps)) {
+        if ((0, _helpers.isTargetChanged)(this.props, nextProps)) {
+          this.cleanData();
+        }
+        this.fetchData(nextProps);
+      } else if ((0, _helpers.isFetchFinish)(this.props, nextProps)) {
+        this.props.onFetchEnd(error, { data: data, queryStatus: queryStatus });
       }
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       if (this.props.leaveClean) {
-        this.removerDataFromStore();
+        this.cleanData();
       }
     }
   }, {
     key: 'onRefresh',
     value: function onRefresh() {
-      this.getData(this.props, false);
+      this.fetchData(this.props, false);
     }
   }, {
-    key: 'getData',
-    value: function getData() {
+    key: 'fetchData',
+    value: function fetchData() {
       var props = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
       var localOnly = arguments.length <= 1 || arguments[1] === undefined ? this.props.localOnly : arguments[1];
+      var functionName = props.functionName;
+      var collectionTarget = props.collectionTarget;
+      var params = props.params;
+      var digToData = props.digToData;
 
-      if (localOnly) return;
-      if (!props.functionName) return;;
-      this.props.onGetStart();
-      this.props.actions.getCloudCode(props.functionName, props.collectionTarget, props.params, props.filterByMemberId, props.memberFieldName, props.digToDataString);
+      if (localOnly || !props.functionName) return;
+      props.actions.fetchData({
+        functionName: functionName,
+        collectionTarget: collectionTarget,
+        params: params,
+        digToData: digToData
+      });
     }
   }, {
-    key: 'isPropsFromParentChanged',
-    value: function isPropsFromParentChanged(nextProps) {
-      // filters was change, get data from server
-      if (this.isParamsChanged(nextProps)) {
-        return true;
-      }
-      // functionName was change, get data from server
-      if (this.props.functionName !== nextProps.functionName) {
-        return true;
-      }
-      return false;
-    }
-  }, {
-    key: 'removerDataFromStore',
-    value: function removerDataFromStore() {
-      var keyForData = this.props.collectionTarget || this.props.functionName;
-      this.props.actions.removeCloudCode(keyForData);
-    }
-  }, {
-    key: 'isParamsChanged',
-    value: function isParamsChanged(nextProps) {
-      return !(0, _lodashIsEqual2['default'])(this.props.params, nextProps.params);
+    key: 'cleanData',
+    value: function cleanData() {
+      var targetName = this.props.targetName || this.props.functionName;
+      this.props.actions.cleanData({ targetName: targetName });
     }
   }, {
     key: 'render',
@@ -133,13 +114,14 @@ var FetchCloudCode = (function (_React$PureComponent) {
       var data = _props2.data;
       var queryStatus = _props2.queryStatus;
       var info = _props2.info;
+      var error = _props2.error;
 
-      var refreshData = this.onRefresh;
-      return this.props.render({
+      return this.props.render(error, {
         data: data,
         queryStatus: queryStatus,
+        isLoading: (0, _helpers.isLoading)(queryStatus),
         info: info,
-        refreshData: refreshData
+        refreshData: this.onRefresh
       });
     }
   }]);
@@ -152,13 +134,14 @@ function mapStateToProps(state, props) {
   return {
     data: (0, _selectors.getData)(state, keyForData),
     queryStatus: (0, _selectors.getStatus)(state, keyForData),
-    info: (0, _selectors.getInfo)(state, keyForData)
+    info: (0, _selectors.getInfo)(state, keyForData),
+    error: (0, _selectors.getError)(state, keyForData)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: (0, _redux.bindActionCreators)({ getCloudCode: _actions.getCloudCode, removeCloudCode: _actions.removeCloudCode }, dispatch)
+    actions: (0, _redux.bindActionCreators)({ fetchData: _actions.fetchData, cleanData: _actions.cleanData }, dispatch)
   };
 }
 exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FetchCloudCode);

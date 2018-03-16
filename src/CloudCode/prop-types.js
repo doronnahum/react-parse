@@ -1,21 +1,67 @@
 import PropTypes from 'prop-types';
 
 export const propTypes = {
+  /**
+   * Cloud Function name
+   * look at: http://docs.parseplatform.org/rest/guide/#cloud-code
+   */
   functionName: PropTypes.string.isRequired,
-  collectionTarget: PropTypes.string,
-  render: PropTypes.func.isRequired, // render({data, queryStatus, refreshData, deleteDocument, updateDocument})
+  /**
+   * targetName
+   * place to set server response - store.cloudCodes[targetName]
+   * optional- if empty then target is functionName
+   */
+  targetName: PropTypes.string,
+  /**
+   * params
+   * object with parameters that pass on fetch
+   * example {objectId:'59D454c'}
+   */
   params: PropTypes.object,
-  onGetStart: PropTypes.func,
-  onGetFinish: PropTypes.func,
+  /**
+   * onFetchEnd
+   * call back after fetch end
+   * onFetchEnd(error, {data, queryStatus})
+   */
+  onFetchEnd: PropTypes.func,
+  /**
+   * leaveClean
+   * we remove data from store on componentWillUnmount
+   * default is true
+   */
   leaveClean: PropTypes.bool,
-  localFirst: PropTypes.bool, // get data from server only if data didn't found in store
+  /**
+   * localFirst
+   * fetch data from server only if we can found your data on local store
+   */
+  localFirst: PropTypes.bool,
+  /**
+   * localOnly
+   * never fetch data from store
+   */
   localOnly: PropTypes.bool, // get data only from local store
-  digToDataString: PropTypes.string,
+  /**
+   * digToData
+   * the location of the data on server response
+   * default is 'data.result'
+   */
+  digToData: PropTypes.string,
+  /**
+   * render props - pass function that get props and return component.
+   * (error, props) => <MYCOMPONENT />
+   * props = {
+   *  data,
+      queryStatus,
+      isLoading,
+      info,
+      refreshData
+    }
+   */
+  render: PropTypes.func.isRequired,
 };
-  
+
 export const defaultProps = {
-  digToDataString: 'data.result',
+  digToData: 'data.result',
   leaveClean: true,
-  onGetFinish: () => {},
-  onGetStart: () => {},
+  onFetchEnd: () => {},
 };

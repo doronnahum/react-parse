@@ -1,4 +1,3 @@
-import 'regenerator-runtime/runtime'
 // Common
 import api from './server/api';
 import httpRequest from './server/apiSagaWrapper';
@@ -13,6 +12,7 @@ import parseReducer from './reducer';
 import parseWatcher from './saga';
 // Selectors
 import selectors from './selectors';
+
 export {
   api,
   httpRequest,
@@ -26,6 +26,5 @@ export {
   parseWatcher,
   parseReducer,
   // Selectors
-  selectors
-
+  selectors,
 };

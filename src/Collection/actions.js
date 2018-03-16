@@ -1,46 +1,71 @@
 import types from '../types';
 
-// Collection
-export const clearCollections = () => ({
-  type: types.CLEAR_COLLECTIONS,
-});
-export const clearCollection = targetName => ({
-  type: types.CLEAR_COLLECTION,
-  targetName,
-});
+const {
+  FETCH_COLLECTION,
+  SET_COLLECTION,
+  CLEAN_COLLECTION,
+  CLEAN_ALL_COLLECTIONS,
+  DELETE_COLLECTION_DOC,
+  PUT_COLLECTION_DOC,
+  POST_COLLECTION_DOC,
+} = types;
+
 /**
- * getCollection
- * @param {obj} {collectionName, targetName, query, perPage, page, include, keys, enableCount}
+ * fetchData
+ * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount}
  */
-export const getCollection = payload => ({
-  type: types.GET_COLLECTION,
+export const fetchData = payload => {
+  return {
+    type: FETCH_COLLECTION,
+    payload,
+  };
+};
+
+/**
+ * setOnStore
+ * @param {*} payload {targetName, status, data, info, error}
+ */
+export const setOnStore = payload => ({
+  type: SET_COLLECTION,
   payload,
 });
-export const setCollection = (targetName, dataToSet) => ({
-  type: types.SET_COLLECTION,
-  targetName,
-  dataToSet,
+
+/**
+ * deleteDocument
+ * @param {*} payload {schemaName, targetName, objectId}
+ */
+export const deleteDoc = payload => ({
+  type: DELETE_COLLECTION_DOC,
+  payload,
 });
-export const setCollectionStatus = (targetName, status) => setCollection(targetName, { status });
-export const deleteDocumentFromCollection = (
-  collectionName,
-  targetName,
-  objectId,
-) => ({
-  type: types.DELETE_DOCUMENT_FROM_COLLECTION,
-  collectionName,
-  targetName,
-  objectId,
+
+/**
+ * putDoc
+ * @param {*} payload {schemaName, targetName, objectId, data}
+ */
+export const putDoc = payload => ({
+  type: PUT_COLLECTION_DOC,
+  payload,
 });
-export const updateDocumentFromCollection = (
-  collectionName,
-  targetName,
-  objectId,
-  data,
-) => ({
-  type: types.UPDATE_DOCUMENT_FROM_COLLECTION,
-  collectionName,
-  targetName,
-  objectId,
-  data,
+
+/**
+ * potDoc
+ * @param {*} payload {schemaName, targetName, data}
+ */
+export const postDoc = payload => ({
+  type: POST_COLLECTION_DOC,
+  payload,
+});
+
+/**
+ * cleanCollection
+ * @param {*} payload {targetName}
+ */
+export const cleanData = payload => ({
+  type: CLEAN_ALL_COLLECTIONS,
+  payload,
+});
+
+export const cleanCollections = () => ({
+  type: CLEAN_COLLECTION,
 });

@@ -10,121 +10,98 @@ var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-var getDocument = function getDocument(className, objectId, include) {
+var FETCH_DOCUMENT = _types2['default'].FETCH_DOCUMENT;
+var SET_DOCUMENT = _types2['default'].SET_DOCUMENT;
+var PUT_DOCUMENT = _types2['default'].PUT_DOCUMENT;
+var POST_DOCUMENT = _types2['default'].POST_DOCUMENT;
+var DELETE_DOCUMENT = _types2['default'].DELETE_DOCUMENT;
+var CLEAN_DOCUMENT = _types2['default'].CLEAN_DOCUMENT;
+var CLEAN_ALL_DOCUMENTS = _types2['default'].CLEAN_ALL_DOCUMENTS;
+var UPDATE_DOC_FIELD = _types2['default'].UPDATE_DOC_FIELD;
+
+/**
+ * fetchData
+ * @param {*} payload {targetName, schemaName, objectId, include, keys}
+ */
+var fetchData = function fetchData(payload) {
   return {
-    type: _types2['default'].GET_DOCUMENT,
-    className: className,
-    objectId: objectId,
-    include: include
+    type: FETCH_DOCUMENT,
+    payload: payload
   };
 };
-exports.getDocument = getDocument;
-var setDocument = function setDocument(objectId, data) {
+exports.fetchData = fetchData;
+/**
+ * setOnStore
+ * @param {*} payload {targetName, status, data, info, error}
+ * @param {*} data
+ */
+var setOnStore = function setOnStore(payload) {
   return {
-    type: _types2['default'].SET_DOCUMENT,
-    objectId: objectId,
-    data: data
+    type: SET_DOCUMENT,
+    payload: payload
   };
 };
-exports.setDocument = setDocument;
-var clearDocuments = function clearDocuments() {
+exports.setOnStore = setOnStore;
+/**
+ * updateField
+ * @param {*} payload {targetName, key, value}
+ */
+var updateField = function updateField(payload) {
   return {
-    type: _types2['default'].CLEAR_DOCUMENTS
-  };
-};
-exports.clearDocuments = clearDocuments;
-var setDocumentStatus = function setDocumentStatus(objectId, status) {
-  return {
-    type: _types2['default'].SET_SET_DOCUMENT_STATUS,
-    objectId: objectId,
-    status: status
-  };
-};
-exports.setDocumentStatus = setDocumentStatus;
-var updateDocumentOnStore = function updateDocumentOnStore(objectId, key, value) {
-  return {
-    type: _types2['default'].UPDATE__DOCUMENT_ON_STORE,
-    objectId: objectId,
-    key: key,
-    value: value
-  };
-};
-exports.updateDocumentOnStore = updateDocumentOnStore;
-var removeDocument = function removeDocument(objectId) {
-  return {
-    type: _types2['default'].REMOVE_DOCUMENT,
-    objectId: objectId
-  };
-};
-exports.removeDocument = removeDocument;
-var updateDocumentOnServer = function updateDocumentOnServer(className, objectId, keys, disabledAutoGetAfterSave, parseDataBeforeSave) {
-  return {
-    type: _types2['default'].UPDATE_DOCUMENT_ON_SERVER,
-    className: className,
-    objectId: objectId,
-    keys: keys,
-    disabledAutoGetAfterSave: disabledAutoGetAfterSave, // set true if you want that getDocument will not run after the update - not recommended
-    parseDataBeforeSave: parseDataBeforeSave };
-};
-exports.updateDocumentOnServer = updateDocumentOnServer;
-// pass function that ger object and return object with parse data
-var deleteDocument = function deleteDocument(className, objectId) {
-  return {
-    type: _types2['default'].DELETE_DOCUMENT,
-    className: className,
-    objectId: objectId
+    type: UPDATE_DOC_FIELD,
+    payload: payload
   };
 };
 
-exports.deleteDocument = deleteDocument;
-// New documents
-var createNewDocument = function createNewDocument(uniqueId, defaultValues) {
+exports.updateField = updateField;
+/**
+ * putDoc
+ * @param {*} payload {targetName, schemaName, objectId, data}
+ */
+var putDoc = function putDoc(payload) {
   return {
-    type: _types2['default'].CREATE_NEW_DOCUMENT,
-    uniqueId: uniqueId,
-    defaultValues: defaultValues
+    type: PUT_DOCUMENT,
+    payload: payload
   };
 };
-exports.createNewDocument = createNewDocument;
-var updateNewDocument = function updateNewDocument(uniqueId, key, value) {
+exports.putDoc = putDoc;
+/**
+ * postDoc
+ * @param {*} payload {targetName, schemaName, data}
+ */
+var postDoc = function postDoc(payload) {
   return {
-    type: _types2['default'].UPDATE_NEW_DOCUMENT,
-    uniqueId: uniqueId,
-    key: key,
-    value: value
+    type: POST_DOCUMENT,
+    payload: payload
   };
 };
-exports.updateNewDocument = updateNewDocument;
-var clearNewDocument = function clearNewDocument(uniqueId) {
+exports.postDoc = postDoc;
+/**
+ * deleteDoc
+ * @param {*} payload {targetName, schemaName,objectId}
+ */
+var deleteDoc = function deleteDoc(payload) {
   return {
-    type: _types2['default'].CLEAR_NEW_DOCUMENT,
-    uniqueId: uniqueId
+    type: DELETE_DOCUMENT,
+    payload: payload
   };
 };
-exports.clearNewDocument = clearNewDocument;
-var removeNewDocument = function removeNewDocument(uniqueId) {
+
+exports.deleteDoc = deleteDoc;
+/**
+ * cleanData
+ * @param {*} payload {targetName}
+ */
+var cleanData = function cleanData(payload) {
   return {
-    type: _types2['default'].REMOVE_NEW_DOCUMENT,
-    uniqueId: uniqueId
+    type: CLEAN_DOCUMENT,
+    payload: payload
   };
 };
-exports.removeNewDocument = removeNewDocument;
-var postNewDocument = function postNewDocument(className, uniqueId, parseDataBeforeSave, addMemberPointerToDataOnPost, getDataWithPostQueryStatusSuccessfully) {
+exports.cleanData = cleanData;
+var clearDocuments = function clearDocuments() {
   return {
-    type: _types2['default'].POST_NEW_DOCUMENT,
-    className: className,
-    uniqueId: uniqueId,
-    parseDataBeforeSave: parseDataBeforeSave,
-    addMemberPointerToDataOnPost: addMemberPointerToDataOnPost,
-    getDataWithPostQueryStatusSuccessfully: getDataWithPostQueryStatusSuccessfully
+    type: CLEAN_ALL_DOCUMENTS
   };
 };
-exports.postNewDocument = postNewDocument;
-var setNewDocumentStatus = function setNewDocumentStatus(uniqueId, status) {
-  return {
-    type: _types2['default'].SET_NEW_DOCUMENT_STATUS,
-    uniqueId: uniqueId,
-    status: status
-  };
-};
-exports.setNewDocumentStatus = setNewDocumentStatus;
+exports.clearDocuments = clearDocuments;

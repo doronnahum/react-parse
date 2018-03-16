@@ -1,93 +1,76 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import isEqual from 'lodash/isEqual';
-import {getCloudCode, removeCloudCode} from './actions';
-import consts from '../types';
-import { getData, getStatus, getInfo} from './selectors';
-import { isGetFinish} from '../helpers/statusChecker';
-import {propTypes, defaultProps} from './prop-types';
-const { LOADING } = consts;
+import { fetchData, cleanData } from './actions';
+import { getData, getStatus, getInfo, getError } from './selectors';
+import {
+  isCloudCodePropsChanged,
+  isTargetChanged,
+  isFetchFinish,
+  isLoading,
+} from '../helpers';
+import { propTypes, defaultProps } from './prop-types';
 
 class FetchCloudCode extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.getData = this.getData.bind(this);
+    this.fetchData = this.fetchData.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
   }
   componentWillMount() {
     const { localFirst, functionName, data, queryStatus } = this.props;
-    if(!functionName) return;
-    if (!localFirst || (localFirst && !data && queryStatus !== LOADING)) {
-      this.getData();
+    if (!functionName) return;
+    if (!localFirst || (localFirst && !data && !isLoading(queryStatus))) {
+      this.fetchData();
     }
   }
-  componentWillReceiveProps(nextProps) {
-    if (this.isPropsFromParentChanged(nextProps)) {
-      this.getData(nextProps);
-    }
 
-    if (isGetFinish(nextProps)) {
-      this.props.onGetFinish({
-        queryStatus: nextProps.queryStatus,
-        data: nextProps.data,
-      });
+  componentWillReceiveProps(nextProps) {
+    const { queryStatus, data, error } = nextProps;
+    if (isCloudCodePropsChanged(this.props, nextProps)) {
+      if (isTargetChanged(this.props, nextProps)) {
+        this.cleanData();
+      }
+      this.fetchData(nextProps);
+    } else if (isFetchFinish(this.props, nextProps)) {
+      this.props.onFetchEnd(error, { data, queryStatus });
     }
   }
 
   componentWillUnmount() {
     if (this.props.leaveClean) {
-      this.removerDataFromStore();
+      this.cleanData();
     }
   }
 
   onRefresh() {
-    this.getData(this.props, false);
+    this.fetchData(this.props, false);
   }
 
-  getData(props = this.props, localOnly = this.props.localOnly) {
-    if (localOnly) return;
-    if (!props.functionName) return;;
-    this.props.onGetStart();
-    this.props.actions.getCloudCode(
-      props.functionName,
-      props.collectionTarget,
-      props.params,
-      props.filterByMemberId,
-      props.memberFieldName,
-      props.digToDataString,
-    );
+  fetchData(props = this.props, localOnly = this.props.localOnly) {
+    const { functionName, collectionTarget, params, digToData } = props;
+    if (localOnly || !props.functionName) return;
+    props.actions.fetchData({
+      functionName,
+      collectionTarget,
+      params,
+      digToData,
+    });
   }
 
-  isPropsFromParentChanged(nextProps) {
-    // filters was change, get data from server
-    if (this.isParamsChanged(nextProps)) {
-      return true;
-    }
-    // functionName was change, get data from server
-    if (this.props.functionName !== nextProps.functionName) {
-      return true;
-    }
-    return false;
-  }
-
-  removerDataFromStore() {
-    const keyForData = this.props.collectionTarget || this.props.functionName;
-    this.props.actions.removeCloudCode(keyForData);
-  }
-
-  isParamsChanged(nextProps) {
-    return !isEqual(this.props.params, nextProps.params);
+  cleanData() {
+    const targetName = this.props.targetName || this.props.functionName;
+    this.props.actions.cleanData({ targetName });
   }
 
   render() {
-    const { data, queryStatus, info } = this.props;
-    const refreshData = this.onRefresh;
-    return this.props.render({
+    const { data, queryStatus, info, error } = this.props;
+    return this.props.render(error, {
       data,
       queryStatus,
+      isLoading: isLoading(queryStatus),
       info,
-      refreshData,
+      refreshData: this.onRefresh,
     });
   }
 }
@@ -98,16 +81,17 @@ function mapStateToProps(state, props) {
     data: getData(state, keyForData),
     queryStatus: getStatus(state, keyForData),
     info: getInfo(state, keyForData),
+    error: getError(state, keyForData),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ getCloudCode, removeCloudCode }, dispatch),
+    actions: bindActionCreators({ fetchData, cleanData }, dispatch),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FetchCloudCode);
 
-FetchCloudCode.propTypes = propTypes
+FetchCloudCode.propTypes = propTypes;
 
-FetchCloudCode.defaultProps = defaultProps
+FetchCloudCode.defaultProps = defaultProps;

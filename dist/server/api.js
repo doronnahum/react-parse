@@ -143,6 +143,12 @@ var Api = {
   getCloudFunction: function getCloudFunction(functionName, data) {
     return _api.post('' + cloudCodePath + functionName, data);
   },
+  getObjectById: function getObjectById(schemaName, objectId, keys, include) {
+    var p = { params: {} };
+    if (keys) p.keys = keys;
+    if (include) p.include = include;
+    return _api.get('' + classPath + schemaName + '/' + objectId, p);
+  },
   /**
    * ### updateObject
    * To change the data on an object that already exists

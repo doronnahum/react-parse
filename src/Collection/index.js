@@ -1,164 +1,178 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {
-  deleteDocumentFromCollection as deleteDocument,
-  updateDocumentFromCollection as updateDocument,
-  clearCollection,
-  getCollection,
-} from './actions';
-import {
-  getData,
-  getStatus,
-  getInfo,
-} from './selectors';
-import consts from '../types';
+import { fetchData, deleteDoc, putDoc, postDoc, cleanData } from './actions';
+import { getData, getStatus, getInfo, getError } from './selectors';
 
 import {
-  isGetFinish,
+  isTargetChanged,
+  isFetchFinish,
+  isLoading,
   isDeleteFinish,
   isUpdateFinish,
-  isCollectionParamsChanged as isParamsChanged
-} from '../helpers/statusChecker';
+  isCreateFinish,
+  isCollectionParamsChanged,
+} from '../helpers';
 
-import {defaultProps, propTypes} from './prop-types';
+import { defaultProps, propTypes } from './prop-types';
 
 class FetchCollection extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.getDataFromServer = this.getDataFromServer.bind(this);
-    this.onDeleteDocument = this.onDeleteDocument.bind(this);
-    this.onUpdateDocument = this.onUpdateDocument.bind(this);
+    this.fetchData = this.fetchData.bind(this);
+    this.onDeleteDoc = this.onDeleteDoc.bind(this);
+    this.onPutDoc = this.onPutDoc.bind(this);
+    this.onPostDoc = this.onPostDoc.bind(this);
     this.onRefreshData = this.onRefreshData.bind(this);
   }
 
   componentWillMount() {
-    const { localFirst, collectionName, data } = this.props;
-    if(!collectionName) {
-      return; 
-    }
-    
-    if (localFirst || (localFirst && !data)) {
-      this.getDataFromServer();
+    const { schemaName, localFirst, data } = this.props;
+    if (schemaName && (!localFirst || (localFirst && !data))) {
+      this.fetchData();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (isParamsChanged(nextProps)) {
-      this.getDataFromServer(nextProps);
+    if (isCollectionParamsChanged(this.props, nextProps)) {
+      if (isTargetChanged(this.props, nextProps)) {
+        this.cleanData();
+      }
+      this.fetchData(nextProps);
     }
     this.handleCallBacks(this.props, nextProps);
-  }
-  handleCallBacks(props, nextProps) {
-    if (isGetFinish(props, nextProps)) {
-      props.onGetFinish({
-        queryStatus: nextProps.queryStatus,
-        data: nextProps.data,
-        info: nextProps.info,
-      });
-    } else if (isDeleteFinish(props, nextProps)) {
-      this.getDataFromServer(nextProps);
-      props.onDeleteDocumentFinish(nextProps.queryStatus);
-    } else if (isUpdateFinish(nextProps)) {
-      this.getDataFromServer(nextProps);
-      props.onPutDocumentFinish(nextProps.queryStatus);
-    }
   }
 
   componentWillUnmount() {
     if (this.props.leaveClean) {
-      this.removerDataFromStore();
+      this.cleanData();
     }
   }
 
-  onDeleteDocument(objectId) {
-    const {queryStatus, actions, collectionName, targetName} = this.props;
+  onDeleteDoc(objectId) {
+    const { actions, schemaName, targetName } = this.props;
     if (!objectId) {
-      console.warn('onDeleteDocument: missing objectId ');
+      console.warn('onDeleteDoc: missing objectId ');
       return;
     }
-    if (queryStatus === consts.DELETE_START) {
-      return;
-    }
-    actions.deleteDocument(
-      collectionName,
-      targetName,
-      objectId,
-    );
+    actions.deleteDoc({ schemaName, targetName, objectId });
   }
 
-  onUpdateDocument(objectId, data) {
-    const { actions, collectionName, targetName} = this.props;
+  onPutDoc(objectId, data) {
+    const { actions, schemaName, targetName } = this.props;
     if (!objectId) {
-      console.warn('onUpdateDocument: missing objectId ');
+      console.warn('onUpdateDoc: missing objectId ');
       return;
     }
     if (!data || typeof data !== 'object') {
-      console.warn('onUpdateDocument: missing data object ');
+      console.warn('onUpdateDoc: missing data object ');
       return;
     }
-    actions.updateDocument(
-      collectionName,
-      targetName,
-      objectId,
-      data,
-    );
+    actions.putDoc({ schemaName, targetName, objectId, data });
+  }
+  onPostDoc(data) {
+    const { actions, schemaName, targetName } = this.props;
+    if (!data || typeof data !== 'object') {
+      console.warn('onPostDoc: missing data object ');
+      return;
+    }
+    debugger
+    actions.postDoc({ schemaName, targetName, data });
   }
 
   onRefreshData() {
-    this.getDataFromServer(this.props, false);
+    this.fetchData(this.props, false);
   }
 
-  getDataFromServer(props = this.props, localOnly = this.props.localOnly) {
-    if (localOnly || !props.collectionName) {
-return;
-}
-    this.props.onGetStart();
-    this.props.actions.getCollection({
-      collectionName: props.collectionName,
-      targetName: props.targetName,
-      query: props.query,
-      perPage: props.perPage,
-      page: props.page,
-      include: props.include,
-      keys: props.keys,
-      enableCount: props.enableCount,
+  fetchData(props = this.props, localOnly = this.props.localOnly) {
+    const {
+      targetName,
+      schemaName,
+      query,
+      limit,
+      skip,
+      enableCount,
+      keys,
+      include,
+      order,
+    } = props;
+    if (localOnly || !props.schemaName) {
+      return;
+    }
+    props.actions.fetchData({
+      targetName,
+      schemaName,
+      query,
+      limit,
+      skip,
+      enableCount,
+      keys,
+      include,
+      order,
     });
   }
 
-  removerDataFromStore() {
-    const keyForData = this.props.targetName || this.props.collectionName;
-    this.props.actions.clearCollection(keyForData);
+  handleCallBacks(props, nextProps) {
+    const { queryStatus, data, info, error, autoRefresh } = nextProps;
+    if (isFetchFinish(props, nextProps)) {
+      props.onFetchEnd(error, { queryStatus, data, info });
+    } else if (isDeleteFinish(props, nextProps)) {
+      if (autoRefresh) this.fetchData(nextProps);
+      props.onDeleteEnd(error, { queryStatus, data, info });
+    } else if (isUpdateFinish(props, nextProps)) {
+      if (autoRefresh) this.fetchData(nextProps);
+      props.onPutEnd(error, { queryStatus, data, info });
+    } else if (isCreateFinish(props, nextProps)) {
+      if (autoRefresh) this.fetchData(nextProps);
+      props.onPostEnd(error, { queryStatus, data, info });
+    }
+  }
+
+  cleanData() {
+    const targetName = this.props.targetName || this.props.schemaName;
+    this.props.actions.cleanData({ targetName });
   }
 
   render() {
-    const { data, queryStatus, info } = this.props;
-    const refreshData = this.onRefreshData;
-    return this.props.render({
+    const { data, queryStatus, info, error } = this.props;
+    return this.props.render(error, {
       data,
+      isLoading,
       queryStatus,
       info,
-      refreshData,
-      deleteDocument: this.onDeleteDocument,
-      updateDocument: this.onUpdateDocument,
+      refreshData: this.onRefreshData,
+      deleteDoc: this.onDeleteDoc,
+      putDoc: this.onPutDoc,
+      postDoc: this.onPostDoc,
     });
   }
 }
 
 function mapStateToProps(state, props) {
-  const keyForData = props.targetName || props.collectionName;
+  const keyForData = props.targetName || props.schemaName;
   return {
     data: getData(state, keyForData),
     queryStatus: getStatus(state, keyForData),
     info: getInfo(state, keyForData),
+    error: getError(state, keyForData),
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ deleteDocument, updateDocument, clearCollection, getCollection  }, dispatch),
+    actions: bindActionCreators(
+      {
+        fetchData,
+        deleteDoc,
+        putDoc,
+        postDoc,
+        cleanData,
+      },
+      dispatch,
+    ),
   };
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(FetchCollection);
 FetchCollection.propTypes = propTypes;
 

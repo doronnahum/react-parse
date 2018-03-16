@@ -1,10 +1,6 @@
-import deleteDocumentFromCollection from './workers/deleteDocumentFromCollection';
-import updateDocumentFromCollection from './workers/updateDocumentFromCollection';
-import getCollection from './workers/getCollection';
+import fetchCollection from './workers/fetchCollection';
+import deleteDoc from './workers/deleteDoc';
+import putDoc from './workers/putDoc';
+import postDoc from './workers/postDoc';
 
-export {
-  deleteDocumentFromCollection,
-  getCollection,
-  updateDocumentFromCollection
-
-}; 
+export { fetchCollection, deleteDoc, putDoc, postDoc };

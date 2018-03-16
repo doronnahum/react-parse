@@ -10,44 +10,58 @@ var _types = require('../types');
 
 var _types2 = _interopRequireDefault(_types);
 
-// Get data by clodCodeName
-var getCloudCode = function getCloudCode(functionName, targetName, params) {
-  var digToDataString = arguments.length <= 3 || arguments[3] === undefined ? 'data.result' : arguments[3];
+var FETCH_CLOUD_CODE = _types2['default'].FETCH_CLOUD_CODE;
+var SET_CLOUD_CODE = _types2['default'].SET_CLOUD_CODE;
+var CLEAN_CLOUD_CODE = _types2['default'].CLEAN_CLOUD_CODE;
+var CLEAN_ALL_CLOUD_CODE = _types2['default'].CLEAN_ALL_CLOUD_CODE;
+
+/**
+ * fetchData
+ * get data from parse server cloud code by function and find the data
+ * on redux store by targetName
+ * @param {object} payload {functionName, targetName, params, digToData}
+ */
+var fetchData = function fetchData(payload) {
   return {
-    type: _types2['default'].GET_CLOUD_CODE,
-    functionName: functionName,
-    targetName: targetName,
-    params: params,
-    digToDataString: digToDataString
+    type: FETCH_CLOUD_CODE,
+    payload: payload
   };
 };
-exports.getCloudCode = getCloudCode;
-var setCloudCode = function setCloudCode(targetName, data) {
+
+exports.fetchData = fetchData;
+/**
+ * setOnStore
+ * set and update data on store.parse.clodeCodes by targetName
+ * @param {object} payload {targetName, status, data, info, error}
+ */
+var setOnStore = function setOnStore(payload) {
   return {
-    type: _types2['default'].SET_CLOUD_CODE,
-    targetName: targetName,
-    data: data
+    type: SET_CLOUD_CODE,
+    payload: payload
   };
 };
-exports.setCloudCode = setCloudCode;
-var clearAllCloudCodes = function clearAllCloudCodes() {
+
+exports.setOnStore = setOnStore;
+/**
+ * cleanData
+ * clean data from store by target name
+ * @param {*} payload {targetName}
+ */
+var cleanData = function cleanData(payload) {
   return {
-    type: _types2['default'].CLEAR_ALL_CLOUD_CODES
+    type: CLEAN_CLOUD_CODE,
+    payload: payload
   };
 };
-exports.clearAllCloudCodes = clearAllCloudCodes;
-var setCloudCodeRequestStatus = function setCloudCodeRequestStatus(targetName, status) {
+
+exports.cleanData = cleanData;
+/**
+ * cleanCloudCode
+ * clean all data inside cloudCode
+ */
+var cleanCloudCode = function cleanCloudCode() {
   return {
-    type: _types2['default'].SET_CLOUD_CODE_REQUEST_STATUS,
-    targetName: targetName,
-    status: status
+    type: CLEAN_ALL_CLOUD_CODE
   };
 };
-exports.setCloudCodeRequestStatus = setCloudCodeRequestStatus;
-var removeCloudCode = function removeCloudCode(targetName) {
-  return {
-    type: _types2['default'].REMOVE_CLOUD_CODE,
-    targetName: targetName
-  };
-};
-exports.removeCloudCode = removeCloudCode;
+exports.cleanCloudCode = cleanCloudCode;

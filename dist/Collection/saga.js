@@ -6,18 +6,23 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _workersDeleteDocumentFromCollection = require('./workers/deleteDocumentFromCollection');
+var _workersFetchCollection = require('./workers/fetchCollection');
 
-var _workersDeleteDocumentFromCollection2 = _interopRequireDefault(_workersDeleteDocumentFromCollection);
+var _workersFetchCollection2 = _interopRequireDefault(_workersFetchCollection);
 
-var _workersUpdateDocumentFromCollection = require('./workers/updateDocumentFromCollection');
+var _workersDeleteDoc = require('./workers/deleteDoc');
 
-var _workersUpdateDocumentFromCollection2 = _interopRequireDefault(_workersUpdateDocumentFromCollection);
+var _workersDeleteDoc2 = _interopRequireDefault(_workersDeleteDoc);
 
-var _workersGetCollection = require('./workers/getCollection');
+var _workersPutDoc = require('./workers/putDoc');
 
-var _workersGetCollection2 = _interopRequireDefault(_workersGetCollection);
+var _workersPutDoc2 = _interopRequireDefault(_workersPutDoc);
 
-exports.deleteDocumentFromCollection = _workersDeleteDocumentFromCollection2['default'];
-exports.getCollection = _workersGetCollection2['default'];
-exports.updateDocumentFromCollection = _workersUpdateDocumentFromCollection2['default'];
+var _workersPostDoc = require('./workers/postDoc');
+
+var _workersPostDoc2 = _interopRequireDefault(_workersPostDoc);
+
+exports.fetchCollection = _workersFetchCollection2['default'];
+exports.deleteDoc = _workersDeleteDoc2['default'];
+exports.putDoc = _workersPutDoc2['default'];
+exports.postDoc = _workersPostDoc2['default'];

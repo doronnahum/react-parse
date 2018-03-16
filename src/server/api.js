@@ -37,7 +37,7 @@ const cloudCodePath = '/functions/';
 
 let _api = null;
 let initConfig = null;
-const createHeaders = function (res) {
+const createHeaders = function(res) {
   const obj = {};
   if (res.appId) {
     obj['X-Parse-Application-Id'] = res.appId;
@@ -73,7 +73,9 @@ const Api = {
   getAppId() {
     console.log(initConfig);
 
-    if (!initConfig) {return '';}
+    if (!initConfig) {
+      return '';
+    }
     return initConfig.appId;
   },
   // query
@@ -128,6 +130,12 @@ const Api = {
    */
   getCloudFunction(functionName, data) {
     return _api.post(`${cloudCodePath}${functionName}`, data);
+  },
+  getObjectById(schemaName, objectId, keys, include) {
+    const p = { params: {} };
+    if (keys) p.keys = keys;
+    if (include) p.include = include;
+    return _api.get(`${classPath}${schemaName}/${objectId}`, p);
   },
   /**
    * ### updateObject
