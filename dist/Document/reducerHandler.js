@@ -42,7 +42,9 @@
         status = _ref.status,
         data = _ref.data,
         info = _ref.info,
-        error = _ref.error;
+        error = _ref.error,
+        key = _ref.key,
+        value = _ref.value;
 
     switch (action.type) {
       case SET_DOCUMENT:
@@ -69,11 +71,14 @@
       case UPDATE_DOC_FIELD:
         {
           var _documents = state.documents.get(targetName);
+          debugger;
           var _nextState = state;
+          debugger;
           if (!_documents) {
             _nextState = _nextState.setIn(['documents', targetName], Map());
           }
-          _nextState = _nextState.setIn(['documents', targetName, 'data', action.key], action.value);
+          _nextState = _nextState.setIn(['documents', targetName, 'data', key], value);
+          debugger;
           return _nextState;
         }
       case CLEAN_DOCUMENT:

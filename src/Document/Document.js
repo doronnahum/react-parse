@@ -119,12 +119,9 @@ class FetchDocument extends React.Component {
   }
 
   updateField(key, value) {
-    const { objectId, uniqueId } = this.props;
-    if (objectId) {
-      this.props.actions.updateDocumentOnStore(objectId, key, value);
-    } else {
-      this.props.actions.updateNewDocument(uniqueId, key, value);
-    }
+    const { targetName, objectId, uniqueId } = this.props;
+    const target = targetName || (objectId || uniqueId);
+    this.props.actions.updateField({targetName: target, key, value});
   }
 
   handleCallBacks(props, nextProps) {
@@ -161,6 +158,7 @@ class FetchDocument extends React.Component {
       cleanData: objectId || this.cleanData,
       put: objectId && this.onPut,
       post: objectId || this.onPost,
+      updateField: this.updateField
     });
   }
 }

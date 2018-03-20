@@ -198,14 +198,12 @@
       key: 'updateField',
       value: function updateField(key, value) {
         var _props5 = this.props,
+            targetName = _props5.targetName,
             objectId = _props5.objectId,
             uniqueId = _props5.uniqueId;
 
-        if (objectId) {
-          this.props.actions.updateDocumentOnStore(objectId, key, value);
-        } else {
-          this.props.actions.updateNewDocument(uniqueId, key, value);
-        }
+        var target = targetName || objectId || uniqueId;
+        this.props.actions.updateField({ targetName: target, key: key, value: value });
       }
     }, {
       key: 'handleCallBacks',
@@ -259,7 +257,8 @@
           delete: objectId && this.onDelete,
           cleanData: objectId || this.cleanData,
           put: objectId && this.onPut,
-          post: objectId || this.onPost
+          post: objectId || this.onPost,
+          updateField: this.updateField
         });
       }
     }]);

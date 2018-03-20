@@ -12,7 +12,7 @@ const {
 
 export default function reducerHandler(state, action) {
   const { payload } = action;
-  const { targetName, status, data, info, error } = payload || {};
+  const { targetName, status, data, info, error, key, value } = payload || {};
   switch (action.type) {
     case SET_DOCUMENT: {
       const documents = state.documents.get(targetName);
@@ -42,14 +42,17 @@ export default function reducerHandler(state, action) {
     }
     case UPDATE_DOC_FIELD: {
       const documents = state.documents.get(targetName);
+      debugger
       let nextState = state;
+      debugger
       if (!documents) {
         nextState = nextState.setIn(['documents', targetName], Map());
       }
       nextState = nextState.setIn(
-        ['documents', targetName, 'data', action.key],
-        action.value,
+        ['documents', targetName, 'data', key],
+        value,
       );
+      debugger
       return nextState;
     }
     case CLEAN_DOCUMENT: {

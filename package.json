@@ -1,6 +1,6 @@
 {
     "name": "react-parse",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "description": "react components with redux and saga ready to use for easy and fast fetch data from and parse server",
     "main": "dist/index.js",
     "repository": {
