@@ -50,30 +50,27 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
           case 4:
-            debugger;
-            return _context.delegateYield((0, _apiSagaWrapper.httpRequest)(_api2.default.getObjectById, schemaName, objectId, keys, include), 't0', 6);
+            return _context.delegateYield((0, _apiSagaWrapper.httpRequest)(_api2.default.getObjectById, schemaName, objectId, keys, include), 't0', 5);
 
-          case 6:
+          case 5:
             res = _context.t0;
 
-            debugger;
-
             if (!res.error) {
-              _context.next = 15;
+              _context.next = 13;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('get document err', objectId, res.error);
-            _context.next = 13;
+            _context.next = 11;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-          case 13:
-            _context.next = 19;
+          case 11:
+            _context.next = 17;
             break;
 
-          case 15:
+          case 13:
             info = {
               timestamp: Date.now(),
               keys: keys,
@@ -81,7 +78,7 @@
               schemaName: schemaName
             };
             data = res.data;
-            _context.next = 19;
+            _context.next = 17;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -90,7 +87,7 @@
               error: null
             }));
 
-          case 19:
+          case 17:
           case 'end':
             return _context.stop();
         }

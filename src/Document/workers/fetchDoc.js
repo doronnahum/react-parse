@@ -14,7 +14,6 @@ export default function* fetchDoc(action) {
   const { targetName, schemaName, objectId, include, keys } = action.payload;
   const target = targetName || objectId;
   yield put(setOnStore({ targetName: target, status: START, error: null }));
-  debugger
   const res = yield* httpRequest(
     api.getObjectById,
     schemaName,
@@ -22,7 +21,6 @@ export default function* fetchDoc(action) {
     keys,
     include,
   );
-  debugger
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('get document err', objectId, res.error);

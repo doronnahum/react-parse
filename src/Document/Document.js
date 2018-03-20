@@ -29,8 +29,8 @@ class FetchDocument extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.updateField = this.updateField.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
-    this.onPostDoc = this.onPostDoc.bind(this);
-    this.onPutDoc = this.onPutDoc.bind(this);
+    this.onPost = this.onPost.bind(this);
+    this.onPut = this.onPut.bind(this);
     this.cleanData = this.cleanData.bind(this);
   }
 
@@ -63,10 +63,10 @@ class FetchDocument extends React.Component {
   }
 
   onRefresh() {
-    this.fetchData(null, false);
+    this.fetchData(this.props, false);
   }
 
-  onPutDoc() {
+  onPut(dataFromCall) {
     const {
       actions,
       targetName,
@@ -75,10 +75,11 @@ class FetchDocument extends React.Component {
       objectId,
       parseDataBeforeSubmit,
     } = this.props;
+    const dataToUpdate = dataFromCall || data
     const target = targetName || objectId;
     const dataToSend = parseDataBeforeSubmit
-      ? parseDataBeforeSubmit(data)
-      : data;
+      ? parseDataBeforeSubmit(dataToUpdate)
+      : dataToUpdate;
     actions.putDoc({
       targetName: target,
       schemaName,
@@ -87,7 +88,7 @@ class FetchDocument extends React.Component {
     });
   }
 
-  onPostDoc() {
+  onPost() {
     const {
       actions,
       targetName,
@@ -152,14 +153,14 @@ class FetchDocument extends React.Component {
     const { data, queryStatus, info, error, objectId } = this.props;
     return this.props.render(error, {
       data,
-      isLoading,
+      isLoading: isLoading(queryStatus),
       queryStatus,
       info,
-      refreshData: this.onRefreshData,
-      deleteDoc: objectId && this.onDeleteDoc,
-      cleanData: objectId || this.cleanStore,
-      putDoc: objectId && this.onPutDoc,
-      postDoc: objectId || this.onPostDoc,
+      refresh: this.onRefresh,
+      delete: objectId && this.onDelete,
+      cleanData: objectId || this.cleanData,
+      put: objectId && this.onPut,
+      post: objectId || this.onPost,
     });
   }
 }

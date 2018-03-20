@@ -20,10 +20,10 @@ class FetchCollection extends React.PureComponent {
   constructor(props) {
     super(props);
     this.fetchData = this.fetchData.bind(this);
-    this.onDeleteDoc = this.onDeleteDoc.bind(this);
-    this.onPutDoc = this.onPutDoc.bind(this);
-    this.onPostDoc = this.onPostDoc.bind(this);
-    this.onRefreshData = this.onRefreshData.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.onPut = this.onPut.bind(this);
+    this.onPost = this.onPost.bind(this);
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentWillMount() {
@@ -49,16 +49,16 @@ class FetchCollection extends React.PureComponent {
     }
   }
 
-  onDeleteDoc(objectId) {
+  onDelete(objectId) {
     const { actions, schemaName, targetName } = this.props;
     if (!objectId) {
-      console.warn('onDeleteDoc: missing objectId ');
+      console.warn('onDelete: missing objectId ');
       return;
     }
     actions.deleteDoc({ schemaName, targetName, objectId });
   }
 
-  onPutDoc(objectId, data) {
+  onPut(objectId, data) {
     const { actions, schemaName, targetName } = this.props;
     if (!objectId) {
       console.warn('onUpdateDoc: missing objectId ');
@@ -70,21 +70,22 @@ class FetchCollection extends React.PureComponent {
     }
     actions.putDoc({ schemaName, targetName, objectId, data });
   }
-  onPostDoc(data) {
+  onPost(data) {
     const { actions, schemaName, targetName } = this.props;
     if (!data || typeof data !== 'object') {
-      console.warn('onPostDoc: missing data object ');
+      console.warn('onPost: missing data object ');
       return;
     }
-    debugger
     actions.postDoc({ schemaName, targetName, data });
   }
 
-  onRefreshData() {
+  onRefresh() {
+    debugger
     this.fetchData(this.props, false);
   }
 
   fetchData(props = this.props, localOnly = this.props.localOnly) {
+    fetchData
     const {
       targetName,
       schemaName,
@@ -137,13 +138,13 @@ class FetchCollection extends React.PureComponent {
     const { data, queryStatus, info, error } = this.props;
     return this.props.render(error, {
       data,
-      isLoading,
+      isLoading: isLoading(queryStatus),
       queryStatus,
       info,
-      refreshData: this.onRefreshData,
-      deleteDoc: this.onDeleteDoc,
-      putDoc: this.onPutDoc,
-      postDoc: this.onPostDoc,
+      refresh: this.onRefresh,
+      deleteDoc: this.onDelete,
+      put: this.onPut,
+      post: this.onPost,
     });
   }
 }

@@ -85,8 +85,8 @@
       _this.onDelete = _this.onDelete.bind(_this);
       _this.updateField = _this.updateField.bind(_this);
       _this.onRefresh = _this.onRefresh.bind(_this);
-      _this.onPostDoc = _this.onPostDoc.bind(_this);
-      _this.onPutDoc = _this.onPutDoc.bind(_this);
+      _this.onPost = _this.onPost.bind(_this);
+      _this.onPut = _this.onPut.bind(_this);
       _this.cleanData = _this.cleanData.bind(_this);
       return _this;
     }
@@ -134,11 +134,11 @@
     }, {
       key: 'onRefresh',
       value: function onRefresh() {
-        this.fetchData(null, false);
+        this.fetchData(this.props, false);
       }
     }, {
-      key: 'onPutDoc',
-      value: function onPutDoc() {
+      key: 'onPut',
+      value: function onPut(dataFromCall) {
         var _props3 = this.props,
             actions = _props3.actions,
             targetName = _props3.targetName,
@@ -147,8 +147,9 @@
             objectId = _props3.objectId,
             parseDataBeforeSubmit = _props3.parseDataBeforeSubmit;
 
+        var dataToUpdate = dataFromCall || data;
         var target = targetName || objectId;
-        var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(data) : data;
+        var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(dataToUpdate) : dataToUpdate;
         actions.putDoc({
           targetName: target,
           schemaName: schemaName,
@@ -157,8 +158,8 @@
         });
       }
     }, {
-      key: 'onPostDoc',
-      value: function onPostDoc() {
+      key: 'onPost',
+      value: function onPost() {
         var _props4 = this.props,
             actions = _props4.actions,
             targetName = _props4.targetName,
@@ -251,14 +252,14 @@
 
         return this.props.render(error, {
           data: data,
-          isLoading: _helpers.isLoading,
+          isLoading: (0, _helpers.isLoading)(queryStatus),
           queryStatus: queryStatus,
           info: info,
-          refreshData: this.onRefreshData,
-          deleteDoc: objectId && this.onDeleteDoc,
-          cleanData: objectId || this.cleanStore,
-          putDoc: objectId && this.onPutDoc,
-          postDoc: objectId || this.onPostDoc
+          refresh: this.onRefresh,
+          delete: objectId && this.onDelete,
+          cleanData: objectId || this.cleanData,
+          put: objectId && this.onPut,
+          post: objectId || this.onPost
         });
       }
     }]);

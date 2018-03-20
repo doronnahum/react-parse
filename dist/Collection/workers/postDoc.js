@@ -55,27 +55,25 @@
           case 5:
             res = _context.t0;
 
-            debugger;
-
             if (!res.error) {
-              _context.next = 14;
+              _context.next = 13;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-            _context.next = 11;
+            _context.next = 10;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-          case 11:
+          case 10:
             console.error('postDoc err', schemaName, res.err);
-            _context.next = 16;
+            _context.next = 15;
             break;
 
-          case 14:
-            _context.next = 16;
+          case 13:
+            _context.next = 15;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null }));
 
-          case 16:
+          case 15:
           case 'end':
             return _context.stop();
         }

@@ -15,7 +15,7 @@ export default function* postDoc(action) {
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null }));
   const res = yield* httpRequest(api.createObject, schemaName, data);
-  debugger
+  
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     yield put(setOnStore({ targetName: target, status: errType, error: res }));

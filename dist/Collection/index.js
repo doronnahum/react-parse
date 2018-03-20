@@ -88,10 +88,10 @@
       var _this = _possibleConstructorReturn(this, (FetchCollection.__proto__ || Object.getPrototypeOf(FetchCollection)).call(this, props));
 
       _this.fetchData = _this.fetchData.bind(_this);
-      _this.onDeleteDoc = _this.onDeleteDoc.bind(_this);
-      _this.onPutDoc = _this.onPutDoc.bind(_this);
-      _this.onPostDoc = _this.onPostDoc.bind(_this);
-      _this.onRefreshData = _this.onRefreshData.bind(_this);
+      _this.onDelete = _this.onDelete.bind(_this);
+      _this.onPut = _this.onPut.bind(_this);
+      _this.onPost = _this.onPost.bind(_this);
+      _this.onRefresh = _this.onRefresh.bind(_this);
       return _this;
     }
 
@@ -126,22 +126,22 @@
         }
       }
     }, {
-      key: 'onDeleteDoc',
-      value: function onDeleteDoc(objectId) {
+      key: 'onDelete',
+      value: function onDelete(objectId) {
         var _props2 = this.props,
             actions = _props2.actions,
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
         if (!objectId) {
-          console.warn('onDeleteDoc: missing objectId ');
+          console.warn('onDelete: missing objectId ');
           return;
         }
         actions.deleteDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId });
       }
     }, {
-      key: 'onPutDoc',
-      value: function onPutDoc(objectId, data) {
+      key: 'onPut',
+      value: function onPut(objectId, data) {
         var _props3 = this.props,
             actions = _props3.actions,
             schemaName = _props3.schemaName,
@@ -158,23 +158,23 @@
         actions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data });
       }
     }, {
-      key: 'onPostDoc',
-      value: function onPostDoc(data) {
+      key: 'onPost',
+      value: function onPost(data) {
         var _props4 = this.props,
             actions = _props4.actions,
             schemaName = _props4.schemaName,
             targetName = _props4.targetName;
 
         if (!data || (typeof data === 'undefined' ? 'undefined' : _typeof(data)) !== 'object') {
-          console.warn('onPostDoc: missing data object ');
+          console.warn('onPost: missing data object ');
           return;
         }
-        debugger;
         actions.postDoc({ schemaName: schemaName, targetName: targetName, data: data });
       }
     }, {
-      key: 'onRefreshData',
-      value: function onRefreshData() {
+      key: 'onRefresh',
+      value: function onRefresh() {
+        debugger;
         this.fetchData(this.props, false);
       }
     }, {
@@ -182,6 +182,8 @@
       value: function fetchData() {
         var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
         var localOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.localOnly;
+
+        _actions.fetchData;
         var targetName = props.targetName,
             schemaName = props.schemaName,
             query = props.query,
@@ -246,13 +248,13 @@
 
         return this.props.render(error, {
           data: data,
-          isLoading: _helpers.isLoading,
+          isLoading: (0, _helpers.isLoading)(queryStatus),
           queryStatus: queryStatus,
           info: info,
-          refreshData: this.onRefreshData,
-          deleteDoc: this.onDeleteDoc,
-          putDoc: this.onPutDoc,
-          postDoc: this.onPostDoc
+          refresh: this.onRefresh,
+          deleteDoc: this.onDelete,
+          put: this.onPut,
+          post: this.onPost
         });
       }
     }]);
