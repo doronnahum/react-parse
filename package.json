@@ -3,72 +3,54 @@
     "version": "1.2.0",
     "description": "react components with redux and saga ready to use for easy and fast fetch data from and parse server",
     "main": "dist/index.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/doronnahum/react-parse.git"
-    },
-    "author": "doron nahum",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/doronnahum/react-parse/issues"
-    },
-    "homepage": "https://github.com/doronnahum/react-parse#readme",
-    "keywords": [
-        "react-component",
-        "react"
-    ],
-    "options": {
-        "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"
-    },
     "scripts": {
-        "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
-        "lint": "eslint ./src",
-        "lintfix": "eslint ./src --fix",
-        "testonly": "mocha $npm_package_options_mocha",
-        "test": "npm run lint && npm run testonly",
-        "test-watch": "npm run testonly -- --watch --watch-extensions js"
+      "dev": "babel-node src/index.es6",
+      "lint": "eslint src/**/*.es6",
+      "compile": "babel --stage 0 -d dist/ src/",
+      "tape": "babel-node node_modules/argg src/test/*.es6",
+      "istanbul": "npm run compile && istanbul cover --dir coverage/istanbul node_modules/argg dist/test/*.js --report lcovonly",
+      "coverage": "npm run compile && istanbul cover --dir coverage/istanbul node_modules/argg dist/test/*.js --report html",
+      "coveralls": "cat ./coverage/istanbul/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+      "plato": "plato -d coverage/plato dist/index.js",
+      "test": "npm run istanbul && npm run coveralls"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/doronnahum/react-parse.git"
     },
     "devDependencies": {
-        "babel-cli": "^6.6.4",
-        "babel-core": "^6.7.4",
-        "babel-eslint": "^6.0.2",
-        "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
-        "babel-plugin-transform-regenerator": "^6.26.0",
-        "babel-polyfill": "^6.7.4",
-        "babel-preset-react": "^6.5.0",
-        "babel-preset-stage-0": "^6.0.15",
-        "babel-preset-stage-2": "^6.5.0",
-        "chai": "^3.5.0",
-        "enzyme": "^2.2.0",
-        "eslint": "^2.7.0",
-        "eslint-plugin-babel": "^3.1.0",
-        "eslint-plugin-react": "^4.2.3",
-        "jsdom": "^8.1.0",
-        "mocha": "^2.4.5",
-        "nodemon": "^1.9.1",
-        "react": "^15.0.0",
-        "react-addons-test-utils": "^15.0.0",
-        "react-dom": "^15.0.0",
-        "sinon": "^1.17.3"
-    },
-    "peerDependencies": {
-        "react": "~0.14.8 || ^15.0.0",
-        "react-dom": "~0.14.8 || ^15.0.0"
+      "argg": "0.0.2",
+      "babel": "^5",
+      "coveralls": "^2.11.4",
+      "istanbul": "^0.3.18",
+      "plato": "^1.5.0",
+      "tape": "^4.2.0"
     },
     "dependencies": {
-        "axios": "^0.16.2",
-        "babel-preset-env": "^1.6.1",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-regenerator-runtime": "^6.5.0",
-        "babel-runtime": "^6.6.1",
-        "immutable": "^3.8.1",
-        "lodash": "^4.17.4",
-        "prop-types": "^15.5.10",
-        "react": "16.0.0-alpha.6",
-        "react-redux": "^5.0.6",
-        "redux": "^3.6.0",
-        "redux-saga": "^0.15.4",
-        "regenerator-runtime": "^0.11.1",
-        "reselect": "^3.0.1"
-    }
-}
+      "axios": "^0.16.2",
+      "immutable": "^3.8.1",
+      "lodash": "^4.17.4",
+      "prop-types": "^15.5.10",
+      "react": "16.0.0-alpha.6",
+      "react-redux": "^5.0.6",
+      "redux": "^3.6.0",
+      "redux-saga": "^0.15.4",
+      "regenerator-runtime": "^0.11.1",
+      "reselect": "^3.0.1"
+    },
+    "keywords": [
+      "react",
+      "redux",
+      "saga",
+      "parse-server",
+      "parse",
+      "react-native"
+    ],
+    "author": "doron nahum",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/doronnahum/react-parse/issues"
+    },
+    "homepage": "https://github.com/doronnahum/react-parse#readme"
+  }
+  
