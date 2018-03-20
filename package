@@ -1,6 +1,0 @@
-{
-  "name": "react-parse-saga-tools",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./index.js"
-}
