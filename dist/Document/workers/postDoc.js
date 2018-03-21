@@ -20,6 +20,8 @@
 
   var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
+  var _apiSagaWrapper2 = _interopRequireDefault(_apiSagaWrapper);
+
   var _types2 = _interopRequireDefault(_types);
 
   var _api2 = _interopRequireDefault(_api);
@@ -49,7 +51,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null }));
 
           case 3:
-            return _context.delegateYield((0, _apiSagaWrapper.httpRequest)(_api2.default.createObject, schemaName, data), 't0', 4);
+            return _context.delegateYield((0, _apiSagaWrapper2.default)(_api2.default.createObject, schemaName, data), 't0', 4);
 
           case 4:
             res = _context.t0;
@@ -92,5 +94,5 @@
       }
     }, _marked, this);
   }
-  // worker
+  /* eslint no-unused-vars: "off" */
 });

@@ -26,7 +26,7 @@
   };
 
   // --- Cloud codes ---/
-  var getCloudCodes = exports.getCloudCodes = function getCloudCodes(state, targetName) {
+  var getCloudCodes = exports.getCloudCodes = function getCloudCodes(state) {
     return state.parse.cloudCodes;
   };
   // -- Get specific collections

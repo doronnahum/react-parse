@@ -6,7 +6,7 @@ export const defaultProps = {
   onFetchEnd: () => {},
   onPostEnd: () => {},
   onPutEnd: () => {},
-  onDeleteEnd: () => {},
+  onDeleteEnd: () => {}
 };
 
 export const propTypes = {
@@ -116,5 +116,5 @@ export const propTypes = {
       postDocument
     }
    */
-  render: PropTypes.func.isRequired,
+  render: PropTypes.func.isRequired
 };

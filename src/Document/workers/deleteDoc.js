@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/apiSagaWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
@@ -22,16 +22,16 @@ export default function* deleteDoc(action) {
   } else {
     const info = {
       timestamp: Date.now(),
-      schemaName,
+      schemaName
     };
     yield put(
       setOnStore({
         targetName: target,
         status: FINISHED,
         info,
-        error: null,
-      }),
+        error: null
+      })
     );
   }
 }
-// worker
+/* eslint no-unused-vars: "off" */

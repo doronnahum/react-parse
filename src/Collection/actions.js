@@ -7,19 +7,17 @@ const {
   CLEAN_ALL_COLLECTIONS,
   DELETE_COLLECTION_DOC,
   PUT_COLLECTION_DOC,
-  POST_COLLECTION_DOC,
+  POST_COLLECTION_DOC
 } = types;
 
 /**
  * fetchData
  * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount}
  */
-export const fetchData = payload => {
-  return {
-    type: FETCH_COLLECTION,
-    payload,
-  };
-};
+export const fetchData = payload => ({
+  type: FETCH_COLLECTION,
+  payload
+});
 
 /**
  * setOnStore
@@ -27,7 +25,7 @@ export const fetchData = payload => {
  */
 export const setOnStore = payload => ({
   type: SET_COLLECTION,
-  payload,
+  payload
 });
 
 /**
@@ -36,7 +34,7 @@ export const setOnStore = payload => ({
  */
 export const deleteDoc = payload => ({
   type: DELETE_COLLECTION_DOC,
-  payload,
+  payload
 });
 
 /**
@@ -45,7 +43,7 @@ export const deleteDoc = payload => ({
  */
 export const putDoc = payload => ({
   type: PUT_COLLECTION_DOC,
-  payload,
+  payload
 });
 
 /**
@@ -54,7 +52,7 @@ export const putDoc = payload => ({
  */
 export const postDoc = payload => ({
   type: POST_COLLECTION_DOC,
-  payload,
+  payload
 });
 
 /**
@@ -63,9 +61,9 @@ export const postDoc = payload => ({
  */
 export const cleanData = payload => ({
   type: CLEAN_ALL_COLLECTIONS,
-  payload,
+  payload
 });
 
 export const cleanCollections = () => ({
-  type: CLEAN_COLLECTION,
+  type: CLEAN_COLLECTION
 });

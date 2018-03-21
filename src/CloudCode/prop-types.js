@@ -57,11 +57,11 @@ export const propTypes = {
       refreshData
     }
    */
-  render: PropTypes.func.isRequired,
+  render: PropTypes.func.isRequired
 };
 
 export const defaultProps = {
   digToData: 'data.result',
   leaveClean: true,
-  onFetchEnd: () => {},
+  onFetchEnd: () => {}
 };

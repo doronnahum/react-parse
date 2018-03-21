@@ -25,7 +25,7 @@
     return targetName;
   };
 
-  var getDocuments = exports.getDocuments = function getDocuments(state, targetName) {
+  var getDocuments = exports.getDocuments = function getDocuments(state) {
     return state.parse.documents;
   };
 

@@ -16,7 +16,7 @@ export default function reducerHandler(state, action) {
       if ('status' in payload) {
         nextState = nextState.setIn(
           ['cloudCodes', targetName, 'status'],
-          status,
+          status
         );
       }
       if ('data' in payload) {
@@ -31,8 +31,8 @@ export default function reducerHandler(state, action) {
       return nextState;
     }
     case types.CLEAN_CLOUD_CODE: {
-      let clouds = state.cloudCodes.delete(targetName)
-      return state.set('cloudCodes', clouds)
+      const clouds = state.cloudCodes.delete(targetName);
+      return state.set('cloudCodes', clouds);
     }
     case types.CLEAN_ALL_CLOUD_CODE: {
       return state.set('cloudCodes', Map());

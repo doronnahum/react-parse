@@ -7,7 +7,7 @@ import {
   putDoc,
   postDoc,
   cleanData,
-  updateField,
+  updateField
 } from './actions';
 import { propTypes, defaultProps } from './prop-types';
 import { getData, getStatus, getInfo, getError } from './selectors';
@@ -19,7 +19,7 @@ import {
   isDeleteFinish,
   isUpdateFinish,
   isCreateFinish,
-  isDocumentParamsChanged,
+  isDocumentParamsChanged
 } from '../helpers';
 
 class FetchDocument extends React.Component {
@@ -73,9 +73,9 @@ class FetchDocument extends React.Component {
       schemaName,
       data,
       objectId,
-      parseDataBeforeSubmit,
+      parseDataBeforeSubmit
     } = this.props;
-    const dataToUpdate = dataFromCall || data
+    const dataToUpdate = dataFromCall || data;
     const target = targetName || objectId;
     const dataToSend = parseDataBeforeSubmit
       ? parseDataBeforeSubmit(dataToUpdate)
@@ -84,7 +84,7 @@ class FetchDocument extends React.Component {
       targetName: target,
       schemaName,
       data: dataToSend,
-      objectId,
+      objectId
     });
   }
 
@@ -95,7 +95,7 @@ class FetchDocument extends React.Component {
       schemaName,
       data,
       uniqueId,
-      parseDataBeforeSubmit,
+      parseDataBeforeSubmit
     } = this.props;
     const target = targetName || uniqueId;
     const dataToSend = parseDataBeforeSubmit
@@ -114,14 +114,14 @@ class FetchDocument extends React.Component {
       schemaName,
       objectId,
       include,
-      keys,
+      keys
     });
   }
 
   updateField(key, value) {
     const { targetName, objectId, uniqueId } = this.props;
     const target = targetName || (objectId || uniqueId);
-    this.props.actions.updateField({targetName: target, key, value});
+    this.props.actions.updateField({ targetName: target, key, value });
   }
 
   handleCallBacks(props, nextProps) {
@@ -170,7 +170,7 @@ function mapStateToProps(state, props) {
     data: getData(state, target),
     queryStatus: getStatus(state, target),
     info: getInfo(state, target),
-    error: getError(state, target),
+    error: getError(state, target)
   };
 }
 
@@ -183,10 +183,10 @@ function mapDispatchToProps(dispatch) {
         putDoc,
         postDoc,
         cleanData,
-        updateField,
+        updateField
       },
-      dispatch,
-    ),
+      dispatch
+    )
   };
 }
 

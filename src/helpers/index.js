@@ -2,14 +2,6 @@ import isEqual from 'lodash/isEqual';
 import consts from '../types';
 
 const {
-  LOADING,
-  DELETE_DOCUMENT_START,
-  UPDATE_DOCUMENT_START,
-  CREATE_DOCUMENT_START,
-  DELETE_DOCUMENT_FROM_COLLECTION_START,
-  UPDATE_DOCUMENT_FROM_COLLECTION_START,
-  ERROR,
-  NETWORK_ERROR,
   FETCH_START,
   FETCH_FAILED,
   FETCH_FAILED_NETWORK,
@@ -28,7 +20,7 @@ const {
   PUT_START,
   PUT_FAILED,
   PUT_FAILED_NETWORK,
-  PUT_FINISHED,
+  PUT_FINISHED
 } = consts;
 export const createUniqueId = function createUniqueId() {
   function s4() {
@@ -68,13 +60,13 @@ export const dig = function dig(obj, target) {
 export const GetPointerObject = (className, objectId) => ({
   __type: 'Pointer',
   className,
-  objectId,
+  objectId
 });
 
-const isParamsChanged = function isParamsChanged(props, nextProps) {
+const isParamsChanged = function(props, nextProps) {
   return !isEqual(props.params, nextProps.params);
 };
-export const isDocTargetChanged = function isTargetChanged(props, nextProps) {
+export const isDocTargetChanged = function(props, nextProps) {
   let status = true;
   if (props.targetName !== nextProps.targetName) {
     status = false;
@@ -85,7 +77,7 @@ export const isDocTargetChanged = function isTargetChanged(props, nextProps) {
   }
   return status;
 };
-export const isTargetChanged = function isTargetChanged(props, nextProps) {
+export const isTargetChanged = function(props, nextProps) {
   let status = true;
   if (props.targetName !== nextProps.targetName) {
     status = false;
@@ -96,10 +88,10 @@ export const isTargetChanged = function isTargetChanged(props, nextProps) {
   }
   return status;
 };
-export const isFunctionChanged = function isFunctionChanged(props, nextProps) {
+export const isFunctionChanged = function(props, nextProps) {
   return props.functionName !== nextProps.functionName;
 };
-export const isCloudCodePropsChanged = function isChanged(props, nextProps) {
+export const isCloudCodePropsChanged = function(props, nextProps) {
   let status = false;
   if (isParamsChanged(props, nextProps)) {
     status = true;
@@ -131,6 +123,7 @@ export const isCreateFinish = function(props, nextProps) {
 export const isDeleteStart = function(queryStatus) {
   return queryStatus === DELETE_START;
 };
+
 export const isDeleteFinish = function(props, nextProps) {
   const now = props.queryStatus;
   const next = nextProps.queryStatus;
@@ -167,9 +160,11 @@ export const isFetchFinish = function(props, nextProps) {
 export const isDataChanged = function(props, nextProps) {
   return props.data !== nextProps.data;
 };
+
 export const isQueryStatusChanged = function(props, nextProps) {
   return props.queryStatus !== nextProps.queryStatus;
 };
+
 export const isDocumentParamsChanged = function(props, nextProps) {
   // schemaName was change, get data from server
   if (props.schemaName !== nextProps.schemaName) {
@@ -186,6 +181,7 @@ export const isDocumentParamsChanged = function(props, nextProps) {
   }
   return false;
 };
+
 export const isCollectionParamsChanged = function(props, nextProps) {
   // filters was change, get data from server
   if (!isEqual(props.query, nextProps.query)) {
@@ -205,3 +201,5 @@ export const isCollectionParamsChanged = function(props, nextProps) {
   }
   return false;
 };
+
+/* eslint no-restricted-syntax: "off" */

@@ -18,13 +18,13 @@ export default function reducerHandler(state, action) {
       if ('status' in payload) {
         nextState = nextState.setIn(
           ['collections', targetName, 'status'],
-          status,
+          status
         );
       }
       if ('data' in payload) {
         nextState = nextState.setIn(
           ['collections', targetName, 'data'],
-          List(data),
+          List(data)
         );
       }
       if ('info' in payload) {
@@ -33,14 +33,14 @@ export default function reducerHandler(state, action) {
       if ('error' in payload) {
         nextState = nextState.setIn(
           ['collections', targetName, 'error'],
-          error,
+          error
         );
       }
       return nextState;
     }
     case CLEAN_COLLECTION: {
-      let collections = state.collections.delete(targetName)
-      return state.set('collections', collections)
+      const collections = state.collections.delete(targetName);
+      return state.set('collections', collections);
     }
     case CLEAN_ALL_COLLECTIONS: {
       return state.set('collections', Map());

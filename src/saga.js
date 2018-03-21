@@ -1,4 +1,4 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { takeEvery } from 'redux-saga/effects';
 import types from './types';
 import * as Collection from './Collection/saga';
@@ -14,7 +14,7 @@ const {
   FETCH_DOCUMENT,
   PUT_DOCUMENT,
   DELETE_DOCUMENT,
-  POST_DOCUMENT,
+  POST_DOCUMENT
 } = types;
 // Collections
 
@@ -33,3 +33,4 @@ export default function* parseWatcher() {
   // Cloud code
   yield takeEvery(FETCH_CLOUD_CODE, CloudCode);
 }
+/* eslint no-unused-vars: "off" */

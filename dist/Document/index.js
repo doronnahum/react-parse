@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'react', '../helpers', './Document'], factory);
+    define(['exports', 'react', 'prop-types', '../helpers', './Document'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('react'), require('../helpers'), require('./Document'));
+    factory(exports, require('react'), require('prop-types'), require('../helpers'), require('./Document'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.react, global.helpers, global.Document);
+    factory(mod.exports, global.react, global.propTypes, global.helpers, global.Document);
     global.index = mod.exports;
   }
-})(this, function (exports, _react, _helpers, _Document) {
+})(this, function (exports, _react, _propTypes, _helpers, _Document) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -18,6 +18,8 @@
   });
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _propTypes2 = _interopRequireDefault(_propTypes);
 
   var _Document2 = _interopRequireDefault(_Document);
 
@@ -112,4 +114,9 @@
   }(_react2.default.PureComponent);
 
   exports.default = FetchDocumentWithUniqueId;
+
+
+  FetchDocumentWithUniqueId.propTypes = {
+    uniqueId: _propTypes2.default.string
+  };
 });

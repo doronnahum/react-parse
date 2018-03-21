@@ -28,15 +28,7 @@
     };
   }
 
-  var LOADING = _types2.default.LOADING,
-      DELETE_DOCUMENT_START = _types2.default.DELETE_DOCUMENT_START,
-      UPDATE_DOCUMENT_START = _types2.default.UPDATE_DOCUMENT_START,
-      CREATE_DOCUMENT_START = _types2.default.CREATE_DOCUMENT_START,
-      DELETE_DOCUMENT_FROM_COLLECTION_START = _types2.default.DELETE_DOCUMENT_FROM_COLLECTION_START,
-      UPDATE_DOCUMENT_FROM_COLLECTION_START = _types2.default.UPDATE_DOCUMENT_FROM_COLLECTION_START,
-      ERROR = _types2.default.ERROR,
-      NETWORK_ERROR = _types2.default.NETWORK_ERROR,
-      FETCH_START = _types2.default.FETCH_START,
+  var FETCH_START = _types2.default.FETCH_START,
       FETCH_FAILED = _types2.default.FETCH_FAILED,
       FETCH_FAILED_NETWORK = _types2.default.FETCH_FAILED_NETWORK,
       FETCH_FINISHED = _types2.default.FETCH_FINISHED,
@@ -118,7 +110,7 @@
   var isParamsChanged = function isParamsChanged(props, nextProps) {
     return !(0, _isEqual2.default)(props.params, nextProps.params);
   };
-  var isDocTargetChanged = exports.isDocTargetChanged = function isTargetChanged(props, nextProps) {
+  var isDocTargetChanged = exports.isDocTargetChanged = function isDocTargetChanged(props, nextProps) {
     var status = true;
     if (props.targetName !== nextProps.targetName) {
       status = false;
@@ -143,7 +135,7 @@
   var isFunctionChanged = exports.isFunctionChanged = function isFunctionChanged(props, nextProps) {
     return props.functionName !== nextProps.functionName;
   };
-  var isCloudCodePropsChanged = exports.isCloudCodePropsChanged = function isChanged(props, nextProps) {
+  var isCloudCodePropsChanged = exports.isCloudCodePropsChanged = function isCloudCodePropsChanged(props, nextProps) {
     var status = false;
     if (isParamsChanged(props, nextProps)) {
       status = true;
@@ -171,6 +163,7 @@
   var isDeleteStart = exports.isDeleteStart = function isDeleteStart(queryStatus) {
     return queryStatus === DELETE_START;
   };
+
   var isDeleteFinish = exports.isDeleteFinish = function isDeleteFinish(props, nextProps) {
     var now = props.queryStatus;
     var next = nextProps.queryStatus;
@@ -207,9 +200,11 @@
   var isDataChanged = exports.isDataChanged = function isDataChanged(props, nextProps) {
     return props.data !== nextProps.data;
   };
+
   var isQueryStatusChanged = exports.isQueryStatusChanged = function isQueryStatusChanged(props, nextProps) {
     return props.queryStatus !== nextProps.queryStatus;
   };
+
   var isDocumentParamsChanged = exports.isDocumentParamsChanged = function isDocumentParamsChanged(props, nextProps) {
     // schemaName was change, get data from server
     if (props.schemaName !== nextProps.schemaName) {
@@ -226,6 +221,7 @@
     }
     return false;
   };
+
   var isCollectionParamsChanged = exports.isCollectionParamsChanged = function isCollectionParamsChanged(props, nextProps) {
     // filters was change, get data from server
     if (!(0, _isEqual2.default)(props.query, nextProps.query)) {
@@ -245,4 +241,6 @@
     }
     return false;
   };
+
+  /* eslint no-restricted-syntax: "off" */
 });

@@ -16,7 +16,7 @@
 // import {create} from 'apisauce'
 import axios from 'axios';
 
-const create = axios.create;
+const { create } = axios;
 // const LOGIN = 'login'
 // const LOGOUT = 'logout'
 
@@ -35,7 +35,7 @@ const logoutPath = '/logout';
 const cloudCodePath = '/functions/';
 // const jobsPath = "/jobs/";
 
-let _api = null;
+let api = null;
 let initConfig = null;
 const createHeaders = function(res) {
   const obj = {};
@@ -57,9 +57,9 @@ const Api = {
       return;
     }
     initConfig = res;
-    _api = create({
+    api = create({
       baseURL: res.baseURL,
-      headers: createHeaders(res),
+      headers: createHeaders(res)
     });
   },
   setSessionToken(token) {
@@ -95,31 +95,31 @@ const Api = {
    * {username: "barton", email: "barton@foo.com"}
    */
   query(className, query, limit, skip, Count = true, keys, include, order) {
-    const _p = {
-      params: {},
+    const data = {
+      params: {}
     };
     if (query) {
-      _p.params.where = query;
+      data.params.where = query;
     }
     if (limit) {
-      _p.params.limit = limit;
+      data.params.limit = limit;
     }
     if (skip) {
-      _p.params.skip = skip;
+      data.params.skip = skip;
     }
     if (Count) {
-      _p.params.count = Count ? 1 : 0;
+      data.params.count = Count ? 1 : 0;
     } // Count by default
     if (keys) {
-      _p.params.keys = keys;
+      data.params.keys = keys;
     }
     if (include) {
-      _p.params.include = include;
+      data.params.include = include;
     }
     if (order) {
-      _p.params.order = order;
+      data.params.order = order;
     }
-    return _api.get(`${classPath}${className}`, _p);
+    return api.get(`${classPath}${className}`, data);
   },
   /**
    * ### getCloudFunction
@@ -129,13 +129,13 @@ const Api = {
    * @param data object data to post to server
    */
   getCloudFunction(functionName, data) {
-    return _api.post(`${cloudCodePath}${functionName}`, data);
+    return api.post(`${cloudCodePath}${functionName}`, data);
   },
   getObjectById(schemaName, objectId, keys, include) {
     const p = { params: {} };
     if (keys) p.keys = keys;
     if (include) p.include = include;
-    return _api.get(`${classPath}${schemaName}/${objectId}`, p);
+    return api.get(`${classPath}${schemaName}/${objectId}`, p);
   },
   /**
    * ### updateObject
@@ -149,9 +149,9 @@ const Api = {
    */
   updateObject(schemaName, objectId, data) {
     if (schemaName === 'User') {
-      return _api.put(`${usersPath}${objectId}`, data);
+      return api.put(`${usersPath}${objectId}`, data);
     }
-    return _api.put(`${classPath}${schemaName}/${objectId}`, data);
+    return api.put(`${classPath}${schemaName}/${objectId}`, data);
   },
   /**
    * ### createObject
@@ -163,7 +163,7 @@ const Api = {
    * data: {vote: 40, color: "red"}
    */
   createObject(schemaName, data) {
-    return _api.post(`${classPath}${schemaName}`, data);
+    return api.post(`${classPath}${schemaName}`, data);
   },
   /**
    * ### deleteObject
@@ -173,7 +173,7 @@ const Api = {
    * @param objectId parse objectID
    */
   deleteObject(schemaName, objectId) {
-    return _api.delete(`${classPath}${schemaName}/${objectId}`);
+    return api.delete(`${classPath}${schemaName}/${objectId}`);
   },
 
   /**
@@ -184,7 +184,7 @@ const Api = {
    *
    */
   createInstallation(data) {
-    return _api.post(installations, data);
+    return api.post(installations, data);
   },
 
   /**
@@ -195,7 +195,7 @@ const Api = {
    *
    */
   getInstallation(objectId) {
-    return _api.get(installations, objectId);
+    return api.get(installations, objectId);
   },
 
   /**
@@ -206,28 +206,31 @@ const Api = {
    *
    */
   updateInstallation(installationObjectId, data) {
-    return _api.put(installations + installationObjectId, data);
+    return api.put(installations + installationObjectId, data);
   },
 
   login(email, password) {
-    const _data = {
+    const data = {
       params: {
         username: email.trim().toLowerCase(),
-        password: password.trim().toLowerCase(),
-      },
+        password: password.trim().toLowerCase()
+      }
     };
-    return _api.get(`${loginPath}`, _data);
+    return api.get(`${loginPath}`, data);
   },
 
-  signUp(userForm) {
-    userForm.username = userForm.email.trim().toLowerCase();
-    userForm.email = userForm.email.trim().toLowerCase();
-    userForm.password = userForm.password.trim().toLowerCase();
-    return _api.post(`${usersPath}`, userForm);
+  signUp(form) {
+    const prefixForm = {
+      username: userForm.email.trim().toLowerCase(),
+      email: userForm.email.trim().toLowerCase(),
+      password: userForm.password.trim().toLowerCase(),
+    };
+    let dataToSend = Object.assign(userForm, prefixForm )
+    return api.post(`${usersPath}`, dataToSend);
   },
   logout() {
-    return _api.post(`${logoutPath}`);
-  },
+    return api.post(`${logoutPath}`);
+  }
 };
 
 export default Api;

@@ -1,8 +1,8 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', '../helpers', '../types', "regenerator-runtime"], factory);
+    define(['exports', 'redux-saga/effects', '../helpers', '../types', 'regenerator-runtime'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('../helpers'), require('../types'), require("regenerator-runtime"));
+    factory(exports, require('redux-saga/effects'), require('../helpers'), require('../types'), require('regenerator-runtime'));
   } else {
     var mod = {
       exports: {}
@@ -16,7 +16,6 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.httpRequest = undefined;
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -65,5 +64,5 @@
       }
     }, _callee, this, [[0, 7]]);
   });
-  var httpRequest = exports.httpRequest = http;
+  exports.default = http;
 });

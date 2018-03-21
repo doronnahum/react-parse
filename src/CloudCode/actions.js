@@ -4,7 +4,7 @@ const {
   FETCH_CLOUD_CODE,
   SET_CLOUD_CODE,
   CLEAN_CLOUD_CODE,
-  CLEAN_ALL_CLOUD_CODE,
+  CLEAN_ALL_CLOUD_CODE
 } = types;
 
 /**
@@ -15,7 +15,7 @@ const {
  */
 export const fetchData = payload => ({
   type: FETCH_CLOUD_CODE,
-  payload,
+  payload
 });
 
 /**
@@ -25,7 +25,7 @@ export const fetchData = payload => ({
  */
 export const setOnStore = payload => ({
   type: SET_CLOUD_CODE,
-  payload,
+  payload
 });
 
 /**
@@ -35,7 +35,7 @@ export const setOnStore = payload => ({
  */
 export const cleanData = payload => ({
   type: CLEAN_CLOUD_CODE,
-  payload,
+  payload
 });
 
 /**
@@ -43,5 +43,5 @@ export const cleanData = payload => ({
  * clean all data inside cloudCode
  */
 export const cleanCloudCode = () => ({
-  type: CLEAN_ALL_CLOUD_CODE,
+  type: CLEAN_ALL_CLOUD_CODE
 });

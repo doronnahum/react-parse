@@ -27,5 +27,5 @@ export {
   parseWatcher,
   parseReducer,
   // Selectors
-  selectors,
+  selectors
 };

@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/apiSagaWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
@@ -22,7 +22,7 @@ export default function* fetchCollection(action) {
     keys,
     include,
     order,
-    limit,
+    limit
   } = action.payload;
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null }));
@@ -35,7 +35,7 @@ export default function* fetchCollection(action) {
     enableCount,
     keys,
     include,
-    order,
+    order
   );
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
@@ -54,7 +54,7 @@ export default function* fetchCollection(action) {
       order,
       limit,
       count: res.data.count,
-      timestamp: Date.now(),
+      timestamp: Date.now()
     };
     yield put(
       setOnStore({
@@ -62,9 +62,9 @@ export default function* fetchCollection(action) {
         status: FINISHED,
         error: null,
         data,
-        info,
-      }),
+        info
+      })
     );
   }
 }
-// worker
+/* eslint no-unused-vars: "off" */

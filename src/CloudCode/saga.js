@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../server/apiSagaWrapper';
+import httpRequest from '../server/apiSagaWrapper';
 import types from '../types';
 import Api from '../server/api';
 import { dig } from '../helpers';
@@ -30,9 +30,10 @@ export default function* fetchCloudCode(action) {
         data,
         info: {
           params,
-          timestamp: Date.now(),
-        },
-      }),
+          timestamp: Date.now()
+        }
+      })
     );
   }
 }
+/* eslint no-unused-vars: "off" */

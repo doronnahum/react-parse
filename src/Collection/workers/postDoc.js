@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/apiSagaWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
@@ -15,14 +15,15 @@ export default function* postDoc(action) {
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null }));
   const res = yield* httpRequest(api.createObject, schemaName, data);
-  
+
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     yield put(setOnStore({ targetName: target, status: errType, error: res }));
     console.error('postDoc err', schemaName, res.err);
   } else {
     yield put(
-      setOnStore({ targetName: target, status: FINISHED, error: null }),
+      setOnStore({ targetName: target, status: FINISHED, error: null })
     );
   }
 }
+/* eslint no-unused-vars: "off" */

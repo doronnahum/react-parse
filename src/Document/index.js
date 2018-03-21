@@ -1,4 +1,5 @@
 import React from 'react';
+import PropsTypes from 'prop-types';
 import { createUniqueId } from '../helpers';
 import Document from './Document';
 
@@ -11,3 +12,7 @@ export default class FetchDocumentWithUniqueId extends React.PureComponent {
     return <Document {...this.props} uniqueId={this.uniqueId} />;
   }
 }
+
+FetchDocumentWithUniqueId.propTypes = {
+  uniqueId: PropsTypes.string
+};

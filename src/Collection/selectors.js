@@ -5,29 +5,26 @@ const MAP = Map();
 
 const getTargetName = (state, targetName) => targetName;
 
-export const getCollections = (state, targetName) => state.parse.collections;
+export const getCollections = state => state.parse.collections;
 
 const getImmutableCollection = createSelector(
   [getCollections, getTargetName],
-  (collections, targetName) => {
-    return collections.get(targetName) || MAP
-  },
+  (collections, targetName) => collections.get(targetName) || MAP
 );
 
 export const getData = createSelector(
   getImmutableCollection,
-  dataImmutable =>
-    dataImmutable.get('data') && dataImmutable.get('data').toJS(),
+  dataImmutable => dataImmutable.get('data') && dataImmutable.get('data').toJS()
 );
 
 export const getStatus = createSelector(getImmutableCollection, dataImmutable =>
-  dataImmutable.get('status'),
+  dataImmutable.get('status')
 );
 
 export const getInfo = createSelector(getImmutableCollection, dataImmutable =>
-  dataImmutable.get('info'),
+  dataImmutable.get('info')
 );
 
 export const getError = createSelector(getImmutableCollection, dataImmutable =>
-  dataImmutable.get('error'),
+  dataImmutable.get('error')
 );

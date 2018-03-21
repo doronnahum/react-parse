@@ -11,7 +11,7 @@ import {
   isDeleteFinish,
   isUpdateFinish,
   isCreateFinish,
-  isCollectionParamsChanged,
+  isCollectionParamsChanged
 } from '../helpers';
 
 import { defaultProps, propTypes } from './prop-types';
@@ -80,12 +80,11 @@ class FetchCollection extends React.PureComponent {
   }
 
   onRefresh() {
-    debugger
+    debugger;
     this.fetchData(this.props, false);
   }
 
   fetchData(props = this.props, localOnly = this.props.localOnly) {
-    fetchData
     const {
       targetName,
       schemaName,
@@ -95,7 +94,7 @@ class FetchCollection extends React.PureComponent {
       enableCount,
       keys,
       include,
-      order,
+      order
     } = props;
     if (localOnly || !props.schemaName) {
       return;
@@ -109,7 +108,7 @@ class FetchCollection extends React.PureComponent {
       enableCount,
       keys,
       include,
-      order,
+      order
     });
   }
 
@@ -144,7 +143,7 @@ class FetchCollection extends React.PureComponent {
       refresh: this.onRefresh,
       delete: this.onDelete,
       put: this.onPut,
-      post: this.onPost,
+      post: this.onPost
     });
   }
 }
@@ -155,7 +154,7 @@ function mapStateToProps(state, props) {
     data: getData(state, keyForData),
     queryStatus: getStatus(state, keyForData),
     info: getInfo(state, keyForData),
-    error: getError(state, keyForData),
+    error: getError(state, keyForData)
   };
 }
 
@@ -167,10 +166,10 @@ function mapDispatchToProps(dispatch) {
         deleteDoc,
         putDoc,
         postDoc,
-        cleanData,
+        cleanData
       },
-      dispatch,
-    ),
+      dispatch
+    )
   };
 }
 

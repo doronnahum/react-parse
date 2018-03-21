@@ -1,9 +1,10 @@
-const regeneratorRuntime = require("regenerator-runtime");
 import { call, put } from 'redux-saga/effects';
 import { dig } from '../helpers';
 import types from '../types';
 
-const http = function* (...params) {
+const regeneratorRuntime = require('regenerator-runtime');
+
+const http = function*(...params) {
   try {
     const res = yield call(...params);
     return res;
@@ -15,5 +16,7 @@ const http = function* (...params) {
     }
     return error;
   }
-}
-export const httpRequest = http;
+};
+export default http;
+
+/* eslint no-unused-vars: "off" */

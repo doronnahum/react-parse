@@ -6,7 +6,7 @@ const {
   SET_DOCUMENT,
   CLEAN_DOCUMENT,
   CLEAN_ALL_DOCUMENTS,
-  UPDATE_DOC_FIELD,
+  UPDATE_DOC_FIELD
 } = types;
 // This is not a reducer, return null if it is not a relevant action.
 
@@ -23,13 +23,13 @@ export default function reducerHandler(state, action) {
       if ('status' in payload) {
         nextState = nextState.setIn(
           ['documents', targetName, 'status'],
-          status,
+          status
         );
       }
       if ('data' in payload) {
         nextState = nextState.setIn(
           ['documents', targetName, 'data'],
-          Map(data),
+          Map(data)
         );
       }
       if ('info' in payload) {
@@ -42,22 +42,22 @@ export default function reducerHandler(state, action) {
     }
     case UPDATE_DOC_FIELD: {
       const documents = state.documents.get(targetName);
-      debugger
+      debugger;
       let nextState = state;
-      debugger
+      debugger;
       if (!documents) {
         nextState = nextState.setIn(['documents', targetName], Map());
       }
       nextState = nextState.setIn(
         ['documents', targetName, 'data', key],
-        value,
+        value
       );
-      debugger
+      debugger;
       return nextState;
     }
     case CLEAN_DOCUMENT: {
-      let documents = state.documents.delete(targetName)
-      return state.set('documents', documents)
+      const documents = state.documents.delete(targetName);
+      return state.set('documents', documents);
     }
     case CLEAN_ALL_DOCUMENTS: {
       return state.set('documents', Map());

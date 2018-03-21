@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/apiSagaWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
@@ -19,7 +19,7 @@ export default function* fetchDoc(action) {
     schemaName,
     objectId,
     keys,
-    include,
+    include
   );
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
@@ -30,7 +30,7 @@ export default function* fetchDoc(action) {
       timestamp: Date.now(),
       keys,
       include,
-      schemaName,
+      schemaName
     };
     const { data } = res;
     yield put(
@@ -39,9 +39,9 @@ export default function* fetchDoc(action) {
         status: FINISHED,
         data,
         info,
-        error: null,
-      }),
+        error: null
+      })
     );
   }
 }
-// worker
+/* eslint no-unused-vars: "off" */

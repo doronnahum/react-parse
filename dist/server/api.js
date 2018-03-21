@@ -26,27 +26,12 @@
   }
 
   var create = _axios2.default.create;
+
   // const LOGIN = 'login'
   // const LOGOUT = 'logout'
 
   // entities paths
   // const schemaPath = "/schemas/"
-  /**
-   * # Api.js
-   *
-   * This class interfaces with parse-server using the rest api
-   * see [https://parseplatform.github.io/docs/rest/guide/]
-   *
-   */
-
-  /**
-   * ## Imports
-   *
-   * Config for defaults and lodash for a couple of features
-   */
-  // import _ from 'lodash'
-  // import {objectToQueryString} from './tools/charm-helpers.js'
-  // import {create} from 'apisauce'
   var classPath = '/classes/';
   var installations = '/installations/';
   // const batchPath = "/batch"
@@ -60,7 +45,7 @@
   var cloudCodePath = '/functions/';
   // const jobsPath = "/jobs/";
 
-  var _api = null;
+  var api = null;
   var initConfig = null;
   var createHeaders = function createHeaders(res) {
     var obj = {};
@@ -82,7 +67,7 @@
         return;
       }
       initConfig = res;
-      _api = create({
+      api = create({
         baseURL: res.baseURL,
         headers: createHeaders(res)
       });
@@ -109,79 +94,82 @@
       var include = arguments[6];
       var order = arguments[7];
 
-      var _p = {
+      var data = {
         params: {}
       };
       if (_query) {
-        _p.params.where = _query;
+        data.params.where = _query;
       }
       if (limit) {
-        _p.params.limit = limit;
+        data.params.limit = limit;
       }
       if (skip) {
-        _p.params.skip = skip;
+        data.params.skip = skip;
       }
       if (Count) {
-        _p.params.count = Count ? 1 : 0;
+        data.params.count = Count ? 1 : 0;
       } // Count by default
       if (keys) {
-        _p.params.keys = keys;
+        data.params.keys = keys;
       }
       if (include) {
-        _p.params.include = include;
+        data.params.include = include;
       }
       if (order) {
-        _p.params.order = order;
+        data.params.order = order;
       }
-      return _api.get('' + classPath + className, _p);
+      return api.get('' + classPath + className, data);
     },
     getCloudFunction: function getCloudFunction(functionName, data) {
-      return _api.post('' + cloudCodePath + functionName, data);
+      return api.post('' + cloudCodePath + functionName, data);
     },
     getObjectById: function getObjectById(schemaName, objectId, keys, include) {
       var p = { params: {} };
       if (keys) p.keys = keys;
       if (include) p.include = include;
-      return _api.get('' + classPath + schemaName + '/' + objectId, p);
+      return api.get('' + classPath + schemaName + '/' + objectId, p);
     },
     updateObject: function updateObject(schemaName, objectId, data) {
       if (schemaName === 'User') {
-        return _api.put('' + usersPath + objectId, data);
+        return api.put('' + usersPath + objectId, data);
       }
-      return _api.put('' + classPath + schemaName + '/' + objectId, data);
+      return api.put('' + classPath + schemaName + '/' + objectId, data);
     },
     createObject: function createObject(schemaName, data) {
-      return _api.post('' + classPath + schemaName, data);
+      return api.post('' + classPath + schemaName, data);
     },
     deleteObject: function deleteObject(schemaName, objectId) {
-      return _api.delete('' + classPath + schemaName + '/' + objectId);
+      return api.delete('' + classPath + schemaName + '/' + objectId);
     },
     createInstallation: function createInstallation(data) {
-      return _api.post(installations, data);
+      return api.post(installations, data);
     },
     getInstallation: function getInstallation(objectId) {
-      return _api.get(installations, objectId);
+      return api.get(installations, objectId);
     },
     updateInstallation: function updateInstallation(installationObjectId, data) {
-      return _api.put(installations + installationObjectId, data);
+      return api.put(installations + installationObjectId, data);
     },
     login: function login(email, password) {
-      var _data = {
+      var data = {
         params: {
           username: email.trim().toLowerCase(),
           password: password.trim().toLowerCase()
         }
       };
-      return _api.get('' + loginPath, _data);
+      return api.get('' + loginPath, data);
     },
-    signUp: function signUp(userForm) {
-      userForm.username = userForm.email.trim().toLowerCase();
-      userForm.email = userForm.email.trim().toLowerCase();
-      userForm.password = userForm.password.trim().toLowerCase();
-      return _api.post('' + usersPath, userForm);
+    signUp: function signUp(form) {
+      var prefixForm = {
+        username: userForm.email.trim().toLowerCase(),
+        email: userForm.email.trim().toLowerCase(),
+        password: userForm.password.trim().toLowerCase()
+      };
+      var dataToSend = Object.assign(userForm, prefixForm);
+      return api.post('' + usersPath, dataToSend);
     },
     logout: function logout() {
-      return _api.post('' + logoutPath);
+      return api.post('' + logoutPath);
     }
   };
 

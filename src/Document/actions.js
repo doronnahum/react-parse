@@ -8,7 +8,7 @@ const {
   DELETE_DOCUMENT,
   CLEAN_DOCUMENT,
   CLEAN_ALL_DOCUMENTS,
-  UPDATE_DOC_FIELD,
+  UPDATE_DOC_FIELD
 } = types;
 
 /**
@@ -17,7 +17,7 @@ const {
  */
 export const fetchData = payload => ({
   type: FETCH_DOCUMENT,
-  payload,
+  payload
 });
 /**
  * setOnStore
@@ -26,7 +26,7 @@ export const fetchData = payload => ({
  */
 export const setOnStore = payload => ({
   type: SET_DOCUMENT,
-  payload,
+  payload
 });
 /**
  * updateField
@@ -34,7 +34,7 @@ export const setOnStore = payload => ({
  */
 export const updateField = payload => ({
   type: UPDATE_DOC_FIELD,
-  payload,
+  payload
 });
 
 /**
@@ -43,7 +43,7 @@ export const updateField = payload => ({
  */
 export const putDoc = payload => ({
   type: PUT_DOCUMENT,
-  payload,
+  payload
 });
 /**
  * postDoc
@@ -51,7 +51,7 @@ export const putDoc = payload => ({
  */
 export const postDoc = payload => ({
   type: POST_DOCUMENT,
-  payload,
+  payload
 });
 /**
  * deleteDoc
@@ -59,7 +59,7 @@ export const postDoc = payload => ({
  */
 export const deleteDoc = payload => ({
   type: DELETE_DOCUMENT,
-  payload,
+  payload
 });
 
 /**
@@ -68,8 +68,8 @@ export const deleteDoc = payload => ({
  */
 export const cleanData = payload => ({
   type: CLEAN_DOCUMENT,
-  payload,
+  payload
 });
 export const clearDocuments = () => ({
-  type: CLEAN_ALL_DOCUMENTS,
+  type: CLEAN_ALL_DOCUMENTS
 });

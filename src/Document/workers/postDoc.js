@@ -1,6 +1,6 @@
-import regeneratorRuntime from "regenerator-runtime";
+import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import { httpRequest } from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/apiSagaWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
@@ -25,16 +25,16 @@ export default function* postDoc(action) {
       schemaName,
       objectId: res.data.objectId,
       data,
-      resData: dig(res, 'data.results[0]'),
+      resData: dig(res, 'data.results[0]')
     };
     yield put(
       setOnStore({
         targetName,
         status: FINISHED,
         info,
-        error: null,
-      }),
+        error: null
+      })
     );
   }
 }
-// worker
+/* eslint no-unused-vars: "off" */

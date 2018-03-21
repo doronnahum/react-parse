@@ -20,6 +20,8 @@
 
   var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
+  var _apiSagaWrapper2 = _interopRequireDefault(_apiSagaWrapper);
+
   var _types2 = _interopRequireDefault(_types);
 
   var _api2 = _interopRequireDefault(_api);
@@ -51,7 +53,7 @@
 
           case 4:
             _context.next = 6;
-            return (0, _apiSagaWrapper.httpRequest)(_api2.default.getCloudFunction, functionName, params);
+            return (0, _apiSagaWrapper2.default)(_api2.default.getCloudFunction, functionName, params);
 
           case 6:
             res = _context.sent;
@@ -91,4 +93,5 @@
       }
     }, _marked, this);
   }
+  /* eslint no-unused-vars: "off" */
 });

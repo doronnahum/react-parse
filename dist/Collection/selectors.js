@@ -25,7 +25,7 @@
     return targetName;
   };
 
-  var getCollections = exports.getCollections = function getCollections(state, targetName) {
+  var getCollections = exports.getCollections = function getCollections(state) {
     return state.parse.collections;
   };
 

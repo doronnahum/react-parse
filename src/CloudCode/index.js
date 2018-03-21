@@ -7,7 +7,7 @@ import {
   isCloudCodePropsChanged,
   isTargetChanged,
   isFetchFinish,
-  isLoading,
+  isLoading
 } from '../helpers';
 import { propTypes, defaultProps } from './prop-types';
 
@@ -54,7 +54,7 @@ class FetchCloudCode extends React.PureComponent {
       functionName,
       collectionTarget,
       params,
-      digToData,
+      digToData
     });
   }
 
@@ -70,7 +70,7 @@ class FetchCloudCode extends React.PureComponent {
       queryStatus,
       isLoading: isLoading(queryStatus),
       info,
-      refreshData: this.onRefresh,
+      refreshData: this.onRefresh
     });
   }
 }
@@ -81,13 +81,13 @@ function mapStateToProps(state, props) {
     data: getData(state, keyForData),
     queryStatus: getStatus(state, keyForData),
     info: getInfo(state, keyForData),
-    error: getError(state, keyForData),
+    error: getError(state, keyForData)
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ fetchData, cleanData }, dispatch),
+    actions: bindActionCreators({ fetchData, cleanData }, dispatch)
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FetchCloudCode);
