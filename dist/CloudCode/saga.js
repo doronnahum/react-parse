@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../server/apiSagaWrapper', '../types', '../server/api', '../helpers', './actions'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../server/httpWrapper', '../types', '../server/api', '../helpers', './actions'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../server/apiSagaWrapper'), require('../types'), require('../server/api'), require('../helpers'), require('./actions'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../server/httpWrapper'), require('../types'), require('../server/api'), require('../helpers'), require('./actions'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.regeneratorRuntime, global.effects, global.apiSagaWrapper, global.types, global.api, global.helpers, global.actions);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.httpWrapper, global.types, global.api, global.helpers, global.actions);
     global.saga = mod.exports;
   }
-})(this, function (exports, _regeneratorRuntime, _effects, _apiSagaWrapper, _types, _api, _helpers, _actions) {
+})(this, function (exports, _regeneratorRuntime, _effects, _httpWrapper, _types, _api, _helpers, _actions) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -20,7 +20,7 @@
 
   var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
-  var _apiSagaWrapper2 = _interopRequireDefault(_apiSagaWrapper);
+  var _httpWrapper2 = _interopRequireDefault(_httpWrapper);
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -53,7 +53,7 @@
 
           case 4:
             _context.next = 6;
-            return (0, _apiSagaWrapper2.default)(_api2.default.getCloudFunction, functionName, params);
+            return (0, _httpWrapper2.default)(_api2.default.getCloudFunction, functionName, params);
 
           case 6:
             res = _context.sent;

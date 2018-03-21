@@ -1,8 +1,9 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import httpRequest from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
 import api from '../../server/api';
+import Logger from '../../server/Logger';
 import { setOnStore } from '../actions';
 import { dig } from '../../helpers';
 
@@ -18,6 +19,7 @@ export default function* postDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);
+    Logger.onError(action, errType)
     yield put(setOnStore({ targetName, status: errType, error: res }));
   } else {
     const info = {
@@ -35,6 +37,7 @@ export default function* postDoc(action) {
         error: null
       })
     );
+    Logger.onSuccses(action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

@@ -1,10 +1,10 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import httpRequest from '../../server/apiSagaWrapper';
+import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
 import api from '../../server/api';
-import { setOnStore } from '../actions';
-
+import Logger from '../../server/Logger';
+import { setOnStore } from '../actions'; 
 const START = types.DELETE_START;
 const FAILED = types.DELETE_FAILED;
 const FAILED_NETWORK = types.DELETE_FAILED_NETWORK;
@@ -18,6 +18,7 @@ export default function* deleteDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', objectId, res.error);
+    Logger.onError(action, errType)
     yield put(setOnStore({ targetName: target, status: errType, error: res }));
   } else {
     const info = {
@@ -32,6 +33,7 @@ export default function* deleteDoc(action) {
         error: null
       })
     );
+    Logger.onSuccses(action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

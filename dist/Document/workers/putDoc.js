@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/apiSagaWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/httpWrapper', '../../types', '../../server/api', '../../server/Logger', '../actions', '../../helpers'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/apiSagaWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/httpWrapper'), require('../../types'), require('../../server/api'), require('../../server/Logger'), require('../actions'), require('../../helpers'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.regeneratorRuntime, global.effects, global.apiSagaWrapper, global.types, global.api, global.actions, global.helpers);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.httpWrapper, global.types, global.api, global.Logger, global.actions, global.helpers);
     global.putDoc = mod.exports;
   }
-})(this, function (exports, _regeneratorRuntime, _effects, _apiSagaWrapper, _types, _api, _actions, _helpers) {
+})(this, function (exports, _regeneratorRuntime, _effects, _httpWrapper, _types, _api, _Logger, _actions, _helpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -20,11 +20,13 @@
 
   var _regeneratorRuntime2 = _interopRequireDefault(_regeneratorRuntime);
 
-  var _apiSagaWrapper2 = _interopRequireDefault(_apiSagaWrapper);
+  var _httpWrapper2 = _interopRequireDefault(_httpWrapper);
 
   var _types2 = _interopRequireDefault(_types);
 
   var _api2 = _interopRequireDefault(_api);
+
+  var _Logger2 = _interopRequireDefault(_Logger);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -52,27 +54,28 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
 
           case 4:
-            return _context.delegateYield((0, _apiSagaWrapper2.default)(_api2.default.updateObject, schemaName, objectId, data), 't0', 5);
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, data), 't0', 5);
 
           case 5:
             res = _context.t0;
 
             if (!res.error) {
-              _context.next = 13;
+              _context.next = 14;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', targetName, res.error);
-            _context.next = 11;
+            _Logger2.default.onError(action, errType);
+            _context.next = 12;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
 
-          case 11:
-            _context.next = 16;
+          case 12:
+            _context.next = 18;
             break;
 
-          case 13:
+          case 14:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -80,7 +83,7 @@
               data: data,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 16;
+            _context.next = 17;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -88,7 +91,10 @@
               error: null
             }));
 
-          case 16:
+          case 17:
+            _Logger2.default.onSuccses(action, FINISHED);
+
+          case 18:
           case 'end':
             return _context.stop();
         }

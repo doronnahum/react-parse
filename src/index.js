@@ -1,7 +1,7 @@
 // Common
 import 'babel-polyfill';
 import api from './server/api';
-import httpRequest from './server/apiSagaWrapper';
+import httpRequest from './server/httpWrapper';
 import types from './types';
 import * as helpers from './helpers';
 // Components
@@ -13,8 +13,10 @@ import parseReducer from './reducer';
 import parseWatcher from './saga';
 // Selectors
 import selectors from './selectors';
+const config = api;
 
 export {
+  config,
   api,
   httpRequest,
   types,

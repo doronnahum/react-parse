@@ -1,6 +1,6 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import httpRequest from '../server/apiSagaWrapper';
+import httpRequest from '../server/httpWrapper';
 import types from '../types';
 import Api from '../server/api';
 import { dig } from '../helpers';
