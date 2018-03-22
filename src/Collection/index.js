@@ -138,7 +138,7 @@ class FetchCollection extends React.PureComponent {
     return this.props.render(error, {
       data,
       isLoading: isLoading(queryStatus),
-      queryStatus,
+      status: queryStatus,
       info,
       refresh: this.onRefresh,
       delete: this.onDelete,

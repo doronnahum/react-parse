@@ -163,10 +163,10 @@
 
         return this.props.render(error, {
           data: data,
-          queryStatus: queryStatus,
+          status: queryStatus,
           isLoading: (0, _helpers.isLoading)(queryStatus),
           info: info,
-          refreshData: this.onRefresh
+          refresh: this.onRefresh
         });
       }
     }]);

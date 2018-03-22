@@ -151,7 +151,7 @@ class FetchDocument extends React.Component {
     return this.props.render(error, {
       data,
       isLoading: isLoading(queryStatus),
-      queryStatus,
+      status: queryStatus,
       info,
       refresh: this.onRefresh,
       delete: objectId && this.onDelete,

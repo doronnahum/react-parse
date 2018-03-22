@@ -67,10 +67,10 @@ class FetchCloudCode extends React.PureComponent {
     const { data, queryStatus, info, error } = this.props;
     return this.props.render(error, {
       data,
-      queryStatus,
+      status: queryStatus,
       isLoading: isLoading(queryStatus),
       info,
-      refreshData: this.onRefresh
+      refresh: this.onRefresh
     });
   }
 }

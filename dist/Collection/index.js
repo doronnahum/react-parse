@@ -247,7 +247,7 @@
         return this.props.render(error, {
           data: data,
           isLoading: (0, _helpers.isLoading)(queryStatus),
-          queryStatus: queryStatus,
+          status: queryStatus,
           info: info,
           refresh: this.onRefresh,
           delete: this.onDelete,
