@@ -154,7 +154,7 @@ class FetchDocument extends React.Component {
       status: queryStatus,
       info,
       refresh: this.onRefresh,
-      delete: objectId && this.onDelete,
+      deleteDoc: objectId && this.onDelete,
       cleanData: objectId || this.cleanData,
       put: objectId && this.onPut,
       post: objectId || this.onPost,

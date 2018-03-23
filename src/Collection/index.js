@@ -141,7 +141,7 @@ class FetchCollection extends React.PureComponent {
       status: queryStatus,
       info,
       refresh: this.onRefresh,
-      delete: this.onDelete,
+      deleteDoc: this.onDelete,
       put: this.onPut,
       post: this.onPost
     });
