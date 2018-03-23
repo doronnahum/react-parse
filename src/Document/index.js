@@ -9,7 +9,7 @@ export default class FetchDocumentWithUniqueId extends React.PureComponent {
     this.uniqueId = this.props.uniqueId || createUniqueId();
   }
   render() {
-    return <Document {...this.props} uniqueId={this.uniqueId} />;
+    return <Document {...this.props} uniqueId={`LOCAL: ${this.uniqueId}`} />;
   }
 }
 
