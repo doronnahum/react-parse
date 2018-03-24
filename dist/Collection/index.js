@@ -257,7 +257,7 @@
             isLoading: (0, _helpers.isLoading)(fetchStatus),
             refresh: this.onRefresh,
             deleteDoc: this.onDelete,
-            put: objectId && this.onPut,
+            put: this.onPut,
             post: this.onPost
           }
         });

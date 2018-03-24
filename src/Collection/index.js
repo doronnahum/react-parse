@@ -143,7 +143,7 @@ class FetchCollection extends React.PureComponent {
         isLoading: isLoading(fetchStatus),
         refresh: this.onRefresh,
         deleteDoc: this.onDelete,
-        put: objectId && this.onPut,
+        put: this.onPut,
         post: this.onPost
       }
     })
