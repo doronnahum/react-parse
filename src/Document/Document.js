@@ -1,16 +1,6 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import {
-  fetchData,
-  deleteDoc,
-  putDoc,
-  postDoc,
-  cleanData,
-  updateField
-} from './actions';
+import React, { createElement } from 'react';
 import { propTypes, defaultProps } from './prop-types';
-import { getData, getStatus, getInfo, getError } from './selectors';
+import connect from './store';
 
 import {
   isDocTargetChanged,
@@ -19,7 +9,8 @@ import {
   isDeleteFinish,
   isUpdateFinish,
   isCreateFinish,
-  isDocumentParamsChanged
+  isDocumentParamsChanged,
+  removeLocalKeys
 } from '../helpers';
 
 class FetchDocument extends React.Component {
@@ -35,8 +26,8 @@ class FetchDocument extends React.Component {
   }
 
   componentWillMount() {
-    const { localFirst, data, objectId } = this.props;
-    if (objectId && (!localFirst || (localFirst && !data))) {
+    const { localFirst, fetchData, objectId } = this.props;
+    if (objectId && (!localFirst || (localFirst && !fetchData))) {
       this.fetchData();
     }
   }
@@ -52,6 +43,7 @@ class FetchDocument extends React.Component {
   }
 
   componentWillUnmount() {
+    this.isUnmounted
     if (this.props.leaveClean) {
       this.cleanData();
     }
@@ -59,7 +51,7 @@ class FetchDocument extends React.Component {
 
   onDelete() {
     const { objectId, schemaName, targetName } = this.props;
-    this.props.actions.deleteDocument(targetName, schemaName, objectId);
+    this.props.fetchActions.deleteDocument(targetName, schemaName, objectId);
   }
 
   onRefresh() {
@@ -68,19 +60,19 @@ class FetchDocument extends React.Component {
 
   onPut(dataFromCall) {
     const {
-      actions,
+      fetchActions,
       targetName,
       schemaName,
-      data,
+      fetchData,
       objectId,
       parseDataBeforeSubmit
     } = this.props;
-    const dataToUpdate = dataFromCall || data;
+    const dataToUpdate = dataFromCall || fetchData;
     const target = targetName || objectId;
     const dataToSend = parseDataBeforeSubmit
       ? parseDataBeforeSubmit(dataToUpdate)
       : dataToUpdate;
-    actions.putDoc({
+    fetchActions.putDoc({
       targetName: target,
       schemaName,
       data: dataToSend,
@@ -88,20 +80,22 @@ class FetchDocument extends React.Component {
     });
   }
 
-  onPost() {
+  onPost(dataFromCall) {
     const {
-      actions,
+      fetchActions,
       targetName,
       schemaName,
-      data,
+      fetchData,
+      objectId,
       uniqueId,
       parseDataBeforeSubmit
     } = this.props;
-    const target = targetName || uniqueId;
+    const target = targetName || (objectId || uniqueId);
+    const dataToCrate = dataFromCall || fetchData;
     const dataToSend = parseDataBeforeSubmit
-      ? parseDataBeforeSubmit(data)
-      : data;
-    actions.postDoc({ targetName: target, schemaName, data: dataToSend });
+      ? parseDataBeforeSubmit(dataToCrate)
+      : dataToCrate;
+    fetchActions.postDoc({ targetName: target, schemaName, data: dataToSend });
   }
 
   fetchData(props = this.props, localOnly = this.props.localOnly) {
@@ -109,7 +103,7 @@ class FetchDocument extends React.Component {
     if (localOnly || !objectId || !schemaName) {
       return;
     }
-    this.props.actions.fetchData({
+    this.props.fetchActions.fetchData({
       targetName,
       schemaName,
       objectId,
@@ -121,75 +115,55 @@ class FetchDocument extends React.Component {
   updateField(key, value) {
     const { targetName, objectId, uniqueId } = this.props;
     const target = targetName || (objectId || uniqueId);
-    this.props.actions.updateField({ targetName: target, key, value });
+    this.props.fetchActions.updateField({ targetName: target, key, value });
   }
 
   handleCallBacks(props, nextProps) {
-    const { queryStatus, data, info, error, autoRefresh } = nextProps;
+    const { fetchStatus, fetchData, fetchInfo, fetchError, autoRefresh } = nextProps;
     if (isFetchFinish(props, nextProps)) {
-      props.onFetchEnd(error, { queryStatus, data, info });
+      props.onFetchEnd(fetchError, { fetchStatus, fetchData, fetchInfo });
     } else if (isDeleteFinish(props, nextProps)) {
       if (autoRefresh) this.fetchData(nextProps);
-      props.onDeleteEnd(error, { queryStatus, data, info });
+      props.onDeleteEnd(fetchError, { fetchStatus, fetchData, fetchInfo });
     } else if (isUpdateFinish(props, nextProps)) {
       if (autoRefresh) this.fetchData(nextProps);
-      props.onPutEnd(error, { queryStatus, data, info });
+      props.onPutEnd(fetchError, { fetchStatus, fetchData, fetchInfo });
     } else if (isCreateFinish(props, nextProps)) {
       if (autoRefresh) this.fetchData(nextProps);
-      props.onPostEnd(error, { queryStatus, data, info });
+      props.onPostEnd(fetchError, { fetchStatus, fetchData, fetchInfo });
     }
   }
 
   cleanData() {
     const { targetName, objectId, uniqueId } = this.props;
     const target = targetName || (objectId || uniqueId);
-    this.props.actions.cleanData(target);
+    this.props.fetchActions.cleanData(target);
   }
 
   render() {
-    const { data, queryStatus, info, error, objectId } = this.props;
-    return this.props.render(error, {
-      data,
-      isLoading: isLoading(queryStatus),
-      status: queryStatus,
-      info,
+    const { fetchData, fetchStatus, fetchInfo, fetchError, component, objectId } = this.props;
+    let props = removeLocalKeys(this.props);
+    let propsToPass  = Object.assign(props, {
+      fetchProps: {
+      data: fetchData,
+      fetchError: fetchError,
+      status: fetchStatus,
+      info: fetchInfo,
+      isLoading: isLoading(fetchStatus),
       refresh: this.onRefresh,
-      deleteDoc: objectId && this.onDelete,
-      cleanData: objectId || this.cleanData,
+      deleteDoc: this.onDelete,
       put: objectId && this.onPut,
-      post: objectId || this.onPost,
-      updateField: this.updateField
-    });
+      post: this.onPost,
+      cleanData: this.cleanData,
+      }
+    })
+    if(component){
+      return createElement(component, propsToPass)
+    }
+    return this.props.render(propsToPass);
   }
 }
 
-function mapStateToProps(state, props) {
-  const { targetName, objectId, uniqueId } = props;
-  const target = targetName || (objectId || uniqueId);
-  return {
-    data: getData(state, target),
-    queryStatus: getStatus(state, target),
-    info: getInfo(state, target),
-    error: getError(state, target)
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(
-      {
-        fetchData,
-        deleteDoc,
-        putDoc,
-        postDoc,
-        cleanData,
-        updateField
-      },
-      dispatch
-    )
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FetchDocument);
 FetchDocument.propTypes = propTypes;
 FetchDocument.defaultProps = defaultProps;
+export default connect(FetchDocument);

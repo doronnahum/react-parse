@@ -67,35 +67,33 @@ const isParamsChanged = function(props, nextProps) {
   return !isEqual(props.params, nextProps.params);
 };
 export const isDocTargetChanged = function(props, nextProps) {
-  let status = true;
+  let status = false;
   if (props.targetName !== nextProps.targetName) {
-    status = false;
+    status = true;
   } else if (props.objectId !== nextProps.objectId) {
-    status = false;
+    status = true;
   } else if (props.uniqueId !== nextProps.uniqueId) {
-    status = false;
+    status = true;
   }
   return status;
 };
 export const isTargetChanged = function(props, nextProps) {
-  let status = true;
+  let status = false;
   if (props.targetName !== nextProps.targetName) {
-    status = false;
+    status = true;
   } else if (props.functionName !== nextProps.functionName) {
-    status = false;
+    status = true;
   } else if (props.schemaName !== nextProps.schemaName) {
-    status = false;
+    status = true;
   }
   return status;
 };
-export const isFunctionChanged = function(props, nextProps) {
-  return props.functionName !== nextProps.functionName;
-};
+
 export const isCloudCodePropsChanged = function(props, nextProps) {
   let status = false;
   if (isParamsChanged(props, nextProps)) {
     status = true;
-  } else if (isFunctionChanged(props, nextProps)) {
+  } else if (isTargetChanged(props, nextProps)) {
     status = true;
   }
   return status;
@@ -110,8 +108,8 @@ export const isLoading = function(status) {
   return isLoadingStatus;
 };
 export const isCreateFinish = function(props, nextProps) {
-  const now = props.queryStatus;
-  const next = nextProps.queryStatus;
+  const now = props.fetchStatus;
+  const next = nextProps.fetchStatus;
   const isStart = now === POST_START;
   const isFinished = next === POST_FINISHED;
   const isFailed = next === POST_FAILED;
@@ -120,13 +118,13 @@ export const isCreateFinish = function(props, nextProps) {
   return isStart && isEnd;
 };
 
-export const isDeleteStart = function(queryStatus) {
-  return queryStatus === DELETE_START;
+export const isDeleteStart = function(fetchStatus) {
+  return fetchStatus === DELETE_START;
 };
 
 export const isDeleteFinish = function(props, nextProps) {
-  const now = props.queryStatus;
-  const next = nextProps.queryStatus;
+  const now = props.fetchStatus;
+  const next = nextProps.fetchStatus;
   const isStart = now === DELETE_START;
   const isFinished = next === DELETE_FINISHED;
   const isFailed = next === DELETE_FAILED;
@@ -136,8 +134,8 @@ export const isDeleteFinish = function(props, nextProps) {
 };
 
 export const isUpdateFinish = function(props, nextProps) {
-  const now = props.queryStatus;
-  const next = nextProps.queryStatus;
+  const now = props.fetchStatus;
+  const next = nextProps.fetchStatus;
   const isStart = now === PUT_START;
   const isFinished = next === PUT_FINISHED;
   const isFailed = next === PUT_FAILED;
@@ -147,8 +145,8 @@ export const isUpdateFinish = function(props, nextProps) {
 };
 
 export const isFetchFinish = function(props, nextProps) {
-  const now = props.queryStatus;
-  const next = nextProps.queryStatus;
+  const now = props.fetchStatus;
+  const next = nextProps.fetchStatus;
   const isStart = now === FETCH_START;
   const isFinished = next === FETCH_FINISHED;
   const isFailed = next === FETCH_FAILED;
@@ -158,11 +156,11 @@ export const isFetchFinish = function(props, nextProps) {
 };
 
 export const isDataChanged = function(props, nextProps) {
-  return props.data !== nextProps.data;
+  return props.fetchData !== nextProps.fetchData;
 };
 
 export const isQueryStatusChanged = function(props, nextProps) {
-  return props.queryStatus !== nextProps.queryStatus;
+  return props.fetchStatus !== nextProps.fetchStatus;
 };
 
 export const isDocumentParamsChanged = function(props, nextProps) {
@@ -200,6 +198,16 @@ export const isCollectionParamsChanged = function(props, nextProps) {
     return true;
   }
   return false;
+};
+
+export const removeLocalKeys = function(obj) {
+  let data = Object.assign({}, obj)
+  delete data['fetchData']; 
+  delete data['fetchError']; 
+  delete data['fetchStatus']; 
+  delete data['fetchInfo']; 
+  delete data['fetchActions']; 
+  return data
 };
 
 /* eslint no-restricted-syntax: "off" */

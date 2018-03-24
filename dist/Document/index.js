@@ -106,7 +106,7 @@
     _createClass(FetchDocumentWithUniqueId, [{
       key: 'render',
       value: function render() {
-        return _react2.default.createElement(_Document2.default, _extends({}, this.props, { uniqueId: this.uniqueId }));
+        return _react2.default.createElement(_Document2.default, _extends({}, this.props, { uniqueId: 'LOCAL: ' + this.uniqueId }));
       }
     }]);
 

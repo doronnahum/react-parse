@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isFunctionChanged = exports.isTargetChanged = exports.isDocTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
+  exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.isDocTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
 
   var _isEqual2 = _interopRequireDefault(_isEqual);
 
@@ -111,35 +111,33 @@
     return !(0, _isEqual2.default)(props.params, nextProps.params);
   };
   var isDocTargetChanged = exports.isDocTargetChanged = function isDocTargetChanged(props, nextProps) {
-    var status = true;
+    var status = false;
     if (props.targetName !== nextProps.targetName) {
-      status = false;
+      status = true;
     } else if (props.objectId !== nextProps.objectId) {
-      status = false;
+      status = true;
     } else if (props.uniqueId !== nextProps.uniqueId) {
-      status = false;
+      status = true;
     }
     return status;
   };
   var isTargetChanged = exports.isTargetChanged = function isTargetChanged(props, nextProps) {
-    var status = true;
+    var status = false;
     if (props.targetName !== nextProps.targetName) {
-      status = false;
+      status = true;
     } else if (props.functionName !== nextProps.functionName) {
-      status = false;
+      status = true;
     } else if (props.schemaName !== nextProps.schemaName) {
-      status = false;
+      status = true;
     }
     return status;
   };
-  var isFunctionChanged = exports.isFunctionChanged = function isFunctionChanged(props, nextProps) {
-    return props.functionName !== nextProps.functionName;
-  };
+
   var isCloudCodePropsChanged = exports.isCloudCodePropsChanged = function isCloudCodePropsChanged(props, nextProps) {
     var status = false;
     if (isParamsChanged(props, nextProps)) {
       status = true;
-    } else if (isFunctionChanged(props, nextProps)) {
+    } else if (isTargetChanged(props, nextProps)) {
       status = true;
     }
     return status;
@@ -150,8 +148,8 @@
     return isLoadingStatus;
   };
   var isCreateFinish = exports.isCreateFinish = function isCreateFinish(props, nextProps) {
-    var now = props.queryStatus;
-    var next = nextProps.queryStatus;
+    var now = props.fetchStatus;
+    var next = nextProps.fetchStatus;
     var isStart = now === POST_START;
     var isFinished = next === POST_FINISHED;
     var isFailed = next === POST_FAILED;
@@ -160,13 +158,13 @@
     return isStart && isEnd;
   };
 
-  var isDeleteStart = exports.isDeleteStart = function isDeleteStart(queryStatus) {
-    return queryStatus === DELETE_START;
+  var isDeleteStart = exports.isDeleteStart = function isDeleteStart(fetchStatus) {
+    return fetchStatus === DELETE_START;
   };
 
   var isDeleteFinish = exports.isDeleteFinish = function isDeleteFinish(props, nextProps) {
-    var now = props.queryStatus;
-    var next = nextProps.queryStatus;
+    var now = props.fetchStatus;
+    var next = nextProps.fetchStatus;
     var isStart = now === DELETE_START;
     var isFinished = next === DELETE_FINISHED;
     var isFailed = next === DELETE_FAILED;
@@ -176,8 +174,8 @@
   };
 
   var isUpdateFinish = exports.isUpdateFinish = function isUpdateFinish(props, nextProps) {
-    var now = props.queryStatus;
-    var next = nextProps.queryStatus;
+    var now = props.fetchStatus;
+    var next = nextProps.fetchStatus;
     var isStart = now === PUT_START;
     var isFinished = next === PUT_FINISHED;
     var isFailed = next === PUT_FAILED;
@@ -187,8 +185,8 @@
   };
 
   var isFetchFinish = exports.isFetchFinish = function isFetchFinish(props, nextProps) {
-    var now = props.queryStatus;
-    var next = nextProps.queryStatus;
+    var now = props.fetchStatus;
+    var next = nextProps.fetchStatus;
     var isStart = now === FETCH_START;
     var isFinished = next === FETCH_FINISHED;
     var isFailed = next === FETCH_FAILED;
@@ -198,11 +196,11 @@
   };
 
   var isDataChanged = exports.isDataChanged = function isDataChanged(props, nextProps) {
-    return props.data !== nextProps.data;
+    return props.fetchData !== nextProps.fetchData;
   };
 
   var isQueryStatusChanged = exports.isQueryStatusChanged = function isQueryStatusChanged(props, nextProps) {
-    return props.queryStatus !== nextProps.queryStatus;
+    return props.fetchStatus !== nextProps.fetchStatus;
   };
 
   var isDocumentParamsChanged = exports.isDocumentParamsChanged = function isDocumentParamsChanged(props, nextProps) {
@@ -240,6 +238,16 @@
       return true;
     }
     return false;
+  };
+
+  var removeLocalKeys = exports.removeLocalKeys = function removeLocalKeys(obj) {
+    var data = Object.assign({}, obj);
+    delete data['fetchData'];
+    delete data['fetchError'];
+    delete data['fetchStatus'];
+    delete data['fetchInfo'];
+    delete data['fetchActions'];
+    return data;
   };
 
   /* eslint no-restricted-syntax: "off" */

@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'react', 'react-redux', 'redux', './actions', './prop-types', './selectors', '../helpers'], factory);
+    define(['exports', 'react', './prop-types', './store', '../helpers'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('react'), require('react-redux'), require('redux'), require('./actions'), require('./prop-types'), require('./selectors'), require('../helpers'));
+    factory(exports, require('react'), require('./prop-types'), require('./store'), require('../helpers'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.react, global.reactRedux, global.redux, global.actions, global.propTypes, global.selectors, global.helpers);
+    factory(mod.exports, global.react, global.propTypes, global.store, global.helpers);
     global.Document = mod.exports;
   }
-})(this, function (exports, _react, _reactRedux, _redux, _actions, _propTypes, _selectors, _helpers) {
+})(this, function (exports, _react, _propTypes, _store, _helpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -18,6 +18,8 @@
   });
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _store2 = _interopRequireDefault(_store);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -96,10 +98,10 @@
       value: function componentWillMount() {
         var _props = this.props,
             localFirst = _props.localFirst,
-            data = _props.data,
+            fetchData = _props.fetchData,
             objectId = _props.objectId;
 
-        if (objectId && (!localFirst || localFirst && !data)) {
+        if (objectId && (!localFirst || localFirst && !fetchData)) {
           this.fetchData();
         }
       }
@@ -117,6 +119,7 @@
     }, {
       key: 'componentWillUnmount',
       value: function componentWillUnmount() {
+        this.isUnmounted;
         if (this.props.leaveClean) {
           this.cleanData();
         }
@@ -129,7 +132,7 @@
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
-        this.props.actions.deleteDocument(targetName, schemaName, objectId);
+        this.props.fetchActions.deleteDocument(targetName, schemaName, objectId);
       }
     }, {
       key: 'onRefresh',
@@ -140,17 +143,17 @@
       key: 'onPut',
       value: function onPut(dataFromCall) {
         var _props3 = this.props,
-            actions = _props3.actions,
+            fetchActions = _props3.fetchActions,
             targetName = _props3.targetName,
             schemaName = _props3.schemaName,
-            data = _props3.data,
+            fetchData = _props3.fetchData,
             objectId = _props3.objectId,
             parseDataBeforeSubmit = _props3.parseDataBeforeSubmit;
 
-        var dataToUpdate = dataFromCall || data;
+        var dataToUpdate = dataFromCall || fetchData;
         var target = targetName || objectId;
         var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(dataToUpdate) : dataToUpdate;
-        actions.putDoc({
+        fetchActions.putDoc({
           targetName: target,
           schemaName: schemaName,
           data: dataToSend,
@@ -159,18 +162,20 @@
       }
     }, {
       key: 'onPost',
-      value: function onPost() {
+      value: function onPost(dataFromCall) {
         var _props4 = this.props,
-            actions = _props4.actions,
+            fetchActions = _props4.fetchActions,
             targetName = _props4.targetName,
             schemaName = _props4.schemaName,
-            data = _props4.data,
+            fetchData = _props4.fetchData,
+            objectId = _props4.objectId,
             uniqueId = _props4.uniqueId,
             parseDataBeforeSubmit = _props4.parseDataBeforeSubmit;
 
-        var target = targetName || uniqueId;
-        var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(data) : data;
-        actions.postDoc({ targetName: target, schemaName: schemaName, data: dataToSend });
+        var target = targetName || objectId || uniqueId;
+        var dataToCrate = dataFromCall || fetchData;
+        var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(dataToCrate) : dataToCrate;
+        fetchActions.postDoc({ targetName: target, schemaName: schemaName, data: dataToSend });
       }
     }, {
       key: 'fetchData',
@@ -186,7 +191,7 @@
         if (localOnly || !objectId || !schemaName) {
           return;
         }
-        this.props.actions.fetchData({
+        this.props.fetchActions.fetchData({
           targetName: targetName,
           schemaName: schemaName,
           objectId: objectId,
@@ -203,28 +208,28 @@
             uniqueId = _props5.uniqueId;
 
         var target = targetName || objectId || uniqueId;
-        this.props.actions.updateField({ targetName: target, key: key, value: value });
+        this.props.fetchActions.updateField({ targetName: target, key: key, value: value });
       }
     }, {
       key: 'handleCallBacks',
       value: function handleCallBacks(props, nextProps) {
-        var queryStatus = nextProps.queryStatus,
-            data = nextProps.data,
-            info = nextProps.info,
-            error = nextProps.error,
+        var fetchStatus = nextProps.fetchStatus,
+            fetchData = nextProps.fetchData,
+            fetchInfo = nextProps.fetchInfo,
+            fetchError = nextProps.fetchError,
             autoRefresh = nextProps.autoRefresh;
 
         if ((0, _helpers.isFetchFinish)(props, nextProps)) {
-          props.onFetchEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onFetchEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         } else if ((0, _helpers.isDeleteFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onDeleteEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onDeleteEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         } else if ((0, _helpers.isUpdateFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onPutEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onPutEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         } else if ((0, _helpers.isCreateFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onPostEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onPostEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         }
       }
     }, {
@@ -236,65 +241,45 @@
             uniqueId = _props6.uniqueId;
 
         var target = targetName || objectId || uniqueId;
-        this.props.actions.cleanData(target);
+        this.props.fetchActions.cleanData(target);
       }
     }, {
       key: 'render',
       value: function render() {
         var _props7 = this.props,
-            data = _props7.data,
-            queryStatus = _props7.queryStatus,
-            info = _props7.info,
-            error = _props7.error,
+            fetchData = _props7.fetchData,
+            fetchStatus = _props7.fetchStatus,
+            fetchInfo = _props7.fetchInfo,
+            fetchError = _props7.fetchError,
+            component = _props7.component,
             objectId = _props7.objectId;
 
-        return this.props.render(error, {
-          data: data,
-          isLoading: (0, _helpers.isLoading)(queryStatus),
-          status: queryStatus,
-          info: info,
-          refresh: this.onRefresh,
-          delete: objectId && this.onDelete,
-          cleanData: objectId || this.cleanData,
-          put: objectId && this.onPut,
-          post: objectId || this.onPost,
-          updateField: this.updateField
+        var props = (0, _helpers.removeLocalKeys)(this.props);
+        var propsToPass = Object.assign(props, {
+          fetchProps: {
+            data: fetchData,
+            fetchError: fetchError,
+            status: fetchStatus,
+            info: fetchInfo,
+            isLoading: (0, _helpers.isLoading)(fetchStatus),
+            refresh: this.onRefresh,
+            deleteDoc: this.onDelete,
+            put: objectId && this.onPut,
+            post: this.onPost,
+            cleanData: this.cleanData
+          }
         });
+        if (component) {
+          return (0, _react.createElement)(component, propsToPass);
+        }
+        return this.props.render(propsToPass);
       }
     }]);
 
     return FetchDocument;
   }(_react2.default.Component);
 
-  function mapStateToProps(state, props) {
-    var targetName = props.targetName,
-        objectId = props.objectId,
-        uniqueId = props.uniqueId;
-
-    var target = targetName || objectId || uniqueId;
-    return {
-      data: (0, _selectors.getData)(state, target),
-      queryStatus: (0, _selectors.getStatus)(state, target),
-      info: (0, _selectors.getInfo)(state, target),
-      error: (0, _selectors.getError)(state, target)
-    };
-  }
-
-  function mapDispatchToProps(dispatch) {
-    return {
-      actions: (0, _redux.bindActionCreators)({
-        fetchData: _actions.fetchData,
-        deleteDoc: _actions.deleteDoc,
-        putDoc: _actions.putDoc,
-        postDoc: _actions.postDoc,
-        cleanData: _actions.cleanData,
-        updateField: _actions.updateField
-      }, dispatch)
-    };
-  }
-
-  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FetchDocument);
-
   FetchDocument.propTypes = _propTypes.propTypes;
   FetchDocument.defaultProps = _propTypes.defaultProps;
+  exports.default = (0, _store2.default)(FetchDocument);
 });

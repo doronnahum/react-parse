@@ -1,39 +1,37 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { fetchData, cleanData } from './actions';
-import { getData, getStatus, getInfo, getError } from './selectors';
 import {
   isCloudCodePropsChanged,
   isTargetChanged,
   isFetchFinish,
-  isLoading
+  isLoading,
+  removeLocalKeys
 } from '../helpers';
 import { propTypes, defaultProps } from './prop-types';
+import connect from './store';
 
-class FetchCloudCode extends React.PureComponent {
+class FetchCloudCode extends React.Component {
   constructor(props) {
     super(props);
     this.fetchData = this.fetchData.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
   }
   componentWillMount() {
-    const { localFirst, functionName, data, queryStatus } = this.props;
+    const { localFirst, functionName, fetchData, fetchStatus } = this.props;
     if (!functionName) return;
-    if (!localFirst || (localFirst && !data && !isLoading(queryStatus))) {
+    if (!localFirst || (localFirst && !fetchData && !isLoading(fetchStatus))) {
       this.fetchData();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { queryStatus, data, error } = nextProps;
+    const { fetchStatus, fetchData, fetchError } = nextProps;
     if (isCloudCodePropsChanged(this.props, nextProps)) {
       if (isTargetChanged(this.props, nextProps)) {
         this.cleanData();
       }
       this.fetchData(nextProps);
     } else if (isFetchFinish(this.props, nextProps)) {
-      this.props.onFetchEnd(error, { data, queryStatus });
+      this.props.onFetchEnd(fetchError, { fetchData, fetchStatus });
     }
   }
 
@@ -48,11 +46,11 @@ class FetchCloudCode extends React.PureComponent {
   }
 
   fetchData(props = this.props, localOnly = this.props.localOnly) {
-    const { functionName, collectionTarget, params, digToData } = props;
+    const { functionName, targetName, params, digToData } = props;
     if (localOnly || !props.functionName) return;
-    props.actions.fetchData({
+    props.fetchActions.fetchData({
       functionName,
-      collectionTarget,
+      targetName,
       params,
       digToData
     });
@@ -60,37 +58,30 @@ class FetchCloudCode extends React.PureComponent {
 
   cleanData() {
     const targetName = this.props.targetName || this.props.functionName;
-    this.props.actions.cleanData({ targetName });
+    this.props.fetchActions.cleanData({ targetName });
   }
 
   render() {
-    const { data, queryStatus, info, error } = this.props;
-    return this.props.render(error, {
-      data,
-      status: queryStatus,
-      isLoading: isLoading(queryStatus),
-      info,
-      refresh: this.onRefresh
-    });
+    const { fetchData, fetchStatus, fetchInfo, fetchError, component } = this.props;
+    let props = removeLocalKeys(this.props);
+    let propsToPass = Object.assign(props, {
+      fetchProps: {
+      data: fetchData,
+      error: fetchError,
+      status: fetchStatus,
+      info: fetchInfo,
+      isLoading: isLoading(fetchStatus),
+      refresh: this.onRefresh,
+      }
+    })
+    if(component){
+      return createElement(component, propsToPass)
+    }
+    return this.props.render(propsToPass);
   }
 }
 
-function mapStateToProps(state, props) {
-  const keyForData = props.collectionTarget || props.functionName;
-  return {
-    data: getData(state, keyForData),
-    queryStatus: getStatus(state, keyForData),
-    info: getInfo(state, keyForData),
-    error: getError(state, keyForData)
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({ fetchData, cleanData }, dispatch)
-  };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(FetchCloudCode);
+export default connect(FetchCloudCode);
 
 FetchCloudCode.propTypes = propTypes;
 

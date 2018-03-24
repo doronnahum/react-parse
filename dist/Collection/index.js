@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'react', 'react-redux', 'redux', './actions', './selectors', '../helpers', './prop-types'], factory);
+    define(['exports', 'react', './store', '../helpers', './prop-types'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('react'), require('react-redux'), require('redux'), require('./actions'), require('./selectors'), require('../helpers'), require('./prop-types'));
+    factory(exports, require('react'), require('./store'), require('../helpers'), require('./prop-types'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.react, global.reactRedux, global.redux, global.actions, global.selectors, global.helpers, global.propTypes);
+    factory(mod.exports, global.react, global.store, global.helpers, global.propTypes);
     global.index = mod.exports;
   }
-})(this, function (exports, _react, _reactRedux, _redux, _actions, _selectors, _helpers, _propTypes) {
+})(this, function (exports, _react, _store, _helpers, _propTypes) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -18,6 +18,8 @@
   });
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _store2 = _interopRequireDefault(_store);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -101,9 +103,9 @@
         var _props = this.props,
             schemaName = _props.schemaName,
             localFirst = _props.localFirst,
-            data = _props.data;
+            fetchData = _props.fetchData;
 
-        if (schemaName && (!localFirst || localFirst && !data)) {
+        if (schemaName && (!localFirst || localFirst && !fetchData)) {
           this.fetchData();
         }
       }
@@ -129,7 +131,7 @@
       key: 'onDelete',
       value: function onDelete(objectId) {
         var _props2 = this.props,
-            actions = _props2.actions,
+            fetchActions = _props2.fetchActions,
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
@@ -137,13 +139,13 @@
           console.warn('onDelete: missing objectId ');
           return;
         }
-        actions.deleteDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId });
+        fetchActions.deleteDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId });
       }
     }, {
       key: 'onPut',
       value: function onPut(objectId, data) {
         var _props3 = this.props,
-            actions = _props3.actions,
+            fetchActions = _props3.fetchActions,
             schemaName = _props3.schemaName,
             targetName = _props3.targetName;
 
@@ -155,13 +157,13 @@
           console.warn('onUpdateDoc: missing data object ');
           return;
         }
-        actions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data });
+        fetchActions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data });
       }
     }, {
       key: 'onPost',
       value: function onPost(data) {
         var _props4 = this.props,
-            actions = _props4.actions,
+            fetchActions = _props4.fetchActions,
             schemaName = _props4.schemaName,
             targetName = _props4.targetName;
 
@@ -169,7 +171,7 @@
           console.warn('onPost: missing data object ');
           return;
         }
-        actions.postDoc({ schemaName: schemaName, targetName: targetName, data: data });
+        fetchActions.postDoc({ schemaName: schemaName, targetName: targetName, data: data });
       }
     }, {
       key: 'onRefresh',
@@ -195,7 +197,7 @@
         if (localOnly || !props.schemaName) {
           return;
         }
-        props.actions.fetchData({
+        props.fetchActions.fetchData({
           targetName: targetName,
           schemaName: schemaName,
           query: query,
@@ -210,79 +212,66 @@
     }, {
       key: 'handleCallBacks',
       value: function handleCallBacks(props, nextProps) {
-        var queryStatus = nextProps.queryStatus,
-            data = nextProps.data,
-            info = nextProps.info,
-            error = nextProps.error,
+        var fetchStatus = nextProps.fetchStatus,
+            fetchData = nextProps.fetchData,
+            fetchInfo = nextProps.fetchInfo,
+            fetchError = nextProps.fetchError,
             autoRefresh = nextProps.autoRefresh;
 
         if ((0, _helpers.isFetchFinish)(props, nextProps)) {
-          props.onFetchEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onFetchEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         } else if ((0, _helpers.isDeleteFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onDeleteEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onDeleteEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         } else if ((0, _helpers.isUpdateFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onPutEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onPutEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         } else if ((0, _helpers.isCreateFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onPostEnd(error, { queryStatus: queryStatus, data: data, info: info });
+          props.onPostEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
         }
       }
     }, {
       key: 'cleanData',
       value: function cleanData() {
         var targetName = this.props.targetName || this.props.schemaName;
-        this.props.actions.cleanData({ targetName: targetName });
+        this.props.fetchActions.cleanData({ targetName: targetName });
       }
     }, {
       key: 'render',
       value: function render() {
         var _props5 = this.props,
-            data = _props5.data,
-            queryStatus = _props5.queryStatus,
-            info = _props5.info,
-            error = _props5.error;
+            fetchData = _props5.fetchData,
+            fetchStatus = _props5.fetchStatus,
+            fetchInfo = _props5.fetchInfo,
+            fetchError = _props5.fetchError,
+            component = _props5.component;
 
-        return this.props.render(error, {
-          data: data,
-          isLoading: (0, _helpers.isLoading)(queryStatus),
-          status: queryStatus,
-          info: info,
-          refresh: this.onRefresh,
-          delete: this.onDelete,
-          put: this.onPut,
-          post: this.onPost
+        var props = (0, _helpers.removeLocalKeys)(this.props);
+        var propsToPass = Object.assign(props, {
+          fetchProps: {
+            data: fetchData,
+            fetchError: fetchError,
+            status: fetchStatus,
+            info: fetchInfo,
+            isLoading: (0, _helpers.isLoading)(fetchStatus),
+            refresh: this.onRefresh,
+            deleteDoc: this.onDelete,
+            put: this.onPut,
+            post: this.onPost
+          }
         });
+        if (component) {
+          return createElement(component, propsToPass);
+        }
+        return this.props.render(propsToPass);
       }
     }]);
 
     return FetchCollection;
   }(_react2.default.PureComponent);
 
-  function mapStateToProps(state, props) {
-    var keyForData = props.targetName || props.schemaName;
-    return {
-      data: (0, _selectors.getData)(state, keyForData),
-      queryStatus: (0, _selectors.getStatus)(state, keyForData),
-      info: (0, _selectors.getInfo)(state, keyForData),
-      error: (0, _selectors.getError)(state, keyForData)
-    };
-  }
-
-  function mapDispatchToProps(dispatch) {
-    return {
-      actions: (0, _redux.bindActionCreators)({
-        fetchData: _actions.fetchData,
-        deleteDoc: _actions.deleteDoc,
-        putDoc: _actions.putDoc,
-        postDoc: _actions.postDoc,
-        cleanData: _actions.cleanData
-      }, dispatch)
-    };
-  }
-
-  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FetchCollection);
+  exports.default = (0, _store2.default)(FetchCollection);
 
   FetchCollection.propTypes = _propTypes.propTypes;
 

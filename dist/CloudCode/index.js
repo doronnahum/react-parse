@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'react', 'redux', 'react-redux', './actions', './selectors', '../helpers', './prop-types'], factory);
+    define(['exports', 'react', '../helpers', './prop-types', './store'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('react'), require('redux'), require('react-redux'), require('./actions'), require('./selectors'), require('../helpers'), require('./prop-types'));
+    factory(exports, require('react'), require('../helpers'), require('./prop-types'), require('./store'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.react, global.redux, global.reactRedux, global.actions, global.selectors, global.helpers, global.propTypes);
+    factory(mod.exports, global.react, global.helpers, global.propTypes, global.store);
     global.index = mod.exports;
   }
-})(this, function (exports, _react, _redux, _reactRedux, _actions, _selectors, _helpers, _propTypes) {
+})(this, function (exports, _react, _helpers, _propTypes, _store) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -18,6 +18,8 @@
   });
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _store2 = _interopRequireDefault(_store);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -73,8 +75,8 @@
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var FetchCloudCode = function (_React$PureComponent) {
-    _inherits(FetchCloudCode, _React$PureComponent);
+  var FetchCloudCode = function (_React$Component) {
+    _inherits(FetchCloudCode, _React$Component);
 
     function FetchCloudCode(props) {
       _classCallCheck(this, FetchCloudCode);
@@ -92,20 +94,20 @@
         var _props = this.props,
             localFirst = _props.localFirst,
             functionName = _props.functionName,
-            data = _props.data,
-            queryStatus = _props.queryStatus;
+            fetchData = _props.fetchData,
+            fetchStatus = _props.fetchStatus;
 
         if (!functionName) return;
-        if (!localFirst || localFirst && !data && !(0, _helpers.isLoading)(queryStatus)) {
+        if (!localFirst || localFirst && !fetchData && !(0, _helpers.isLoading)(fetchStatus)) {
           this.fetchData();
         }
       }
     }, {
       key: 'componentWillReceiveProps',
       value: function componentWillReceiveProps(nextProps) {
-        var queryStatus = nextProps.queryStatus,
-            data = nextProps.data,
-            error = nextProps.error;
+        var fetchStatus = nextProps.fetchStatus,
+            fetchData = nextProps.fetchData,
+            fetchError = nextProps.fetchError;
 
         if ((0, _helpers.isCloudCodePropsChanged)(this.props, nextProps)) {
           if ((0, _helpers.isTargetChanged)(this.props, nextProps)) {
@@ -113,7 +115,7 @@
           }
           this.fetchData(nextProps);
         } else if ((0, _helpers.isFetchFinish)(this.props, nextProps)) {
-          this.props.onFetchEnd(error, { data: data, queryStatus: queryStatus });
+          this.props.onFetchEnd(fetchError, { fetchData: fetchData, fetchStatus: fetchStatus });
         }
       }
     }, {
@@ -134,14 +136,14 @@
         var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
         var localOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.localOnly;
         var functionName = props.functionName,
-            collectionTarget = props.collectionTarget,
+            targetName = props.targetName,
             params = props.params,
             digToData = props.digToData;
 
         if (localOnly || !props.functionName) return;
-        props.actions.fetchData({
+        props.fetchActions.fetchData({
           functionName: functionName,
-          collectionTarget: collectionTarget,
+          targetName: targetName,
           params: params,
           digToData: digToData
         });
@@ -150,46 +152,40 @@
       key: 'cleanData',
       value: function cleanData() {
         var targetName = this.props.targetName || this.props.functionName;
-        this.props.actions.cleanData({ targetName: targetName });
+        this.props.fetchActions.cleanData({ targetName: targetName });
       }
     }, {
       key: 'render',
       value: function render() {
         var _props2 = this.props,
-            data = _props2.data,
-            queryStatus = _props2.queryStatus,
-            info = _props2.info,
-            error = _props2.error;
+            fetchData = _props2.fetchData,
+            fetchStatus = _props2.fetchStatus,
+            fetchInfo = _props2.fetchInfo,
+            fetchError = _props2.fetchError,
+            component = _props2.component;
 
-        return this.props.render(error, {
-          data: data,
-          status: queryStatus,
-          isLoading: (0, _helpers.isLoading)(queryStatus),
-          info: info,
-          refresh: this.onRefresh
+        var props = (0, _helpers.removeLocalKeys)(this.props);
+        var propsToPass = Object.assign(props, {
+          fetchProps: {
+            data: fetchData,
+            error: fetchError,
+            status: fetchStatus,
+            info: fetchInfo,
+            isLoading: (0, _helpers.isLoading)(fetchStatus),
+            refresh: this.onRefresh
+          }
         });
+        if (component) {
+          return createElement(component, propsToPass);
+        }
+        return this.props.render(propsToPass);
       }
     }]);
 
     return FetchCloudCode;
-  }(_react2.default.PureComponent);
+  }(_react2.default.Component);
 
-  function mapStateToProps(state, props) {
-    var keyForData = props.collectionTarget || props.functionName;
-    return {
-      data: (0, _selectors.getData)(state, keyForData),
-      queryStatus: (0, _selectors.getStatus)(state, keyForData),
-      info: (0, _selectors.getInfo)(state, keyForData),
-      error: (0, _selectors.getError)(state, keyForData)
-    };
-  }
-
-  function mapDispatchToProps(dispatch) {
-    return {
-      actions: (0, _redux.bindActionCreators)({ fetchData: _actions.fetchData, cleanData: _actions.cleanData }, dispatch)
-    };
-  }
-  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(FetchCloudCode);
+  exports.default = (0, _store2.default)(FetchCloudCode);
 
 
   FetchCloudCode.propTypes = _propTypes.propTypes;

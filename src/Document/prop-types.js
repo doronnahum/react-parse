@@ -82,18 +82,38 @@ export const propTypes = {
    */
   autoRefresh: PropTypes.bool,
   /**
-   * render props - pass function that get props and return component.
-   * (error, props) => <MYCOMPONENT />
-   * props = {
-   *  data,
-      isLoading,
-      queryStatus,
-      info,
-      refreshData,
-      deleteDocument,
-      putDocument,
-      postDocument
-    }
+   * render - pass function that get props and return component.
+   * Exmple of use:
+   *    <FetchDocument
+          schemaName={mySchemaName}
+          objectId={myObjectId} 
+          render={this.renderMyComponent}
+        />
    */
-  render: PropTypes.func.isRequired
+  render: PropTypes.func.isRequired,
+  /**
+   * example:
+   *     <FetchDocument
+          schemaName={mySchemaName}
+          objectId={myObjectId}
+          component={MyComponent}
+        />
+    * all the props from FetchDocument will wrap inside props.fetch
+   */
+  component: PropTypes.element
+  /*   
+   * What you going to get Fetch:
+   * First argument - error - the error from serve.
+   * Second argument - {
+   *  data : {...}, // The data from server response
+      isLoading: bollean, // True when loading
+      status : string, // look at the status list
+      info: {...}, // extra helpful data of the request
+      refresh, // function that refresh the data from server
+      deleteDoc, // function
+      put, // update your document
+      post, // create new document
+      ...this.props // all you other props that you want to pass
+    }
+  */
 };
