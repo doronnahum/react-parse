@@ -136,15 +136,15 @@ class FetchCollection extends React.PureComponent {
     let props = removeLocalKeys(this.props);
     let propsToPass = Object.assign(props, {
       fetchProps: {
-      data: fetchData,
-      fetchError: fetchError,
-      status: fetchStatus,
-      info: fetchInfo,
-      isLoading: isLoading(fetchStatus),
-      refresh: this.onRefresh,
-      deleteDoc: this.onDelete,
-      put: this.onPut,
-      post: this.onPost,
+        data: fetchData,
+        error: fetchError,
+        status: fetchStatus,
+        info: fetchInfo,
+        isLoading: isLoading(fetchStatus),
+        refresh: this.onRefresh,
+        deleteDoc: this.onDelete,
+        put: objectId && this.onPut,
+        post: this.onPost
       }
     })
     if(component){

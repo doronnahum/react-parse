@@ -141,12 +141,12 @@ class FetchDocument extends React.Component {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchError, component, objectId } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchError, component, objectId, uniqueId } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass  = Object.assign(props, {
       fetchProps: {
       data: fetchData,
-      fetchError: fetchError,
+      error: fetchError,
       status: fetchStatus,
       info: fetchInfo,
       isLoading: isLoading(fetchStatus),
@@ -155,6 +155,8 @@ class FetchDocument extends React.Component {
       put: objectId && this.onPut,
       post: this.onPost,
       cleanData: this.cleanData,
+      updateField: this.updateField,
+      id: objectId || uniqueId
       }
     })
     if(component){

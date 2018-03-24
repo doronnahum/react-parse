@@ -251,13 +251,13 @@
         var propsToPass = Object.assign(props, {
           fetchProps: {
             data: fetchData,
-            fetchError: fetchError,
+            error: fetchError,
             status: fetchStatus,
             info: fetchInfo,
             isLoading: (0, _helpers.isLoading)(fetchStatus),
             refresh: this.onRefresh,
             deleteDoc: this.onDelete,
-            put: this.onPut,
+            put: objectId && this.onPut,
             post: this.onPost
           }
         });

@@ -252,13 +252,14 @@
             fetchInfo = _props7.fetchInfo,
             fetchError = _props7.fetchError,
             component = _props7.component,
-            objectId = _props7.objectId;
+            objectId = _props7.objectId,
+            uniqueId = _props7.uniqueId;
 
         var props = (0, _helpers.removeLocalKeys)(this.props);
         var propsToPass = Object.assign(props, {
           fetchProps: {
             data: fetchData,
-            fetchError: fetchError,
+            error: fetchError,
             status: fetchStatus,
             info: fetchInfo,
             isLoading: (0, _helpers.isLoading)(fetchStatus),
@@ -266,7 +267,9 @@
             deleteDoc: this.onDelete,
             put: objectId && this.onPut,
             post: this.onPost,
-            cleanData: this.cleanData
+            cleanData: this.cleanData,
+            updateField: this.updateField,
+            id: objectId || uniqueId
           }
         });
         if (component) {
