@@ -109,7 +109,7 @@
       key: 'componentWillReceiveProps',
       value: function componentWillReceiveProps(nextProps) {
         if ((0, _helpers.isDocumentParamsChanged)(this.props, nextProps)) {
-          if ((0, _helpers.isDocTargetChanged)(this.props, nextProps)) {
+          if ((0, _helpers.isTargetChanged)(this.props, nextProps)) {
             this.cleanData();
           }
           this.fetchData(nextProps);

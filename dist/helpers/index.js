@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.isDocTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
+  exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
 
   var _isEqual2 = _interopRequireDefault(_isEqual);
 
@@ -110,17 +110,7 @@
   var isParamsChanged = function isParamsChanged(props, nextProps) {
     return !(0, _isEqual2.default)(props.params, nextProps.params);
   };
-  var isDocTargetChanged = exports.isDocTargetChanged = function isDocTargetChanged(props, nextProps) {
-    var status = false;
-    if (props.targetName !== nextProps.targetName) {
-      status = true;
-    } else if (props.objectId !== nextProps.objectId) {
-      status = true;
-    } else if (props.uniqueId !== nextProps.uniqueId) {
-      status = true;
-    }
-    return status;
-  };
+
   var isTargetChanged = exports.isTargetChanged = function isTargetChanged(props, nextProps) {
     var status = false;
     if (props.targetName !== nextProps.targetName) {
@@ -128,6 +118,10 @@
     } else if (props.functionName !== nextProps.functionName) {
       status = true;
     } else if (props.schemaName !== nextProps.schemaName) {
+      status = true;
+    } else if (props.objectId !== nextProps.objectId) {
+      status = true;
+    } else if (props.uniqueId !== nextProps.uniqueId) {
       status = true;
     }
     return status;
@@ -204,40 +198,41 @@
   };
 
   var isDocumentParamsChanged = exports.isDocumentParamsChanged = function isDocumentParamsChanged(props, nextProps) {
-    // schemaName was change, get data from server
-    if (props.schemaName !== nextProps.schemaName) {
-      return true;
+    var status = false;
+    if (isTargetChanged(props, nextProps)) {
+      status = true;
+    } else if (props.keys !== nextProps.keys) {
+      status = true;
+    } else if (props.include !== nextProps.include) {
+      status = true;
     }
-    if (props.objectId !== nextProps.objectId) {
-      return true;
-    }
-    if (props.include !== nextProps.include) {
-      return true;
-    }
-    if (!(0, _isEqual2.default)(props.initialValues, nextProps.initialValues)) {
-      return false; // initialValues only on load fow noe
-    }
-    return false;
+    return status;
   };
 
   var isCollectionParamsChanged = exports.isCollectionParamsChanged = function isCollectionParamsChanged(props, nextProps) {
+    var status = false;
     // filters was change, get data from server
-    if (!(0, _isEqual2.default)(props.query, nextProps.query)) {
-      return true;
+    if (isTargetChanged(props, nextProps)) {
+      status = true;
+    } else if (!(0, _isEqual2.default)(props.query, nextProps.query)) {
+      status = true;
+    } else if (props.schemaName !== nextProps.schemaName) {
+      status = true;
+    } else if (props.limit !== nextProps.limit) {
+      status = true;
+    } else if (props.skip !== nextProps.skip) {
+      status = true;
+    } else if (props.enableCount !== nextProps.enableCount) {
+      status = true;
+    } else if (props.keys !== nextProps.keys) {
+      status = true;
+    } else if (props.include !== nextProps.include) {
+      status = true;
+    } else if (props.order !== nextProps.order) {
+      status = true;
     }
-    // page was change, get data from server
-    if (props.page !== nextProps.page) {
-      return true;
-    }
-    // schemaName was change, get data from server
-    if (props.schemaName !== nextProps.schemaName) {
-      return true;
-    }
-    // keys was change, get data from server
-    if (props.keys !== nextProps.keys) {
-      return true;
-    }
-    return false;
+
+    return status;
   };
 
   var removeLocalKeys = exports.removeLocalKeys = function removeLocalKeys(obj) {

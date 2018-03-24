@@ -19,7 +19,7 @@
 
 
   function mapStateToProps(state, props) {
-    var keyForData = props.collectionTarget || props.functionName;
+    var keyForData = props.targetName || props.functionName;
     return {
       fetchData: (0, _selectors.getData)(state, keyForData),
       fetchyStatus: (0, _selectors.getStatus)(state, keyForData),

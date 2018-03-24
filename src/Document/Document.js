@@ -3,7 +3,7 @@ import { propTypes, defaultProps } from './prop-types';
 import connect from './store';
 
 import {
-  isDocTargetChanged,
+  isTargetChanged,
   isFetchFinish,
   isLoading,
   isDeleteFinish,
@@ -34,7 +34,7 @@ class FetchDocument extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (isDocumentParamsChanged(this.props, nextProps)) {
-      if (isDocTargetChanged(this.props, nextProps)) {
+      if (isTargetChanged(this.props, nextProps)) {
         this.cleanData();
       }
       this.fetchData(nextProps);

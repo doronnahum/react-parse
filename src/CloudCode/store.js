@@ -4,7 +4,7 @@ import { fetchData, cleanData } from './actions';
 import { getData, getStatus, getInfo, getError } from './selectors';
 
 function mapStateToProps(state, props) {
-  const keyForData = props.collectionTarget || props.functionName;
+  const keyForData = props.targetName || props.functionName;
   return {
     fetchData: getData(state, keyForData),
     fetchyStatus: getStatus(state, keyForData),
