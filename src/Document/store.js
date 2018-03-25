@@ -15,7 +15,7 @@ function mapStateToProps(state, props) {
   const target = targetName || (objectId || uniqueId);
   return {
     fetchData: getData(state, target),
-    fetchtatus: getStatus(state, target),
+    fetchStatus: getStatus(state, target),
     fetchInfo: getInfo(state, target),
     fetchError: getError(state, target)
   };

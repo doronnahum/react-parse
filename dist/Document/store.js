@@ -26,7 +26,7 @@
     var target = targetName || objectId || uniqueId;
     return {
       fetchData: (0, _selectors.getData)(state, target),
-      fetchtatus: (0, _selectors.getStatus)(state, target),
+      fetchStatus: (0, _selectors.getStatus)(state, target),
       fetchInfo: (0, _selectors.getInfo)(state, target),
       fetchError: (0, _selectors.getError)(state, target)
     };
