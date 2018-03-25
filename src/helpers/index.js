@@ -204,5 +204,12 @@ export const removeLocalKeys = function(obj) {
   delete data['fetchActions']; 
   return data
 };
+export const removeImutableKeys = function(obj) {
+  let data = Object.assign({}, obj)
+  delete data['updatedAt']; 
+  delete data['createdAt']; 
+  delete data['objectId']; 
+  return data
+};
 
 /* eslint no-restricted-syntax: "off" */
