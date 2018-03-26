@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createElement } from 'react';
 import connect from './store';
 
 import {

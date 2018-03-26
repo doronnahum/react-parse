@@ -42,7 +42,8 @@
         status = _ref.status,
         data = _ref.data,
         info = _ref.info,
-        error = _ref.error;
+        error = _ref.error,
+        loading = _ref.loading;
 
     switch (action.type) {
       case SET_COLLECTION:
@@ -63,6 +64,9 @@
           }
           if ('error' in payload) {
             nextState = nextState.setIn(['collections', targetName, 'error'], error);
+          }
+          if ('loading' in payload) {
+            nextState = nextState.setIn(['collections', targetName, 'loading'], loading);
           }
           return nextState;
         }

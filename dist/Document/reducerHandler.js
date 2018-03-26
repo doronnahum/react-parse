@@ -44,7 +44,8 @@
         info = _ref.info,
         error = _ref.error,
         key = _ref.key,
-        value = _ref.value;
+        value = _ref.value,
+        loading = _ref.loading;
 
     switch (action.type) {
       case SET_DOCUMENT:
@@ -65,6 +66,9 @@
           }
           if ('error' in payload) {
             nextState = nextState.setIn(['documents', targetName, 'error'], error);
+          }
+          if ('loading' in payload) {
+            nextState = nextState.setIn(['documents', targetName, 'loading'], loading);
           }
           return nextState;
         }

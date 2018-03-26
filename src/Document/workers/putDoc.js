@@ -15,14 +15,14 @@ const FINISHED = types.POST_FINISHED;
 export default function* putDoc(action) {
   const { targetName, schemaName, data, objectId } = action.payload;
   const target = targetName || objectId;
-  yield put(setOnStore({ targetName: target, status: START, error: null }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const dataToSend = removeImutableKeys(data)
   const res = yield* httpRequest(api.updateObject, schemaName, objectId, data);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', targetName, res.error);
     Logger.onError(action, errType)
-    yield put(setOnStore({ targetName: target, status: errType, error: res }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
   } else {
     const info = {
       timestamp: Date.now(),
@@ -36,7 +36,8 @@ export default function* putDoc(action) {
         targetName: target,
         status: FINISHED,
         info,
-        error: null
+        error: null,
+        loading: false
       })
     );
     Logger.onSuccses(action, FINISHED)

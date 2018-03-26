@@ -51,7 +51,7 @@
             _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId;
             target = targetName || schemaName;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.deleteObject, schemaName, objectId), 't0', 5);
@@ -69,7 +69,7 @@
             console.error('deleteDoc err', schemaName, objectId, res.err);
             _Logger2.default.onError(action, errType);
             _context.next = 12;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
           case 12:
             _context.next = 17;
@@ -77,7 +77,7 @@
 
           case 14:
             _context.next = 16;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
 
           case 16:
             _Logger2.default.onSuccses(action, FINISHED);

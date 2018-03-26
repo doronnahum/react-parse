@@ -14,13 +14,13 @@ const FINISHED = types.POST_FINISHED;
 
 export default function* postDoc(action) {
   const { targetName, schemaName, data } = action.payload;
-  yield put(setOnStore({ targetName, status: START, error: null }));
+  yield put(setOnStore({ targetName, status: START, error: null, loading: true }));
   const res = yield* httpRequest(api.createObject, schemaName, data);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);
     Logger.onError(action, errType)
-    yield put(setOnStore({ targetName, status: errType, error: res }));
+    yield put(setOnStore({ targetName, status: errType, error: res, loading: false }));
   } else {
     const info = {
       timestamp: Date.now(),
@@ -34,7 +34,8 @@ export default function* postDoc(action) {
         targetName,
         status: FINISHED,
         info,
-        error: null
+        error: null,
+        loading: false
       })
     );
     Logger.onSuccses(action, FINISHED)

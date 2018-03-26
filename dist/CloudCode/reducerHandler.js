@@ -38,7 +38,8 @@
         status = _ref.status,
         data = _ref.data,
         info = _ref.info,
-        error = _ref.error;
+        error = _ref.error,
+        loading = _ref.loading;
 
     switch (action.type) {
       // Cloud code
@@ -59,6 +60,9 @@
           }
           if ('error' in payload) {
             nextState = nextState.setIn(['cloudCodes', targetName, 'error'], error);
+          }
+          if ('loading' in payload) {
+            nextState = nextState.setIn(['cloudCodes', targetName, 'loading'], loading);
           }
           return nextState;
         }

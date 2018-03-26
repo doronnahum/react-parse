@@ -42,7 +42,7 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function putDoc(action) {
-    var _action$payload, targetName, schemaName, data, objectId, target, res, errType, info;
+    var _action$payload, targetName, schemaName, data, objectId, target, dataToSend, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
@@ -51,16 +51,17 @@
             _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, objectId = _action$payload.objectId;
             target = targetName || objectId;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, data), 't0', 5);
+            dataToSend = (0, _helpers.removeImutableKeys)(data);
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, data), 't0', 6);
 
-          case 5:
+          case 6:
             res = _context.t0;
 
             if (!res.error) {
-              _context.next = 14;
+              _context.next = 15;
               break;
             }
 
@@ -68,33 +69,34 @@
 
             console.error('putDoc err', targetName, res.error);
             _Logger2.default.onError(action, errType);
-            _context.next = 12;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
+            _context.next = 13;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 12:
-            _context.next = 18;
+          case 13:
+            _context.next = 19;
             break;
 
-          case 14:
+          case 15:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
               objectId: objectId,
-              data: data,
+              data: dataToSend,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 17;
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
               info: info,
-              error: null
+              error: null,
+              loading: false
             }));
 
-          case 17:
+          case 18:
             _Logger2.default.onSuccses(action, FINISHED);
 
-          case 18:
+          case 19:
           case 'end':
             return _context.stop();
         }

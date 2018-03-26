@@ -14,11 +14,11 @@ const FINISHED = types.FETCH_FINISHED;
 export default function* fetchCloudCode(action) {
   const { functionName, targetName, params, digToData } = action.payload;
   const target = targetName || functionName;
-  yield put(setOnStore({ targetName: target, status: START, error: null }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield httpRequest(Api.getCloudFunction, functionName, params);
   if (res.error || dig(res, 'response.data.error')) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-    yield put(setOnStore({ targetName: target, status: errType, error: res }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res,  loading: false }));
     console.error('getCloudFunction err: ', functionName, res.error);
   } else {
     const data = dig(res, digToData);
@@ -31,7 +31,8 @@ export default function* fetchCloudCode(action) {
         info: {
           params,
           timestamp: Date.now()
-        }
+        },
+        loading: false
       })
     );
   }

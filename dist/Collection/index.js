@@ -262,7 +262,7 @@
           }
         });
         if (component) {
-          return createElement(component, propsToPass);
+          return (0, _react.createElement)(component, propsToPass);
         }
         return this.props.render(propsToPass);
       }

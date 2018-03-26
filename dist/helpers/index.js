@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
+  exports.removeImutableKeys = exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
 
   var _isEqual2 = _interopRequireDefault(_isEqual);
 
@@ -242,6 +242,13 @@
     delete data['fetchStatus'];
     delete data['fetchInfo'];
     delete data['fetchActions'];
+    return data;
+  };
+  var removeImutableKeys = exports.removeImutableKeys = function removeImutableKeys(obj) {
+    var data = Object.assign({}, obj);
+    delete data['updatedAt'];
+    delete data['createdAt'];
+    delete data['objectId'];
     return data;
   };
 

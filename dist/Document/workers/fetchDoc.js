@@ -49,7 +49,7 @@
             _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys;
             target = targetName || objectId;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.getObjectById, schemaName, objectId, keys, include), 't0', 5);
@@ -66,7 +66,7 @@
 
             console.error('get document err', objectId, res.error);
             _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
           case 11:
             _context.next = 17;
@@ -86,7 +86,8 @@
               status: FINISHED,
               data: data,
               info: info,
-              error: null
+              error: null,
+              loading: false
             }));
 
           case 17:

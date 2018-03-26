@@ -7,7 +7,7 @@ const { SET_COLLECTION, CLEAN_COLLECTION, CLEAN_ALL_COLLECTIONS } = types;
 
 export default function reducerHandler(state, action) {
   const { payload } = action;
-  const { targetName, status, data, info, error } = payload || {};
+  const { targetName, status, data, info, error, loading } = payload || {};
   switch (action.type) {
     case SET_COLLECTION: {
       const collection = state.collections.get(targetName);
@@ -35,6 +35,9 @@ export default function reducerHandler(state, action) {
           ['collections', targetName, 'error'],
           error
         );
+      }
+      if ('loading' in payload) {
+        nextState = nextState.setIn(['collections', targetName, 'loading'], loading);
       }
       return nextState;
     }

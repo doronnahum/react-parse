@@ -5,7 +5,7 @@ const { Map } = require('immutable');
 
 export default function reducerHandler(state, action) {
   const { payload } = action;
-  const { targetName, status, data, info, error } = payload || {};
+  const { targetName, status, data, info, error, loading } = payload || {};
   switch (action.type) {
     // Cloud code
     case types.SET_CLOUD_CODE: {
@@ -27,6 +27,9 @@ export default function reducerHandler(state, action) {
       }
       if ('error' in payload) {
         nextState = nextState.setIn(['cloudCodes', targetName, 'error'], error);
+      }
+      if ('loading' in payload) {
+        nextState = nextState.setIn(['cloudCodes', targetName, 'loading'], loading);
       }
       return nextState;
     }

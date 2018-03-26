@@ -8,6 +8,7 @@ import * as helpers from './helpers';
 import FetchCollection from './Collection';
 import FetchDocument from './Document';
 import FetchCloudCode from './CloudCode';
+import ShowLoader from './Loader';
 // Parse
 import parseReducer from './reducer';
 import parseWatcher from './saga';
@@ -25,6 +26,7 @@ export {
   FetchCollection,
   FetchDocument,
   FetchCloudCode,
+  ShowLoader,
   // Parse
   parseWatcher,
   parseReducer,

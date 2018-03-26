@@ -13,7 +13,7 @@ const FINISHED = types.FETCH_FINISHED;
 export default function* fetchDoc(action) {
   const { targetName, schemaName, objectId, include, keys } = action.payload;
   const target = targetName || objectId;
-  yield put(setOnStore({ targetName: target, status: START, error: null }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield* httpRequest(
     api.getObjectById,
     schemaName,
@@ -24,7 +24,7 @@ export default function* fetchDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('get document err', objectId, res.error);
-    yield put(setOnStore({ targetName: target, status: errType, error: res }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
   } else {
     const info = {
       timestamp: Date.now(),
@@ -39,7 +39,8 @@ export default function* fetchDoc(action) {
         status: FINISHED,
         data,
         info,
-        error: null
+        error: null,
+        loading: false
       })
     );
   }

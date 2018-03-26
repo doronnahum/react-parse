@@ -25,7 +25,7 @@ export default function* fetchCollection(action) {
     limit
   } = action.payload;
   const target = targetName || schemaName;
-  yield put(setOnStore({ targetName: target, status: START, error: null }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield* httpRequest(
     api.query,
     schemaName,
@@ -39,7 +39,7 @@ export default function* fetchCollection(action) {
   );
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-    yield put(setOnStore({ targetName: target, status: errType, error: res }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
     console.error('fetchCollection err: ', schemaName, res.error);
   } else {
     const data = dig(res, 'data.results');
@@ -62,7 +62,8 @@ export default function* fetchCollection(action) {
         status: FINISHED,
         error: null,
         data,
-        info
+        info,
+        loading: false
       })
     );
   }

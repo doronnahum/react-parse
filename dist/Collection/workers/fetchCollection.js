@@ -49,7 +49,7 @@
             _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit;
             target = targetName || schemaName;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 5);
@@ -64,7 +64,7 @@
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
             _context.next = 10;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
           case 10:
             console.error('fetchCollection err: ', schemaName, res.error);
@@ -92,7 +92,8 @@
               status: FINISHED,
               error: null,
               data: data,
-              info: info
+              info: info,
+              loading: false
             }));
 
           case 17:

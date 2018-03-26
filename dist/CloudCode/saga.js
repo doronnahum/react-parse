@@ -49,7 +49,7 @@
             _action$payload = action.payload, functionName = _action$payload.functionName, targetName = _action$payload.targetName, params = _action$payload.params, digToData = _action$payload.digToData;
             target = targetName || functionName;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
             _context.next = 6;
@@ -65,7 +65,7 @@
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
             _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
           case 11:
             console.error('getCloudFunction err: ', functionName, res.error);
@@ -83,7 +83,8 @@
               info: {
                 params: params,
                 timestamp: Date.now()
-              }
+              },
+              loading: false
             }));
 
           case 17:

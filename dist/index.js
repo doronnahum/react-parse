@@ -1,22 +1,22 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', './server/api', './server/httpWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './reducer', './saga', './selectors', 'babel-polyfill'], factory);
+    define(['exports', './server/api', './server/httpWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './Loader', './reducer', './saga', './selectors', 'babel-polyfill'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./server/api'), require('./server/httpWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./reducer'), require('./saga'), require('./selectors'), require('babel-polyfill'));
+    factory(exports, require('./server/api'), require('./server/httpWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./Loader'), require('./reducer'), require('./saga'), require('./selectors'), require('babel-polyfill'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.reducer, global.saga, global.selectors, global.babelPolyfill);
+    factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.Loader, global.reducer, global.saga, global.selectors, global.babelPolyfill);
     global.index = mod.exports;
   }
-})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _reducer, _saga, _selectors) {
+})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.selectors = exports.parseReducer = exports.parseWatcher = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
+  exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
@@ -31,6 +31,8 @@
   var _Document2 = _interopRequireDefault(_Document);
 
   var _CloudCode2 = _interopRequireDefault(_CloudCode);
+
+  var _Loader2 = _interopRequireDefault(_Loader);
 
   var _reducer2 = _interopRequireDefault(_reducer);
 
@@ -61,12 +63,13 @@
     };
   }
 
-  // Components
+  // Common
   var config = _api2.default;
   // Selectors
 
   // Parse
-  // Common
+
+  // Components
   exports.config = config;
   exports.api = _api2.default;
   exports.httpRequest = _httpWrapper2.default;
@@ -75,6 +78,7 @@
   exports.FetchCollection = _Collection2.default;
   exports.FetchDocument = _Document2.default;
   exports.FetchCloudCode = _CloudCode2.default;
+  exports.ShowLoader = _Loader2.default;
   exports.parseWatcher = _saga2.default;
   exports.parseReducer = _reducer2.default;
   exports.selectors = _selectors2.default;

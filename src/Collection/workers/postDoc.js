@@ -14,17 +14,17 @@ const FINISHED = types.POST_FINISHED;
 export default function* postDoc(action) {
   const { schemaName, data, targetName } = action.payload;
   const target = targetName || schemaName;
-  yield put(setOnStore({ targetName: target, status: START, error: null }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield* httpRequest(api.createObject, schemaName, data);
 
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('postDoc err', schemaName, res.err);
     Logger.onError(action, errType)
-    yield put(setOnStore({ targetName: target, status: errType, error: res }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
   } else {
     yield put(
-      setOnStore({ targetName: target, status: FINISHED, error: null })
+      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
     Logger.onSuccses(action, FINISHED)
   }
