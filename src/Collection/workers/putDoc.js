@@ -21,13 +21,13 @@ export default function* putDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', schemaName, objectId, res.err);
-    Logger.onError(action, errType)
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    Logger.onError('PUT', action, errType)
   } else {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses(action, FINISHED)
+    Logger.onSuccses('PUT', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

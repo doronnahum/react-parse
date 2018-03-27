@@ -19,13 +19,13 @@ export default function* deleteDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', schemaName, objectId, res.err);
-    Logger.onError(action, errType);
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    Logger.onError('DELETE', action, errType);
   } else {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses(action, FINISHED);
+    Logger.onSuccses('DELETE', action, FINISHED);
   }
 }
 /* eslint no-unused-vars: "off" */

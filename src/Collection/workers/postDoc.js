@@ -20,13 +20,13 @@ export default function* postDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('postDoc err', schemaName, res.err);
-    Logger.onError(action, errType)
+    Logger.onError('POST', action, errType)
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
   } else {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses(action, FINISHED)
+    Logger.onSuccses('POST', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

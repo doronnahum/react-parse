@@ -5,6 +5,7 @@ import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
 import { dig } from '../../helpers';
+import Logger from '../../server/Logger';
 
 const START = types.FETCH_START;
 const FAILED = types.FETCH_FAILED;
@@ -39,8 +40,9 @@ export default function* fetchCollection(action) {
   );
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
     console.error('fetchCollection err: ', schemaName, res.error);
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    Logger.onError('GET', action, errType);
   } else {
     const data = dig(res, 'data.results');
     const info = {
@@ -66,6 +68,7 @@ export default function* fetchCollection(action) {
         loading: false
       })
     );
+    Logger.onSuccses('GET', action, FINISHED);
   }
 }
 /* eslint no-unused-vars: "off" */

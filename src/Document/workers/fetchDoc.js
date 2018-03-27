@@ -4,6 +4,7 @@ import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import { setOnStore } from '../actions';
+import Logger from '../../server/Logger';
 
 const START = types.FETCH_START;
 const FAILED = types.FETCH_FAILED;
@@ -25,6 +26,7 @@ export default function* fetchDoc(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('get document err', objectId, res.error);
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    Logger.onError('GET', action, errType);
   } else {
     const info = {
       timestamp: Date.now(),
@@ -43,6 +45,7 @@ export default function* fetchDoc(action) {
         loading: false
       })
     );
+    Logger.onSuccses('GET', action, FINISHED);
   }
 }
 /* eslint no-unused-vars: "off" */

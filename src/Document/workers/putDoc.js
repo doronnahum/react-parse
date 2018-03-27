@@ -21,8 +21,8 @@ export default function* putDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', targetName, res.error);
-    Logger.onError(action, errType)
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    Logger.onError('PUT', action, errType)
   } else {
     const info = {
       timestamp: Date.now(),
@@ -40,7 +40,7 @@ export default function* putDoc(action) {
         loading: false
       })
     );
-    Logger.onSuccses(action, FINISHED)
+    Logger.onSuccses('PUT', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

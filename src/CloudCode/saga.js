@@ -5,6 +5,7 @@ import types from '../types';
 import Api from '../server/api';
 import { dig } from '../helpers';
 import { setOnStore } from './actions';
+import Logger from '../server/Logger';
 
 const START = types.FETCH_START;
 const FAILED = types.FETCH_FAILED;
@@ -20,6 +21,7 @@ export default function* fetchCloudCode(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     yield put(setOnStore({ targetName: target, status: errType, error: res,  loading: false }));
     console.error('getCloudFunction err: ', functionName, res.error);
+    Logger.onError('CLOUD_CODE', action, errType);
   } else {
     const data = dig(res, digToData);
     yield put(
@@ -35,6 +37,7 @@ export default function* fetchCloudCode(action) {
         loading: false
       })
     );
+    Logger.onSuccses('CLOUD_CODE', action, FINISHED);
   }
 }
 /* eslint no-unused-vars: "off" */

@@ -19,8 +19,8 @@ export default function* postDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);
-    Logger.onError(action, errType)
     yield put(setOnStore({ targetName, status: errType, error: res, loading: false }));
+    Logger.onError('POST', action, errType)
   } else {
     const info = {
       timestamp: Date.now(),
@@ -38,7 +38,7 @@ export default function* postDoc(action) {
         loading: false
       })
     );
-    Logger.onSuccses(action, FINISHED)
+    Logger.onSuccses('POST', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

@@ -18,8 +18,8 @@ export default function* deleteDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', objectId, res.error);
-    Logger.onError(action, errType)
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    Logger.onError('DELETE' ,action, errType)
   } else {
     const info = {
       timestamp: Date.now(),
@@ -34,7 +34,7 @@ export default function* deleteDoc(action) {
         loading: false
       })
     );
-    Logger.onSuccses(action, FINISHED)
+    Logger.onSuccses('DELETE', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */
