@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../server/httpWrapper', '../types', '../server/api', '../helpers', './actions'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../server/httpWrapper', '../types', '../server/api', '../helpers', './actions', '../server/Logger'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../server/httpWrapper'), require('../types'), require('../server/api'), require('../helpers'), require('./actions'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../server/httpWrapper'), require('../types'), require('../server/api'), require('../helpers'), require('./actions'), require('../server/Logger'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.regeneratorRuntime, global.effects, global.httpWrapper, global.types, global.api, global.helpers, global.actions);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.httpWrapper, global.types, global.api, global.helpers, global.actions, global.Logger);
     global.saga = mod.exports;
   }
-})(this, function (exports, _regeneratorRuntime, _effects, _httpWrapper, _types, _api, _helpers, _actions) {
+})(this, function (exports, _regeneratorRuntime, _effects, _httpWrapper, _types, _api, _helpers, _actions, _Logger) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -25,6 +25,8 @@
   var _types2 = _interopRequireDefault(_types);
 
   var _api2 = _interopRequireDefault(_api);
+
+  var _Logger2 = _interopRequireDefault(_Logger);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -59,7 +61,7 @@
             res = _context.sent;
 
             if (!(res.error || (0, _helpers.dig)(res, 'response.data.error'))) {
-              _context.next = 14;
+              _context.next = 15;
               break;
             }
 
@@ -69,12 +71,13 @@
 
           case 11:
             console.error('getCloudFunction err: ', functionName, res.error);
-            _context.next = 17;
+            _Logger2.default.onError('CLOUD_CODE', action, errType);
+            _context.next = 19;
             break;
 
-          case 14:
+          case 15:
             data = (0, _helpers.dig)(res, digToData);
-            _context.next = 17;
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -87,7 +90,10 @@
               loading: false
             }));
 
-          case 17:
+          case 18:
+            _Logger2.default.onSuccses('CLOUD_CODE', action, FINISHED);
+
+          case 19:
           case 'end':
             return _context.stop();
         }

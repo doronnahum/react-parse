@@ -68,11 +68,11 @@
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', targetName, res.error);
-            _Logger2.default.onError(action, errType);
-            _context.next = 13;
+            _context.next = 12;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 13:
+          case 12:
+            _Logger2.default.onError('PUT', action, errType);
             _context.next = 19;
             break;
 
@@ -94,7 +94,7 @@
             }));
 
           case 18:
-            _Logger2.default.onSuccses(action, FINISHED);
+            _Logger2.default.onSuccses('PUT', action, FINISHED);
 
           case 19:
           case 'end':

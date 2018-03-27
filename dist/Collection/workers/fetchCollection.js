@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/httpWrapper', '../../types', '../../server/api', '../actions', '../../helpers'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../server/httpWrapper', '../../types', '../../server/api', '../actions', '../../helpers', '../../server/Logger'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/httpWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../server/httpWrapper'), require('../../types'), require('../../server/api'), require('../actions'), require('../../helpers'), require('../../server/Logger'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.regeneratorRuntime, global.effects, global.httpWrapper, global.types, global.api, global.actions, global.helpers);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.httpWrapper, global.types, global.api, global.actions, global.helpers, global.Logger);
     global.fetchCollection = mod.exports;
   }
-})(this, function (exports, _regeneratorRuntime, _effects, _httpWrapper, _types, _api, _actions, _helpers) {
+})(this, function (exports, _regeneratorRuntime, _effects, _httpWrapper, _types, _api, _actions, _helpers, _Logger) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -25,6 +25,8 @@
   var _types2 = _interopRequireDefault(_types);
 
   var _api2 = _interopRequireDefault(_api);
+
+  var _Logger2 = _interopRequireDefault(_Logger);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -58,20 +60,22 @@
             res = _context.t0;
 
             if (!res.error) {
-              _context.next = 13;
+              _context.next = 14;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-            _context.next = 10;
+
+            console.error('fetchCollection err: ', schemaName, res.error);
+            _context.next = 11;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 10:
-            console.error('fetchCollection err: ', schemaName, res.error);
-            _context.next = 17;
+          case 11:
+            _Logger2.default.onError('GET', action, errType);
+            _context.next = 19;
             break;
 
-          case 13:
+          case 14:
             data = (0, _helpers.dig)(res, 'data.results');
             info = {
               schemaName: schemaName,
@@ -86,7 +90,7 @@
               count: res.data.count,
               timestamp: Date.now()
             };
-            _context.next = 17;
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -96,7 +100,10 @@
               loading: false
             }));
 
-          case 17:
+          case 18:
+            _Logger2.default.onSuccses('GET', action, FINISHED);
+
+          case 19:
           case 'end':
             return _context.stop();
         }

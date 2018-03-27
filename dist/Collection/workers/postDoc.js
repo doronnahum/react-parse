@@ -67,7 +67,7 @@
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('postDoc err', schemaName, res.err);
-            _Logger2.default.onError(action, errType);
+            _Logger2.default.onError('POST', action, errType);
             _context.next = 12;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
@@ -80,7 +80,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
 
           case 16:
-            _Logger2.default.onSuccses(action, FINISHED);
+            _Logger2.default.onSuccses('POST', action, FINISHED);
 
           case 17:
           case 'end':

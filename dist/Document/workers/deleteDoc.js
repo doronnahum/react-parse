@@ -67,11 +67,11 @@
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('deleteDoc err', objectId, res.error);
-            _Logger2.default.onError(action, errType);
-            _context.next = 12;
+            _context.next = 11;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 12:
+          case 11:
+            _Logger2.default.onError('DELETE', action, errType);
             _context.next = 18;
             break;
 
@@ -90,7 +90,7 @@
             }));
 
           case 17:
-            _Logger2.default.onSuccses(action, FINISHED);
+            _Logger2.default.onSuccses('DELETE', action, FINISHED);
 
           case 18:
           case 'end':
