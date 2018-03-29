@@ -218,17 +218,18 @@
             fetchError = nextProps.fetchError,
             autoRefresh = nextProps.autoRefresh;
 
+        var callBackData = { error: fetchError, status: fetchStatus, data: fetchData, info: fetchInfo };
         if ((0, _helpers.isFetchFinish)(props, nextProps)) {
-          props.onFetchEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
+          props.onFetchEnd(callBackData);
         } else if ((0, _helpers.isDeleteFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onDeleteEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
+          props.onDeleteEnd(callBackData);
         } else if ((0, _helpers.isUpdateFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onPutEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
+          props.onPutEnd(callBackData);
         } else if ((0, _helpers.isCreateFinish)(props, nextProps)) {
           if (autoRefresh) this.fetchData(nextProps);
-          props.onPostEnd(fetchError, { fetchStatus: fetchStatus, fetchData: fetchData, fetchInfo: fetchInfo });
+          props.onPostEnd(callBackData);
         }
       }
     }, {
