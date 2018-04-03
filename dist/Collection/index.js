@@ -105,7 +105,7 @@
             localFirst = _props.localFirst,
             fetchData = _props.fetchData;
 
-        if (schemaName && (!localFirst || localFirst && !fetchData)) {
+        if (schemaName && (!localFirst || localFirst && !fetchData && !_helpers.isLoading)) {
           this.fetchData();
         }
       }
