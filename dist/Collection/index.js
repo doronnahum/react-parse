@@ -103,9 +103,10 @@
         var _props = this.props,
             schemaName = _props.schemaName,
             localFirst = _props.localFirst,
-            fetchData = _props.fetchData;
+            fetchData = _props.fetchData,
+            isLoading = _props.isLoading;
 
-        if (schemaName && (!localFirst || localFirst && !fetchData && !_helpers.isLoading)) {
+        if (schemaName && (!localFirst || localFirst && !fetchData && !isLoading)) {
           this.fetchData();
         }
       }

@@ -25,7 +25,7 @@ class FetchCollection extends React.PureComponent {
   }
 
   componentWillMount() {
-    const { schemaName, localFirst, fetchData,  } = this.props;
+    const { schemaName, localFirst, fetchData, isLoading} = this.props;
     if (schemaName && (!localFirst || (localFirst && (!fetchData && !isLoading)))) {
       this.fetchData();
     }
