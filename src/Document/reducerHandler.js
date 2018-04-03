@@ -45,9 +45,7 @@ export default function reducerHandler(state, action) {
     }
     case UPDATE_DOC_FIELD: {
       const documents = state.documents.get(targetName);
-      debugger;
       let nextState = state;
-      debugger;
       if (!documents) {
         nextState = nextState.setIn(['documents', targetName], Map());
       }
@@ -55,7 +53,6 @@ export default function reducerHandler(state, action) {
         ['documents', targetName, 'data', key],
         value
       );
-      debugger;
       return nextState;
     }
     case CLEAN_DOCUMENT: {

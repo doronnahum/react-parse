@@ -60,10 +60,10 @@ export const postDoc = payload => ({
  * @param {*} payload {targetName}
  */
 export const cleanData = payload => ({
-  type: CLEAN_ALL_COLLECTIONS,
+  type: CLEAN_COLLECTION,
   payload
 });
 
 export const cleanCollections = () => ({
-  type: CLEAN_COLLECTION
+  type: CLEAN_ALL_COLLECTIONS,
 });

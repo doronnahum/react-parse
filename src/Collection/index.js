@@ -78,7 +78,6 @@ class FetchCollection extends React.PureComponent {
   }
 
   onRefresh() {
-    debugger;
     this.fetchData(this.props, false);
   }
 
