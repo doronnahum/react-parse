@@ -75,14 +75,11 @@
       case UPDATE_DOC_FIELD:
         {
           var _documents = state.documents.get(targetName);
-          debugger;
           var _nextState = state;
-          debugger;
           if (!_documents) {
             _nextState = _nextState.setIn(['documents', targetName], Map());
           }
           _nextState = _nextState.setIn(['documents', targetName, 'data', key], value);
-          debugger;
           return _nextState;
         }
       case CLEAN_DOCUMENT:

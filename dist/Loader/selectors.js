@@ -34,24 +34,15 @@
   // -- Get specific collections
   var showLoader = exports.showLoader = (0, _reselect.createSelector)(getState, function (state) {
     var status = false;
-    debugger;
     if (state && state.collections) {
-      debugger;
       var toCheck = state.collections.toJS();
-      debugger;
       status = (0, _some2.default)(toCheck, loading);
-      debugger;
       if (!status) {
-        debugger;
         status = (0, _some2.default)(state.cloudCodes.toJS(), loading);
-        debugger;
       }
       if (!status) {
-        debugger;
         status = (0, _some2.default)(state.documents.toJS(), loading);
-        debugger;
       }
-      debugger;
     }
     return status;
   });

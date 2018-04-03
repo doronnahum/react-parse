@@ -96,14 +96,14 @@
    */
   var cleanData = exports.cleanData = function cleanData(payload) {
     return {
-      type: CLEAN_ALL_COLLECTIONS,
+      type: CLEAN_COLLECTION,
       payload: payload
     };
   };
 
   var cleanCollections = exports.cleanCollections = function cleanCollections() {
     return {
-      type: CLEAN_COLLECTION
+      type: CLEAN_ALL_COLLECTIONS
     };
   };
 });

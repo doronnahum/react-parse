@@ -176,7 +176,6 @@
     }, {
       key: 'onRefresh',
       value: function onRefresh() {
-        debugger;
         this.fetchData(this.props, false);
       }
     }, {
