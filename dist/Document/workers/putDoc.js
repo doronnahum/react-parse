@@ -55,7 +55,7 @@
 
           case 4:
             dataToSend = (0, _helpers.removeImutableKeys)(data);
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, data), 't0', 6);
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, dataToSend), 't0', 6);
 
           case 6:
             res = _context.t0;

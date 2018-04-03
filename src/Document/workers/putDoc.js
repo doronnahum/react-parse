@@ -17,7 +17,7 @@ export default function* putDoc(action) {
   const target = targetName || objectId;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const dataToSend = removeImutableKeys(data)
-  const res = yield* httpRequest(api.updateObject, schemaName, objectId, data);
+  const res = yield* httpRequest(api.updateObject, schemaName, objectId, dataToSend);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', targetName, res.error);
