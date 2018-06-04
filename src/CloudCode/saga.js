@@ -14,6 +14,7 @@ const FINISHED = types.FETCH_FINISHED;
 
 export default function* fetchCloudCode(action) {
   const { functionName, targetName, params, digToData } = action.payload;
+  const _digToData = digToData || 'data.result'
   const target = targetName || functionName;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield httpRequest(Api.getCloudFunction, functionName, params);
@@ -23,7 +24,7 @@ export default function* fetchCloudCode(action) {
     console.error('getCloudFunction err: ', functionName, res.error);
     Logger.onError('CLOUD_CODE', action, errType);
   } else {
-    const data = dig(res, digToData);
+    const data = dig(res, _digToData);
     yield put(
       setOnStore({
         targetName: target,

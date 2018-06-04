@@ -13,7 +13,7 @@ export default function* refreshCollection(action) {
   const { targetName } = action.payload;
   const info = yield select(state => getInfo(state, targetName))
   if(info && info.schemaName){
-    yield put(fetchData({...info, targetName}));
+    yield put(fetchData(Object.assign({},info, {targetName})));
   }
 }
 /* eslint no-unused-vars: "off" */

@@ -15,7 +15,9 @@ import parseWatcher from './saga';
 // Selectors
 import {CloudCodeSelectors, CollectionSelectors, DocumentSelectors} from './selectors';
 // Actions
-import {CloudCodeActions, CollectionActions, DocumentActions} from './actions';
+import collectionActions from './Collection/collectionActions'
+import documentActions from './Document/documentActions'
+import cloudCodeActions from './CloudCode/cloudCodeActions'
 const config = api;
 
 const actions = {
@@ -54,7 +56,13 @@ const selectors = {
   selectCloudCodeInfo: CloudCodeSelectors.getInfo,
   selectCloudCodeStatus: CloudCodeSelectors.getStatus,
 }
+let dispatch = null;
+export const setReactParseDispatch = _dispatch => {
+  dispatch = _dispatch;
+};
+
 export {
+  dispatch,
   config,
   api,
   httpRequest,
@@ -71,5 +79,7 @@ export {
   // Selectors
   selectors,
   // Actions
-  actions
+  collectionActions,
+  cloudCodeActions,
+  documentActions
 };

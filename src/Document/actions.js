@@ -78,3 +78,6 @@ export const cleanData = payload => ({
 export const clearDocuments = () => ({
   type: CLEAN_ALL_DOCUMENTS
 });
+export const cleanDocuments = () => ({
+  type: CLEAN_ALL_DOCUMENTS
+});
