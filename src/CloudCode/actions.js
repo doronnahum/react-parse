@@ -31,7 +31,8 @@ export const setOnStore = payload => ({
 /**
  * cleanData
  * clean data from store by target name
- * @param {*} payload {targetName}
+  * @param {object} payload
+  * @param {string} payload.targetName
  */
 export const cleanData = payload => ({
   type: CLEAN_CLOUD_CODE,

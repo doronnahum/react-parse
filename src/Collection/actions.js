@@ -2,12 +2,13 @@ import types from '../types';
 
 const {
   FETCH_COLLECTION,
+  REFRSH_COLLECTION,
   SET_COLLECTION,
   CLEAN_COLLECTION,
   CLEAN_ALL_COLLECTIONS,
   DELETE_COLLECTION_DOC,
   PUT_COLLECTION_DOC,
-  POST_COLLECTION_DOC
+  POST_COLLECTION_DOC,
 } = types;
 
 /**
@@ -16,6 +17,14 @@ const {
  */
 export const fetchData = payload => ({
   type: FETCH_COLLECTION,
+  payload
+});
+/**
+ * refreshCollection
+ * @param {obj} {targetName}
+ */
+export const refreshCollection = payload => ({
+  type: REFRSH_COLLECTION,
   payload
 });
 
@@ -30,7 +39,7 @@ export const setOnStore = payload => ({
 
 /**
  * deleteDocument
- * @param {*} payload {schemaName, targetName, objectId}
+ * @param {*} payload {schemaName, targetName, objectId, autoRefresh}
  */
 export const deleteDoc = payload => ({
   type: DELETE_COLLECTION_DOC,
@@ -39,7 +48,7 @@ export const deleteDoc = payload => ({
 
 /**
  * putDoc
- * @param {*} payload {schemaName, targetName, objectId, data}
+ * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh}
  */
 export const putDoc = payload => ({
   type: PUT_COLLECTION_DOC,
@@ -48,7 +57,7 @@ export const putDoc = payload => ({
 
 /**
  * potDoc
- * @param {*} payload {schemaName, targetName, data}
+ * @param {*} payload {schemaName, targetName, data, autoRefresh}
  */
 export const postDoc = payload => ({
   type: POST_COLLECTION_DOC,

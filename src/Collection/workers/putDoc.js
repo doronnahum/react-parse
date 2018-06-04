@@ -4,7 +4,7 @@ import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import Logger from '../../server/Logger';
-import { setOnStore } from '../actions';
+import { setOnStore, refreshCollection } from '../actions';
 import { removeImutableKeys } from '../../helpers';
 
 const START = types.PUT_START;
@@ -13,7 +13,7 @@ const FAILED_NETWORK = types.PUT_FAILED_NETWORK;
 const FINISHED = types.PUT_FINISHED;
 
 export default function* putDoc(action) {
-  const { targetName, schemaName, objectId, data } = action.payload;
+  const { targetName, schemaName, objectId, data, autoRefresh } = action.payload;
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const dataToSend = removeImutableKeys(data)
@@ -27,7 +27,12 @@ export default function* putDoc(action) {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses('PUT', action, FINISHED)
+    Logger.onSuccses('PUT', action, FINISHED);
+    if(autoRefresh){
+      yield put(
+        refreshCollection({ targetName: target })
+      );
+    }
   }
 }
 /* eslint no-unused-vars: "off" */

@@ -13,7 +13,12 @@ const {
 
 /**
  * fetchData
- * @param {*} payload {targetName, schemaName, objectId, include, keys}
+ * @param {object} payload {targetName, schemaName, objectId, include, keys}
+ * @param {string} payload.targetName
+ * @param {string} payload.schemaName
+ * @param {string} payload.objectId
+ * @param {string} payload.include
+ * @param {string} payload.keys
  */
 export const fetchData = payload => ({
   type: FETCH_DOCUMENT,

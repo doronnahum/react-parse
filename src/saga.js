@@ -8,6 +8,7 @@ import CloudCode from './CloudCode/saga';
 const {
   FETCH_CLOUD_CODE,
   FETCH_COLLECTION,
+  REFRSH_COLLECTION,
   DELETE_COLLECTION_DOC,
   PUT_COLLECTION_DOC,
   POST_COLLECTION_DOC,
@@ -22,6 +23,7 @@ const {
 export default function* parseWatcher() {
   // Collections
   yield takeEvery(FETCH_COLLECTION, Collection.fetchCollection);
+  yield takeEvery(REFRSH_COLLECTION, Collection.refreshCollection);
   yield takeEvery(DELETE_COLLECTION_DOC, Collection.deleteDoc);
   yield takeEvery(PUT_COLLECTION_DOC, Collection.putDoc);
   yield takeEvery(POST_COLLECTION_DOC, Collection.postDoc);

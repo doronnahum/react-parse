@@ -26,6 +26,7 @@ export default function* fetchCollection(action) {
     limit
   } = action.payload;
   const target = targetName || schemaName;
+  debugger
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield* httpRequest(
     api.query,
@@ -38,6 +39,7 @@ export default function* fetchCollection(action) {
     include,
     order
   );
+  debugger
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('fetchCollection err: ', schemaName, res.error);
