@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.parseActions = exports.parseSelectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
+  exports.DocumentActions = exports.CollectionActions = exports.CloudCodeActions = exports.DocumentSelectors = exports.CollectionSelectors = exports.CloudCodeSelectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
@@ -37,10 +37,6 @@
   var _reducer2 = _interopRequireDefault(_reducer);
 
   var _saga2 = _interopRequireDefault(_saga);
-
-  var _selectors2 = _interopRequireDefault(_selectors);
-
-  var _actions2 = _interopRequireDefault(_actions);
 
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
@@ -84,6 +80,10 @@
   exports.ShowLoader = _Loader2.default;
   exports.parseWatcher = _saga2.default;
   exports.parseReducer = _reducer2.default;
-  exports.parseSelectors = _selectors2.default;
-  exports.parseActions = _actions2.default;
+  exports.CloudCodeSelectors = _selectors.CloudCodeSelectors;
+  exports.CollectionSelectors = _selectors.CollectionSelectors;
+  exports.DocumentSelectors = _selectors.DocumentSelectors;
+  exports.CloudCodeActions = _actions.CloudCodeActions;
+  exports.CollectionActions = _actions.CollectionActions;
+  exports.DocumentActions = _actions.DocumentActions;
 });

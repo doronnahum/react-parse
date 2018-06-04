@@ -13,9 +13,9 @@ import ShowLoader from './Loader';
 import parseReducer from './reducer';
 import parseWatcher from './saga';
 // Selectors
-import parseSelectors from './selectors';
+import {CloudCodeSelectors, CollectionSelectors, DocumentSelectors} from './selectors';
 // Actions
-import parseActions from './actions';
+import {CloudCodeActions, CollectionActions, DocumentActions} from './actions';
 const config = api;
 
 export {
@@ -33,6 +33,7 @@ export {
   parseWatcher,
   parseReducer,
   // Selectors
-  parseSelectors,
-  parseActions
+  CloudCodeSelectors, CollectionSelectors, DocumentSelectors,
+  // Actions
+  CloudCodeActions, CollectionActions, DocumentActions
 };
