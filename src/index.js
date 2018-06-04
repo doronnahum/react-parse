@@ -35,6 +35,25 @@ const actions = {
   cleanDocument: DocumentActions.cleanData,
   cleanDocuments: DocumentActions.clearDocuments,
 }
+const selectors = {
+  selectCollections: CollectionSelectors.getCollections,
+  selectCollectionData: CollectionSelectors.getData,
+  selectCollectionLoading: CollectionSelectors.getLoading,
+  selectCollectionInfo: CollectionSelectors.getInfo,
+  selectCollectionStatus: CollectionSelectors.getStatus,
+
+  selectDocuments: DocumentSelectors.getDocuments,
+  selectDocumentData: DocumentSelectors.getData,
+  selectDocumentLoading: DocumentSelectors.getLoading,
+  selectDocumentInfo: DocumentSelectors.getInfo,
+  selectDocumentStatus: DocumentSelectors.getStatus,
+
+  selectCloudCodes: CloudCodeSelectors.getCloudCodes,
+  selectCloudCodeData: CloudCodeSelectors.getData,
+  selectCloudCodeLoading: CloudCodeSelectors.getLoading,
+  selectCloudCodeInfo: CloudCodeSelectors.getInfo,
+  selectCloudCodeStatus: CloudCodeSelectors.getStatus,
+}
 export {
   config,
   api,
@@ -50,7 +69,7 @@ export {
   parseWatcher,
   parseReducer,
   // Selectors
-  CloudCodeSelectors, CollectionSelectors, DocumentSelectors,
+  selectors,
   // Actions
   actions
 };

@@ -1,5 +1,8 @@
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
+import {
+  isLoading,
+} from '../helpers';
 
 const MAP = Map();
 
@@ -18,6 +21,9 @@ export const getData = createSelector(
 );
 export const getStatus = createSelector(getImmutableCloudCodes, dataImmutable =>
   dataImmutable.get('status')
+);
+export const getLoading = createSelector(getImmutableCloudCodes, dataImmutable =>
+  isLoading(dataImmutable.get('status'))
 );
 export const getInfo = createSelector(getImmutableCloudCodes, dataImmutable =>
   dataImmutable.get('info')

@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.actions = exports.DocumentSelectors = exports.CollectionSelectors = exports.CloudCodeSelectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
+  exports.actions = exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
@@ -88,6 +88,25 @@
     cleanDocument: _actions.DocumentActions.cleanData,
     cleanDocuments: _actions.DocumentActions.clearDocuments
   };
+  var selectors = {
+    selectCollections: _selectors.CollectionSelectors.getCollections,
+    selectCollectionData: _selectors.CollectionSelectors.getData,
+    selectCollectionLoading: _selectors.CollectionSelectors.getLoading,
+    selectCollectionInfo: _selectors.CollectionSelectors.getInfo,
+    selectCollectionStatus: _selectors.CollectionSelectors.getStatus,
+
+    selectDocuments: _selectors.DocumentSelectors.getDocuments,
+    selectDocumentData: _selectors.DocumentSelectors.getData,
+    selectDocumentLoading: _selectors.DocumentSelectors.getLoading,
+    selectDocumentInfo: _selectors.DocumentSelectors.getInfo,
+    selectDocumentStatus: _selectors.DocumentSelectors.getStatus,
+
+    selectCloudCodes: _selectors.CloudCodeSelectors.getCloudCodes,
+    selectCloudCodeData: _selectors.CloudCodeSelectors.getData,
+    selectCloudCodeLoading: _selectors.CloudCodeSelectors.getLoading,
+    selectCloudCodeInfo: _selectors.CloudCodeSelectors.getInfo,
+    selectCloudCodeStatus: _selectors.CloudCodeSelectors.getStatus
+  };
   exports.config = config;
   exports.api = _api2.default;
   exports.httpRequest = _httpWrapper2.default;
@@ -99,8 +118,6 @@
   exports.ShowLoader = _Loader2.default;
   exports.parseWatcher = _saga2.default;
   exports.parseReducer = _reducer2.default;
-  exports.CloudCodeSelectors = _selectors.CloudCodeSelectors;
-  exports.CollectionSelectors = _selectors.CollectionSelectors;
-  exports.DocumentSelectors = _selectors.DocumentSelectors;
+  exports.selectors = selectors;
   exports.actions = actions;
 });
