@@ -85,5 +85,5 @@
   exports.parseWatcher = _saga2.default;
   exports.parseReducer = _reducer2.default;
   exports.parseSelectors = _selectors2.default;
-  exports.parseActions = parseActions;
+  exports.parseActions = _actions2.default;
 });

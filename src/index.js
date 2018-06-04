@@ -15,7 +15,7 @@ import parseWatcher from './saga';
 // Selectors
 import parseSelectors from './selectors';
 // Actions
-import actions from './actions';
+import parseActions from './actions';
 const config = api;
 
 export {
