@@ -1,22 +1,22 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', './server/api', './server/httpWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './Loader', './reducer', './saga', './selectors', 'babel-polyfill'], factory);
+    define(['exports', './server/api', './server/httpWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './Loader', './reducer', './saga', './selectors', './actions', 'babel-polyfill'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./server/api'), require('./server/httpWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./Loader'), require('./reducer'), require('./saga'), require('./selectors'), require('babel-polyfill'));
+    factory(exports, require('./server/api'), require('./server/httpWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./Loader'), require('./reducer'), require('./saga'), require('./selectors'), require('./actions'), require('babel-polyfill'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.Loader, global.reducer, global.saga, global.selectors, global.babelPolyfill);
+    factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.Loader, global.reducer, global.saga, global.selectors, global.actions, global.babelPolyfill);
     global.index = mod.exports;
   }
-})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors) {
+})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors, _actions) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
+  exports.parseActions = exports.parseSelectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
@@ -39,6 +39,8 @@
   var _saga2 = _interopRequireDefault(_saga);
 
   var _selectors2 = _interopRequireDefault(_selectors);
+
+  var _actions2 = _interopRequireDefault(_actions);
 
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
@@ -63,13 +65,14 @@
     };
   }
 
-  // Common
-  var config = _api2.default;
   // Selectors
 
   // Parse
 
   // Components
+  var config = _api2.default;
+  // Actions
+  // Common
   exports.config = config;
   exports.api = _api2.default;
   exports.httpRequest = _httpWrapper2.default;
@@ -81,5 +84,6 @@
   exports.ShowLoader = _Loader2.default;
   exports.parseWatcher = _saga2.default;
   exports.parseReducer = _reducer2.default;
-  exports.selectors = _selectors2.default;
+  exports.parseSelectors = _selectors2.default;
+  exports.parseActions = parseActions;
 });

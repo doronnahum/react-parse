@@ -13,7 +13,9 @@ import ShowLoader from './Loader';
 import parseReducer from './reducer';
 import parseWatcher from './saga';
 // Selectors
-import selectors from './selectors';
+import parseSelectors from './selectors';
+// Actions
+import actions from './actions';
 const config = api;
 
 export {
@@ -31,5 +33,6 @@ export {
   parseWatcher,
   parseReducer,
   // Selectors
-  selectors
+  parseSelectors,
+  parseActions
 };
