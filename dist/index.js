@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.DocumentActions = exports.CollectionActions = exports.CloudCodeActions = exports.DocumentSelectors = exports.CollectionSelectors = exports.CloudCodeSelectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
+  exports.actions = exports.DocumentSelectors = exports.CollectionSelectors = exports.CloudCodeSelectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
@@ -69,6 +69,25 @@
   var config = _api2.default;
   // Actions
   // Common
+
+
+  var actions = {
+    fetchCloudCode: _actions.CloudCodeActions.fetchData,
+    cleanCloudCode: _actions.CloudCodeActions.cleanData,
+    cleanCloudCodse: _actions.CloudCodeActions.cleanCloudCode,
+    fetchCollection: _actions.CollectionActions.fetchData,
+    cleanCollection: _actions.CollectionActions.cleanData,
+    putDocInCollection: _actions.CollectionActions.putDoc,
+    postDocInCollection: _actions.CollectionActions.postDoc,
+    deleteDocInCollection: _actions.CollectionActions.deleteDoc,
+    cleanCollections: _actions.CollectionActions.cleanCollections,
+    fetchDocument: _actions.DocumentActions.fetchData,
+    putDocument: _actions.DocumentActions.putDoc,
+    postDocument: _actions.DocumentActions.postDoc,
+    deleteDocument: _actions.DocumentActions.deleteDoc,
+    cleanDocument: _actions.DocumentActions.cleanData,
+    cleanDocuments: _actions.DocumentActions.clearDocuments
+  };
   exports.config = config;
   exports.api = _api2.default;
   exports.httpRequest = _httpWrapper2.default;
@@ -83,7 +102,5 @@
   exports.CloudCodeSelectors = _selectors.CloudCodeSelectors;
   exports.CollectionSelectors = _selectors.CollectionSelectors;
   exports.DocumentSelectors = _selectors.DocumentSelectors;
-  exports.CloudCodeActions = _actions.CloudCodeActions;
-  exports.CollectionActions = _actions.CollectionActions;
-  exports.DocumentActions = _actions.DocumentActions;
+  exports.actions = actions;
 });

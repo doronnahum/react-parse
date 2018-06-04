@@ -18,6 +18,23 @@ import {CloudCodeSelectors, CollectionSelectors, DocumentSelectors} from './sele
 import {CloudCodeActions, CollectionActions, DocumentActions} from './actions';
 const config = api;
 
+const actions = {
+  fetchCloudCode: CloudCodeActions.fetchData,
+  cleanCloudCode: CloudCodeActions.cleanData,
+  cleanCloudCodse: CloudCodeActions.cleanCloudCode,
+  fetchCollection: CollectionActions.fetchData,
+  cleanCollection: CollectionActions.cleanData,
+  putDocInCollection: CollectionActions.putDoc,
+  postDocInCollection: CollectionActions.postDoc,
+  deleteDocInCollection: CollectionActions.deleteDoc,
+  cleanCollections: CollectionActions.cleanCollections,
+  fetchDocument: DocumentActions.fetchData,
+  putDocument: DocumentActions.putDoc,
+  postDocument: DocumentActions.postDoc,
+  deleteDocument: DocumentActions.deleteDoc,
+  cleanDocument: DocumentActions.cleanData,
+  cleanDocuments: DocumentActions.clearDocuments,
+}
 export {
   config,
   api,
@@ -35,5 +52,5 @@ export {
   // Selectors
   CloudCodeSelectors, CollectionSelectors, DocumentSelectors,
   // Actions
-  CloudCodeActions, CollectionActions, DocumentActions
+  actions
 };
