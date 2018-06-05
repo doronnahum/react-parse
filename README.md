@@ -118,6 +118,9 @@ Use like that:
  
    - DELETE document
  **deleteDoc**({schemaName, targetName, objectId})
+ 
+   - Update local data
+ **updateField**({targetName, key, value})
 
   - Clean document from your store:
  **cleanData**({targetName})
