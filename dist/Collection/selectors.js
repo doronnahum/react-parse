@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getError = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCollections = undefined;
+  exports.getError = exports.getCount = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCollections = undefined;
 
 
   var MAP = (0, _immutable.Map)();
@@ -46,6 +46,9 @@
 
   var getInfo = exports.getInfo = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
     return dataImmutable.get('info');
+  });
+  var getCount = exports.getCount = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
+    return dataImmutable.get('info').count;
   });
 
   var getError = exports.getError = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
