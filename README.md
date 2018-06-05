@@ -2,22 +2,22 @@
 ## Ready for production
 
 # How to install
-## Inside your root component:
+## 1- Inside your root component:
 ```
 import {config as reactParseConfig, setReactParseDispatch} from 'react-parse'
 const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
 reactParseConfig.init(apiConfig);
 setReactParseDispatch(store.dispatch);
 ```
-## After login - set token
+### After login - set token
 ```
 reactParseConfig.setSessionToken('userSessionToken);
 ```
-## After logout - clean token
+### After logout - clean token
 ```
 reactParseConfig.removeSessionToken();
 ```
-## Add to your rootReducer
+## 2- Add to your rootReducer
 ```
 import {parseReducer} from 'react-parse';
 const rootReducers = combineReducers({
@@ -25,7 +25,7 @@ const rootReducers = combineReducers({
   parse: parseReducer
 });
 ```
-## Add to your root saga
+## 3- Add to your root saga
 ```
 import {parseWatcher} from 'react-parse'
 function* rootSaga() {
@@ -35,12 +35,13 @@ function* rootSaga() {
 	]);
 }
 ```
-## Collection example
+## Collection example - lets get some products
 ```
 import { selectors, collectionActions } from 'react-parse';
+
 class ReactParseExample extends React.Component {
 	  componentWillMount() {
-	   collectionActions.fetchData({ targetName: 'ProdctsInHomeScreen', schemaName:  'Prodcts' })
+	   collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' })
   }
   .....
     render() {
@@ -49,241 +50,177 @@ class ReactParseExample extends React.Component {
 ......
 const mapStateToProps = (state) => {
   return {
-    prodcts: selectors.selectCollectionData(state, 'ProdctsInHomeScreen'),
-    prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctsInHomeScreen'),
+    prodcts: selectors.selectCollectionData(state, 'ProdctList'),
+    prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
   }
 };
 ```
-## actions
+
+## Actions - all what you need to do is to run action from your component 
 ```
 import {  collectionActions, cloudCodeActions, documentActions} from 'react-parse'
+
 Use like that:
-documentActions.fetchData({....})
-we didn't need a dispatch to play the action
-All actions:
-// ---------- collectionActions ---- //
-class collectionActions {
-  /**
-   * Dispatch action to get collection data from parse server
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * if targetName empty then we use schemaName as targetName
-   * @param {object} payload.query http://docs.parseplatform.org/rest/guide/#queries
-   * @param {number} payload.perPage number of documents to include in each query
-   * @param {string} payload.page number of pages to skip
-   * @param {string} payload.include pointer to include
-   * @param {string} payload.keys keys to include
-   * @param {boolean} payload.enableCount set true to get count objects in the collection
-   * 
-   */
-  static fetchData(payload) {
-    dispatch(actions.fetchData(payload))
-  }
+	documentActions.fetchData({....})
+** we didn't need a dispatch to play the action
+```
+### action payload options
+|key|type  |info |
+|--|--|--|
+| schemaName | string | db schemaName |
+| targetName | string | target to save the response from server  |
+|  query| object |  http://docs.parseplatform.org/rest/guide/#queries|
+| perPage |  number|  number of documents to include in each query|
+| page | number | number of pages to skip |
+| include | array  | pointer to include |
+| keys | array | keys to include |
+| enableCount | boolean	  | set true to count objects in the collection |
+| autoRefresh | boolean | set to to refresh collection data on one of the document change from one of the document actions from  the collectionActions|
+|documentId |  string| db document id |
+| data| object| |
+| functionName| string | cloud code function name |
+| params | object | cloud code params |
+| digToData| string |  string that help us find your data, default is 'data.result' |
+---
+### collectionActions:
 
-  /**
-   * Dispatch action to clean all redux.parse.collections
-   */
-  static cleanCollections() {
-    dispatch(actions.cleanCollections())
-  }
+ - GET collection from server:
+	**fetchData**({schemaName, targetName, query, perPage, page, include, keys, enableCount})
+	
+ - POST  document
+ **postDoc**({schemaName, targetName, data, autoRefresh})
+ 
+  - PUT document
+ **postDoc**({schemaName, targetName, objectId, data, autoRefresh})
+ 
+   - DELETE document
+ **deleteDoc**({schemaName, targetName, objectId, autoRefresh})
+ 
+ - Refresh your data
+ **refreshCollection**({targetName})
+ 
+  - Clean collection from your store:
+ **cleanData**({targetName})
+ 
+ - Clean all collections from your store:
+ **cleanCollections**()
+ ---
+### documentActions:
 
-  /**
-   * Dispatch action to delete document from collection
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * @param {string} payload.objectId document id
-   * @param {boolean} payload.autoRefresh set to to refresh collection data
-   */
-  static deleteDoc(payload) {
-    dispatch(actions.deleteDoc(payload))
-  }
+ - GET Document from server:
+	**fetchData**({schemaName, targetName, objectId, include, keys})
+	
+ - POST  document
+ **postDoc**({schemaName, targetName, data})
+ 
+  - PUT document
+ **postDoc**({schemaName, targetName, objectId, data})
+ 
+   - DELETE document
+ **deleteDoc**({schemaName, targetName, objectId})
 
-  /**
-   * Dispatch action to create a new document in collection
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * @param {object} payload.data new doucment data
-   * @param {boolean} payload.autoRefresh set to to refresh collection data
-   */
-  static postDoc(payload) {
-    dispatch(actions.postDoc(payload))
-  }
+  - Clean document from your store:
+ **cleanData**({targetName})
+ 
+ - Clean all documents from your store:
+ **cleanDocuments**()
+ ---
+### cloudCodeActions:
 
-  /**
-   * Dispatch action to create a new document in collection
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * @param {string} payload.objectId document id
-   * @param {object} payload.data data to update in the doucment
-   * @param {boolean} payload.autoRefresh set to to refresh collection data
-   */
-  static putDoc(payload) {
-    dispatch(actions.putDoc(payload))
-  }
-  
-  /**
-   * Dispatch action to refresh collection data by targetName
-   * this will keep the same parameters like the last fetchData
-   * @param {object} payload
-   * @param {string} payload.targetName
-   * 
-   */
-  static refreshCollection(payload) {
-    dispatch(actions.refreshCollection(payload))
-  }
+ - GET Document from server:
+	**fetchData**({schemaName, targetName, params, digTodata})
+	
+  - Clean cloudCode from your store:
+ **cleanData**({targetName})
+ 
+ - Clean all codes code from your store:
+ **cleanCloudsCode**()
+---
+### View to Your redux store:
+we use [immutable-js](https://facebook.github.io/immutable-js/) and [reselect](https://github.com/reduxjs/reselect)
+```
+parse:{
+	collections: {
+		myProducts: {
+			status: 'FETCH_FINISHED',
+			error: null,
+			loading: false,
+			data: [....],
+			info: {
+				schemaName : '',
+				query: {...},
+				skip: 0,
+				enableCount: false,
+				keys,
+				include,
+				order,
+				limit,
+				count,
+				timestamp
+			}
+		}
+	},
+	
+}
+```
 
-  /**
-   * Dispatch action to clean collection by targetName
-   * @param {object} payload
-   * @param {string} payload.targetName
-   * 
-   */
-  static cleanData(payload) {
-    dispatch(actions.cleanData(payload))
-  }
-};
-// ---- documentActions ---- //
-class documentActions {
-  /**
-   * Dispatch action to get collection data from parse server
-   * @param {object} payload
-   * @param {string} payload.objectId document id
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * if targetName empty then we use documentId as targetName
-   * @param {string} payload.include pointer to include
-   * @param {string} payload.keys keys to include
-   * 
-   */
-  static fetchData(payload) {
-    dispatch(actions.fetchData(payload))
-  }
+## Selectors - the easy way to find what you want inside the store.
+example:
+```
+import { selectors } from  'react-parse';
 
-  /**
-   * Dispatch action to update local data inside document
-   * @param {object} payload
-   * @param {string} payload.targetName key to find document inside redux store.parse.documents
-   * @param {string} payload.key key to update
-   * @param {string} payload.value value to set
-   */
-  static updateField(payload) {
-    dispatch(actions.updateField(payload))
-  }
+const  mapStateToProps  = (state) => {
+return {
+	products:  selectors.selectCollectionData(state, 'TARGET_NAME'),
+	showLoader:  selectors.selectCollectionLoading(state, 'TARGET_NAME'),
+	isError: selectors.selectCollectionError(state, 'TARGET_NAME')	
+}
 
-  /**
-   * Dispatch action to delete document from collection
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * @param {string} payload.objectId document id
-   */
-  static deleteDoc(payload) {
-    dispatch(actions.deleteDoc(payload))
-  }
-
-  /**
-   * Dispatch action to create a new document in collection
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * @param {object} payload.data new doucment data
-   */
-  static postDoc(payload) {
-    dispatch(actions.postDoc(payload))
-  }
-
-  /**
-   * Dispatch action to create a new document in collection
-   * @param {object} payload
-   * @param {string} payload.schemaName db schemaName
-   * @param {string} payload.targetName key to store response inside redux store
-   * @param {string} payload.objectId document id
-   * @param {object} payload.data data to update in the doucment
-   */
-  static putDoc(payload) {
-    dispatch(actions.putDoc(payload))
-  }
-  
-  /**
-   * Dispatch action to clean document by targetName
-   * @param {object} payload
-   * @param {string} payload.targetName
-   * 
-   */
-  static cleanData(payload) {
-    dispatch(actions.cleanData(payload))
-  }
-  /**
-   * Dispatch action to clean all documents
-   * 
-   */
-  static cleanDocuments() {
-    dispatch(actions.cleanDocuments())
-  }
-};
-
-// ---- cloudCodeActions ---- //
- cloudCodeActions {
-  /** functionName, targetName, params, digToData
-   * Dispatch action to post cloud code function
-   * @param {object} payload
-   * @param {string} payload.functionName functionName in the parse cloude
-   * @param {string} payload.targetName key to store response inside redux store
-   * if targetName empty then we use functionName as targetName
-   * @param {object} payload.params request params
-   * @param {string} payload.digToData string that help us find your data, difault is data.result
-   * 
-   */
-  static fetchData(payload) {
-    dispatch(actions.fetchData(payload))
-  }
-  /**
-   * Dispatch action to clean cloude code by targetName
-   * @param {object} payload
-   * @param {string} payload.targetName
-   * 
-   */
-  static cleanData(payload) {
-    dispatch(actions.cleanData(payload))
-  }
-  /**
-   * Dispatch action to clean all clode code
-   * 
-   */
-  static cleanCloudsCode() {
-    dispatch(actions.cleanCloudCode())
-  }
 };
 ```
-## Selectors
+### selector list:
+- Collection:
+ 1. selectCollections(state)
+ 2. selectCollectionData(state, 'TARGET_NAME')
+ 3. selectCollectionLoading(state, 'TARGET_NAME')
+ 4. selectCollectionInfo(state, 'TARGET_NAME')
+ 5. selectCollectionStatus(state, 'TARGET_NAME')
+ 6. selectCollectionError(state, 'TARGET_NAME')
+ 7. selectCollectionCount(state, 'TARGET_NAME')
+- Documnet:
+ 8. selectDocuments(state)
+ 9. selectDocumentData(state, 'TARGET_NAME')
+ 10. selectDocumentLoading(state, 'TARGET_NAME')
+ 11. selectDocumentInfo(state, 'TARGET_NAME')
+ 12. selectDocumentStatus(state, 'TARGET_NAME')
+ 13. selectDocumentError(state, 'TARGET_NAME')
+- Clode code:
+ 14. selectCloudCodes(state)
+ 15. selectCloudCodeData(state, 'TARGET_NAME')
+ 16. selectCloudCodeLoading(state, 'TARGET_NAME')
+ 17. selectCloudCodeInfo(state, 'TARGET_NAME')
+ 18. selectCloudCodeStatus(state, 'TARGET_NAME')
+ 19. selectCloudCodeError(state, 'TARGET_NAME')
+
+### status enum:
 ```
-selectors = {
-  selectCollections,
-  selectCollectionData,
-  selectCollectionLoading,
-  selectCollectionInfo,
-  selectCollectionStatus,
-  selectCollectionError,
+// FETCH
 
-  selectDocuments,
-  selectDocumentData,
-  selectDocumentLoading,
-  selectDocumentInfo,
-  selectDocumentStatus,
-  selectDocumentError,
+'FETCH_START','FETCH_FAILED','FETCH_FAILED_NETWORK','FETCH_FINISHED'
 
-  selectCloudCodes,
-  selectCloudCodeData,
-  selectCloudCodeLoading,
-  selectCloudCodeInfo,
-  selectCloudCodeStatus,
-   selectCloudCodeError
-  }
-  ```
+// POST
+
+'POST_START','POST_FAILED','POST_FAILED_NETWORK','POST_FINISHED'
+
+// DELETE
+
+'DELETE_START','DELETE_FAILED','DELETE_FAILED_NETWORK','DELETE_FINISHED'
+
+// PUT
+
+'PUT_START','PUT_FAILED','PUT_FAILED_NETWORK','PUT_FINISHED'
+```
+
 ## Notification
 ```
 import {reactParseConfig, setReactParseDispatch} from 'react-parse'
@@ -318,8 +255,8 @@ class MyComponent extends React.Component {
 ```
 ------------
 
-## You can work with component provider
-------------
+## Component provider
+
 Data provider components for [react](https://reactjs.org) and [react-native](https://facebook.github.io/react-native/) apps with [parse-server](hhttps://github.com/parse-community/parse-server) that using [redux+saga](https://github.com/redux-saga/redux-saga).
 read about [render props](https://reactjs.org/docs/render-props.html) pattern.
 
