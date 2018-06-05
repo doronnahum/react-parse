@@ -50,36 +50,32 @@
           case 0:
             _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit;
             target = targetName || schemaName;
-
-            debugger;
-            _context.next = 5;
+            _context.next = 4;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
-          case 5:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 6);
+          case 4:
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 5);
 
-          case 6:
+          case 5:
             res = _context.t0;
 
-            debugger;
-
             if (!res.error) {
-              _context.next = 16;
+              _context.next = 14;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('fetchCollection err: ', schemaName, res.error);
-            _context.next = 13;
+            _context.next = 11;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 13:
+          case 11:
             _Logger2.default.onError('GET', action, errType);
-            _context.next = 21;
+            _context.next = 19;
             break;
 
-          case 16:
+          case 14:
             data = (0, _helpers.dig)(res, 'data.results');
             info = {
               schemaName: schemaName,
@@ -94,7 +90,7 @@
               count: res.data.count,
               timestamp: Date.now()
             };
-            _context.next = 20;
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -104,10 +100,10 @@
               loading: false
             }));
 
-          case 20:
+          case 18:
             _Logger2.default.onSuccses('GET', action, FINISHED);
 
-          case 21:
+          case 19:
           case 'end':
             return _context.stop();
         }
