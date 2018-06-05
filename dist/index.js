@@ -84,18 +84,21 @@
     selectCollectionInfo: _selectors.CollectionSelectors.getInfo,
     selectCollectionStatus: _selectors.CollectionSelectors.getStatus,
     selectCollectionCount: _selectors.CollectionSelectors.getCount,
+    selectCollectionError: _selectors.CollectionSelectors.getError,
 
     selectDocuments: _selectors.DocumentSelectors.getDocuments,
     selectDocumentData: _selectors.DocumentSelectors.getData,
     selectDocumentLoading: _selectors.DocumentSelectors.getLoading,
     selectDocumentInfo: _selectors.DocumentSelectors.getInfo,
     selectDocumentStatus: _selectors.DocumentSelectors.getStatus,
+    selectDocumentError: _selectors.DocumentSelectors.getError,
 
     selectCloudCodes: _selectors.CloudCodeSelectors.getCloudCodes,
     selectCloudCodeData: _selectors.CloudCodeSelectors.getData,
     selectCloudCodeLoading: _selectors.CloudCodeSelectors.getLoading,
     selectCloudCodeInfo: _selectors.CloudCodeSelectors.getInfo,
-    selectCloudCodeStatus: _selectors.CloudCodeSelectors.getStatus
+    selectCloudCodeStatus: _selectors.CloudCodeSelectors.getStatus,
+    selectCloudCodeError: _selectors.CloudCodeSelectors.getError
   };
   var dispatch = null;
   var setReactParseDispatch = exports.setReactParseDispatch = function setReactParseDispatch(_dispatch) {

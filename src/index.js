@@ -27,18 +27,21 @@ const selectors = {
   selectCollectionInfo: CollectionSelectors.getInfo,
   selectCollectionStatus: CollectionSelectors.getStatus,
   selectCollectionCount: CollectionSelectors.getCount,
+  selectCollectionError: CollectionSelectors.getError,
 
   selectDocuments: DocumentSelectors.getDocuments,
   selectDocumentData: DocumentSelectors.getData,
   selectDocumentLoading: DocumentSelectors.getLoading,
   selectDocumentInfo: DocumentSelectors.getInfo,
   selectDocumentStatus: DocumentSelectors.getStatus,
+  selectDocumentError: DocumentSelectors.getError,
 
   selectCloudCodes: CloudCodeSelectors.getCloudCodes,
   selectCloudCodeData: CloudCodeSelectors.getData,
   selectCloudCodeLoading: CloudCodeSelectors.getLoading,
   selectCloudCodeInfo: CloudCodeSelectors.getInfo,
   selectCloudCodeStatus: CloudCodeSelectors.getStatus,
+  selectCloudCodeError: CloudCodeSelectors.getError,
 }
 let dispatch = null;
 export const setReactParseDispatch = _dispatch => {
