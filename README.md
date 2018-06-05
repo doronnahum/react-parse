@@ -91,7 +91,7 @@ Use like that:
  **postDoc**({schemaName, targetName, data, autoRefresh})
  
   - PUT document
- **postDoc**({schemaName, targetName, objectId, data, autoRefresh})
+ **putDoc**({schemaName, targetName, objectId, data, autoRefresh})
  
    - DELETE document
  **deleteDoc**({schemaName, targetName, objectId, autoRefresh})
@@ -114,7 +114,7 @@ Use like that:
  **postDoc**({schemaName, targetName, data})
  
   - PUT document
- **postDoc**({schemaName, targetName, objectId, data})
+ **putDoc**({schemaName, targetName, objectId, data})
  
    - DELETE document
  **deleteDoc**({schemaName, targetName, objectId})
