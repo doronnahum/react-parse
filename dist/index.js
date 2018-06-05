@@ -83,6 +83,7 @@
     selectCollectionLoading: _selectors.CollectionSelectors.getLoading,
     selectCollectionInfo: _selectors.CollectionSelectors.getInfo,
     selectCollectionStatus: _selectors.CollectionSelectors.getStatus,
+    selectCollectionCount: _selectors.CollectionSelectors.getCount,
 
     selectDocuments: _selectors.DocumentSelectors.getDocuments,
     selectDocumentData: _selectors.DocumentSelectors.getData,

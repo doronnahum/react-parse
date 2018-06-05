@@ -26,6 +26,7 @@ const selectors = {
   selectCollectionLoading: CollectionSelectors.getLoading,
   selectCollectionInfo: CollectionSelectors.getInfo,
   selectCollectionStatus: CollectionSelectors.getStatus,
+  selectCollectionCount: CollectionSelectors.getCount,
 
   selectDocuments: DocumentSelectors.getDocuments,
   selectDocumentData: DocumentSelectors.getData,
