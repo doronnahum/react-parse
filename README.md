@@ -72,8 +72,8 @@ Use like that:
 |  query| object |  http://docs.parseplatform.org/rest/guide/#queries|
 | limit |  number|  number of documents to include in each query|
 | skip | number | number of documents to skip |
-| include | array  | pointer to include |
-| keys | array | keys to include |
+| include | string  | pointer to include, example: 'Product,User' |
+| keys | string | keys to include, , example: 'firstName,LastName' |
 | enableCount | boolean	  | set true to count objects in the collection |
 | autoRefresh | boolean | set to to refresh collection data on one of the document change from one of the document actions from  the collectionActions|
 |documentId |  string| db document id |
