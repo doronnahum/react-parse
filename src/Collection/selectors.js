@@ -30,8 +30,10 @@ export const getLoading = createSelector(getImmutableCollection, dataImmutable =
 export const getInfo = createSelector(getImmutableCollection, dataImmutable =>
   dataImmutable.get('info')
 );
-export const getCount = createSelector(getImmutableCollection, dataImmutable =>
-  dataImmutable.get('info').count
+export const getCount = createSelector(getImmutableCollection, dataImmutable => {
+  const info = dataImmutable.get('info') || {}
+  return info.count
+}
 );
 
 export const getError = createSelector(getImmutableCollection, dataImmutable =>

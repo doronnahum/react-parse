@@ -48,7 +48,8 @@
     return dataImmutable.get('info');
   });
   var getCount = exports.getCount = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
-    return dataImmutable.get('info').count;
+    var info = dataImmutable.get('info') || {};
+    return info.count;
   });
 
   var getError = exports.getError = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
