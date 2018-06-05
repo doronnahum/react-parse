@@ -20,23 +20,6 @@ import documentActions from './Document/documentActions'
 import cloudCodeActions from './CloudCode/cloudCodeActions'
 const config = api;
 
-const actions = {
-  fetchCloudCode: CloudCodeActions.fetchData,
-  cleanCloudCode: CloudCodeActions.cleanData,
-  cleanCloudCodse: CloudCodeActions.cleanCloudCode,
-  fetchCollection: CollectionActions.fetchData,
-  cleanCollection: CollectionActions.cleanData,
-  putDocInCollection: CollectionActions.putDoc,
-  postDocInCollection: CollectionActions.postDoc,
-  deleteDocInCollection: CollectionActions.deleteDoc,
-  cleanCollections: CollectionActions.cleanCollections,
-  fetchDocument: DocumentActions.fetchData,
-  putDocument: DocumentActions.putDoc,
-  postDocument: DocumentActions.postDoc,
-  deleteDocument: DocumentActions.deleteDoc,
-  cleanDocument: DocumentActions.cleanData,
-  cleanDocuments: DocumentActions.clearDocuments,
-}
 const selectors = {
   selectCollections: CollectionSelectors.getCollections,
   selectCollectionData: CollectionSelectors.getData,
