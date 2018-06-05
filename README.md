@@ -128,7 +128,7 @@ Use like that:
 ### cloudCodeActions:
 
  - GET Document from server:
-	**fetchData**({schemaName, targetName, params, digTodata})
+	**fetchData**({functionName, targetName, params, digTodata})
 	
   - Clean cloudCode from your store:
  **cleanData**({targetName})
