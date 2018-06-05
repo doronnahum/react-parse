@@ -70,8 +70,8 @@ Use like that:
 | schemaName | string | db schemaName |
 | targetName | string | target to save the response from server  |
 |  query| object |  http://docs.parseplatform.org/rest/guide/#queries|
-| perPage |  number|  number of documents to include in each query|
-| page | number | number of pages to skip |
+| limit |  number|  number of documents to include in each query|
+| skip | number | number of documents to skip |
 | include | array  | pointer to include |
 | keys | array | keys to include |
 | enableCount | boolean	  | set true to count objects in the collection |
@@ -85,7 +85,7 @@ Use like that:
 ### collectionActions:
 
  - GET collection from server:
-	**fetchData**({schemaName, targetName, query, perPage, page, include, keys, enableCount})
+	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount})
 	
  - POST  document
  **postDoc**({schemaName, targetName, data, autoRefresh})
