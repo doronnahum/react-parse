@@ -2,6 +2,7 @@
 ## Ready for production
 
 # How to install
+npm i react-parse --save
 ## 1- Inside your root component:
 ```
 import {config as reactParseConfig, setReactParseDispatch} from 'react-parse'
