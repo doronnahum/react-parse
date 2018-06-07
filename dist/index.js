@@ -16,13 +16,13 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.documentActions = exports.cloudCodeActions = exports.collectionActions = exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.types = exports.httpRequest = exports.api = exports.config = exports.dispatch = exports.setReactParseDispatch = undefined;
+  exports.documentActions = exports.cloudCodeActions = exports.collectionActions = exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.helpers = exports.constants = exports.httpRequest = exports.api = exports.config = exports.dispatch = exports.setReactParseDispatch = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
   var _httpWrapper2 = _interopRequireDefault(_httpWrapper);
 
-  var _types2 = _interopRequireDefault(_types);
+  var constants = _interopRequireWildcard(_types);
 
   var helpers = _interopRequireWildcard(_helpers);
 
@@ -109,7 +109,7 @@
   exports.config = config;
   exports.api = _api2.default;
   exports.httpRequest = _httpWrapper2.default;
-  exports.types = _types2.default;
+  exports.constants = constants;
   exports.helpers = helpers;
   exports.FetchCollection = _Collection2.default;
   exports.FetchDocument = _Document2.default;
