@@ -51,7 +51,7 @@ class FetchDocument extends React.Component {
 
   onDelete() {
     const { objectId, schemaName, targetName } = this.props;
-    this.props.fetchActions.deleteDoc(targetName, schemaName, objectId);
+    this.props.fetchActions.deleteDoc({targetName, schemaName, objectId});
   }
 
   onRefresh() {
@@ -138,7 +138,7 @@ class FetchDocument extends React.Component {
   cleanData() {
     const { targetName, objectId, uniqueId } = this.props;
     const target = targetName || (objectId || uniqueId);
-    this.props.fetchActions.cleanData(target);
+    this.props.fetchActions.cleanData({targetName: target});
   }
 
   render() {

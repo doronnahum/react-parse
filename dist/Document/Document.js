@@ -132,7 +132,7 @@
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
-        this.props.fetchActions.deleteDoc(targetName, schemaName, objectId);
+        this.props.fetchActions.deleteDoc({ targetName: targetName, schemaName: schemaName, objectId: objectId });
       }
     }, {
       key: 'onRefresh',
@@ -242,7 +242,7 @@
             uniqueId = _props6.uniqueId;
 
         var target = targetName || objectId || uniqueId;
-        this.props.fetchActions.cleanData(target);
+        this.props.fetchActions.cleanData({ targetName: target });
       }
     }, {
       key: 'render',

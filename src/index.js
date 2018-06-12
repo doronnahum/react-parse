@@ -15,9 +15,9 @@ import parseWatcher from './saga';
 // Selectors
 import {cloudCodeSelectors, collectionSelectors, documentSelectors} from './selectors';
 // Actions
-import * as collectionActions from './Collection/collectionActions'
-import * as documentActions from './Document/documentActions'
-import * as cloudCodeActions from './CloudCode/cloudCodeActions'
+import * as _collectionActions from './Collection/collectionActions'
+import * as _documentActions from './Document/documentActions'
+import * as _cloudCodeActions from './CloudCode/cloudCodeActions'
 // Logger
 import {setLoggerHandlers} from './server/Logger'
 const config = api;
@@ -44,6 +44,30 @@ const selectors = {
   selectCloudCodeInfo: cloudCodeSelectors.getInfo,
   selectCloudCodeStatus: cloudCodeSelectors.getStatus,
   selectCloudCodeError: cloudCodeSelectors.getError,
+}
+
+const collectionActions ={
+  fetchData: _collectionActions.fetchData,
+  cleanCollections: _collectionActions.cleanCollections,
+  cleanData: _collectionActions.cleanData,
+  deleteDoc: _collectionActions.deleteDoc,
+  putDoc: _collectionActions.putDoc,
+  refreshCollection: _collectionActions.refreshCollection,
+  postDoc: _collectionActions.postDoc,
+}
+const documentActions ={
+  fetchData: _documentActions.fetchData,
+  cleanDocuments: _documentActions.cleanDocuments,
+  cleanData: _documentActions.cleanData,
+  deleteDoc: _documentActions.deleteDoc,
+  putDoc: _documentActions.putDoc,
+  postDoc: _documentActions.postDoc,
+  updateField: _documentActions.updateField,
+}
+const cloudCodeActions ={
+  fetchData: _cloudCodeActions.fetchData,
+  cleanCloudsCode: _cloudCodeActions.cleanCloudsCode,
+  cleanData: _cloudCodeActions.cleanData,
 }
 let dispatch = null;
 export const setReactParseDispatch = _dispatch => {

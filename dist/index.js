@@ -10,7 +10,7 @@
     factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.Loader, global.reducer, global.saga, global.selectors, global.collectionActions, global.documentActions, global.cloudCodeActions, global.Logger, global.babelPolyfill);
     global.index = mod.exports;
   }
-})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors, _collectionActions, _documentActions, _cloudCodeActions, _Logger) {
+})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors, _collectionActions2, _documentActions2, _cloudCodeActions2, _Logger) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -38,11 +38,11 @@
 
   var _saga2 = _interopRequireDefault(_saga);
 
-  var collectionActions = _interopRequireWildcard(_collectionActions);
+  var _collectionActions = _interopRequireWildcard(_collectionActions2);
 
-  var documentActions = _interopRequireWildcard(_documentActions);
+  var _documentActions = _interopRequireWildcard(_documentActions2);
 
-  var cloudCodeActions = _interopRequireWildcard(_cloudCodeActions);
+  var _cloudCodeActions = _interopRequireWildcard(_cloudCodeActions2);
 
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
@@ -101,6 +101,30 @@
     selectCloudCodeInfo: _selectors.cloudCodeSelectors.getInfo,
     selectCloudCodeStatus: _selectors.cloudCodeSelectors.getStatus,
     selectCloudCodeError: _selectors.cloudCodeSelectors.getError
+  };
+
+  var collectionActions = {
+    fetchData: _collectionActions.fetchData,
+    cleanCollections: _collectionActions.cleanCollections,
+    cleanData: _collectionActions.cleanData,
+    deleteDoc: _collectionActions.deleteDoc,
+    putDoc: _collectionActions.putDoc,
+    refreshCollection: _collectionActions.refreshCollection,
+    postDoc: _collectionActions.postDoc
+  };
+  var documentActions = {
+    fetchData: _documentActions.fetchData,
+    cleanDocuments: _documentActions.cleanDocuments,
+    cleanData: _documentActions.cleanData,
+    deleteDoc: _documentActions.deleteDoc,
+    putDoc: _documentActions.putDoc,
+    postDoc: _documentActions.postDoc,
+    updateField: _documentActions.updateField
+  };
+  var cloudCodeActions = {
+    fetchData: _cloudCodeActions.fetchData,
+    cleanCloudsCode: _cloudCodeActions.cleanCloudsCode,
+    cleanData: _cloudCodeActions.cleanData
   };
   var dispatch = null;
   var setReactParseDispatch = exports.setReactParseDispatch = function setReactParseDispatch(_dispatch) {

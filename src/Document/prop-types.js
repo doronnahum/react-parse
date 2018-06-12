@@ -100,7 +100,7 @@ export const propTypes = {
         />
     * all the props from FetchDocument will wrap inside props.fetch
    */
-  component: PropTypes.element
+  component: PropTypes.any
   /*   
    * What you going to get Fetch:
    * First argument - error - the error from serve.
