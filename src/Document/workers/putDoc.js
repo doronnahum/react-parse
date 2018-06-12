@@ -40,7 +40,7 @@ export default function* putDoc(action) {
         loading: false
       })
     );
-    Logger.onSuccses('PUT', action, FINISHED)
+    Logger.onSuccess('PUT', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

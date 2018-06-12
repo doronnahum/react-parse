@@ -68,7 +68,7 @@ export default function* fetchCollection(action) {
         loading: false
       })
     );
-    Logger.onSuccses('GET', action, FINISHED);
+    Logger.onSuccess('GET', action, FINISHED);
   }
 }
 /* eslint no-unused-vars: "off" */

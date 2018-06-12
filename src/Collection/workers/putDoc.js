@@ -27,7 +27,7 @@ export default function* putDoc(action) {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses('PUT', action, FINISHED);
+    Logger.onSuccess('PUT', action, FINISHED);
     if(autoRefresh){
       yield put(
         refreshCollection({ targetName: target })

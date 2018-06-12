@@ -38,7 +38,7 @@ export default function* fetchCloudCode(action) {
         loading: false
       })
     );
-    Logger.onSuccses('CLOUD_CODE', action, FINISHED);
+    Logger.onSuccess('CLOUD_CODE', action, FINISHED);
   }
 }
 /* eslint no-unused-vars: "off" */

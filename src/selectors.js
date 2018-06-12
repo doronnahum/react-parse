@@ -1,5 +1,5 @@
-import * as CloudCodeSelectors from './CloudCode/selectors';
-import * as CollectionSelectors from './Collection/selectors';
-import * as DocumentSelectors from './Document/selectors';
+import * as cloudCodeSelectors from './CloudCode/selectors';
+import * as collectionSelectors from './Collection/selectors';
+import * as documentSelectors from './Document/selectors';
 
-export { CloudCodeSelectors, CollectionSelectors, DocumentSelectors };
+export { cloudCodeSelectors, collectionSelectors, documentSelectors };

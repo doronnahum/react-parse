@@ -37,8 +37,8 @@ const cloudCodePath = '/functions/';
 
 let api = null;
 let initConfig = null;
-export let resultLogger = {}
 export let handleError
+
 const createHeaders = function(res) {
   const obj = {};
   if (res.appId) {
@@ -63,13 +63,6 @@ const Api = {
       baseURL: res.baseURL,
       headers: createHeaders(res)
     });
-    // Messagse handler
-    if(res.onSuccses){
-      resultLogger.onSuccses = res.onSuccses
-    }
-    if(res.onError){
-      resultLogger.onError = res.onError
-    }
     if(res.handleError){
       handleError = res.handleError
     }

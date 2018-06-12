@@ -38,7 +38,7 @@ export default function* postDoc(action) {
         loading: false
       })
     );
-    Logger.onSuccses('POST', action, FINISHED)
+    Logger.onSuccess('POST', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */

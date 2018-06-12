@@ -26,7 +26,7 @@ export default function* postDoc(action) {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses('POST', action, FINISHED);
+    Logger.onSuccess('POST', action, FINISHED);
     if(autoRefresh){
       yield put(
         refreshCollection({ targetName: target })

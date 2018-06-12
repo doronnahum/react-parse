@@ -1,7 +1,7 @@
 import * as actions from './actions';
 import {dispatch} from '../index'
 
-export default class collectionActions {
+const collectionActions  = {
   /**
    * Dispatch action to get collection data from parse server
    * @param {object} payload
@@ -16,16 +16,16 @@ export default class collectionActions {
    * @param {boolean} payload.enableCount set true to get count objects in the collection
    * 
    */
-  static fetchData(payload) {
+  fetchData(payload) {
     dispatch(actions.fetchData(payload))
-  }
+  },
 
   /**
    * Dispatch action to clean all redux.parse.collections
    */
-  static cleanCollections() {
+  cleanCollections() {
     dispatch(actions.cleanCollections())
-  }
+  },
 
   /**
    * Dispatch action to delete document from collection
@@ -35,9 +35,9 @@ export default class collectionActions {
    * @param {string} payload.objectId document id
    * @param {boolean} payload.autoRefresh set to to refresh collection data
    */
-  static deleteDoc(payload) {
+  deleteDoc(payload) {
     dispatch(actions.deleteDoc(payload))
-  }
+  },
 
   /**
    * Dispatch action to create a new document in collection
@@ -47,9 +47,9 @@ export default class collectionActions {
    * @param {object} payload.data new doucment data
    * @param {boolean} payload.autoRefresh set to to refresh collection data
    */
-  static postDoc(payload) {
+  postDoc(payload) {
     dispatch(actions.postDoc(payload))
-  }
+  },
 
   /**
    * Dispatch action to create a new document in collection
@@ -60,9 +60,9 @@ export default class collectionActions {
    * @param {object} payload.data data to update in the doucment
    * @param {boolean} payload.autoRefresh set to to refresh collection data
    */
-  static putDoc(payload) {
+  putDoc(payload) {
     dispatch(actions.putDoc(payload))
-  }
+  },
   
   /**
    * Dispatch action to refresh collection data by targetName
@@ -71,9 +71,9 @@ export default class collectionActions {
    * @param {string} payload.targetName
    * 
    */
-  static refreshCollection(payload) {
+  refreshCollection(payload) {
     dispatch(actions.refreshCollection(payload))
-  }
+  },
 
   /**
    * Dispatch action to clean collection by targetName
@@ -81,7 +81,8 @@ export default class collectionActions {
    * @param {string} payload.targetName
    * 
    */
-  static cleanData(payload) {
+  cleanData(payload) {
     dispatch(actions.cleanData(payload))
   }
 };
+export default collectionActions;

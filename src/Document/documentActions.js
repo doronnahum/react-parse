@@ -1,7 +1,7 @@
 import * as actions from './actions';
 import {dispatch} from '../index'
 
-export default class documentActions {
+const documentActions = {
   /**
    * Dispatch action to get collection data from parse server
    * @param {object} payload
@@ -13,9 +13,9 @@ export default class documentActions {
    * @param {string} payload.keys keys to include
    * 
    */
-  static fetchData(payload) {
+  fetchData(payload) {
     dispatch(actions.fetchData(payload))
-  }
+  },
 
   /**
    * Dispatch action to update local data inside document
@@ -24,9 +24,9 @@ export default class documentActions {
    * @param {string} payload.key key to update
    * @param {string} payload.value value to set
    */
-  static updateField(payload) {
+  updateField(payload) {
     dispatch(actions.updateField(payload))
-  }
+  },
 
   /**
    * Dispatch action to delete document from collection
@@ -35,9 +35,9 @@ export default class documentActions {
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
    */
-  static deleteDoc(payload) {
+  deleteDoc(payload) {
     dispatch(actions.deleteDoc(payload))
-  }
+  },
 
   /**
    * Dispatch action to create a new document in collection
@@ -46,9 +46,9 @@ export default class documentActions {
    * @param {string} payload.targetName key to store response inside redux store
    * @param {object} payload.data new doucment data
    */
-  static postDoc(payload) {
+  postDoc(payload) {
     dispatch(actions.postDoc(payload))
-  }
+  },
 
   /**
    * Dispatch action to create a new document in collection
@@ -58,9 +58,9 @@ export default class documentActions {
    * @param {string} payload.objectId document id
    * @param {object} payload.data data to update in the doucment
    */
-  static putDoc(payload) {
+  putDoc(payload) {
     dispatch(actions.putDoc(payload))
-  }
+  },
   
   /**
    * Dispatch action to clean document by targetName
@@ -68,14 +68,14 @@ export default class documentActions {
    * @param {string} payload.targetName
    * 
    */
-  static cleanData(payload) {
+  cleanData(payload) {
     dispatch(actions.cleanData(payload))
-  }
+  },
   /**
    * Dispatch action to clean all documents
    * 
    */
-  static cleanDocuments() {
+  cleanDocuments() {
     dispatch(actions.cleanDocuments())
   }
 };

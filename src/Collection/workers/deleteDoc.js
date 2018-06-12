@@ -25,7 +25,7 @@ export default function* deleteDoc(action) {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
     );
-    Logger.onSuccses('DELETE', action, FINISHED);
+    Logger.onSuccess('DELETE', action, FINISHED);
     if(autoRefresh){
       yield put(
         refreshCollection({ targetName: target })

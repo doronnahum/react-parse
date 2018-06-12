@@ -34,7 +34,7 @@ export default function* deleteDoc(action) {
         loading: false
       })
     );
-    Logger.onSuccses('DELETE', action, FINISHED)
+    Logger.onSuccess('DELETE', action, FINISHED)
   }
 }
 /* eslint no-unused-vars: "off" */
