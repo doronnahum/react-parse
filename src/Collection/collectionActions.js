@@ -14,7 +14,7 @@ const collectionActions  = {
    * @param {string} payload.include pointer to include
    * @param {string} payload.keys keys to include
    * @param {boolean} payload.enableCount set true to get count objects in the collection
-   * 
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   fetchData(payload) {
     dispatch(actions.fetchData(payload))
@@ -34,6 +34,7 @@ const collectionActions  = {
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
    * @param {boolean} payload.autoRefresh set to to refresh collection data
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   deleteDoc(payload) {
     dispatch(actions.deleteDoc(payload))
@@ -46,6 +47,7 @@ const collectionActions  = {
    * @param {string} payload.targetName key to store response inside redux store
    * @param {object} payload.data new doucment data
    * @param {boolean} payload.autoRefresh set to to refresh collection data
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   postDoc(payload) {
     dispatch(actions.postDoc(payload))
@@ -59,6 +61,7 @@ const collectionActions  = {
    * @param {string} payload.objectId document id
    * @param {object} payload.data data to update in the doucment
    * @param {boolean} payload.autoRefresh set to to refresh collection data
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   putDoc(payload) {
     dispatch(actions.putDoc(payload))
@@ -69,7 +72,6 @@ const collectionActions  = {
    * this will keep the same parameters like the last fetchData
    * @param {object} payload
    * @param {string} payload.targetName
-   * 
    */
   refreshCollection(payload) {
     dispatch(actions.refreshCollection(payload))

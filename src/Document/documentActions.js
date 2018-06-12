@@ -11,6 +11,7 @@ const documentActions = {
    * if targetName empty then we use documentId as targetName
    * @param {string} payload.include pointer to include
    * @param {string} payload.keys keys to include
+   * @param {object} payload.messages pass to your Logger custom messages
    * 
    */
   fetchData(payload) {
@@ -23,6 +24,7 @@ const documentActions = {
    * @param {string} payload.targetName key to find document inside redux store.parse.documents
    * @param {string} payload.key key to update
    * @param {string} payload.value value to set
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   updateField(payload) {
     dispatch(actions.updateField(payload))
@@ -34,6 +36,7 @@ const documentActions = {
    * @param {string} payload.schemaName db schemaName
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   deleteDoc(payload) {
     dispatch(actions.deleteDoc(payload))
@@ -44,7 +47,8 @@ const documentActions = {
    * @param {object} payload
    * @param {string} payload.schemaName db schemaName
    * @param {string} payload.targetName key to store response inside redux store
-   * @param {object} payload.data new doucment data
+   * @param {object} payload.data new document data
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   postDoc(payload) {
     dispatch(actions.postDoc(payload))
@@ -56,7 +60,8 @@ const documentActions = {
    * @param {string} payload.schemaName db schemaName
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
-   * @param {object} payload.data data to update in the doucment
+   * @param {object} payload.data data to update in the document
+   * @param {object} payload.messages pass to your Logger custom messages
    */
   putDoc(payload) {
     dispatch(actions.putDoc(payload))
