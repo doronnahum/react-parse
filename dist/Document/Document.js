@@ -132,7 +132,7 @@
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
-        this.props.fetchActions.deleteDocument(targetName, schemaName, objectId);
+        this.props.fetchActions.deleteDoc(targetName, schemaName, objectId);
       }
     }, {
       key: 'onRefresh',

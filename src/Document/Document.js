@@ -51,7 +51,7 @@ class FetchDocument extends React.Component {
 
   onDelete() {
     const { objectId, schemaName, targetName } = this.props;
-    this.props.fetchActions.deleteDocument(targetName, schemaName, objectId);
+    this.props.fetchActions.deleteDoc(targetName, schemaName, objectId);
   }
 
   onRefresh() {
