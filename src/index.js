@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import api from './server/api';
 import httpRequest from './server/httpWrapper';
-import constants from './types';
+import * as constants from './types';
 import * as helpers from './helpers';
 // Components
 import FetchCollection from './Collection';

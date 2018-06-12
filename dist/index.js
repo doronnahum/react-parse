@@ -22,7 +22,7 @@
 
   var _httpWrapper2 = _interopRequireDefault(_httpWrapper);
 
-  var _types2 = _interopRequireDefault(_types);
+  var constants = _interopRequireWildcard(_types);
 
   var helpers = _interopRequireWildcard(_helpers);
 
@@ -116,7 +116,7 @@
   exports.config = config;
   exports.api = _api2.default;
   exports.httpRequest = _httpWrapper2.default;
-  exports.constants = _types2.default;
+  exports.constants = constants;
   exports.helpers = helpers;
   exports.setLoggerHandlers = _Logger.setLoggerHandlers;
   exports.FetchCollection = _Collection2.default;
