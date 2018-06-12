@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.handleError = exports.resultLogger = undefined;
+  exports.handleError = undefined;
 
   var _axios2 = _interopRequireDefault(_axios);
 
@@ -48,8 +48,8 @@
 
   var api = null;
   var initConfig = null;
-  var resultLogger = exports.resultLogger = {};
   var handleError = exports.handleError = void 0;
+
   var createHeaders = function createHeaders(res) {
     var obj = {};
     if (res.appId) {
@@ -74,13 +74,6 @@
         baseURL: res.baseURL,
         headers: createHeaders(res)
       });
-      // Messagse handler
-      if (res.onSuccses) {
-        resultLogger.onSuccses = res.onSuccses;
-      }
-      if (res.onError) {
-        resultLogger.onError = res.onError;
-      }
       if (res.handleError) {
         exports.handleError = handleError = res.handleError;
       }

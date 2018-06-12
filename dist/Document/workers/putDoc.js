@@ -94,7 +94,7 @@
             }));
 
           case 18:
-            _Logger2.default.onSuccses('PUT', action, FINISHED);
+            _Logger2.default.onSuccess('PUT', action, FINISHED);
 
           case 19:
           case 'end':

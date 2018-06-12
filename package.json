@@ -1,6 +1,6 @@
 {
     "name": "react-parse",
-    "version": "1.2.26",
+    "version": "1.3.0",
     "description": "react components with redux and saga ready to use for easy and fast fetch data from and parse server",
     "main": "dist/index.js",
     "repository": {
@@ -15,7 +15,11 @@
     "homepage": "https://github.com/doronnahum/react-parse#readme",
     "keywords": [
         "react-component",
-        "react"
+        "react",
+        "react-native",
+        "saga",
+        "redux",
+        "parse-server"
     ],
     "options": {
         "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"

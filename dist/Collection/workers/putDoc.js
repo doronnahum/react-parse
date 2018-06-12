@@ -81,7 +81,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
 
           case 17:
-            _Logger2.default.onSuccses('PUT', action, FINISHED);
+            _Logger2.default.onSuccess('PUT', action, FINISHED);
 
             if (!autoRefresh) {
               _context.next = 21;

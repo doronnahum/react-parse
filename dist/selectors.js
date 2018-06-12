@@ -16,13 +16,13 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.DocumentSelectors = exports.CollectionSelectors = exports.CloudCodeSelectors = undefined;
+  exports.documentSelectors = exports.collectionSelectors = exports.cloudCodeSelectors = undefined;
 
-  var CloudCodeSelectors = _interopRequireWildcard(_selectors);
+  var cloudCodeSelectors = _interopRequireWildcard(_selectors);
 
-  var CollectionSelectors = _interopRequireWildcard(_selectors2);
+  var collectionSelectors = _interopRequireWildcard(_selectors2);
 
-  var DocumentSelectors = _interopRequireWildcard(_selectors3);
+  var documentSelectors = _interopRequireWildcard(_selectors3);
 
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
@@ -41,7 +41,7 @@
     }
   }
 
-  exports.CloudCodeSelectors = CloudCodeSelectors;
-  exports.CollectionSelectors = CollectionSelectors;
-  exports.DocumentSelectors = DocumentSelectors;
+  exports.cloudCodeSelectors = cloudCodeSelectors;
+  exports.collectionSelectors = collectionSelectors;
+  exports.documentSelectors = documentSelectors;
 });

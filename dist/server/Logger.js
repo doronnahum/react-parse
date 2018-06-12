@@ -1,36 +1,51 @@
 (function (global, factory) {
 	if (typeof define === "function" && define.amd) {
-		define(['exports', './api'], factory);
+		define(["exports"], factory);
 	} else if (typeof exports !== "undefined") {
-		factory(exports, require('./api'));
+		factory(exports);
 	} else {
 		var mod = {
 			exports: {}
 		};
-		factory(mod.exports, global.api);
+		factory(mod.exports);
 		global.Logger = mod.exports;
 	}
-})(this, function (exports, _api) {
-	'use strict';
+})(this, function (exports) {
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-
-
-	var onSuccses = function onSuccses(action, status) {
-		if (_api.resultLogger.onSuccses) {
-			_api.resultLogger.onSuccses(action, status);
+	var _onSuccess = void 0;
+	var _onError = void 0;
+	/**
+  * setLoggerHandlers
+  * @param {*} payload object
+  * @param {Function} payload.onSuccess
+  * @param {Function} payload.onError
+  */
+	var setLoggerHandlers = exports.setLoggerHandlers = function setLoggerHandlers(payload) {
+		if (payload && payload.onSuccess) {
+			_onSuccess = payload.onSuccess;
+		}
+		if (payload && payload.onError) {
+			_onError = payload.onError;
 		}
 	};
-	var onError = function onError(action, status) {
-		if (_api.resultLogger.onError) {
-			_api.resultLogger.onError(action, status);
+
+	var onSuccess = function onSuccess(type, action, status) {
+		if (_onSuccess) {
+			_onSuccess(action, status);
+		}
+	};
+	var onError = function onError(type, action, status) {
+		if (_onError) {
+			_onError(action, status);
 		}
 	};
 
 	var Logger = {
-		onSuccses: onSuccses,
+		onSuccess: onSuccess,
 		onError: onError
 	};
 	exports.default = Logger;

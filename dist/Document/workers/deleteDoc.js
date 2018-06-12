@@ -90,7 +90,7 @@
             }));
 
           case 17:
-            _Logger2.default.onSuccses('DELETE', action, FINISHED);
+            _Logger2.default.onSuccess('DELETE', action, FINISHED);
 
           case 18:
           case 'end':

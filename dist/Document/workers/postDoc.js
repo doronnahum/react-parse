@@ -92,7 +92,7 @@
             }));
 
           case 16:
-            _Logger2.default.onSuccses('POST', action, FINISHED);
+            _Logger2.default.onSuccess('POST', action, FINISHED);
 
           case 17:
           case 'end':

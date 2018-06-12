@@ -1,21 +1,17 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', './actions', '../index'], factory);
+    define(['./actions', '../index'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./actions'), require('../index'));
+    factory(require('./actions'), require('../index'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.actions, global.index);
+    factory(global.actions, global.index);
     global.documentActions = mod.exports;
   }
-})(this, function (exports, _actions, _index) {
+})(this, function (_actions, _index) {
   'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
 
   var actions = _interopRequireWildcard(_actions);
 
@@ -36,75 +32,27 @@
     }
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+  var documentActions = {
+    fetchData: function fetchData(payload) {
+      (0, _index.dispatch)(actions.fetchData(payload));
+    },
+    updateField: function updateField(payload) {
+      (0, _index.dispatch)(actions.updateField(payload));
+    },
+    deleteDoc: function deleteDoc(payload) {
+      (0, _index.dispatch)(actions.deleteDoc(payload));
+    },
+    postDoc: function postDoc(payload) {
+      (0, _index.dispatch)(actions.postDoc(payload));
+    },
+    putDoc: function putDoc(payload) {
+      (0, _index.dispatch)(actions.putDoc(payload));
+    },
+    cleanData: function cleanData(payload) {
+      (0, _index.dispatch)(actions.cleanData(payload));
+    },
+    cleanDocuments: function cleanDocuments() {
+      (0, _index.dispatch)(actions.cleanDocuments());
     }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var documentActions = function () {
-    function documentActions() {
-      _classCallCheck(this, documentActions);
-    }
-
-    _createClass(documentActions, null, [{
-      key: 'fetchData',
-      value: function fetchData(payload) {
-        (0, _index.dispatch)(actions.fetchData(payload));
-      }
-    }, {
-      key: 'updateField',
-      value: function updateField(payload) {
-        (0, _index.dispatch)(actions.updateField(payload));
-      }
-    }, {
-      key: 'deleteDoc',
-      value: function deleteDoc(payload) {
-        (0, _index.dispatch)(actions.deleteDoc(payload));
-      }
-    }, {
-      key: 'postDoc',
-      value: function postDoc(payload) {
-        (0, _index.dispatch)(actions.postDoc(payload));
-      }
-    }, {
-      key: 'putDoc',
-      value: function putDoc(payload) {
-        (0, _index.dispatch)(actions.putDoc(payload));
-      }
-    }, {
-      key: 'cleanData',
-      value: function cleanData(payload) {
-        (0, _index.dispatch)(actions.cleanData(payload));
-      }
-    }, {
-      key: 'cleanDocuments',
-      value: function cleanDocuments() {
-        (0, _index.dispatch)(actions.cleanDocuments());
-      }
-    }]);
-
-    return documentActions;
-  }();
-
-  exports.default = documentActions;
-  ;
+  };
 });

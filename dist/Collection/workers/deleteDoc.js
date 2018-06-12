@@ -80,7 +80,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
 
           case 16:
-            _Logger2.default.onSuccses('DELETE', action, FINISHED);
+            _Logger2.default.onSuccess('DELETE', action, FINISHED);
 
             if (!autoRefresh) {
               _context.next = 20;

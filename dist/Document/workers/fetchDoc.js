@@ -94,7 +94,7 @@
             }));
 
           case 18:
-            _Logger2.default.onSuccses('GET', action, FINISHED);
+            _Logger2.default.onSuccess('GET', action, FINISHED);
 
           case 19:
           case 'end':

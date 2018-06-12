@@ -92,7 +92,7 @@
             }));
 
           case 19:
-            _Logger2.default.onSuccses('CLOUD_CODE', action, FINISHED);
+            _Logger2.default.onSuccess('CLOUD_CODE', action, FINISHED);
 
           case 20:
           case 'end':

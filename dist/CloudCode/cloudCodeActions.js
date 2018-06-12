@@ -36,55 +36,16 @@
     }
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+  var cloudCodeActions = {
+    fetchData: function fetchData(payload) {
+      (0, _index.dispatch)(actions.fetchData(payload));
+    },
+    cleanData: function cleanData(payload) {
+      (0, _index.dispatch)(actions.cleanData(payload));
+    },
+    cleanCloudsCode: function cleanCloudsCode() {
+      (0, _index.dispatch)(actions.cleanCloudCode());
     }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var cloudCodeActions = function () {
-    function cloudCodeActions() {
-      _classCallCheck(this, cloudCodeActions);
-    }
-
-    _createClass(cloudCodeActions, null, [{
-      key: 'fetchData',
-      value: function fetchData(payload) {
-        (0, _index.dispatch)(actions.fetchData(payload));
-      }
-    }, {
-      key: 'cleanData',
-      value: function cleanData(payload) {
-        (0, _index.dispatch)(actions.cleanData(payload));
-      }
-    }, {
-      key: 'cleanCloudsCode',
-      value: function cleanCloudsCode() {
-        (0, _index.dispatch)(actions.cleanCloudCode());
-      }
-    }]);
-
-    return cloudCodeActions;
-  }();
-
+  };
   exports.default = cloudCodeActions;
-  ;
 });
