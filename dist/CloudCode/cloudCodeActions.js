@@ -16,6 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  exports.cleanCloudsCode = exports.cleanData = exports.fetchData = undefined;
 
   var actions = _interopRequireWildcard(_actions);
 
@@ -36,16 +37,35 @@
     }
   }
 
-  var cloudCodeActions = {
-    fetchData: function fetchData(payload) {
-      (0, _index.dispatch)(actions.fetchData(payload));
-    },
-    cleanData: function cleanData(payload) {
-      (0, _index.dispatch)(actions.cleanData(payload));
-    },
-    cleanCloudsCode: function cleanCloudsCode() {
-      (0, _index.dispatch)(actions.cleanCloudCode());
-    }
+  /** functionName, targetName, params, digToData
+   * Dispatch action to post cloud code function
+   * @param {object} payload
+   * @param {string} payload.functionName functionName in the parse clouds
+   * @param {string} payload.targetName key to store response inside redux store
+   * if targetName empty then we use functionName as targetName
+   * @param {object} payload.params request params
+   * @param {string} payload.digToData string that help us find your data, default is data.result
+   * @param {object} payload.logger pass to your Logger relevant info 
+   * 
+   */
+  var fetchData = exports.fetchData = function fetchData(payload) {
+    (0, _index.dispatch)(actions.fetchData(payload));
   };
-  exports.default = cloudCodeActions;
+  /**
+   * Dispatch action to clean cloud code by targetName
+   * @param {object} payload
+   * @param {string} payload.targetName
+   * @param {object} payload.logger pass to your Logger relevant info 
+   * 
+   */
+  var cleanData = exports.cleanData = function cleanData(payload) {
+    (0, _index.dispatch)(actions.cleanData(payload));
+  };
+  /**
+   * Dispatch action to clean all cloud code
+   * 
+   */
+  var cleanCloudsCode = exports.cleanCloudsCode = function cleanCloudsCode() {
+    (0, _index.dispatch)(actions.cleanCloudCode());
+  };
 });

@@ -16,6 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  exports.cleanData = exports.refreshCollection = exports.putDoc = exports.postDoc = exports.deleteDoc = exports.cleanCollections = exports.fetchData = undefined;
 
   var actions = _interopRequireWildcard(_actions);
 
@@ -36,28 +37,88 @@
     }
   }
 
-  var collectionActions = {
-    fetchData: function fetchData(payload) {
-      (0, _index.dispatch)(actions.fetchData(payload));
-    },
-    cleanCollections: function cleanCollections() {
-      (0, _index.dispatch)(actions.cleanCollections());
-    },
-    deleteDoc: function deleteDoc(payload) {
-      (0, _index.dispatch)(actions.deleteDoc(payload));
-    },
-    postDoc: function postDoc(payload) {
-      (0, _index.dispatch)(actions.postDoc(payload));
-    },
-    putDoc: function putDoc(payload) {
-      (0, _index.dispatch)(actions.putDoc(payload));
-    },
-    refreshCollection: function refreshCollection(payload) {
-      (0, _index.dispatch)(actions.refreshCollection(payload));
-    },
-    cleanData: function cleanData(payload) {
-      (0, _index.dispatch)(actions.cleanData(payload));
-    }
+  /**
+   * Dispatch action to get collection data from parse server
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * if targetName empty then we use schemaName as targetName
+   * @param {object} payload.query http://docs.parseplatform.org/rest/guide/#queries
+   * @param {number} payload.perPage number of documents to include in each query
+   * @param {string} payload.page number of pages to skip
+   * @param {string} payload.include pointer to include
+   * @param {string} payload.keys keys to include
+   * @param {boolean} payload.enableCount set true to get count objects in the collection
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var fetchData = exports.fetchData = function fetchData(payload) {
+    (0, _index.dispatch)(actions.fetchData(payload));
   };
-  exports.default = collectionActions;
+
+  /**
+   * Dispatch action to clean all redux.parse.collections
+   */
+  var cleanCollections = exports.cleanCollections = function cleanCollections() {
+    (0, _index.dispatch)(actions.cleanCollections());
+  };
+
+  /**
+   * Dispatch action to delete document from collection
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * @param {string} payload.objectId document id
+   * @param {boolean} payload.autoRefresh set to to refresh collection data
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var deleteDoc = exports.deleteDoc = function deleteDoc(payload) {
+    (0, _index.dispatch)(actions.deleteDoc(payload));
+  };
+
+  /**
+   * Dispatch action to create a new document in collection
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * @param {object} payload.data new doucment data
+   * @param {boolean} payload.autoRefresh set to to refresh collection data
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var postDoc = exports.postDoc = function postDoc(payload) {
+    (0, _index.dispatch)(actions.postDoc(payload));
+  };
+
+  /**
+   * Dispatch action to create a new document in collection
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * @param {string} payload.objectId document id
+   * @param {object} payload.data data to update in the doucment
+   * @param {boolean} payload.autoRefresh set to to refresh collection data
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var putDoc = exports.putDoc = function putDoc(payload) {
+    (0, _index.dispatch)(actions.putDoc(payload));
+  };
+
+  /**
+   * Dispatch action to refresh collection data by targetName
+   * this will keep the same parameters like the last fetchData
+   * @param {object} payload
+   * @param {string} payload.targetName
+   */
+  var refreshCollection = exports.refreshCollection = function refreshCollection(payload) {
+    (0, _index.dispatch)(actions.refreshCollection(payload));
+  };
+
+  /**
+   * Dispatch action to clean collection by targetName
+   * @param {object} payload
+   * @param {string} payload.targetName
+   * 
+   */
+  var cleanData = exports.cleanData = function cleanData(payload) {
+    (0, _index.dispatch)(actions.cleanData(payload));
+  };
 });

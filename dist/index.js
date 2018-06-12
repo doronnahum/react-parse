@@ -38,11 +38,11 @@
 
   var _saga2 = _interopRequireDefault(_saga);
 
-  var _collectionActions2 = _interopRequireDefault(_collectionActions);
+  var collectionActions = _interopRequireWildcard(_collectionActions);
 
-  var _documentActions2 = _interopRequireDefault(_documentActions);
+  var documentActions = _interopRequireWildcard(_documentActions);
 
-  var _cloudCodeActions2 = _interopRequireDefault(_cloudCodeActions);
+  var cloudCodeActions = _interopRequireWildcard(_cloudCodeActions);
 
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
@@ -107,9 +107,9 @@
     exports.dispatch = dispatch = _dispatch;
   };
   var actions = {
-    collectionActions: _collectionActions2.default,
-    cloudCodeActions: _cloudCodeActions2.default,
-    documentActions: _documentActions2.default
+    collectionActions: collectionActions,
+    cloudCodeActions: cloudCodeActions,
+    documentActions: documentActions
   };
 
   exports.dispatch = dispatch;
@@ -130,7 +130,7 @@
   exports.collectionSelectors = _selectors.collectionSelectors;
   exports.documentSelectors = _selectors.documentSelectors;
   exports.actions = actions;
-  exports.collectionActions = _collectionActions2.default;
-  exports.cloudCodeActions = _cloudCodeActions2.default;
-  exports.documentActions = _documentActions2.default;
+  exports.collectionActions = collectionActions;
+  exports.cloudCodeActions = cloudCodeActions;
+  exports.documentActions = documentActions;
 });

@@ -83,7 +83,7 @@
         refreshData
       }
      */
-    render: _propTypes2.default.func.isRequired
+    render: _propTypes2.default.func
   };
 
   var defaultProps = exports.defaultProps = {

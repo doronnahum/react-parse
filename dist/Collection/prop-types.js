@@ -142,6 +142,6 @@
         postDocument
       }
      */
-    render: _propTypes2.default.func.isRequired
+    render: _propTypes2.default.func
   };
 });

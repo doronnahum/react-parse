@@ -57,7 +57,7 @@ export const propTypes = {
       refreshData
     }
    */
-  render: PropTypes.func.isRequired
+  render: PropTypes.func
 };
 
 export const defaultProps = {

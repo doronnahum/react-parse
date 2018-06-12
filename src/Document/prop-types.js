@@ -90,7 +90,7 @@ export const propTypes = {
           render={this.renderMyComponent}
         />
    */
-  render: PropTypes.func.isRequired,
+  render: PropTypes.func,
   /**
    * example:
    *     <FetchDocument

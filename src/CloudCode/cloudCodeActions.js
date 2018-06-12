@@ -1,7 +1,6 @@
 import * as actions from './actions';
 import {dispatch} from '../index'
 
-const cloudCodeActions = {
   /** functionName, targetName, params, digToData
    * Dispatch action to post cloud code function
    * @param {object} payload
@@ -13,9 +12,9 @@ const cloudCodeActions = {
    * @param {object} payload.logger pass to your Logger relevant info 
    * 
    */
-  fetchData(payload) {
+  export const fetchData = (payload) => {
     dispatch(actions.fetchData(payload))
-  },
+  }
   /**
    * Dispatch action to clean cloud code by targetName
    * @param {object} payload
@@ -23,15 +22,13 @@ const cloudCodeActions = {
    * @param {object} payload.logger pass to your Logger relevant info 
    * 
    */
-  cleanData(payload) {
+  export const  cleanData = (payload) =>  {
     dispatch(actions.cleanData(payload))
-  },
+  }
   /**
    * Dispatch action to clean all cloud code
    * 
    */
-  cleanCloudsCode() {
+  export const cleanCloudsCode = () => {
     dispatch(actions.cleanCloudCode())
   }
-};
-export default cloudCodeActions;

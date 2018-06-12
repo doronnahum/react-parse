@@ -16,6 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  exports.cleanDocuments = exports.cleanData = exports.putDoc = exports.postDoc = exports.deleteDoc = exports.updateField = exports.fetchData = undefined;
 
   var actions = _interopRequireWildcard(_actions);
 
@@ -36,28 +37,85 @@
     }
   }
 
-  var documentActions = {
-    fetchData: function fetchData(payload) {
-      (0, _index.dispatch)(actions.fetchData(payload));
-    },
-    updateField: function updateField(payload) {
-      (0, _index.dispatch)(actions.updateField(payload));
-    },
-    deleteDoc: function deleteDoc(payload) {
-      (0, _index.dispatch)(actions.deleteDoc(payload));
-    },
-    postDoc: function postDoc(payload) {
-      (0, _index.dispatch)(actions.postDoc(payload));
-    },
-    putDoc: function putDoc(payload) {
-      (0, _index.dispatch)(actions.putDoc(payload));
-    },
-    cleanData: function cleanData(payload) {
-      (0, _index.dispatch)(actions.cleanData(payload));
-    },
-    cleanDocuments: function cleanDocuments() {
-      (0, _index.dispatch)(actions.cleanDocuments());
-    }
+  /**
+   * Dispatch action to get collection data from parse server
+   * @param {object} payload
+   * @param {string} payload.objectId document id
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * if targetName empty then we use documentId as targetName
+   * @param {string} payload.include pointer to include
+   * @param {string} payload.keys keys to include
+   * @param {object} payload.logger pass to your Logger relevant info 
+   * 
+   */
+  var fetchData = exports.fetchData = function fetchData(payload) {
+    (0, _index.dispatch)(actions.fetchData(payload));
   };
-  exports.default = documentActions;
+
+  /**
+   * Dispatch action to update local data inside document
+   * @param {object} payload
+   * @param {string} payload.targetName key to find document inside redux store.parse.documents
+   * @param {string} payload.key key to update
+   * @param {string} payload.value value to set
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var updateField = exports.updateField = function updateField(payload) {
+    (0, _index.dispatch)(actions.updateField(payload));
+  };
+
+  /**
+   * Dispatch action to delete document from collection
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * @param {string} payload.objectId document id
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var deleteDoc = exports.deleteDoc = function deleteDoc(payload) {
+    (0, _index.dispatch)(actions.deleteDoc(payload));
+  };
+
+  /**
+   * Dispatch action to create a new document in collection
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * @param {object} payload.data new document data
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var postDoc = exports.postDoc = function postDoc(payload) {
+    (0, _index.dispatch)(actions.postDoc(payload));
+  };
+
+  /**
+   * Dispatch action to create a new document in collection
+   * @param {object} payload
+   * @param {string} payload.schemaName db schemaName
+   * @param {string} payload.targetName key to store response inside redux store
+   * @param {string} payload.objectId document id
+   * @param {object} payload.data data to update in the document
+   * @param {object} payload.logger pass to your Logger relevant info 
+   */
+  var putDoc = exports.putDoc = function putDoc(payload) {
+    (0, _index.dispatch)(actions.putDoc(payload));
+  };
+
+  /**
+   * Dispatch action to clean document by targetName
+   * @param {object} payload
+   * @param {string} payload.targetName
+   * 
+   */
+  var cleanData = exports.cleanData = function cleanData(payload) {
+    (0, _index.dispatch)(actions.cleanData(payload));
+  };
+  /**
+   * Dispatch action to clean all documents
+   * 
+   */
+  var cleanDocuments = exports.cleanDocuments = function cleanDocuments() {
+    (0, _index.dispatch)(actions.cleanDocuments());
+  };
 });

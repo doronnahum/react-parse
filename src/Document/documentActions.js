@@ -1,7 +1,6 @@
 import * as actions from './actions';
 import {dispatch} from '../index'
 
-const documentActions = {
   /**
    * Dispatch action to get collection data from parse server
    * @param {object} payload
@@ -14,9 +13,9 @@ const documentActions = {
    * @param {object} payload.logger pass to your Logger relevant info 
    * 
    */
-  fetchData(payload) {
+  export const fetchData = (payload) => {
     dispatch(actions.fetchData(payload))
-  },
+  }
 
   /**
    * Dispatch action to update local data inside document
@@ -26,9 +25,9 @@ const documentActions = {
    * @param {string} payload.value value to set
    * @param {object} payload.logger pass to your Logger relevant info 
    */
-  updateField(payload) {
+  export const updateField = (payload) => {
     dispatch(actions.updateField(payload))
-  },
+  }
 
   /**
    * Dispatch action to delete document from collection
@@ -38,9 +37,9 @@ const documentActions = {
    * @param {string} payload.objectId document id
    * @param {object} payload.logger pass to your Logger relevant info 
    */
-  deleteDoc(payload) {
+  export const deleteDoc = (payload) => {
     dispatch(actions.deleteDoc(payload))
-  },
+  }
 
   /**
    * Dispatch action to create a new document in collection
@@ -50,9 +49,9 @@ const documentActions = {
    * @param {object} payload.data new document data
    * @param {object} payload.logger pass to your Logger relevant info 
    */
-  postDoc(payload) {
+  export const postDoc = (payload) => {
     dispatch(actions.postDoc(payload))
-  },
+  }
 
   /**
    * Dispatch action to create a new document in collection
@@ -63,9 +62,9 @@ const documentActions = {
    * @param {object} payload.data data to update in the document
    * @param {object} payload.logger pass to your Logger relevant info 
    */
-  putDoc(payload) {
+  export const putDoc = (payload) => {
     dispatch(actions.putDoc(payload))
-  },
+  }
   
   /**
    * Dispatch action to clean document by targetName
@@ -73,15 +72,13 @@ const documentActions = {
    * @param {string} payload.targetName
    * 
    */
-  cleanData(payload) {
+  export const cleanData = (payload) => {
     dispatch(actions.cleanData(payload))
-  },
+  }
   /**
    * Dispatch action to clean all documents
    * 
    */
-  cleanDocuments() {
+  export const cleanDocuments = () => {
     dispatch(actions.cleanDocuments())
   }
-};
-export default documentActions

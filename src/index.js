@@ -15,9 +15,9 @@ import parseWatcher from './saga';
 // Selectors
 import {cloudCodeSelectors, collectionSelectors, documentSelectors} from './selectors';
 // Actions
-import collectionActions from './Collection/collectionActions'
-import documentActions from './Document/documentActions'
-import cloudCodeActions from './CloudCode/cloudCodeActions'
+import * as collectionActions from './Collection/collectionActions'
+import * as documentActions from './Document/documentActions'
+import * as cloudCodeActions from './CloudCode/cloudCodeActions'
 // Logger
 import {setLoggerHandlers} from './server/Logger'
 const config = api;

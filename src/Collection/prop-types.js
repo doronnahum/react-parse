@@ -116,5 +116,5 @@ export const propTypes = {
       postDocument
     }
    */
-  render: PropTypes.func.isRequired
+  render: PropTypes.func
 };
