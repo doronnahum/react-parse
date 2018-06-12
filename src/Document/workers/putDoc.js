@@ -7,10 +7,10 @@ import Logger from '../../server/Logger';
 import { setOnStore } from '../actions';
 import { dig, removeImutableKeys } from '../../helpers';
 
-const START = types.POST_START;
-const FAILED = types.POST_FAILED;
-const FAILED_NETWORK = types.POST_FAILED_NETWORK;
-const FINISHED = types.POST_FINISHED;
+const START = types.PUT_START;
+const FAILED = types.PUT_FAILED;
+const FAILED_NETWORK = types.PUT_FAILED_NETWORK;
+const FINISHED = types.PUT_FINISHED;
 
 export default function* putDoc(action) {
   const { targetName, schemaName, data, objectId } = action.payload;

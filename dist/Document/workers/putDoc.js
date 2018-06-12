@@ -36,10 +36,10 @@
 
   var _marked = _regeneratorRuntime2.default.mark(putDoc);
 
-  var START = _types2.default.POST_START;
-  var FAILED = _types2.default.POST_FAILED;
-  var FAILED_NETWORK = _types2.default.POST_FAILED_NETWORK;
-  var FINISHED = _types2.default.POST_FINISHED;
+  var START = _types2.default.PUT_START;
+  var FAILED = _types2.default.PUT_FAILED;
+  var FAILED_NETWORK = _types2.default.PUT_FAILED_NETWORK;
+  var FINISHED = _types2.default.PUT_FINISHED;
 
   function putDoc(action) {
     var _action$payload, targetName, schemaName, data, objectId, target, dataToSend, res, errType, info;
