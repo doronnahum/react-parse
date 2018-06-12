@@ -324,7 +324,6 @@ class MyComponent extends React.Component {
 	render(
 		const {fetchProps, userName} = this.props
 		const {
-		      fetchProps: {
 				  data: {...},
 				  error , // Error from query
 				  status , // query status
@@ -338,9 +337,9 @@ class MyComponent extends React.Component {
 				  	updateField, // method, run to update field in store, updateField(key, 'value')
 				  id // doc id
 		} = fetchProps
-		return ....
-		
+		return <View>...</View>
 	)
+ }
   
 ```
 - if the objectId  is empty then use updateField and we save your inputs in the store, then you can use post method from your component and new doc will create for you in the server, the new doc id will be inside info
