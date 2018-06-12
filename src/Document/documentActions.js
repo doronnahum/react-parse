@@ -11,7 +11,7 @@ const documentActions = {
    * if targetName empty then we use documentId as targetName
    * @param {string} payload.include pointer to include
    * @param {string} payload.keys keys to include
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    * 
    */
   fetchData(payload) {
@@ -24,7 +24,7 @@ const documentActions = {
    * @param {string} payload.targetName key to find document inside redux store.parse.documents
    * @param {string} payload.key key to update
    * @param {string} payload.value value to set
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    */
   updateField(payload) {
     dispatch(actions.updateField(payload))
@@ -36,7 +36,7 @@ const documentActions = {
    * @param {string} payload.schemaName db schemaName
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    */
   deleteDoc(payload) {
     dispatch(actions.deleteDoc(payload))
@@ -48,7 +48,7 @@ const documentActions = {
    * @param {string} payload.schemaName db schemaName
    * @param {string} payload.targetName key to store response inside redux store
    * @param {object} payload.data new document data
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    */
   postDoc(payload) {
     dispatch(actions.postDoc(payload))
@@ -61,7 +61,7 @@ const documentActions = {
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
    * @param {object} payload.data data to update in the document
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    */
   putDoc(payload) {
     dispatch(actions.putDoc(payload))

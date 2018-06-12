@@ -10,7 +10,7 @@ const cloudCodeActions = {
    * if targetName empty then we use functionName as targetName
    * @param {object} payload.params request params
    * @param {string} payload.digToData string that help us find your data, default is data.result
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    * 
    */
   fetchData(payload) {
@@ -20,7 +20,7 @@ const cloudCodeActions = {
    * Dispatch action to clean cloud code by targetName
    * @param {object} payload
    * @param {string} payload.targetName
-   * @param {object} payload.messages pass to your Logger custom messages
+   * @param {object} payload.logger pass to your Logger relevant info 
    * 
    */
   cleanData(payload) {

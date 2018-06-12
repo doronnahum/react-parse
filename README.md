@@ -82,20 +82,28 @@ Use like that:
 | functionName| string | cloud code function name |
 | params | object | cloud code params |
 | digToData| string |  string that help us find your data, default is 'data.result' |
+|logger|object|pass to your Logger relevant info |
 ---
-### collectionActions:
+### import all actions
+```
+import { actions } from  'react-parse';
+```
+### import collectionActions:
+```
+import { collectionActions } from  'react-parse';
+```
 
  - GET collection from server:
-	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount})
+	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount, logger})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, autoRefresh})
+ **postDoc**({schemaName, targetName, data, autoRefresh, logger})
  
   - PUT document
- **putDoc**({schemaName, targetName, objectId, data, autoRefresh})
+ **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger})
  
    - DELETE document
- **deleteDoc**({schemaName, targetName, objectId, autoRefresh})
+ **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger})
  
  - Refresh your data
  **refreshCollection**({targetName})
@@ -106,22 +114,25 @@ Use like that:
  - Clean all collections from your store:
  **cleanCollections**()
  ---
-### documentActions:
+### import documentActions:
+```
+import { documentActions } from  'react-parse';
+```
 
  - GET Document from server:
-	**fetchData**({schemaName, targetName, objectId, include, keys})
+	**fetchData**({schemaName, targetName, objectId, include, keys, logger})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data})
+ **postDoc**({schemaName, targetName, data, logger})
  
   - PUT document
- **putDoc**({schemaName, targetName, objectId, data})
+ **putDoc**({schemaName, targetName, objectId, data, logger})
  
    - DELETE document
- **deleteDoc**({schemaName, targetName, objectId})
+ **deleteDoc**({schemaName, targetName, objectId, logger})
  
    - Update local data
- **updateField**({targetName, key, value})
+ **updateField**({targetName, key, value, logger})
 
   - Clean document from your store:
  **cleanData**({targetName})
@@ -129,10 +140,13 @@ Use like that:
  - Clean all documents from your store:
  **cleanDocuments**()
  ---
-### cloudCodeActions:
+### import cloudCodeActions:
+```
+import { cloudCodeActions } from  'react-parse';
+```
 
  - GET Document from server:
-	**fetchData**({functionName, targetName, params, digTodata})
+	**fetchData**({functionName, targetName, params, digTodata, logger})
 	
   - Clean cloudCode from your store:
  **cleanData**({targetName})
@@ -184,6 +198,15 @@ return {
 
 };
 ```
+### import all selectors  and get selectors list
+```
+import { selectors } from  'react-parse';
+
+```
+## or import specific 
+```
+import { cloudCodeSelectors, collectionSelectors, documentSelectors } from  'react-parse';
+```
 ### selector list:
 - Collection:
  1. selectCollections(state)
@@ -227,22 +250,24 @@ return {
 'PUT_START','PUT_FAILED','PUT_FAILED_NETWORK','PUT_FINISHED'
 ```
 
-## Notification
-```
-import {reactParseConfig, setReactParseDispatch} from 'react-parse'
+## Logger
+First set the callbacks with setLoggerHandlers 
+in each query your call back will run with => (type, action, status)
+- type - one of ['CLOUD_CODE', 'GET', 'POST', 'PUT', 'DELETE']
+- action- action object , you can use action.logger to custom call back behavior
+- status - one of react-parse status, you can find them in status enum
 
-const logOnSuccses = function(action, status){
-	console.log(action, status)
-}
-const logOnError = function(action, status){
-	console.log(action, status)
-}
-  reactParseConfig.init({
-    baseURL: parseConfig.PARSE.url,
-    appId: parseConfig.PARSE.appId,
-    onSuccses: logOnSuccses,
-    onError: logOnError
-  })
+```
+import {setLoggerHandlers} from 'react-parse'
+
+setLoggerHandlers({
+	onSuccess: (type, action, status)  => {
+	 console.log('Send notification or something else:', type, action, status)
+	},
+		onError: (type, action, status)  => {
+	 console.log('Send notification or something else:', type, action, status)
+	}
+})
 ```
 
 ## Global Loader
@@ -263,54 +288,110 @@ class MyComponent extends React.Component {
 
 ## Component provider
 
-Data provider components for [react](https://reactjs.org) and [react-native](https://facebook.github.io/react-native/) apps with [parse-server](hhttps://github.com/parse-community/parse-server) that using [redux+saga](https://github.com/redux-saga/redux-saga).
-read about [render props](https://reactjs.org/docs/render-props.html) pattern.
-
-### Way i need this?
-this components help you to get data from the server or create/update data on server without writing any code except your ui.
-
-documentation tell the component what you want and pass function that return component to render on the screen, you component get all what you need:
-  - query status- LOADING, SUCCESS, ERROR
-  - data
-  - refreshMethod - run this method and the query to server run again and you get refresh data...
-  
-there are a lot of options that can help you to build faster and smarter apps, check our [documentation](https://doronnahum.github.io/react-parse/):
+Data provider components.
+Seamlessly bring Parse data into your Component with the ability to POST, PUT, DELETE from your component without connecting your component to store or run any action. all is in your props
 
 
-
-#### Document Exapmle:
+#### Document:
 With `FetchDocument` you can get specific document by collection name and objectId
+
 ```sh
-<FetchDocument collectionName='Post' objectId={'blDxFXA9Wk'} render={(res) => <MyComponent {...res}/>} />
+import {FetchDocument} from 'react-parse'
+....
+<FetchDocument 
+	schemaName='Post'
+	targetName='LastPost'
+	objectId={'blDxFXA9Wk'
+	component={MyComponent}
+	// optional:
+	keys=''
+	include=''
+	onFetchEnd={(error, {data, queryStatus})=>{}}
+	onPostEnd={(error, {data, queryStatus})=>{}}
+	onPutEnd={(error, {data, queryStatus})=>{}}
+	onDeleteEnd={(error, {data, queryStatus})=>{}}
+	leaveClean={true} // remove data from store on componentWillUnmount
+	localFirst={false} // fetch data from server only if we can found your data on local store
+	localOnly={false} // never fetch data from server, only find in store
+	autoRefresh={false} // Fetch data after each create/update/delete doc
+	// Want to pass somting to your component, add here
+	userName: 'Ploni' // example
+/>
 ```
-Want to update the title of the post document?
-Easy,
-use `changeValueByKey`  and then run `saveDocument`
-```sh
+### What props your component will get ?
+```
 class MyComponent extends React.Component {
-  render() {
-    return <div>
-          <input
-            value={this.props.data.title}
-            onChange={e => {
-              changeValueByKey('title', e.target.value);
-            }} />
-        <button onClick={this.props.saveDocument}>SAVE</button>
-      </div>
-  }}
+	render(
+		const {fetchProps, userName} = this.props
+		const {
+		      fetchProps: {
+				  data: {...},
+				  error , // Error from query
+				  status , // query status
+				  info, // info from store
+				  isLoading, // bollean
+				  refresh , // method, run to refresh data
+				  deleteDoc, // method, run to delete the document
+				  put, // method, run to update the document, put({title: 'newTitle'})
+				  post,// method, run to create document, post({title: 'newDoc', body: 'ddd'})
+				  cleanData, // method, run to clean store
+				  	updateField, // method, run to update field in store, updateField(key, 'value')
+				  id // doc id
+		} = fetchProps
+		return ....
+		
+	)
+  
 ```
-Need to Create a new document, just use the `FetchDocument ` without `objectId` and run `saveDocument`.
-`
-`
-#### Collection Exapmle:
-With `FetchCollection` you can get list of document by collection name and params
+- if the objectId  is empty then use updateField and we save your inputs in the store, then you can use post method from your component and new doc will create for you in the server, the new doc id will be inside info
+#### Collection:
+With `FetchCollection` you can get list of document by collection name 
 ```sh
-<FetchCollection collectionName='Post' query={{tags: 'news'}} render={(res) => <MyListComponent {...res}/>} />
+import {FetchCollection} from 'react-parse'
+....
+<FetchCollection 
+	schemaName='Post'
+	targetName='LastPost'
+	component={MyComponent}
+	// optional:
+	keys=''
+	include=''
+	onFetchEnd={(error, {data, queryStatus})=>{}}
+	onPostEnd={(error, {data, queryStatus})=>{}}
+	onPutEnd={(error, {data, queryStatus})=>{}}
+	onDeleteEnd={(error, {data, queryStatus})=>{}}
+	leaveClean={true} // remove data from store on componentWillUnmount
+	localFirst={false} // fetch data from server only if we can found your data on local store
+	localOnly={false} // never fetch data from server, only find in store
+	autoRefresh={false} // Fetch data after each create/update/delete doc
+	query={object} // 	http://docs.parseplatform.org/rest/guide/#queries
+	order='' // default is '-createdAt', Specify a field to sort by
+	skip={12} // skip first 12 documents
+	limit={50} // limit query to 50 documents
+	enableCount={true} return the amount of results in db
+	
+	// Want to pass somting to your component, add here
+	userName: 'Ploni' // example
+/>
 ```
-#### CloudCode Exapmle:
-With `FetchCloudCode` you can get data from any cloud code founction
+#### Cloud code:
+With `FetchCloudCode` you can get list of document by collection name 
 ```sh
-<FetchCloudCode functionName='Post' query={{tags: 'news'}} render={(res) => <MyListComponent {...res}/>} />
+import {FetchCloudCode} from 'react-parse'
+....
+<FetchCloudCode 
+	functionName='GetPosts'
+	params={object} // cloud code params
+	targetName='GetPostsCloud'
+	component={MyComponent}
+	// optional:
+	onFetchEnd={(error, {data, queryStatus})=>{}}
+	leaveClean={true} // remove data from store on componentWillUnmount
+	localFirst={false} // fetch data from server only if we can found your data on local store
+	localOnly={false} // never fetch data from server, only find in store
+	
+	// Want to pass somting to your component, add here
+	userName: 'Ploni' // example
+/>
 ```
 
-### Document in the process...
