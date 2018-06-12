@@ -84,3 +84,4 @@ const documentActions = {
     dispatch(actions.cleanDocuments())
   }
 };
+export default documentActions

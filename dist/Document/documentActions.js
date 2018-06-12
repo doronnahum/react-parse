@@ -1,17 +1,21 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['./actions', '../index'], factory);
+    define(['exports', './actions', '../index'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(require('./actions'), require('../index'));
+    factory(exports, require('./actions'), require('../index'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(global.actions, global.index);
+    factory(mod.exports, global.actions, global.index);
     global.documentActions = mod.exports;
   }
-})(this, function (_actions, _index) {
+})(this, function (exports, _actions, _index) {
   'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
 
   var actions = _interopRequireWildcard(_actions);
 
@@ -55,4 +59,5 @@
       (0, _index.dispatch)(actions.cleanDocuments());
     }
   };
+  exports.default = documentActions;
 });
