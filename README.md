@@ -2,23 +2,36 @@
 ## Ready for production
 
 # How to install
+
+Install with NPM: 
+
+```bash
 npm i react-parse --save
-## 1- Inside your root component:
 ```
-import {config as reactParseConfig, setReactParseDispatch} from 'react-parse'
+
+## 1 - Inside your root component:
+
+Set react-parse inside your root component:
+
+```
+import { config as reactParseConfig, setReactParseDispatch } from 'react-parse'
 const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
 reactParseConfig.init(apiConfig);
 setReactParseDispatch(store.dispatch);
 ```
-### After login - set token
+
+### After the user logs in - set the user's token:
+
 ```
-reactParseConfig.setSessionToken('userSessionToken);
+reactParseConfig.setSessionToken('userSessionToken');
 ```
-### After logout - clean token
+### After the user logs out - clear the token:
 ```
 reactParseConfig.removeSessionToken();
 ```
-## 2- Add to your rootReducer
+
+## 2 - With Redux - add `parseReducer` to your your rootReducer
+
 ```
 import {parseReducer} from 'react-parse';
 const rootReducers = combineReducers({
@@ -26,7 +39,8 @@ const rootReducers = combineReducers({
   parse: parseReducer
 });
 ```
-## 3- Add to your root saga
+
+## 3 - With Redux-Saga, add `parseWatcher` to your root saga
 ```
 import {parseWatcher} from 'react-parse'
 function* rootSaga() {
@@ -37,24 +51,25 @@ function* rootSaga() {
 }
 ```
 ## Collection example - lets get some products
+
+Here is an example that illustrates how to use react-parse to fetch data from a `Prodcts` schema with a component when it mounts:
+
 ```
 import { selectors, collectionActions } from 'react-parse';
 
 class ReactParseExample extends React.Component {
 	  componentWillMount() {
-	   collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' })
-  }
-  .....
+	      collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' })
+    }
+    .....
     render() {
-		const {prodcts, prodctsLoading } = this.props
-    return (<div....)
-......
-const mapStateToProps = (state) => {
-  return {
-    prodcts: selectors.selectCollectionData(state, 'ProdctList'),
-    prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
-  }
-};
+		  const {prodcts, prodctsLoading } = this.props;
+      return (<div....);
+      ......
+const mapStateToProps = (state) => ({
+  prodcts: selectors.selectCollectionData(state, 'ProdctList'),
+  prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
+});
 ```
 
 ## Actions - all what you need to do is to run action from your component 
