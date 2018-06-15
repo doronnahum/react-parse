@@ -33,7 +33,7 @@ React Parse include 3 data provider components, to make the life even easier and
 	- [FetchProps - response from dataProviders](#fetchprops)
 	- [FetchCollection](#fetchcollection)
 	- [FetchDocument](#fetchdocument)
-	- [FetchDocument](#fetchdocument)
+	- [FetchCloudCode](#fetchcloudcode)
 -  [State](#state)
 -  [Enum](#enum)
 -  [Logger](#logger)
