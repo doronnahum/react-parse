@@ -1,3 +1,4 @@
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -11,24 +12,16 @@ React Parse include 3 data provider components, to make the life even easier and
 
 ### Helpful only for react and react-native apps with parse server and redux as management
 
-# How to install
+## Table of content
+
+- [Installation](#installation)
+- [Examples](#Examples) 
+# Installation
+1- install
+```
 npm i react-parse --save
-## 1- Inside your root component:
 ```
-import {config as reactParseConfig, setReactParseDispatch} from 'react-parse'
-const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
-reactParseConfig.init(apiConfig);
-setReactParseDispatch(store.dispatch);
-```
-### After login - set token
-```
-reactParseConfig.setSessionToken('userSessionToken);
-```
-### After logout - clean token
-```
-reactParseConfig.removeSessionToken();
-```
-## 2- Add to your rootReducer
+2- Add  to rootReducers 
 ```
 import {parseReducer} from 'react-parse';
 const rootReducers = combineReducers({
@@ -36,7 +29,7 @@ const rootReducers = combineReducers({
   parse: parseReducer
 });
 ```
-## 3- Add to your root saga
+3- Add to rootSaga
 ```
 import {parseWatcher} from 'react-parse'
 function* rootSaga() {
@@ -46,7 +39,27 @@ function* rootSaga() {
 	]);
 }
 ```
-## Collection example - lets get some products
+4 - Init react-parse at your root component
+```
+import {config as reactParseConfig, setReactParseDispatch} from 'react-parse'
+
+const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
+
+reactParseConfig.init(apiConfig);
+setReactParseDispatch(store.dispatch);
+```
+5- on login, inject sessionToken
+```
+import {config as reactParseConfig } from 'react-parse'
+reactParseConfig.setSessionToken('Tg4545gffgf55');
+```
+6- on logout - remove sessionToken 
+```
+import {config as reactParseConfig } from 'react-parse'
+reactParseConfig.removeSessionToken();
+```
+
+###  Examples
 ```
 import { selectors, collectionActions } from 'react-parse';
 
