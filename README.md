@@ -294,6 +294,7 @@ fetchProps include :
 - error - error object from query
 - status - one of the [enum](#enum)
 - info - info about your query  {timestamp, query,skip,limit,objectid and more...}
+- isLoading- boolean value
 - refresh - method, run to refresh data
 	- fetchProps .refresh()
 - cleanData - method, run to clean data from store
