@@ -1,5 +1,15 @@
-# `react-parse`
-## Ready for production
+<img align="right" width="75" height="75"
+     title="Size Limit logo" src="./logo.svg">
+
+React Parse
+======================
+
+React Parse is a set of actions and saga watchers that make your life easy to Get, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
+
+React Parse include 3 data provider components, to make the life even easier and let you get a collection from the server in less than 1 minute with the ability to filter result, create a new document and more...
+
+
+### Helpful only for react and react-native apps with parse server and redux as management
 
 # How to install
 npm i react-parse --save
