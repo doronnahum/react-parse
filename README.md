@@ -4,7 +4,7 @@
 
 React Parse
 ======================
-
+[![Tweet ]([https://img.shields.io/twitter/url/http/shields.io.svg?style=social](https://img.shields.io/twitter/url/http/shields.io.svg?style=social))](https://twitter.com/intent/tweet?text=Get%20over%20170%20free%20design%20blocks%20based%20on%20Bootstrap%204&url=https://www.froala.com/design-blocks&via=froala&hashtags=bootstrap,design,templates,blocks,developers)
 React Parse is a set of actions and saga watchers that make your life easy to Get, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
 
 React Parse include 3 data provider components, to make the life even easier and let you get a collection from the server in less than 1 minute with the ability to filter result, create a new document and more...
@@ -15,8 +15,28 @@ React Parse include 3 data provider components, to make the life even easier and
 ## Table of content
 
 - [Installation](#installation)
-- [Examples](#Examples) 
-# Installation
+- [Examples](#examples) 
+	- [Collection](#collection)
+	-  [FetchCollectionExample](#fetchcollectionexample)
+- [Actions](#actions) 
+	- [CollectionActions](#collectionactions)
+	- [DocumentActions](#documentactions)
+	- [CloudCodeActions](#cloudcodeactions)
+- [Selectors](#selectors) 
+	- [CollectionSelectors](#collectionselectors)
+	- [DocumentSelectors](#documentselectors)
+	- [CloudCodeSelectors](#cloudcodeselectors)
+- [dataProviders](#dataproviders) 
+	- [FetchProps - response from dataProviders](#fetchprops)
+	- [FetchCollection](#fetchcollection)
+	- [FetchDocument](#fetchdocument)
+	- [FetchDocument](#fetchdocument)
+-  [State](#state)
+-  [Enum](#enum)
+-  [Logger](#logger)
+- [Global Loader](#loader)
+
+## Installation
 1- install
 ```
 npm i react-parse --save
@@ -25,7 +45,7 @@ npm i react-parse --save
 ```
 import {parseReducer} from 'react-parse';
 const rootReducers = combineReducers({
-  ....,
+  ...., // Important - keep the key 'parse' and not something else
   parse: parseReducer
 });
 ```
@@ -59,28 +79,64 @@ import {config as reactParseConfig } from 'react-parse'
 reactParseConfig.removeSessionToken();
 ```
 
-###  Examples
-```
-import { selectors, collectionActions } from 'react-parse';
 
+## Examples
+### Collection
+Get prodcuts from server by using collections actions and s
+```
+import { selectors, actions} from 'react-parse';
+
+const TARGET_NAME = 'ProdctList'
 class ReactParseExample extends React.Component {
 	  componentWillMount() {
-	   collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' })
-  }
-  .....
+	  // This Will Fetch The data from server
+	   actions.collectionActions.fetchData({ targetName: TARGET_NAME , schemaName:  'Prodcts' })
+	  }
     render() {
-		const {prodcts, prodctsLoading } = this.props
-    return (<div....)
-......
+	const {prodcts, isLoading} = this.props
+    return (
+    <MyComponent
+	    prodcts={prodcts}
+	    showLoader={isLoading}
+	    onNewProduct={(data)=>
+		    actions.collectionActions.postDoc({
+			    targetName: TARGET_NAME , schemaName:  'Prodcts', data)}
+	    />
+    )
+}}
+
 const mapStateToProps = (state) => {
   return {
-    prodcts: selectors.selectCollectionData(state, 'ProdctList'),
-    prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
+    prodcts: selectors.selectCollectionData(state, TARGET_NAME ),
+    isLoading: selectors.selectCollectionLoading(state, 'TARGET_NAME ),
   }
 };
 ```
+### FetchCollectionExample
+Fetch data with data provider component
+### fetch -  Fetch data with data provider example
+```
+import {FetchCollection} from  'react-parse'
 
-## Actions - all what you need to do is to run action from your component 
+class ReactParseExample extends React.Component { 
+	render() {
+		return (
+			<FetchCollection 
+				schemaName={schemaName}
+				targetName={targetName}
+				// pass your component
+				component={MyTable} // MyTable will render with all props on FetchCollection  and with fetchPRops object
+				// or use render props technique
+				render={(props) => <MyTable ...props/>}
+			/>
+		)
+	}
+}
+/* comment
+	fecthProps ={data,error,status,info,isLoading,refresh,deleteDoc,put,post}
+*/
+```
+## Actions
 ```
 import {  collectionActions, cloudCodeActions, documentActions} from 'react-parse'
 
@@ -111,9 +167,10 @@ Use like that:
 ```
 import { actions } from  'react-parse';
 ```
-### import collectionActions:
+### collectionActions:
 ```
 import { collectionActions } from  'react-parse';
+const TARGET_NAME = 'ProdctList
 ```
 
  - GET collection from server:
@@ -137,7 +194,7 @@ import { collectionActions } from  'react-parse';
  - Clean all collections from your store:
  **cleanCollections**()
  ---
-### import documentActions:
+### documentActions:
 ```
 import { documentActions } from  'react-parse';
 ```
@@ -163,7 +220,7 @@ import { documentActions } from  'react-parse';
  - Clean all documents from your store:
  **cleanDocuments**()
  ---
-### import cloudCodeActions:
+### cloudCodeActions:
 ```
 import { cloudCodeActions } from  'react-parse';
 ```
@@ -177,7 +234,153 @@ import { cloudCodeActions } from  'react-parse';
  - Clean all codes code from your store:
  **cleanCloudsCode**()
 ---
-### View to Your redux store:
+## Selectors
+```
+import { selectors } from  'react-parse';
+// or
+import { cloudCodeSelectors, collectionSelectors, documentSelectors } from  'react-parse';
+```
+
+the easy way to find what you want inside the store.
+example:
+```
+import { selectors } from  'react-parse';
+
+const  mapStateToProps  = (state) => {
+return {
+	products:  selectors.selectCollectionData(state, 'TARGET_NAME'),
+	showLoader:  selectors.selectCollectionLoading(state, 'TARGET_NAME'),
+	isError: selectors.selectCollectionError(state, 'TARGET_NAME')	
+}
+
+};
+```
+### CollectionSelectors
+ 1. selectors .selectCollections(state)
+ 2. selectors .selectCollectionData(state, 'TARGET_NAME')
+ 3. selectors .selectCollectionLoading(state, 'TARGET_NAME')
+ 4. selectors .selectCollectionInfo(state, 'TARGET_NAME')
+ 5. selectors .selectCollectionStatus(state, 'TARGET_NAME')
+ 6. selectors .selectCollectionError(state, 'TARGET_NAME')
+ 7. selectors .selectCollectionCount(state, 'TARGET_NAME')
+### DocumentSelectors
+ 1. selectors .selectDocuments(state)
+ 2. selectors .selectDocumentData(state, 'TARGET_NAME')
+ 3. selectors .selectDocumentLoading(state, 'TARGET_NAME')
+ 4. selectors .selectDocumentInfo(state, 'TARGET_NAME')
+ 5. selectors .selectDocumentStatus(state, 'TARGET_NAME')
+ 6. selectors .selectDocumentError(state, 'TARGET_NAME')
+### CloudCodeSelectors
+ 1. selectors .selectCloudCodes(state)
+ 2. selectors .selectCloudCodeData(state, 'TARGET_NAME')
+ 3. selectors .selectCloudCodeLoading(state, 'TARGET_NAME')
+ 4. selectors .selectCloudCodeInfo(state, 'TARGET_NAME')
+ 5. selectors .selectCloudCodeStatus(state, 'TARGET_NAME')
+ 6. selectors .selectCloudCodeError(state, 'TARGET_NAME')
+
+
+## dataProviders
+
+Data provider components.
+Seamlessly bring Parse data into your Component with the ability to POST, PUT, DELETE from your component without connecting your component to store or run any action. all is in your props
+
+### FetchProps
+Data provider component will render you component with all the props you pass to the dataComponent and with fetchProps object.
+fetchProps include :
+- data - response from the server
+- error - error object from query
+- status - one of the [enum](#enum)
+- info - info about your query  {timestamp, query,skip,limit,objectid and more...}
+- refresh - method, run to refresh data
+	- fetchProps .refresh()
+- cleanData - method, run to clean data from store
+	- fetchProps .cleadData()
+- put- method, run to update the document
+	-  fetchProps .put({title: 'newTitle', body: 'newBody'})
+- post- method, run to create document,
+	- fetchProps .post({title: 'newDoc', body: 'ddd'...})
+- updateField - method on FetchDocumnet to update filed in store
+	- fetchProps .updateField('title', 'new Title)
+
+#### FetchDocument:
+With `FetchDocument` you can get specific document by collection name and objectId
+
+```sh
+import {FetchDocument} from 'react-parse'
+....
+<FetchDocument 
+	schemaName='Post'
+	targetName='LastPost'
+	objectId={'blDxFXA9Wk'
+	component={MyComponent} // or user render={(props)=> <MyComponent ...props/>}
+	// optional:
+	keys=''
+	include=''
+	onFetchEnd={(error, {data, queryStatus})=>{}}
+	onPostEnd={(error, {data, queryStatus})=>{}}
+	onPutEnd={(error, {data, queryStatus})=>{}}
+	onDeleteEnd={(error, {data, queryStatus})=>{}}
+	leaveClean={true} // remove data from store on componentWillUnmount
+	localFirst={false} // fetch data from server only if we can found your data on local store
+	localOnly={false} // never fetch data from server, only find in store
+	autoRefresh={false} // Fetch data after each create/update/delete doc
+	// Want to pass somting to your component, add here
+	userName: 'Ploni' // example
+/>
+``` 
+- if the objectId  is empty then use updateField and we save your inputs in the store, then you can use post method from your component and new doc will create for you in the server, the new doc id will be inside info
+#### FetchCollection:
+With `FetchCollection` you can get list of document by collection name 
+```sh
+import {FetchCollection} from 'react-parse'
+....
+<FetchCollection 
+	schemaName='Post'
+	targetName='LastPost'
+	component={MyComponent} // or user render={(props)=> <MyComponent ...props/>}
+	// optional:
+	keys=''
+	include=''
+	onFetchEnd={(error, {data, queryStatus})=>{}}
+	onPostEnd={(error, {data, queryStatus})=>{}}
+	onPutEnd={(error, {data, queryStatus})=>{}}
+	onDeleteEnd={(error, {data, queryStatus})=>{}}
+	leaveClean={true} // remove data from store on componentWillUnmount
+	localFirst={false} // fetch data from server only if we can found your data on local store
+	localOnly={false} // never fetch data from server, only find in store
+	autoRefresh={false} // Fetch data after each create/update/delete doc
+	query={object} // 	http://docs.parseplatform.org/rest/guide/#queries
+	order='' // default is '-createdAt', Specify a field to sort by
+	skip={12} // skip first 12 documents
+	limit={50} // limit query to 50 documents
+	enableCount={true} return the amount of results in db
+	
+	// Want to pass somting to your component, add here
+	userName: 'Ploni' // example
+/>
+```
+#### FetchCloudCode:
+With `FetchCloudCode` you can get list of document by collection name 
+```sh
+import {FetchCloudCode} from 'react-parse'
+....
+<FetchCloudCode 
+	functionName='GetPosts'
+	params={object} // cloud code params
+	targetName='GetPostsCloud'
+	component={MyComponent} // or user render={(props)=> <MyComponent ...props/>}
+	// optional:
+	onFetchEnd={(error, {data, queryStatus})=>{}}
+	leaveClean={true} // remove data from store on componentWillUnmount
+	localFirst={false} // fetch data from server only if we can found your data on local store
+	localOnly={false} // never fetch data from server, only find in store
+	
+	// Want to pass somting to your component, add here
+	userName: 'Ploni' // example
+/>
+```
+### State
+View to Your redux store:
 we use [immutable-js](https://facebook.github.io/immutable-js/) and [reselect](https://github.com/reduxjs/reselect)
 ```
 parse:{
@@ -206,55 +409,10 @@ parse:{
 	
 }
 ```
-
-## Selectors - the easy way to find what you want inside the store.
-example:
+### Enum:
 ```
-import { selectors } from  'react-parse';
-
-const  mapStateToProps  = (state) => {
-return {
-	products:  selectors.selectCollectionData(state, 'TARGET_NAME'),
-	showLoader:  selectors.selectCollectionLoading(state, 'TARGET_NAME'),
-	isError: selectors.selectCollectionError(state, 'TARGET_NAME')	
-}
-
-};
+import {constants} from  'react-parse'
 ```
-### import all selectors  and get selectors list
-```
-import { selectors } from  'react-parse';
-
-```
-## or import specific 
-```
-import { cloudCodeSelectors, collectionSelectors, documentSelectors } from  'react-parse';
-```
-### selector list:
-- Collection:
- 1. selectCollections(state)
- 2. selectCollectionData(state, 'TARGET_NAME')
- 3. selectCollectionLoading(state, 'TARGET_NAME')
- 4. selectCollectionInfo(state, 'TARGET_NAME')
- 5. selectCollectionStatus(state, 'TARGET_NAME')
- 6. selectCollectionError(state, 'TARGET_NAME')
- 7. selectCollectionCount(state, 'TARGET_NAME')
-- Documnet:
- 8. selectDocuments(state)
- 9. selectDocumentData(state, 'TARGET_NAME')
- 10. selectDocumentLoading(state, 'TARGET_NAME')
- 11. selectDocumentInfo(state, 'TARGET_NAME')
- 12. selectDocumentStatus(state, 'TARGET_NAME')
- 13. selectDocumentError(state, 'TARGET_NAME')
-- Clode code:
- 14. selectCloudCodes(state)
- 15. selectCloudCodeData(state, 'TARGET_NAME')
- 16. selectCloudCodeLoading(state, 'TARGET_NAME')
- 17. selectCloudCodeInfo(state, 'TARGET_NAME')
- 18. selectCloudCodeStatus(state, 'TARGET_NAME')
- 19. selectCloudCodeError(state, 'TARGET_NAME')
-
-### status enum:
 ```
 // FETCH
 
@@ -293,7 +451,8 @@ setLoggerHandlers({
 })
 ```
 
-## Global Loader
+## loader
+need a global loader?
 ```
 import {ShowLoader} from 'react-parse'
 class MyComponent extends React.Component {
@@ -307,113 +466,5 @@ class MyComponent extends React.Component {
 		)
 
 ```
-------------
 
-## Component provider
-
-Data provider components.
-Seamlessly bring Parse data into your Component with the ability to POST, PUT, DELETE from your component without connecting your component to store or run any action. all is in your props
-
-
-#### Document:
-With `FetchDocument` you can get specific document by collection name and objectId
-
-```sh
-import {FetchDocument} from 'react-parse'
-....
-<FetchDocument 
-	schemaName='Post'
-	targetName='LastPost'
-	objectId={'blDxFXA9Wk'
-	component={MyComponent}
-	// optional:
-	keys=''
-	include=''
-	onFetchEnd={(error, {data, queryStatus})=>{}}
-	onPostEnd={(error, {data, queryStatus})=>{}}
-	onPutEnd={(error, {data, queryStatus})=>{}}
-	onDeleteEnd={(error, {data, queryStatus})=>{}}
-	leaveClean={true} // remove data from store on componentWillUnmount
-	localFirst={false} // fetch data from server only if we can found your data on local store
-	localOnly={false} // never fetch data from server, only find in store
-	autoRefresh={false} // Fetch data after each create/update/delete doc
-	// Want to pass somting to your component, add here
-	userName: 'Ploni' // example
-/>
-```
-### What props your component will get ?
-```
-class MyComponent extends React.Component {
-	render(
-		const {fetchProps, userName} = this.props
-		const {
-				  data: {...},
-				  error , // Error from query
-				  status , // query status
-				  info, // info from store
-				  isLoading, // bollean
-				  refresh , // method, run to refresh data
-				  deleteDoc, // method, run to delete the document
-				  put, // method, run to update the document, put({title: 'newTitle'})
-				  post,// method, run to create document, post({title: 'newDoc', body: 'ddd'})
-				  cleanData, // method, run to clean store
-				  	updateField, // method, run to update field in store, updateField(key, 'value')
-				  id // doc id
-		} = fetchProps
-		return <View>...</View>
-	)
- }
-  
-```
-- if the objectId  is empty then use updateField and we save your inputs in the store, then you can use post method from your component and new doc will create for you in the server, the new doc id will be inside info
-#### Collection:
-With `FetchCollection` you can get list of document by collection name 
-```sh
-import {FetchCollection} from 'react-parse'
-....
-<FetchCollection 
-	schemaName='Post'
-	targetName='LastPost'
-	component={MyComponent}
-	// optional:
-	keys=''
-	include=''
-	onFetchEnd={(error, {data, queryStatus})=>{}}
-	onPostEnd={(error, {data, queryStatus})=>{}}
-	onPutEnd={(error, {data, queryStatus})=>{}}
-	onDeleteEnd={(error, {data, queryStatus})=>{}}
-	leaveClean={true} // remove data from store on componentWillUnmount
-	localFirst={false} // fetch data from server only if we can found your data on local store
-	localOnly={false} // never fetch data from server, only find in store
-	autoRefresh={false} // Fetch data after each create/update/delete doc
-	query={object} // 	http://docs.parseplatform.org/rest/guide/#queries
-	order='' // default is '-createdAt', Specify a field to sort by
-	skip={12} // skip first 12 documents
-	limit={50} // limit query to 50 documents
-	enableCount={true} return the amount of results in db
-	
-	// Want to pass somting to your component, add here
-	userName: 'Ploni' // example
-/>
-```
-#### Cloud code:
-With `FetchCloudCode` you can get list of document by collection name 
-```sh
-import {FetchCloudCode} from 'react-parse'
-....
-<FetchCloudCode 
-	functionName='GetPosts'
-	params={object} // cloud code params
-	targetName='GetPostsCloud'
-	component={MyComponent}
-	// optional:
-	onFetchEnd={(error, {data, queryStatus})=>{}}
-	leaveClean={true} // remove data from store on componentWillUnmount
-	localFirst={false} // fetch data from server only if we can found your data on local store
-	localOnly={false} // never fetch data from server, only find in store
-	
-	// Want to pass somting to your component, add here
-	userName: 'Ploni' // example
-/>
-```
 
