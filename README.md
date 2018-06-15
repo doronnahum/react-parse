@@ -39,6 +39,31 @@ React Parse include 3 data provider components, to make the life even easier and
 
 ## Installation
 
+# How to install
+
+Install with NPM: 
+
+```bash
+npm i react-parse --save
+```
+
+## 1 - Inside your root component:
+
+Set react-parse inside your root component:
+
+```
+import { config as reactParseConfig, setReactParseDispatch } from 'react-parse'
+const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
+reactParseConfig.init(apiConfig);
+setReactParseDispatch(store.dispatch);
+```
+
+### After the user logs in - set the user's token:
+
+```
+reactParseConfig.setSessionToken('userSessionToken');
+```
+### After the user logs out - clear the token:
 ```
 npm i react-parse --save
 ```
@@ -63,21 +88,10 @@ function* rootSaga() {
 	]);
 }
 ```
-### 4 - Init react-parse at your root component
-```
-import { config as reactParseConfig, setReactParseDispatch } from 'react-parse';
+## Collection example - lets get some products
 
-const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID };
+Here is an example that illustrates how to use react-parse to fetch data from a `Prodcts` schema with a component when it mounts:
 
-reactParseConfig.init(apiConfig);
-setReactParseDispatch(store.dispatch);
-```
-5- on login, inject sessionToken
-```
-import { config as reactParseConfig } from 'react-parse';
-reactParseConfig.setSessionToken('Tg4545gffgf55');
-```
-6- on logout - remove sessionToken 
 ```
 import { config as reactParseConfig } from 'react-parse';
 reactParseConfig.removeSessionToken();
@@ -93,20 +107,17 @@ import { selectors, actions} from 'react-parse';
 const TARGET_NAME = 'ProdctList'
 class ReactParseExample extends React.Component {
 	  componentWillMount() {
-	   collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' });
-  }
-  .....
+	      collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' })
+    }
+    .....
     render() {
-		const { prodcts, prodctsLoading } = this.props;
-    return (<div....);
-......
-
-const mapStateToProps = (state) => {
-  return {
-    prodcts: selectors.selectCollectionData(state, 'ProdctList'),
-    prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
-  };
-};
+		  const {prodcts, prodctsLoading } = this.props;
+      return (<div....);
+      ......
+const mapStateToProps = (state) => ({
+  prodcts: selectors.selectCollectionData(state, 'ProdctList'),
+  prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
+});
 ```
 ### FetchCollectionExample
 Fetch data with data provider component
