@@ -1,4 +1,5 @@
 
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -21,6 +22,7 @@ React Parse include 3 data provider components, to make the life even easier and
 	- [CollectionActionsExample](#collectionactionsexample)
 	-  [FetchCollectionExample](#fetchcollectionexample)
 - [Actions](#actions) 
+	- [Payload options](#payload)
 	- [CollectionActions](#collectionactions)
 	- [DocumentActions](#documentactions)
 	- [CloudCodeActions](#cloudcodeactions)
@@ -54,24 +56,27 @@ Set react-parse inside your root component:
 
 ```bash
 import { config as reactParseConfig, setReactParseDispatch } from 'react-parse'
+
 const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
+
 reactParseConfig.init(apiConfig);
 setReactParseDispatch(store.dispatch);
 ```
 
 ### After the user logs in - set the user's token:
 
-```
+```bash
 reactParseConfig.setSessionToken('userSessionToken');
 ```
+
 ### After the user logs out - clear the token:
-```
+```bash
 npm i react-parse --save
 ```
 
 ## 2 - With Redux - add `parseReducer` to your your rootReducer
 
-```
+```bash
 import { parseReducer } from 'react-parse';
 const rootReducers = combineReducers({
   ....,
@@ -80,7 +85,7 @@ const rootReducers = combineReducers({
 ```
 
 ## 3 - With Redux-Saga, add `parseWatcher` to your root saga
-```
+```bash
 import { parseWatcher } from 'react-parse'
 function* rootSaga() {
   yield all([
@@ -90,7 +95,7 @@ function* rootSaga() {
 }
 ```
 
-### Now let see how you can you products to your app without writing any new action, reducer, saga worker ...
+### Now let see how you can fetch your products without writing any new action, reducer, saga worker..
 
 ## Examples
 
@@ -99,13 +104,13 @@ Fetch collection data with data provider component
 
 ```bash
 import {FetchCollection} from  'react-parse'
-const TARGET_NAME = 'activeProdcts'
+const TARGET_NAME = 'activeProducts'
 
 class ReactParseExample extends React.Component { 
 	render() {
 		return (
 			<FetchCollection 
-				schemaName={'Prodcuts'}
+				schemaName={'Product'}
 				targetName={TARGET_NAME}
 				query={{isActive: true}}
 				userName='Dan'
@@ -116,32 +121,31 @@ class ReactParseExample extends React.Component {
 }
 /*
 MyTable will get props from FetchCollection, MyTable props will be:
-const {schemaName, targetName, userName, fecthProps } = this.props
-conat {data,error,status,info,isLoading,refresh,deleteDoc,put,post} = fecthProps 
+const {schemaName, targetName, userName, fetchProps} = this.props
+const {data,error,status,info,isLoading,refresh,deleteDoc,put,post} = fetchProps
 */
 ```
-### We can do the same thing we react-parse actions and not with component reducer
+### We can do the same thing with react-parse actions
 ### CollectionActionsExample
 
-Get prodcuts from server by using collections actions and s
+Get Products from server by using collections actions and selectors
 
 ```bash
 import { selectors, actions} from 'react-parse';
 
-const TARGET_NAME = 'ProdctList'
+const TARGET_NAME = 'ProductList'
 class ReactParseExample extends React.Component {
 	  componentWillMount() {
-	   actions.collectionActions.fetchData({ targetName: TARGET_NAME , schemaName:  'Prodcts' });
-  }
-  .....
+		  actions.collectionActions.fetchData({ targetName: TARGET_NAME , schemaName:  'Product' });
+	  }
     render() {
-		const { prodcts, isLoading} = this.props;
-    return (<div....);
-......
+		const { products, isLoading} = this.props;
+	    return (<div....);
+}	}
 
 const mapStateToProps = (state) => {
   return {
-    prodcts: selectors.selectCollectionData(state, TARGET_NAME ),
+    products: selectors.selectCollectionData(state, TARGET_NAME ),
     isLoading: selectors.selectCollectionLoading(state, TARGET_NAME ),
   };
 }
@@ -154,7 +158,8 @@ Use like that:
 	documentActions.fetchData({....})
 ** we didn't need a dispatch to play the action
 ```
-### action payload options
+### payload
+action payload options
 | key | type | info |
 |--|--|--|
 | schemaName | string | db schemaName |
@@ -174,13 +179,15 @@ Use like that:
 |logger|object|pass to your Logger relevant info |
 ---
 ### import all actions
-```
+```bash
 import { actions } from  'react-parse';
+// use like that: actions.collectionActions.fetchData(...)
 ```
+
 ### collectionActions:
-```
+```bash
 import { collectionActions } from  'react-parse';
-const TARGET_NAME = 'ProdctList
+// use like that: collectionActions.fetchData(...)
 ```
 
  - GET collection from server:
@@ -206,7 +213,7 @@ const TARGET_NAME = 'ProdctList
  ---
 
 ### import documentActions:
-```
+```bash
 import { documentActions } from  'react-parse';
 ```
 
@@ -233,12 +240,12 @@ import { documentActions } from  'react-parse';
  ---
 
 ### import cloudCodeActions:
-```
+```bash
 import { cloudCodeActions } from  'react-parse';
 ```
 
  - GET Document from server:
-	**fetchData**({functionName, targetName, params, digTodata, logger})
+	**fetchData**({functionName, targetName, params, digToData, logger})
 	
  - Clean cloudCode from your store:
  **cleanData**({targetName})
@@ -283,33 +290,33 @@ fetchProps include :
 - data - response from the server
 - error - error object from query
 - status - one of the [enum](#enum)
-- info - info about your query  {timestamp, query,skip,limit,objectid and more...}
+- info - info about your query  {timestamp, query,skip,limit,objectId, ...}
 - isLoading- boolean value
 - refresh - method, run to refresh data
-	- fetchProps .refresh()
+	- fetchProps.refresh()
 - cleanData - method, run to clean data from store
-	- fetchProps .cleadData()
+	- fetchProps.cleanData()
 - put- method, run to update the document
-	-  fetchProps .put({title: 'newTitle', body: 'newBody'})
+	-  fetchProps.put({title: 'newTitle', body: 'newBody'})
 - post- method, run to create document,
-	- fetchProps .post({title: 'newDoc', body: 'ddd'...})
+	- fetchProps.post({title: 'newDoc', body: 'ddd'...})
 - updateField - method on FetchDocumnet to update filed in store
-	- fetchProps .updateField('title', 'new Title)
+	- fetchProps.updateField('title', 'new Title)
 
 #### FetchDocument:
 With `FetchDocument` you can get specific document by collection name and objectId
 
-```sh
+```bash
 import {FetchDocument} from 'react-parse'
 ....
 <FetchDocument 
 	schemaName='Post'
 	targetName='LastPost'
-	objectId={'blDxFXA9Wk'
+	objectId='blDxFXA9Wk'
 	component={MyComponent} // or user render={(props)=> <MyComponent ...props/>}
 	// optional:
-	keys=''
-	include=''
+	keys='title,body,owner'
+	include='Owner'
 	onFetchEnd={(error, {data, queryStatus})=>{}}
 	onPostEnd={(error, {data, queryStatus})=>{}}
 	onPutEnd={(error, {data, queryStatus})=>{}}
@@ -318,14 +325,14 @@ import {FetchDocument} from 'react-parse'
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
 	autoRefresh={false} // Fetch data after each create/update/delete doc
-	// Want to pass somting to your component, add here
-	userName: 'Ploni' // example
+	// Want to pass something to your component, add here
+	userName: 'Dan' // MyComponent will get this.props.userName
 />
 ``` 
 - if the objectId  is empty then use updateField and we save your inputs in the store, then you can use post method from your component and new doc will create for you in the server, the new doc id will be inside info
 #### FetchCollection:
 With `FetchCollection` you can get list of document by collection name 
-```sh
+```bash
 import {FetchCollection} from 'react-parse'
 ....
 <FetchCollection 
@@ -349,13 +356,13 @@ import {FetchCollection} from 'react-parse'
 	limit={50} // limit query to 50 documents
 	enableCount={true} return the amount of results in db
 	
-	// Want to pass somting to your component, add here
-	userName: 'Ploni' // example
+	// Want to pass something to your component, add here
+	userName: 'Dan' // example
 />
 ```
 #### FetchCloudCode:
 With `FetchCloudCode` you can get list of document by collection name 
-```sh
+```bash
 import {FetchCloudCode} from 'react-parse'
 ....
 <FetchCloudCode 
@@ -369,14 +376,14 @@ import {FetchCloudCode} from 'react-parse'
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
 	
-	// Want to pass somting to your component, add here
-	userName: 'Ploni' // example
+	// Want to pass somethingto your component, add here
+	userName: 'Dan' // example
 />
 ```
 ### State
 View to Your redux store:
 we use [immutable-js](https://facebook.github.io/immutable-js/) and [reselect](https://github.com/reduxjs/reselect)
-```
+```bash
 parse:{
 	collections: {
 		myProducts: {
@@ -398,13 +405,13 @@ parse:{
 			}
 		}
 	},
-  documnets: {...},
-  clodeCodes: {...}
+  documents: {...},
+  cloudCodes: {...}
 	
 }
 ```
 ### Enum:
-```
+```bash
 import {constants} from  'react-parse'
 ```
 ```
@@ -447,7 +454,7 @@ setLoggerHandlers({
 
 ## loader
 need a global loader?
-```
+```bash
 import {ShowLoader} from 'react-parse'
 class MyComponent extends React.Component {
 
@@ -460,3 +467,5 @@ class MyComponent extends React.Component {
 		)
 
 ```
+ # Contribute
+You can help improving this project sending PRs and helping with issues.  
