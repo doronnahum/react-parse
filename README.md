@@ -4,7 +4,10 @@
 
 React Parse
 ======================
-[![Tweet ]([https://img.shields.io/twitter/url/http/shields.io.svg?style=social](https://img.shields.io/twitter/url/http/shields.io.svg?style=social))](https://twitter.com/intent/tweet?text=Get%20over%20170%20free%20design%20blocks%20based%20on%20Bootstrap%204&url=https://www.froala.com/design-blocks&via=froala&hashtags=bootstrap,design,templates,blocks,developers)
+<a href='https://twitter.com/intent/tweet?text=Happy%20to%20share,%20If%20you%20are%20using%20react%20and%20parse%20server%20please%20check%20react-parse&url=https://github.com/doronnahum/react-parse&hashtags=react,react-native,saga,redux,parse-server,immutable-js,reselect'>
+<img align="left" width="auto" height="auto" src="https://img.shields.io/twitter/url/http/shields.io.svg">
+</a> 
+<br />
 React Parse is a set of actions and saga watchers that make your life easy to Get, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
 
 React Parse include 3 data provider components, to make the life even easier and let you get a collection from the server in less than 1 minute with the ability to filter result, create a new document and more...
@@ -466,5 +469,3 @@ class MyComponent extends React.Component {
 		)
 
 ```
-
-
