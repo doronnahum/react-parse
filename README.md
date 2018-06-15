@@ -1,3 +1,4 @@
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -17,7 +18,7 @@ React Parse include 3 data provider components, to make the life even easier and
 
 - [Installation](#installation)
 - [Examples](#examples) 
-	- [Collection](#collection)
+	- [CollectionActionsExample](#collectionactionsexample)
 	-  [FetchCollectionExample](#fetchcollectionexample)
 - [Actions](#actions) 
 	- [CollectionActions](#collectionactions)
@@ -51,7 +52,7 @@ npm i react-parse --save
 
 Set react-parse inside your root component:
 
-```
+```bash
 import { config as reactParseConfig, setReactParseDispatch } from 'react-parse'
 const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
 reactParseConfig.init(apiConfig);
@@ -88,60 +89,62 @@ function* rootSaga() {
 	]);
 }
 ```
-## Collection example - lets get some products
 
-Here is an example that illustrates how to use react-parse to fetch data from a `Prodcts` schema with a component when it mounts:
-
-```
-import { config as reactParseConfig } from 'react-parse';
-reactParseConfig.removeSessionToken();
-```
-
+### Now let see how you can you products to your app without writing any new action, reducer, saga worker ...
 
 ## Examples
-### Collection
-Get prodcuts from server by using collections actions and s
-```
-import { selectors, actions} from 'react-parse';
 
-const TARGET_NAME = 'ProdctList'
-class ReactParseExample extends React.Component {
-	  componentWillMount() {
-	      collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' })
-    }
-    .....
-    render() {
-		  const {prodcts, prodctsLoading } = this.props;
-      return (<div....);
-      ......
-const mapStateToProps = (state) => ({
-  prodcts: selectors.selectCollectionData(state, 'ProdctList'),
-  prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
-});
-```
 ### FetchCollectionExample
-Fetch data with data provider component
-### fetch -  Fetch data with data provider example
-```
+Fetch collection data with data provider component
+
+```bash
 import {FetchCollection} from  'react-parse'
+const TARGET_NAME = 'activeProdcts'
 
 class ReactParseExample extends React.Component { 
 	render() {
 		return (
 			<FetchCollection 
-				schemaName={schemaName}
-				targetName={targetName}
-				// pass your component
-				component={MyTable} // MyTable will render with all props on FetchCollection  and with fetchPRops object
-				// or use render props technique
+				schemaName={'Prodcuts'}
+				targetName={TARGET_NAME}
+				query={{isActive: true}}
+				userName='Dan'
 				render={(props) => <MyTable ...props/>}
 			/>
 		)
 	}
 }
-/* comment
-	fecthProps ={data,error,status,info,isLoading,refresh,deleteDoc,put,post}
+/*
+MyTable will get props from FetchCollection, MyTable props will be:
+const {schemaName, targetName, userName, fecthProps } = this.props
+conat {data,error,status,info,isLoading,refresh,deleteDoc,put,post} = fecthProps 
 */
+```
+### We can do the same thing we react-parse actions and not with component reducer
+### CollectionActionsExample
+
+Get prodcuts from server by using collections actions and s
+
+```bash
+import { selectors, actions} from 'react-parse';
+
+const TARGET_NAME = 'ProdctList'
+class ReactParseExample extends React.Component {
+	  componentWillMount() {
+	   actions.collectionActions.fetchData({ targetName: TARGET_NAME , schemaName:  'Prodcts' });
+  }
+  .....
+    render() {
+		const { prodcts, isLoading} = this.props;
+    return (<div....);
+......
+
+const mapStateToProps = (state) => {
+  return {
+    prodcts: selectors.selectCollectionData(state, TARGET_NAME ),
+    isLoading: selectors.selectCollectionLoading(state, TARGET_NAME ),
+  };
+}
 ```
 ## Actions
 ```
@@ -244,28 +247,7 @@ import { cloudCodeActions } from  'react-parse';
  **cleanCloudsCode**()
 ---
 
-### View to Your redux store:
-we use [immutable-js](https://facebook.github.io/immutable-js/) and [reselect](https://github.com/reduxjs/reselect)
-```
-import { selectors } from  'react-parse';
-// or
-import { cloudCodeSelectors, collectionSelectors, documentSelectors } from  'react-parse';
-```
 
-the easy way to find what you want inside the store.
-example:
-```
-import { selectors } from  'react-parse';
-
-const  mapStateToProps  = (state) => {
-return {
-	products:  selectors.selectCollectionData(state, 'TARGET_NAME'),
-	showLoader:  selectors.selectCollectionLoading(state, 'TARGET_NAME'),
-	isError: selectors.selectCollectionError(state, 'TARGET_NAME')	
-}
-
-};
-```
 ### CollectionSelectors
  1. selectors .selectCollections(state)
  2. selectors .selectCollectionData(state, 'TARGET_NAME')
