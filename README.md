@@ -4,11 +4,8 @@
 
 React Parse
 ======================
-<a href='https://twitter.com/intent/tweet?text=Happy%20to%20share,%20If%20you%20are%20using%20react%20and%20parse%20server%20please%20check%20react-parse&url=https://github.com/doronnahum/react-parse&hashtags=react,react-native,saga,redux,parse-server,immutable-js,reselect'>
-<img align="left" width="auto" height="auto" src="https://img.shields.io/twitter/url/http/shields.io.svg">
-</a> 
-<br />
-React Parse is a set of actions and saga watchers that make your life easy to Get, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
+
+React Parse is a set of actions and saga watchers that make your life easy to GET, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
 
 React Parse include 3 data provider components, to make the life even easier and let you get a collection from the server in less than 1 minute with the ability to filter result, create a new document and more...
 
@@ -18,43 +15,24 @@ React Parse include 3 data provider components, to make the life even easier and
 ## Table of content
 
 - [Installation](#installation)
-- [Examples](#examples) 
-	- [Collection](#collection)
-	-  [FetchCollectionExample](#fetchcollectionexample)
-- [Actions](#actions) 
-	- [CollectionActions](#collectionactions)
-	- [DocumentActions](#documentactions)
-	- [CloudCodeActions](#cloudcodeactions)
-- [Selectors](#selectors) 
-	- [CollectionSelectors](#collectionselectors)
-	- [DocumentSelectors](#documentselectors)
-	- [CloudCodeSelectors](#cloudcodeselectors)
-- [dataProviders](#dataproviders) 
-	- [FetchProps - response from dataProviders](#fetchprops)
-	- [FetchCollection](#fetchcollection)
-	- [FetchDocument](#fetchdocument)
-	- [FetchDocument](#fetchdocument)
--  [State](#state)
--  [Enum](#enum)
--  [Logger](#logger)
-- [Global Loader](#loader)
+- [Examples](#Examples) 
 
-## Installation
+# Installation
 1- install
 ```
 npm i react-parse --save
 ```
 2- Add  to rootReducers 
 ```
-import {parseReducer} from 'react-parse';
+import { parseReducer } from 'react-parse';
 const rootReducers = combineReducers({
-  ...., // Important - keep the key 'parse' and not something else
-  parse: parseReducer
+  ....,
+  parse: parseReducer,
 });
 ```
 3- Add to rootSaga
 ```
-import {parseWatcher} from 'react-parse'
+import { parseWatcher } from 'react-parse'
 function* rootSaga() {
   yield all([
 	...,
@@ -64,21 +42,21 @@ function* rootSaga() {
 ```
 4 - Init react-parse at your root component
 ```
-import {config as reactParseConfig, setReactParseDispatch} from 'react-parse'
+import { config as reactParseConfig, setReactParseDispatch } from 'react-parse';
 
-const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID }
+const apiConfig = { baseURL: envConfig.SERVER_URL, appId: envConfig.PARSE_ID };
 
 reactParseConfig.init(apiConfig);
 setReactParseDispatch(store.dispatch);
 ```
 5- on login, inject sessionToken
 ```
-import {config as reactParseConfig } from 'react-parse'
+import { config as reactParseConfig } from 'react-parse';
 reactParseConfig.setSessionToken('Tg4545gffgf55');
 ```
 6- on logout - remove sessionToken 
 ```
-import {config as reactParseConfig } from 'react-parse'
+import { config as reactParseConfig } from 'react-parse';
 reactParseConfig.removeSessionToken();
 ```
 
@@ -92,27 +70,19 @@ import { selectors, actions} from 'react-parse';
 const TARGET_NAME = 'ProdctList'
 class ReactParseExample extends React.Component {
 	  componentWillMount() {
-	  // This Will Fetch The data from server
-	   actions.collectionActions.fetchData({ targetName: TARGET_NAME , schemaName:  'Prodcts' })
-	  }
+	   collectionActions.fetchData({ targetName: 'ProdctList', schemaName:  'Prodcts' });
+  }
+  .....
     render() {
-	const {prodcts, isLoading} = this.props
-    return (
-    <MyComponent
-	    prodcts={prodcts}
-	    showLoader={isLoading}
-	    onNewProduct={(data)=>
-		    actions.collectionActions.postDoc({
-			    targetName: TARGET_NAME , schemaName:  'Prodcts', data)}
-	    />
-    )
-}}
+		const { prodcts, prodctsLoading } = this.props;
+    return (<div....);
+......
 
 const mapStateToProps = (state) => {
   return {
-    prodcts: selectors.selectCollectionData(state, TARGET_NAME ),
-    isLoading: selectors.selectCollectionLoading(state, 'TARGET_NAME ),
-  }
+    prodcts: selectors.selectCollectionData(state, 'ProdctList'),
+    prodctsLoading: selectors.selectCollectionLoading(state, 'ProdctList'),
+  };
 };
 ```
 ### FetchCollectionExample
@@ -141,14 +111,14 @@ class ReactParseExample extends React.Component {
 ```
 ## Actions
 ```
-import {  collectionActions, cloudCodeActions, documentActions} from 'react-parse'
+import {  collectionActions, cloudCodeActions, documentActions } from 'react-parse';
 
 Use like that:
 	documentActions.fetchData({....})
 ** we didn't need a dispatch to play the action
 ```
 ### action payload options
-|key|type  |info |
+| key | type | info |
 |--|--|--|
 | schemaName | string | db schemaName |
 | targetName | string | target to save the response from server  |
@@ -182,22 +152,23 @@ const TARGET_NAME = 'ProdctList
  - POST  document
  **postDoc**({schemaName, targetName, data, autoRefresh, logger})
  
-  - PUT document
+ - PUT document
  **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger})
  
-   - DELETE document
+ - DELETE document
  **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger})
  
  - Refresh your data
  **refreshCollection**({targetName})
  
-  - Clean collection from your store:
+ - Clean collection from your store:
  **cleanData**({targetName})
  
  - Clean all collections from your store:
  **cleanCollections**()
  ---
-### documentActions:
+
+### import documentActions:
 ```
 import { documentActions } from  'react-parse';
 ```
@@ -208,22 +179,23 @@ import { documentActions } from  'react-parse';
  - POST  document
  **postDoc**({schemaName, targetName, data, logger})
  
-  - PUT document
+ - PUT document
  **putDoc**({schemaName, targetName, objectId, data, logger})
  
-   - DELETE document
+ - DELETE document
  **deleteDoc**({schemaName, targetName, objectId, logger})
  
-   - Update local data
+ - Update local data
  **updateField**({targetName, key, value, logger})
 
-  - Clean document from your store:
+ - Clean document from your store:
  **cleanData**({targetName})
  
  - Clean all documents from your store:
  **cleanDocuments**()
  ---
-### cloudCodeActions:
+
+### import cloudCodeActions:
 ```
 import { cloudCodeActions } from  'react-parse';
 ```
@@ -231,13 +203,15 @@ import { cloudCodeActions } from  'react-parse';
  - GET Document from server:
 	**fetchData**({functionName, targetName, params, digTodata, logger})
 	
-  - Clean cloudCode from your store:
+ - Clean cloudCode from your store:
  **cleanData**({targetName})
  
  - Clean all codes code from your store:
  **cleanCloudsCode**()
 ---
-## Selectors
+
+### View to Your redux store:
+we use [immutable-js](https://facebook.github.io/immutable-js/) and [reselect](https://github.com/reduxjs/reselect)
 ```
 import { selectors } from  'react-parse';
 // or
