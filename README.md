@@ -1,11 +1,12 @@
-
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
 React Parse
 ======================
-
-React Parse is a set of actions and saga watchers that make your life easy to GET, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
+<a href='https://twitter.com/intent/tweet?text=Happy%20to%20share,%20If%20you%20are%20using%20react%20and%20parse%20server%20please%20check%20react-parse&url=https://github.com/doronnahum/react-parse&hashtags=react,react-native,saga,redux,parse-server,immutable-js,reselect'>
+<img align="left" width="auto" height="auto" src="https://img.shields.io/twitter/url/http/shields.io.svg">
+</a> 
+React Parse is a set of actions and saga watchers that make your life easy to Get, POST, PUT, DELETE data on the server, you can fetch the data with our selectors from your redux store.
 
 React Parse include 3 data provider components, to make the life even easier and let you get a collection from the server in less than 1 minute with the ability to filter result, create a new document and more...
 
@@ -15,14 +16,35 @@ React Parse include 3 data provider components, to make the life even easier and
 ## Table of content
 
 - [Installation](#installation)
-- [Examples](#Examples) 
+- [Examples](#examples) 
+	- [Collection](#collection)
+	-  [FetchCollectionExample](#fetchcollectionexample)
+- [Actions](#actions) 
+	- [CollectionActions](#collectionactions)
+	- [DocumentActions](#documentactions)
+	- [CloudCodeActions](#cloudcodeactions)
+- [Selectors](#selectors) 
+	- [CollectionSelectors](#collectionselectors)
+	- [DocumentSelectors](#documentselectors)
+	- [CloudCodeSelectors](#cloudcodeselectors)
+- [dataProviders](#dataproviders) 
+	- [FetchProps - response from dataProviders](#fetchprops)
+	- [FetchCollection](#fetchcollection)
+	- [FetchDocument](#fetchdocument)
+	- [FetchDocument](#fetchdocument)
+-  [State](#state)
+-  [Enum](#enum)
+-  [Logger](#logger)
+- [Global Loader](#loader)
 
-# Installation
-1- install
+## Installation
+
 ```
 npm i react-parse --save
 ```
-2- Add  to rootReducers 
+
+## 2 - With Redux - add `parseReducer` to your your rootReducer
+
 ```
 import { parseReducer } from 'react-parse';
 const rootReducers = combineReducers({
@@ -30,7 +52,8 @@ const rootReducers = combineReducers({
   parse: parseReducer,
 });
 ```
-3- Add to rootSaga
+
+## 3 - With Redux-Saga, add `parseWatcher` to your root saga
 ```
 import { parseWatcher } from 'react-parse'
 function* rootSaga() {
@@ -40,7 +63,7 @@ function* rootSaga() {
 	]);
 }
 ```
-4 - Init react-parse at your root component
+### 4 - Init react-parse at your root component
 ```
 import { config as reactParseConfig, setReactParseDispatch } from 'react-parse';
 
