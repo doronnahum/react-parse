@@ -1,3 +1,4 @@
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -214,7 +215,7 @@ import { collectionActions } from  'react-parse';
  **cleanCollections**()
  ---
 
-### import documentActions:
+### DocumentActions:
 ```bash
 import { documentActions } from  'react-parse';
 ```
@@ -241,7 +242,7 @@ import { documentActions } from  'react-parse';
  **cleanDocuments**()
  ---
 
-### import cloudCodeActions:
+### CloudCodeActions:
 ```bash
 import { cloudCodeActions } from  'react-parse';
 ```
@@ -255,16 +256,20 @@ import { cloudCodeActions } from  'react-parse';
  - Clean all codes code from your store:
  **cleanCloudsCode**()
 ---
+### Selectors
 
+```bash
+import {selectors} from 'react-parse'
+```
 
 ### CollectionSelectors
- 1. selectors .selectCollections(state)
- 2. selectors .selectCollectionData(state, 'TARGET_NAME')
- 3. selectors .selectCollectionLoading(state, 'TARGET_NAME')
- 4. selectors .selectCollectionInfo(state, 'TARGET_NAME')
- 5. selectors .selectCollectionStatus(state, 'TARGET_NAME')
- 6. selectors .selectCollectionError(state, 'TARGET_NAME')
- 7. selectors .selectCollectionCount(state, 'TARGET_NAME')
+ 1. selectors .selectCollections(state) // return you all the collection from state.parse.collections
+ 2. selectors .selectCollectionData(state, 'TARGET_NAME') // return you the data by tagetName
+ 3. selectors .selectCollectionLoading(state, 'TARGET_NAME') // return true if query is loading
+ 4. selectors .selectCollectionInfo(state, 'TARGET_NAME') // return query info by tagetName
+ 5. selectors .selectCollectionStatus(state, 'TARGET_NAME') // return query status by tagetName
+ 6. selectors .selectCollectionError(state, 'TARGET_NAME') // return query error by tagetName
+ 7. selectors .selectCollectionCount(state, 'TARGET_NAME') // return the quantity of resultst by tagetName
 ### DocumentSelectors
  1. selectors .selectDocuments(state)
  2. selectors .selectDocumentData(state, 'TARGET_NAME')
