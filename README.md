@@ -1,5 +1,3 @@
-
-
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -159,7 +157,10 @@ Use like that:
 ** we didn't need a dispatch to play the action
 ```
 ### payload
+### payload
+
 action payload options
+
 | key | type | info |
 |--|--|--|
 | schemaName | string | db schemaName |
@@ -177,6 +178,7 @@ action payload options
 | params | object | cloud code params |
 | digToData| string |  string that help us find your data, default is 'data.result' |
 |logger|object|pass to your Logger relevant info |
+
 ---
 ### import all actions
 ```bash
