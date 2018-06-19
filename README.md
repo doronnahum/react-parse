@@ -65,7 +65,7 @@ setReactParseDispatch(store.dispatch);
 ### After the user logs in - set the user's token:
 
 ```bash
-reactParseConfig.setSessionToken('userSessionToken');
+reactParseConfig.setSessionToken('userSessionToken')
 ```
 
 ### After the user logs out - clear the token:
