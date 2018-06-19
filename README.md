@@ -70,7 +70,7 @@ reactParseConfig.setSessionToken('userSessionToken');
 
 ### After the user logs out - clear the token:
 ```bash
-npm i react-parse --save
+reactParseConfig.removeSessionToken()
 ```
 
 ## 2 - With Redux - add `parseReducer` to your your rootReducer
