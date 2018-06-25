@@ -304,9 +304,14 @@ fetchProps include :
 - cleanData - method, run to clean data from store
 	- fetchProps.cleanData()
 - put- method, run to update the document
-	-  fetchProps.put({title: 'newTitle', body: 'newBody'})
+	-	 from FetchCollection => fetchProps.put('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'})
+	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'})
 - post- method, run to create document,
-	- fetchProps.post({title: 'newDoc', body: 'ddd'...})
+	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'})
+	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'})
+- deleteDoc- method, run to delete document,
+	-	 from FetchCollection => fetchProps.deleteDoc('DOC_OBJECT_ID')
+	-  from FetchDocument => fetchProps.deleteDoc({title: 'newTitle', body: 'newBody'})
 - updateField - method on FetchDocumnet to update filed in store
 	- fetchProps.updateField('title', 'new Title)
 
