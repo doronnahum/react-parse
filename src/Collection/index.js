@@ -91,7 +91,8 @@ class FetchCollection extends React.PureComponent {
       enableCount,
       keys,
       include,
-      order
+      order,
+      dataHandler
     } = props;
     if (localOnly || !props.schemaName) {
       return;
@@ -105,7 +106,8 @@ class FetchCollection extends React.PureComponent {
       enableCount,
       keys,
       include,
-      order
+      order,
+      dataHandler
     });
   }
 

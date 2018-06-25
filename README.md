@@ -101,7 +101,7 @@ function* rootSaga() {
 ### FetchCollectionExample
 Fetch collection data with data provider component
 
-```bash
+```jsx
 import {FetchCollection} from  'react-parse'
 const TARGET_NAME = 'activeProducts'
 
@@ -113,7 +113,7 @@ class ReactParseExample extends React.Component {
 				targetName={TARGET_NAME}
 				query={{isActive: true}}
 				userName='Dan'
-				render={(props) => <MyTable ...props/>}
+				render={(props) => <MyTable {...props}/>}
 			/>
 		)
 	}
@@ -129,7 +129,7 @@ const {data,error,status,info,isLoading,refresh,deleteDoc,put,post} = fetchProps
 
 Get Products from server by using collections actions and selectors
 
-```bash
+```jsx
 import { selectors, actions} from 'react-parse';
 
 const TARGET_NAME = 'ProductList'
@@ -150,7 +150,7 @@ const mapStateToProps = (state) => {
 }
 ```
 ## Actions
-```
+```jsx
 import {  collectionActions, cloudCodeActions, documentActions } from 'react-parse';
 
 Use like that:
@@ -179,16 +179,16 @@ action payload options
 | params | object | cloud code params |
 | digToData| string |  string that help us find your data, default is 'data.result' |
 |logger|object|pass to your Logger relevant info |
-
+|dataHandler|function|pass function that manipulate data before set to store|
 ---
 ### import all actions
-```bash
+```jsx
 import { actions } from  'react-parse';
 // use like that: actions.collectionActions.fetchData(...)
 ```
 
 ### collectionActions:
-```bash
+```jsx
 import { collectionActions } from  'react-parse';
 // use like that: collectionActions.fetchData(...)
 ```
@@ -313,7 +313,7 @@ fetchProps include :
 #### FetchDocument:
 With `FetchDocument` you can get specific document by collection name and objectId
 
-```bash
+```jsx
 import {FetchDocument} from 'react-parse'
 ....
 <FetchDocument 
@@ -324,22 +324,23 @@ import {FetchDocument} from 'react-parse'
 	// optional:
 	keys='title,body,owner'
 	include='Owner'
-	onFetchEnd={(error, {data, queryStatus})=>{}}
-	onPostEnd={(error, {data, queryStatus})=>{}}
-	onPutEnd={(error, {data, queryStatus})=>{}}
-	onDeleteEnd={(error, {data, queryStatus})=>{}}
+	onFetchEnd={({error, status, data, info })=>{}}
+	onPostEnd={({error, status, data, info })=>{}}
+	onPutEnd={({error, status, data, info })=>{}}
+	onDeleteEnd={({error, status, data, info })=>{}}
 	leaveClean={true} // remove data from store on componentWillUnmount
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
 	autoRefresh={false} // Fetch data after each create/update/delete doc
+	dataHandler={data => data} // Function to manipulate the data before set to store. 
 	// Want to pass something to your component, add here
-	userName: 'Dan' // MyComponent will get this.props.userName
+	userName='Dan' // MyComponent will get this.props.userName
 />
 ``` 
 - if the objectId  is empty then use updateField and we save your inputs in the store, then you can use post method from your component and new doc will create for you in the server, the new doc id will be inside info
 #### FetchCollection:
 With `FetchCollection` you can get list of document by collection name 
-```bash
+```jsx
 import {FetchCollection} from 'react-parse'
 ....
 <FetchCollection 
@@ -349,10 +350,10 @@ import {FetchCollection} from 'react-parse'
 	// optional:
 	keys=''
 	include=''
-	onFetchEnd={(error, {data, queryStatus})=>{}}
-	onPostEnd={(error, {data, queryStatus})=>{}}
-	onPutEnd={(error, {data, queryStatus})=>{}}
-	onDeleteEnd={(error, {data, queryStatus})=>{}}
+	onFetchEnd={({error, status, data, info })=>{}}
+	onPostEnd={({error, status, data, info })=>{}}
+	onPutEnd={({error, status, data, info })=>{}}
+	onDeleteEnd={({error, status, data, info })=>{}}
 	leaveClean={true} // remove data from store on componentWillUnmount
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
@@ -361,15 +362,15 @@ import {FetchCollection} from 'react-parse'
 	order='' // default is '-createdAt', Specify a field to sort by
 	skip={12} // skip first 12 documents
 	limit={50} // limit query to 50 documents
-	enableCount={true} return the amount of results in db
-	
+	enableCount={true} // return the amount of results in db
+	dataHandler={data => data} // Function to manipulate the data before set to store. 
 	// Want to pass something to your component, add here
-	userName: 'Dan' // example
+	userName='Dan' // example
 />
 ```
 #### FetchCloudCode:
 With `FetchCloudCode` you can get list of document by collection name 
-```bash
+```jsx
 import {FetchCloudCode} from 'react-parse'
 ....
 <FetchCloudCode 
@@ -378,19 +379,19 @@ import {FetchCloudCode} from 'react-parse'
 	targetName='GetPostsCloud'
 	component={MyComponent} // or user render={(props)=> <MyComponent ...props/>}
 	// optional:
-	onFetchEnd={(error, {data, queryStatus})=>{}}
+	onFetchEnd={({error, status, data, info })=>{}}
 	leaveClean={true} // remove data from store on componentWillUnmount
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
-	
-	// Want to pass somethingto your component, add here
-	userName: 'Dan' // example
+	dataHandler={data => data} // Function to manipulate the data before set to store. 
+	// Want to pass something to your component, add here
+	userName='Dan' // example
 />
 ```
 ### State
 View to Your redux store:
 we use [immutable-js](https://facebook.github.io/immutable-js/) and [reselect](https://github.com/reduxjs/reselect)
-```bash
+```jsx
 parse:{
 	collections: {
 		myProducts: {

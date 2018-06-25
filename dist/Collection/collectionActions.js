@@ -50,6 +50,7 @@
    * @param {string} payload.keys keys to include
    * @param {boolean} payload.enableCount set true to get count objects in the collection
    * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {function} payload.dataHandler pass function that manipulate data before set to store
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
     (0, _index.dispatch)(actions.fetchData(payload));

@@ -115,7 +115,7 @@
           }
           this.fetchData(nextProps);
         } else if ((0, _helpers.isFetchFinish)(this.props, nextProps)) {
-          this.props.onFetchEnd(fetchError, { fetchData: fetchData, fetchStatus: fetchStatus });
+          this.props.onFetchEnd({ error: fetchError, status: fetchStatus, data: fetchData });
         }
       }
     }, {
@@ -138,14 +138,16 @@
         var functionName = props.functionName,
             targetName = props.targetName,
             params = props.params,
-            digToData = props.digToData;
+            digToData = props.digToData,
+            dataHandler = props.dataHandler;
 
         if (localOnly || !props.functionName) return;
         props.fetchActions.fetchData({
           functionName: functionName,
           targetName: targetName,
           params: params,
-          digToData: digToData
+          digToData: digToData,
+          dataHandler: dataHandler
         });
       }
     }, {

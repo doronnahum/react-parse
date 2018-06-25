@@ -42,7 +42,7 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchCloudCode(action) {
-    var _action$payload, functionName, targetName, params, digToData, _digToData, target, res, errType, data;
+    var _action$payload, functionName, targetName, params, digToData, _digToData, target, res, errType, _data, data;
 
     return _regeneratorRuntime2.default.wrap(function fetchCloudCode$(_context) {
       while (1) {
@@ -73,12 +73,13 @@
           case 12:
             console.error('getCloudFunction err: ', functionName, res.error);
             _Logger2.default.onError('CLOUD_CODE', action, errType);
-            _context.next = 20;
+            _context.next = 21;
             break;
 
           case 16:
-            data = (0, _helpers.dig)(res, _digToData);
-            _context.next = 19;
+            _data = (0, _helpers.dig)(res, _digToData);
+            data = dataHandler ? dataHandler(_data) : _data;
+            _context.next = 20;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -91,10 +92,10 @@
               loading: false
             }));
 
-          case 19:
+          case 20:
             _Logger2.default.onSuccess('CLOUD_CODE', action, FINISHED);
 
-          case 20:
+          case 21:
           case 'end':
             return _context.stop();
         }

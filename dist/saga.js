@@ -55,7 +55,7 @@
 
   var FETCH_CLOUD_CODE = _types2.default.FETCH_CLOUD_CODE,
       FETCH_COLLECTION = _types2.default.FETCH_COLLECTION,
-      REFRSH_COLLECTION = _types2.default.REFRSH_COLLECTION,
+      REFRESH_COLLECTION = _types2.default.REFRESH_COLLECTION,
       DELETE_COLLECTION_DOC = _types2.default.DELETE_COLLECTION_DOC,
       PUT_COLLECTION_DOC = _types2.default.PUT_COLLECTION_DOC,
       POST_COLLECTION_DOC = _types2.default.POST_COLLECTION_DOC,
@@ -77,7 +77,7 @@
 
           case 2:
             _context.next = 4;
-            return (0, _effects.takeEvery)(REFRSH_COLLECTION, Collection.refreshCollection);
+            return (0, _effects.takeEvery)(REFRESH_COLLECTION, Collection.refreshCollection);
 
           case 4:
             _context.next = 6;

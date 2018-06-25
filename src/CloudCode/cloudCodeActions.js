@@ -10,6 +10,7 @@ import {dispatch} from '../index'
    * @param {object} payload.params request params
    * @param {string} payload.digToData string that help us find your data, default is data.result
    * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {function} payload.dataHandler pass function that manipulate data before set to store
    * 
    */
   export const fetchData = (payload) => {

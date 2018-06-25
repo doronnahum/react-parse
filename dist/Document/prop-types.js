@@ -126,7 +126,12 @@
           />
       * all the props from FetchDocument will wrap inside props.fetch
      */
-    component: _propTypes2.default.any
+    component: _propTypes2.default.any,
+    /**
+     * dataHandler
+     * pass function that manipulate data before set to store
+     */
+    dataHandler: _propTypes2.default.func
     /*   
      * What you going to get Fetch:
      * First argument - error - the error from serve.

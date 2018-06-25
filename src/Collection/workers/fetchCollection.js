@@ -23,7 +23,8 @@ export default function* fetchCollection(action) {
     keys,
     include,
     order,
-    limit
+    limit,
+    dataHandler
   } = action.payload;
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
@@ -44,7 +45,8 @@ export default function* fetchCollection(action) {
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
     Logger.onError('GET', action, errType);
   } else {
-    const data = dig(res, 'data.results');
+    const _data = dig(res, 'data.results')
+    const data = dataHandler ? dataHandler(_data) : _data;
     const info = {
       schemaName,
       query,

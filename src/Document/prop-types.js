@@ -100,7 +100,12 @@ export const propTypes = {
         />
     * all the props from FetchDocument will wrap inside props.fetch
    */
-  component: PropTypes.any
+  component: PropTypes.any,
+  /**
+   * dataHandler
+   * pass function that manipulate data before set to store
+   */
+  dataHandler: PropTypes.func
   /*   
    * What you going to get Fetch:
    * First argument - error - the error from serve.

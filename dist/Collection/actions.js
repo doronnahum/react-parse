@@ -27,7 +27,7 @@
   }
 
   var FETCH_COLLECTION = _types2.default.FETCH_COLLECTION,
-      REFRSH_COLLECTION = _types2.default.REFRSH_COLLECTION,
+      REFRESH_COLLECTION = _types2.default.REFRESH_COLLECTION,
       SET_COLLECTION = _types2.default.SET_COLLECTION,
       CLEAN_COLLECTION = _types2.default.CLEAN_COLLECTION,
       CLEAN_ALL_COLLECTIONS = _types2.default.CLEAN_ALL_COLLECTIONS,
@@ -38,7 +38,7 @@
 
   /**
    * fetchData
-   * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount}
+   * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount, dataHandler}
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
     return {
@@ -52,7 +52,7 @@
    */
   var refreshCollection = exports.refreshCollection = function refreshCollection(payload) {
     return {
-      type: REFRSH_COLLECTION,
+      type: REFRESH_COLLECTION,
       payload: payload
     };
   };

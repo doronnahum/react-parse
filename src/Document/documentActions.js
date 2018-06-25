@@ -10,7 +10,8 @@ import {dispatch} from '../index'
    * if targetName empty then we use documentId as targetName
    * @param {string} payload.include pointer to include
    * @param {string} payload.keys keys to include
-   * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {function} payload.dataHandler pass function that manipulate data before set to store
    * 
    */
   export const fetchData = (payload) => {

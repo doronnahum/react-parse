@@ -24,7 +24,8 @@ export default function* fetchCloudCode(action) {
     console.error('getCloudFunction err: ', functionName, res.error);
     Logger.onError('CLOUD_CODE', action, errType);
   } else {
-    const data = dig(res, _digToData);
+    const _data = dig(res, _digToData);
+    const data = dataHandler ? dataHandler(_data) : _data
     yield put(
       setOnStore({
         targetName: target,

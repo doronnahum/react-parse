@@ -192,7 +192,8 @@
             enableCount = props.enableCount,
             keys = props.keys,
             include = props.include,
-            order = props.order;
+            order = props.order,
+            dataHandler = props.dataHandler;
 
         if (localOnly || !props.schemaName) {
           return;
@@ -206,7 +207,8 @@
           enableCount: enableCount,
           keys: keys,
           include: include,
-          order: order
+          order: order,
+          dataHandler: dataHandler
         });
       }
     }, {

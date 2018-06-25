@@ -42,13 +42,13 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchCollection(action) {
-    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, target, res, errType, data, info;
+    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, target, res, errType, _data, data, info;
 
     return _regeneratorRuntime2.default.wrap(function fetchCollection$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit, dataHandler = _action$payload.dataHandler;
             target = targetName || schemaName;
             _context.next = 4;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
@@ -72,11 +72,12 @@
 
           case 11:
             _Logger2.default.onError('GET', action, errType);
-            _context.next = 19;
+            _context.next = 20;
             break;
 
           case 14:
-            data = (0, _helpers.dig)(res, 'data.results');
+            _data = (0, _helpers.dig)(res, 'data.results');
+            data = dataHandler ? dataHandler(_data) : _data;
             info = {
               schemaName: schemaName,
               query: query,
@@ -90,7 +91,7 @@
               count: res.data.count,
               timestamp: Date.now()
             };
-            _context.next = 18;
+            _context.next = 19;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -100,10 +101,10 @@
               loading: false
             }));
 
-          case 18:
+          case 19:
             _Logger2.default.onSuccess('GET', action, FINISHED);
 
-          case 19:
+          case 20:
           case 'end':
             return _context.stop();
         }

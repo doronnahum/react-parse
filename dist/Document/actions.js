@@ -43,7 +43,9 @@
    * @param {string} payload.schemaName
    * @param {string} payload.objectId
    * @param {string} payload.include
-   * @param {string} payload.keys
+   * @param {string} payload.keys,
+   * @param {function} payload.dataHandler,
+   * 
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
     return {

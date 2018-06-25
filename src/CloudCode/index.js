@@ -31,7 +31,7 @@ class FetchCloudCode extends React.Component {
       }
       this.fetchData(nextProps);
     } else if (isFetchFinish(this.props, nextProps)) {
-      this.props.onFetchEnd(fetchError, { fetchData, fetchStatus });
+      this.props.onFetchEnd({error: fetchError, status: fetchStatus, data: fetchData });
     }
   }
 
@@ -46,13 +46,14 @@ class FetchCloudCode extends React.Component {
   }
 
   fetchData(props = this.props, localOnly = this.props.localOnly) {
-    const { functionName, targetName, params, digToData } = props;
+    const { functionName, targetName, params, digToData, dataHandler } = props;
     if (localOnly || !props.functionName) return;
     props.fetchActions.fetchData({
       functionName,
       targetName,
       params,
-      digToData
+      digToData,
+      dataHandler
     });
   }
 

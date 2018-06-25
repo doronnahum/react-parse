@@ -18,7 +18,9 @@ const {
  * @param {string} payload.schemaName
  * @param {string} payload.objectId
  * @param {string} payload.include
- * @param {string} payload.keys
+ * @param {string} payload.keys,
+ * @param {function} payload.dataHandler,
+ * 
  */
 export const fetchData = payload => ({
   type: FETCH_DOCUMENT,

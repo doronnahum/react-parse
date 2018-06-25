@@ -83,7 +83,12 @@
         refreshData
       }
      */
-    render: _propTypes2.default.func
+    render: _propTypes2.default.func,
+    /**
+     * dataHandler
+     * pass function that manipulate data before set to store
+     */
+    dataHandler: _propTypes2.default.func
   };
 
   var defaultProps = exports.defaultProps = {

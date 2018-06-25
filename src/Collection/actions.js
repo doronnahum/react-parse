@@ -2,7 +2,7 @@ import types from '../types';
 
 const {
   FETCH_COLLECTION,
-  REFRSH_COLLECTION,
+  REFRESH_COLLECTION,
   SET_COLLECTION,
   CLEAN_COLLECTION,
   CLEAN_ALL_COLLECTIONS,
@@ -13,7 +13,7 @@ const {
 
 /**
  * fetchData
- * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount}
+ * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount, dataHandler}
  */
 export const fetchData = payload => ({
   type: FETCH_COLLECTION,
@@ -24,7 +24,7 @@ export const fetchData = payload => ({
  * @param {obj} {targetName}
  */
 export const refreshCollection = payload => ({
-  type: REFRSH_COLLECTION,
+  type: REFRESH_COLLECTION,
   payload
 });
 

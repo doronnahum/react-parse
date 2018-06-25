@@ -11,7 +11,7 @@ const {
  * fetchData
  * get data from parse server cloud code by function and find the data
  * on redux store by targetName
- * @param {object} payload {functionName, targetName, params, digToData}
+ * @param {object} payload {functionName, targetName, params, digToData, dataHandler}
  */
 export const fetchData = payload => ({
   type: FETCH_CLOUD_CODE,

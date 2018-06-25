@@ -254,7 +254,8 @@
             fetchError = _props7.fetchError,
             component = _props7.component,
             objectId = _props7.objectId,
-            uniqueId = _props7.uniqueId;
+            uniqueId = _props7.uniqueId,
+            dataHandler = _props7.dataHandler;
 
         var props = (0, _helpers.removeLocalKeys)(this.props);
         var propsToPass = Object.assign(props, {
@@ -270,7 +271,8 @@
             post: this.onPost,
             cleanData: this.cleanData,
             updateField: this.updateField,
-            id: objectId || uniqueId
+            id: objectId || uniqueId,
+            dataHandler: dataHandler
           }
         });
         if (component) {

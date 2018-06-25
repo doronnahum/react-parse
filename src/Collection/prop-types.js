@@ -116,5 +116,10 @@ export const propTypes = {
       postDocument
     }
    */
-  render: PropTypes.func
+  render: PropTypes.func,
+  /**
+   * dataHandler
+   * pass function that manipulate data before set to store
+   */
+  dataHandler: PropTypes.func
 };
