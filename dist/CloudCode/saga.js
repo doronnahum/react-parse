@@ -42,13 +42,13 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchCloudCode(action) {
-    var _action$payload, functionName, targetName, params, digToData, _digToData, target, res, errType, _data, data;
+    var _action$payload, functionName, targetName, params, digToData, dataHandler, _digToData, target, res, errType, _data, data;
 
     return _regeneratorRuntime2.default.wrap(function fetchCloudCode$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, functionName = _action$payload.functionName, targetName = _action$payload.targetName, params = _action$payload.params, digToData = _action$payload.digToData;
+            _action$payload = action.payload, functionName = _action$payload.functionName, targetName = _action$payload.targetName, params = _action$payload.params, digToData = _action$payload.digToData, dataHandler = _action$payload.dataHandler;
             _digToData = digToData || 'data.result';
             target = targetName || functionName;
             _context.next = 5;

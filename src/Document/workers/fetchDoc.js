@@ -12,7 +12,7 @@ const FAILED_NETWORK = types.FETCH_FAILED_NETWORK;
 const FINISHED = types.FETCH_FINISHED;
 
 export default function* fetchDoc(action) {
-  const { targetName, schemaName, objectId, include, keys } = action.payload;
+  const { targetName, schemaName, objectId, include, keys, dataHandler } = action.payload;
   const target = targetName || objectId;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
   const res = yield* httpRequest(
@@ -34,7 +34,8 @@ export default function* fetchDoc(action) {
       include,
       schemaName
     };
-    const { data } = res;
+    const _data = res.data;
+    const data = dataHandler ? dataHandler(_data) : _data;
     yield put(
       setOnStore({
         targetName: target,

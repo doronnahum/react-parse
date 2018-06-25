@@ -13,7 +13,7 @@ const FAILED_NETWORK = types.FETCH_FAILED_NETWORK;
 const FINISHED = types.FETCH_FINISHED;
 
 export default function* fetchCloudCode(action) {
-  const { functionName, targetName, params, digToData } = action.payload;
+  const { functionName, targetName, params, digToData, dataHandler } = action.payload;
   const _digToData = digToData || 'data.result'
   const target = targetName || functionName;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));

@@ -42,13 +42,13 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, include, keys, target, res, errType, info, data;
+    var _action$payload, targetName, schemaName, objectId, include, keys, dataHandler, target, res, errType, info, _data, data;
 
     return _regeneratorRuntime2.default.wrap(function fetchDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys, dataHandler = _action$payload.dataHandler;
             target = targetName || objectId;
             _context.next = 4;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
@@ -72,7 +72,7 @@
 
           case 11:
             _Logger2.default.onError('GET', action, errType);
-            _context.next = 19;
+            _context.next = 20;
             break;
 
           case 14:
@@ -82,8 +82,9 @@
               include: include,
               schemaName: schemaName
             };
-            data = res.data;
-            _context.next = 18;
+            _data = res.data;
+            data = dataHandler ? dataHandler(_data) : _data;
+            _context.next = 19;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -93,10 +94,10 @@
               loading: false
             }));
 
-          case 18:
+          case 19:
             _Logger2.default.onSuccess('GET', action, FINISHED);
 
-          case 19:
+          case 20:
           case 'end':
             return _context.stop();
         }
