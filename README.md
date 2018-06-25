@@ -14,6 +14,8 @@ React Parse include 3 data provider components, to make the life even easier and
 
 ### Helpful only for react and react-native apps with parse server and redux as management
 
+### Demo
+[![Edit zxn5nrjlz3](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/zxn5nrjlz3?module=%2Fsrc%2FMain.js)
 ## Table of content
 
 - [Installation](#installation)
