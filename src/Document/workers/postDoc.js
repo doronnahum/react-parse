@@ -5,7 +5,7 @@ import types from '../../types';
 import api from '../../server/api';
 import Logger from '../../server/Logger';
 import { setOnStore } from '../actions';
-import { dig } from '../../helpers';
+import { dig, addFiles } from '../../helpers';
 
 const START = types.POST_START;
 const FAILED = types.POST_FAILED;
@@ -15,7 +15,8 @@ const FINISHED = types.POST_FINISHED;
 export default function* postDoc(action) {
   const { targetName, schemaName, data } = action.payload;
   yield put(setOnStore({ targetName, status: START, error: null, loading: true }));
-  const res = yield* httpRequest(api.createObject, schemaName, data);
+  const dataToSend = yield* addFiles(data);
+  const res = yield* httpRequest(api.createObject, schemaName, dataToSend);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);

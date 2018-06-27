@@ -12,7 +12,7 @@
  * Config for defaults and lodash for a couple of features
  */
 // import _ from 'lodash'
-// import {objectToQueryString} from './tools/charm-helpers.js'
+import {GetFileType, GetContentTypeByFileType} from '../helpers'
 // import {create} from 'apisauce'
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ const { create } = axios;
 const classPath = '/classes/';
 const installations = '/installations/';
 // const batchPath = "/batch"
-// const filesPath = "/files/"
+const filesPath = "/files/"
 const usersPath = '/users/';
 // const rolesPath = "/roles/"
 // const pagesPath = "/pages/"
@@ -37,6 +37,7 @@ const cloudCodePath = '/functions/';
 
 let api = null;
 let initConfig = null;
+let headers = null;
 export let handleError
 
 const createHeaders = function(res) {
@@ -50,6 +51,7 @@ const createHeaders = function(res) {
   if (res.masterKey) {
     obj['X-Parse-Master-Key'] = res.masterKey;
   }
+  headers = obj
   return obj;
 };
 const Api = {
@@ -236,6 +238,21 @@ const Api = {
   },
   logout() {
     return api.post(`${logoutPath}`);
+  },
+  addFile(file) {
+    let fileName = file.name;
+    let fileType = GetFileType(fileName);
+    if (!fileType) return;
+    let contetType = GetContentTypeByFileType(fileType);
+    const _filesApi = create({
+      baseURL: initConfig.baseURL,
+      headers: Object.assign(
+        {},
+        createHeaders(initConfig),
+        {'Content-Type': contetType}
+      )
+    });
+    return _filesApi.post(`${filesPath}${fileName}`, file);
   }
 };
 

@@ -54,44 +54,49 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
-            dataToSend = (0, _helpers.removeImutableKeys)(data);
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, dataToSend), 't0', 6);
+            return _context.delegateYield((0, _helpers.addFiles)(data), 't0', 5);
 
-          case 6:
-            res = _context.t0;
+          case 5:
+            dataToSend = _context.t0;
+
+            dataToSend = (0, _helpers.removeImutableKeys)(data);
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, dataToSend), 't1', 8);
+
+          case 8:
+            res = _context.t1;
 
             if (!res.error) {
-              _context.next = 15;
+              _context.next = 17;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', schemaName, objectId, res.err);
-            _context.next = 12;
+            _context.next = 14;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 12:
+          case 14:
             _Logger2.default.onError('PUT', action, errType);
-            _context.next = 21;
+            _context.next = 23;
             break;
 
-          case 15:
-            _context.next = 17;
+          case 17:
+            _context.next = 19;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
 
-          case 17:
+          case 19:
             _Logger2.default.onSuccess('PUT', action, FINISHED);
 
             if (!autoRefresh) {
-              _context.next = 21;
+              _context.next = 23;
               break;
             }
 
-            _context.next = 21;
+            _context.next = 23;
             return (0, _effects.put)((0, _actions.refreshCollection)({ targetName: target }));
 
-          case 21:
+          case 23:
           case 'end':
             return _context.stop();
         }

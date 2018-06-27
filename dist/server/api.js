@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'axios'], factory);
+    define(['exports', '../helpers', 'axios'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('axios'));
+    factory(exports, require('../helpers'), require('axios'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.axios);
+    factory(mod.exports, global.helpers, global.axios);
     global.api = mod.exports;
   }
-})(this, function (exports, _axios) {
+})(this, function (exports, _helpers, _axios) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -36,7 +36,7 @@
   var classPath = '/classes/';
   var installations = '/installations/';
   // const batchPath = "/batch"
-  // const filesPath = "/files/"
+  var filesPath = "/files/";
   var usersPath = '/users/';
   // const rolesPath = "/roles/"
   // const pagesPath = "/pages/"
@@ -48,6 +48,7 @@
 
   var api = null;
   var initConfig = null;
+  var headers = null;
   var handleError = exports.handleError = void 0;
 
   var createHeaders = function createHeaders(res) {
@@ -61,6 +62,7 @@
     if (res.masterKey) {
       obj['X-Parse-Master-Key'] = res.masterKey;
     }
+    headers = obj;
     return obj;
   };
   var Api = {
@@ -176,6 +178,17 @@
     },
     logout: function logout() {
       return api.post('' + logoutPath);
+    },
+    addFile: function addFile(file) {
+      var fileName = file.name;
+      var fileType = (0, _helpers.GetFileType)(fileName);
+      if (!fileType) return;
+      var contetType = (0, _helpers.GetContentTypeByFileType)(fileType);
+      var _filesApi = create({
+        baseURL: initConfig.baseURL,
+        headers: Object.assign({}, createHeaders(initConfig), { 'Content-Type': contetType })
+      });
+      return _filesApi.post('' + filesPath + fileName, file);
     }
   };
 

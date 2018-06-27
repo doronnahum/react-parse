@@ -42,7 +42,7 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, targetName, schemaName, data, res, errType, info;
+    var _action$payload, targetName, schemaName, data, dataToSend, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
@@ -53,28 +53,32 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null, loading: true }));
 
           case 3:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.createObject, schemaName, data), 't0', 4);
+            return _context.delegateYield((0, _helpers.addFiles)(data), 't0', 4);
 
           case 4:
-            res = _context.t0;
+            dataToSend = _context.t0;
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.createObject, schemaName, dataToSend), 't1', 6);
+
+          case 6:
+            res = _context.t1;
 
             if (!res.error) {
-              _context.next = 13;
+              _context.next = 15;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('deleteDoc err', targetName, res.error);
-            _context.next = 10;
+            _context.next = 12;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false }));
 
-          case 10:
+          case 12:
             _Logger2.default.onError('POST', action, errType);
-            _context.next = 17;
+            _context.next = 19;
             break;
 
-          case 13:
+          case 15:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -82,7 +86,7 @@
               data: data,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 16;
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: targetName,
               status: FINISHED,
@@ -91,10 +95,10 @@
               loading: false
             }));
 
-          case 16:
+          case 18:
             _Logger2.default.onSuccess('POST', action, FINISHED);
 
-          case 17:
+          case 19:
           case 'end':
             return _context.stop();
         }

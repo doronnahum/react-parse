@@ -42,7 +42,7 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, schemaName, data, targetName, autoRefresh, target, res, errType;
+    var _action$payload, schemaName, data, targetName, autoRefresh, target, dataToSend, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
@@ -54,13 +54,17 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.createObject, schemaName, data), 't0', 5);
+            return _context.delegateYield((0, _actions.addFiles)(data), 't0', 5);
 
           case 5:
-            res = _context.t0;
+            dataToSend = _context.t0;
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.createObject, schemaName, dataToSend), 't1', 7);
+
+          case 7:
+            res = _context.t1;
 
             if (!res.error) {
-              _context.next = 14;
+              _context.next = 16;
               break;
             }
 
@@ -68,29 +72,29 @@
 
             console.error('postDoc err', schemaName, res.err);
             _Logger2.default.onError('POST', action, errType);
-            _context.next = 12;
+            _context.next = 14;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 12:
-            _context.next = 20;
+          case 14:
+            _context.next = 22;
             break;
 
-          case 14:
-            _context.next = 16;
+          case 16:
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
 
-          case 16:
+          case 18:
             _Logger2.default.onSuccess('POST', action, FINISHED);
 
             if (!autoRefresh) {
-              _context.next = 20;
+              _context.next = 22;
               break;
             }
 
-            _context.next = 20;
+            _context.next = 22;
             return (0, _effects.put)((0, _actions.refreshCollection)({ targetName: target }));
 
-          case 20:
+          case 22:
           case 'end':
             return _context.stop();
         }

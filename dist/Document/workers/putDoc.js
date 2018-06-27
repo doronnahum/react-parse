@@ -54,29 +54,34 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
 
           case 4:
-            dataToSend = (0, _helpers.removeImutableKeys)(data);
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, dataToSend), 't0', 6);
+            return _context.delegateYield((0, _helpers.addFiles)(data), 't0', 5);
 
-          case 6:
-            res = _context.t0;
+          case 5:
+            dataToSend = _context.t0;
+
+            dataToSend = (0, _helpers.removeImutableKeys)(data);
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.updateObject, schemaName, objectId, dataToSend), 't1', 8);
+
+          case 8:
+            res = _context.t1;
 
             if (!res.error) {
-              _context.next = 15;
+              _context.next = 17;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', targetName, res.error);
-            _context.next = 12;
+            _context.next = 14;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
 
-          case 12:
+          case 14:
             _Logger2.default.onError('PUT', action, errType);
-            _context.next = 19;
+            _context.next = 21;
             break;
 
-          case 15:
+          case 17:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -84,7 +89,7 @@
               data: dataToSend,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 18;
+            _context.next = 20;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -93,10 +98,10 @@
               loading: false
             }));
 
-          case 18:
+          case 20:
             _Logger2.default.onSuccess('PUT', action, FINISHED);
 
-          case 19:
+          case 21:
           case 'end':
             return _context.stop();
         }

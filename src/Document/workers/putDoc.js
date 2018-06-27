@@ -5,7 +5,7 @@ import types from '../../types';
 import api from '../../server/api';
 import Logger from '../../server/Logger';
 import { setOnStore } from '../actions';
-import { dig, removeImutableKeys } from '../../helpers';
+import { dig, removeImutableKeys, addFiles } from '../../helpers';
 
 const START = types.PUT_START;
 const FAILED = types.PUT_FAILED;
@@ -16,7 +16,8 @@ export default function* putDoc(action) {
   const { targetName, schemaName, data, objectId } = action.payload;
   const target = targetName || objectId;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
-  const dataToSend = removeImutableKeys(data)
+  let dataToSend = yield* addFiles(data);
+  dataToSend = removeImutableKeys(data)
   const res = yield* httpRequest(api.updateObject, schemaName, objectId, dataToSend);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;

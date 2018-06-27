@@ -4,7 +4,7 @@ import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
 import api from '../../server/api';
 import Logger from '../../server/Logger';
-import { setOnStore, refreshCollection } from '../actions';
+import { setOnStore, refreshCollection, addFiles } from '../actions';
 
 const START = types.POST_START;
 const FAILED = types.POST_FAILED;
@@ -15,7 +15,8 @@ export default function* postDoc(action) {
   const { schemaName, data, targetName, autoRefresh } = action.payload;
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
-  const res = yield* httpRequest(api.createObject, schemaName, data);
+  const dataToSend = yield* addFiles(data);
+  const res = yield* httpRequest(api.createObject, schemaName, dataToSend);
 
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
