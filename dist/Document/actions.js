@@ -77,7 +77,7 @@
 
   /**
    * putDoc
-   * @param {*} payload {targetName, schemaName, objectId, data}
+   * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler}
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     return {
@@ -87,7 +87,7 @@
   };
   /**
    * postDoc
-   * @param {*} payload {targetName, schemaName, data}
+   * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler}
    */
   var postDoc = exports.postDoc = function postDoc(payload) {
     return {

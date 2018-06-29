@@ -81,7 +81,7 @@
 
   /**
    * putDoc
-   * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh}
+   * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh, filesIncluded, fileValueHandler}
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     return {
@@ -92,7 +92,7 @@
 
   /**
    * potDoc
-   * @param {*} payload {schemaName, targetName, data, autoRefresh}
+   * @param {*} payload {schemaName, targetName, data, autoRefresh, filesIncluded, fileValueHandler}
    */
   var postDoc = exports.postDoc = function postDoc(payload) {
     return {
