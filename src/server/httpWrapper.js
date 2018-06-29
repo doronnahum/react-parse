@@ -1,4 +1,4 @@
-// const regeneratorRuntime = require('regenerator-runtime');
+const regeneratorRuntime = require('regenerator-runtime');
 import {call} from 'redux-saga/effects'
 import ErrorHandle from './ErrorHandle'
 

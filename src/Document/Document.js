@@ -58,7 +58,7 @@ class FetchDocument extends React.Component {
     this.fetchData(this.props, false);
   }
 
-  onPut(dataFromCall) {
+  onPut(dataFromCall, filesIncluded, fileValueHandler) {
     const {
       fetchActions,
       targetName,
@@ -76,11 +76,13 @@ class FetchDocument extends React.Component {
       targetName: target,
       schemaName,
       data: dataToSend,
-      objectId
+      objectId,
+      filesIncluded,
+      fileValueHandler
     });
   }
 
-  onPost(dataFromCall) {
+  onPost(dataFromCall, filesIncluded, fileValueHandler) {
     const {
       fetchActions,
       targetName,
@@ -95,7 +97,7 @@ class FetchDocument extends React.Component {
     const dataToSend = parseDataBeforeSubmit
       ? parseDataBeforeSubmit(dataToCrate)
       : dataToCrate;
-    fetchActions.postDoc({ targetName: target, schemaName, data: dataToSend });
+    fetchActions.postDoc({ targetName: target, schemaName, data: dataToSend, filesIncluded, fileValueHandler });
   }
 
   fetchData(props = this.props, localOnly = this.props.localOnly) {

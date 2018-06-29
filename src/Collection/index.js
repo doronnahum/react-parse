@@ -56,7 +56,7 @@ class FetchCollection extends React.PureComponent {
     fetchActions.deleteDoc({ schemaName, targetName, objectId });
   }
 
-  onPut(objectId, data) {
+  onPut(objectId, data, filesIncluded, fileValueHandler) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!objectId) {
       console.warn('onUpdateDoc: missing objectId ');
@@ -66,7 +66,7 @@ class FetchCollection extends React.PureComponent {
       console.warn('onUpdateDoc: missing data object ');
       return;
     }
-    fetchActions.putDoc({ schemaName, targetName, objectId, data });
+    fetchActions.putDoc({ schemaName, targetName, objectId, data, filesIncluded, fileValueHandler });
   }
   onPost(data) {
     const { fetchActions, schemaName, targetName } = this.props;

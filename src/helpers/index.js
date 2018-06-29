@@ -1,7 +1,5 @@
 import isEqual from 'lodash/isEqual';
 import consts from '../types';
-import api from '../server/api';
-import { call } from 'redux-saga/effects';
 
 const {
   FETCH_START,
@@ -214,24 +212,6 @@ export const removeImutableKeys = function (obj) {
   return data
 };
 
-export const addFiles = function* (data) {
-  for (var k in data) {
-    if (data[k] instanceof File) {
-      let fileRes
-      try {
-        fileRes = yield call(api.addFile, data[k]);
-      } catch(e) {
-        throw e
-      }
-      data[k] = {
-        name: fileRes.data.name,
-        url: fileRes.data.url,
-        __type: 'File'
-      }
-    }
-  }
-  return data;
-}
 
 export const GetFileType = fileName => {
   let parts = fileName.split('.');

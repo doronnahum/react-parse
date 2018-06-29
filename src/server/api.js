@@ -239,20 +239,47 @@ const Api = {
   logout() {
     return api.post(`${logoutPath}`);
   },
-  addFile(file) {
+  /**
+   * 
+   * @param {object} file
+   * 
+   */
+  uploadFile(file) {
     let fileName = file.name;
     let fileType = GetFileType(fileName);
     if (!fileType) return;
-    let contetType = GetContentTypeByFileType(fileType);
+    let contentType = GetContentTypeByFileType(fileType);
     const _filesApi = create({
       baseURL: initConfig.baseURL,
       headers: Object.assign(
         {},
         createHeaders(initConfig),
-        {'Content-Type': contetType}
+        {'Content-Type': contentType}
       )
     });
     return _filesApi.post(`${filesPath}${fileName}`, file);
+  },
+      /**
+   * uploadFileFromReactNativeStorage
+   * @param {object} file object is : {uri: '', fileName: '', type:''}
+   * return an object with the post result, use res.text() to ger file location
+   */
+  uploadFileFromReactNativeStorage(RNFetchBlob, file) {
+    if (!file || !file.uri) {
+      console.warn('missing file parmeters')
+      return { text: () => { return 'error missing file parmeters' } }
+    }
+    return RNFetchBlob.fetch('POST', `${initConfig.baseURL}${endpoints.filesPath}${file.fileName}`, {
+      ..._headers,
+      'Content-Type': 'application/octet-stream',
+    }, RNFetchBlob.wrap(file.uri))
+      .then((res) => {
+        // console.log(res.text())
+        return res.json()
+      })
+      .catch((err) => {
+        console.log('error in getting image', err)
+      })
   }
 };
 

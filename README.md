@@ -181,7 +181,8 @@ action payload options
 | params | object | cloud code params |
 | digToData| string |  string that help us find your data, default is 'data.result' |
 |logger|object|pass to your Logger relevant info |
-|dataHandler|function|pass function that manipulate data before set to store|
+|filesIncluded|boolean|set true if your data include files to upload|
+|fileValueHandler|function|pass function that will get the new file URL if you didn't want to save it as File object|
 ---
 ### import all actions
 ```jsx
@@ -199,10 +200,10 @@ import { collectionActions } from  'react-parse';
 	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount, logger})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, autoRefresh, logger})
+ **postDoc**({schemaName, targetName, data, autoRefresh, logger, filesIncluded, fileValueHandler})
  
  - PUT document
- **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger})
+ **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger, filesIncluded, fileValueHandler})
  
  - DELETE document
  **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger})
@@ -226,10 +227,10 @@ import { documentActions } from  'react-parse';
 	**fetchData**({schemaName, targetName, objectId, include, keys, logger})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, logger})
+ **postDoc**({schemaName, targetName, data, logger, filesIncluded, fileValueHandler})
  
  - PUT document
- **putDoc**({schemaName, targetName, objectId, data, logger})
+ **putDoc**({schemaName, targetName, objectId, data, logger, filesIncluded, fileValueHandler})
  
  - DELETE document
  **deleteDoc**({schemaName, targetName, objectId, logger})
@@ -265,27 +266,27 @@ import {selectors} from 'react-parse'
 ```
 
 ### CollectionSelectors
- 1. selectors .selectCollections(state) // return you all the collection from state.parse.collections
- 2. selectors .selectCollectionData(state, 'TARGET_NAME') // return you the data by tagetName
- 3. selectors .selectCollectionLoading(state, 'TARGET_NAME') // return true if query is loading
- 4. selectors .selectCollectionInfo(state, 'TARGET_NAME') // return query info by tagetName
- 5. selectors .selectCollectionStatus(state, 'TARGET_NAME') // return query status by tagetName
- 6. selectors .selectCollectionError(state, 'TARGET_NAME') // return query error by tagetName
- 7. selectors .selectCollectionCount(state, 'TARGET_NAME') // return the quantity of resultst by tagetName
+ 1. selectors.selectCollections(state) // return you all the collection from state.parse.collections
+ 2. selectors.selectCollectionData(state, 'TARGET_NAME') // return you the data by targetName
+ 3. selectors.selectCollectionLoading(state, 'TARGET_NAME') // return true if query is loading
+ 4. selectors.selectCollectionInfo(state, 'TARGET_NAME') // return query info by targetName
+ 5. selectors.selectCollectionStatus(state, 'TARGET_NAME') // return query status by targetName
+ 6. selectors.selectCollectionError(state, 'TARGET_NAME') // return query error by targetName
+ 7. selectors.selectCollectionCount(state, 'TARGET_NAME') // return the quantity of results by targetName
 ### DocumentSelectors
- 1. selectors .selectDocuments(state)
- 2. selectors .selectDocumentData(state, 'TARGET_NAME')
- 3. selectors .selectDocumentLoading(state, 'TARGET_NAME')
- 4. selectors .selectDocumentInfo(state, 'TARGET_NAME')
- 5. selectors .selectDocumentStatus(state, 'TARGET_NAME')
- 6. selectors .selectDocumentError(state, 'TARGET_NAME')
+ 1. selectors.selectDocuments(state)
+ 2. selectors.selectDocumentData(state, 'TARGET_NAME')
+ 3. selectors.selectDocumentLoading(state, 'TARGET_NAME')
+ 4. selectors.selectDocumentInfo(state, 'TARGET_NAME')
+ 5. selectors.selectDocumentStatus(state, 'TARGET_NAME')
+ 6. selectors.selectDocumentError(state, 'TARGET_NAME')
 ### CloudCodeSelectors
- 1. selectors .selectCloudCodes(state)
- 2. selectors .selectCloudCodeData(state, 'TARGET_NAME')
- 3. selectors .selectCloudCodeLoading(state, 'TARGET_NAME')
- 4. selectors .selectCloudCodeInfo(state, 'TARGET_NAME')
- 5. selectors .selectCloudCodeStatus(state, 'TARGET_NAME')
- 6. selectors .selectCloudCodeError(state, 'TARGET_NAME')
+ 1. selectors.selectCloudCodes(state)
+ 2. selectors.selectCloudCodeData(state, 'TARGET_NAME')
+ 3. selectors.selectCloudCodeLoading(state, 'TARGET_NAME')
+ 4. selectors.selectCloudCodeInfo(state, 'TARGET_NAME')
+ 5. selectors.selectCloudCodeStatus(state, 'TARGET_NAME')
+ 6. selectors.selectCloudCodeError(state, 'TARGET_NAME')
 
 
 ## dataProviders
@@ -306,15 +307,15 @@ fetchProps include :
 - cleanData - method, run to clean data from store
 	- fetchProps.cleanData()
 - put- method, run to update the document
-	-	 from FetchCollection => fetchProps.put('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'})
-	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'})
+	-	 from FetchCollection => fetchProps.put('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
+	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
 - post- method, run to create document,
-	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'})
-	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'})
+	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
+	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
 - deleteDoc- method, run to delete document,
 	-	 from FetchCollection => fetchProps.deleteDoc('DOC_OBJECT_ID')
 	-  from FetchDocument => fetchProps.deleteDoc({title: 'newTitle', body: 'newBody'})
-- updateField - method on FetchDocumnet to update filed in store
+- updateField - method on FetchDocument to update filed in store
 	- fetchProps.updateField('title', 'new Title)
 
 #### FetchDocument:
