@@ -24,6 +24,7 @@ const config = api;
 
 const selectors = {
   selectCollections: collectionSelectors.getCollections,
+  selectCollection: collectionSelectors.getCollection,
   selectCollectionData: collectionSelectors.getData,
   selectCollectionLoading: collectionSelectors.getLoading,
   selectCollectionInfo: collectionSelectors.getInfo,
@@ -32,6 +33,7 @@ const selectors = {
   selectCollectionError: collectionSelectors.getError,
 
   selectDocuments: documentSelectors.getDocuments,
+  selectDocument: documentSelectors.getDocument,
   selectDocumentData: documentSelectors.getData,
   selectDocumentLoading: documentSelectors.getLoading,
   selectDocumentInfo: documentSelectors.getInfo,
@@ -39,6 +41,7 @@ const selectors = {
   selectDocumentError: documentSelectors.getError,
 
   selectCloudCodes: cloudCodeSelectors.getCloudCodes,
+  selectCloudCode: cloudCodeSelectors.getCloudCode,
   selectCloudCodeData: cloudCodeSelectors.getData,
   selectCloudCodeLoading: cloudCodeSelectors.getLoading,
   selectCloudCodeInfo: cloudCodeSelectors.getInfo,

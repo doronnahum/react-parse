@@ -15,6 +15,10 @@ const getImmutableCollection = createSelector(
   (collections, targetName) => collections.get(targetName) || MAP
 );
 
+export const getCollection = createSelector(
+  getImmutableCollection,
+  dataImmutable => dataImmutable.toJS()
+);
 export const getData = createSelector(
   getImmutableCollection,
   dataImmutable => dataImmutable.get('data') && dataImmutable.get('data').toJS()
