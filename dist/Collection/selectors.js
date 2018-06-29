@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getError = exports.getCount = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCollections = undefined;
+  exports.getError = exports.getCount = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCollection = exports.getCollections = undefined;
 
 
   var MAP = (0, _immutable.Map)();
@@ -33,6 +33,9 @@
     return collections.get(targetName) || MAP;
   });
 
+  var getCollection = exports.getCollection = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
+    return dataImmutable.toJS();
+  });
   var getData = exports.getData = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
     return dataImmutable.get('data') && dataImmutable.get('data').toJS();
   });

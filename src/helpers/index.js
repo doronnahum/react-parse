@@ -63,11 +63,11 @@ export const GetPointerObject = (className, objectId) => ({
   objectId
 });
 
-const isParamsChanged = function(props, nextProps) {
+const isParamsChanged = function (props, nextProps) {
   return !isEqual(props.params, nextProps.params);
 };
 
-export const isTargetChanged = function(props, nextProps) {
+export const isTargetChanged = function (props, nextProps) {
   let status = false;
   if (props.targetName !== nextProps.targetName) {
     status = true;
@@ -83,7 +83,7 @@ export const isTargetChanged = function(props, nextProps) {
   return status;
 };
 
-export const isCloudCodePropsChanged = function(props, nextProps) {
+export const isCloudCodePropsChanged = function (props, nextProps) {
   let status = false;
   if (isParamsChanged(props, nextProps)) {
     status = true;
@@ -93,7 +93,7 @@ export const isCloudCodePropsChanged = function(props, nextProps) {
   return status;
 };
 
-export const isLoading = function(status) {
+export const isLoading = function (status) {
   const isLoadingStatus =
     status === FETCH_START ||
     status === POST_START ||
@@ -101,7 +101,7 @@ export const isLoading = function(status) {
     status === PUT_START;
   return isLoadingStatus;
 };
-export const isCreateFinish = function(props, nextProps) {
+export const isCreateFinish = function (props, nextProps) {
   const now = props.fetchStatus;
   const next = nextProps.fetchStatus;
   const isStart = now === POST_START;
@@ -112,11 +112,11 @@ export const isCreateFinish = function(props, nextProps) {
   return isStart && isEnd;
 };
 
-export const isDeleteStart = function(fetchStatus) {
+export const isDeleteStart = function (fetchStatus) {
   return fetchStatus === DELETE_START;
 };
 
-export const isDeleteFinish = function(props, nextProps) {
+export const isDeleteFinish = function (props, nextProps) {
   const now = props.fetchStatus;
   const next = nextProps.fetchStatus;
   const isStart = now === DELETE_START;
@@ -127,7 +127,7 @@ export const isDeleteFinish = function(props, nextProps) {
   return isStart && isEnd;
 };
 
-export const isUpdateFinish = function(props, nextProps) {
+export const isUpdateFinish = function (props, nextProps) {
   const now = props.fetchStatus;
   const next = nextProps.fetchStatus;
   const isStart = now === PUT_START;
@@ -138,7 +138,7 @@ export const isUpdateFinish = function(props, nextProps) {
   return isStart && isEnd;
 };
 
-export const isFetchFinish = function(props, nextProps) {
+export const isFetchFinish = function (props, nextProps) {
   const now = props.fetchStatus;
   const next = nextProps.fetchStatus;
   const isStart = now === FETCH_START;
@@ -149,27 +149,27 @@ export const isFetchFinish = function(props, nextProps) {
   return isStart && isEnd;
 };
 
-export const isDataChanged = function(props, nextProps) {
+export const isDataChanged = function (props, nextProps) {
   return props.fetchData !== nextProps.fetchData;
 };
 
-export const isQueryStatusChanged = function(props, nextProps) {
+export const isQueryStatusChanged = function (props, nextProps) {
   return props.fetchStatus !== nextProps.fetchStatus;
 };
 
-export const isDocumentParamsChanged = function(props, nextProps) {
+export const isDocumentParamsChanged = function (props, nextProps) {
   let status = false
   if (isTargetChanged(props, nextProps)) {
     status = true
-  } else if(props.keys !== nextProps.keys) {
+  } else if (props.keys !== nextProps.keys) {
     status = true
-  } else if(props.include !== nextProps.include) {
+  } else if (props.include !== nextProps.include) {
     status = true
   }
   return status
 };
 
-export const isCollectionParamsChanged = function(props, nextProps) {
+export const isCollectionParamsChanged = function (props, nextProps) {
   let status = false
   // filters was change, get data from server
   if (isTargetChanged(props, nextProps)) {
@@ -195,21 +195,60 @@ export const isCollectionParamsChanged = function(props, nextProps) {
   return status;
 };
 
-export const removeLocalKeys = function(obj) {
+export const removeLocalKeys = function (obj) {
   let data = Object.assign({}, obj)
-  delete data['fetchData']; 
-  delete data['fetchError']; 
-  delete data['fetchStatus']; 
-  delete data['fetchInfo']; 
-  delete data['fetchActions']; 
+  delete data['fetchData'];
+  delete data['fetchError'];
+  delete data['fetchStatus'];
+  delete data['fetchInfo'];
+  delete data['fetchActions'];
   return data
 };
-export const removeImutableKeys = function(obj) {
+export const removeImutableKeys = function (obj) {
   let data = Object.assign({}, obj)
-  delete data['updatedAt']; 
-  delete data['createdAt']; 
-  delete data['objectId']; 
+  delete data['updatedAt'];
+  delete data['createdAt'];
+  delete data['objectId'];
   return data
+};
+
+
+export const GetFileType = fileName => {
+  let parts = fileName.split('.');
+  let len = parts.length;
+  if (len > 0) return parts[len - 1];
+
+  return null;
+};
+
+export const GetContentTypeByFileType = fileType => {
+  switch (fileType) {
+    case 'png':
+    case 'x-png':
+      return 'image/png';
+    case 'jpe':
+    case 'jpg':
+    case 'jpeg':
+    case 'jfif':
+      return 'image/jpeg';
+    case 'gif':
+      return 'image/gif';
+    case 'bm':
+    case 'bmp':
+      return 'image/bmp';
+    case 'tiff':
+      return 'image/tiff';
+    case 'g3':
+      return 'image/g3fax';
+    case 'pdf':
+      return 'application/pdf';
+    case 'm1v':
+    case 'm2v':
+    case 'mpg':
+      return 'video/mpeg';
+    default:
+      return 'text/plain';
+  }
 };
 
 /* eslint no-restricted-syntax: "off" */

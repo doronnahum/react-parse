@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getError = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCloudCodes = undefined;
+  exports.getError = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCloudCode = exports.getCloudCodes = undefined;
 
 
   var MAP = (0, _immutable.Map)();
@@ -33,8 +33,11 @@
   var getImmutableCloudCodes = (0, _reselect.createSelector)([getCloudCodes, getTargetName], function (cloudCodes, targetName) {
     return cloudCodes.get(targetName) || MAP;
   });
+  var getCloudCode = exports.getCloudCode = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
+    return dataImmutable.toJS();
+  });
   var getData = exports.getData = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
-    return dataImmutable.get('data') && dataImmutable.get('data');
+    return dataImmutable.get('data') && dataImmutable.get('data').toJS();
   });
   var getStatus = exports.getStatus = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
     return dataImmutable.get('status');

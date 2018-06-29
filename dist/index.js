@@ -81,6 +81,7 @@
 
   var selectors = {
     selectCollections: _selectors.collectionSelectors.getCollections,
+    selectCollection: _selectors.collectionSelectors.getCollection,
     selectCollectionData: _selectors.collectionSelectors.getData,
     selectCollectionLoading: _selectors.collectionSelectors.getLoading,
     selectCollectionInfo: _selectors.collectionSelectors.getInfo,
@@ -89,6 +90,7 @@
     selectCollectionError: _selectors.collectionSelectors.getError,
 
     selectDocuments: _selectors.documentSelectors.getDocuments,
+    selectDocument: _selectors.documentSelectors.getDocument,
     selectDocumentData: _selectors.documentSelectors.getData,
     selectDocumentLoading: _selectors.documentSelectors.getLoading,
     selectDocumentInfo: _selectors.documentSelectors.getInfo,
@@ -96,6 +98,7 @@
     selectDocumentError: _selectors.documentSelectors.getError,
 
     selectCloudCodes: _selectors.cloudCodeSelectors.getCloudCodes,
+    selectCloudCode: _selectors.cloudCodeSelectors.getCloudCode,
     selectCloudCodeData: _selectors.cloudCodeSelectors.getData,
     selectCloudCodeLoading: _selectors.cloudCodeSelectors.getLoading,
     selectCloudCodeInfo: _selectors.cloudCodeSelectors.getInfo,

@@ -1,9 +1,7 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
-import api from '../../server/api';
-import Logger from '../../server/Logger';
+import {Logger, api, httpRequest, uploadFilesFromData} from '../../server'
 import { setOnStore, refreshCollection } from '../actions';
 
 const START = types.POST_START;
@@ -12,10 +10,11 @@ const FAILED_NETWORK = types.POST_FAILED_NETWORK;
 const FINISHED = types.POST_FINISHED;
 
 export default function* postDoc(action) {
-  const { schemaName, data, targetName, autoRefresh } = action.payload;
+  const { schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler } = action.payload;
   const target = targetName || schemaName;
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
-  const res = yield* httpRequest(api.createObject, schemaName, data);
+  const dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
+  const res = yield* httpRequest(api.createObject, schemaName, dataToSend);
 
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;

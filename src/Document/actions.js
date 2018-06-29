@@ -46,7 +46,7 @@ export const updateField = payload => ({
 
 /**
  * putDoc
- * @param {*} payload {targetName, schemaName, objectId, data}
+ * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler}
  */
 export const putDoc = payload => ({
   type: PUT_DOCUMENT,
@@ -54,7 +54,7 @@ export const putDoc = payload => ({
 });
 /**
  * postDoc
- * @param {*} payload {targetName, schemaName, data}
+ * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler}
  */
 export const postDoc = payload => ({
   type: POST_DOCUMENT,

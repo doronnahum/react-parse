@@ -48,7 +48,9 @@ import {dispatch} from '../index'
    * @param {string} payload.targetName key to store response inside redux store
    * @param {object} payload.data new doucment data
    * @param {boolean} payload.autoRefresh set to to refresh collection data
-   * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {boolean} payload.filesIncluded set true if your data include file to upload
+   * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
    */
   export const postDoc = (payload)=> {
     dispatch(actions.postDoc(payload))
@@ -62,7 +64,9 @@ import {dispatch} from '../index'
    * @param {string} payload.objectId document id
    * @param {object} payload.data data to update in the doucment
    * @param {boolean} payload.autoRefresh set to to refresh collection data
-   * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {boolean} payload.filesIncluded set true if your data include file to upload
+   * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
    */
   export const putDoc = (payload)=> {
     dispatch(actions.putDoc(payload))

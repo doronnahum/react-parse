@@ -14,6 +14,10 @@ const getImmutableDoc = createSelector(
   (documents, targetName) => documents.get(targetName) || MAP
 );
 
+export const getDocument = createSelector(
+  getImmutableDoc,
+  dataImmutable => dataImmutable.toJS()
+);
 export const getData = createSelector(
   getImmutableDoc,
   dataImmutable => dataImmutable.get('data') && dataImmutable.get('data').toJS()

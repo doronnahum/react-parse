@@ -85,6 +85,8 @@
    * @param {string} payload.targetName key to store response inside redux store
    * @param {object} payload.data new document data
    * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {boolean} payload.filesIncluded set true if your data include file to upload
+   * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
    */
   var postDoc = exports.postDoc = function postDoc(payload) {
     (0, _index.dispatch)(actions.postDoc(payload));
@@ -97,7 +99,9 @@
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
    * @param {object} payload.data data to update in the document
-   * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {boolean} payload.filesIncluded set true if your data include file to upload
+   * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     (0, _index.dispatch)(actions.putDoc(payload));

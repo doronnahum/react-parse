@@ -15,9 +15,13 @@ const getImmutableCloudCodes = createSelector(
   [getCloudCodes, getTargetName],
   (cloudCodes, targetName) => cloudCodes.get(targetName) || MAP
 );
+export const getCloudCode = createSelector(
+  getImmutableCloudCodes,
+  dataImmutable => dataImmutable.toJS()
+);
 export const getData = createSelector(
   getImmutableCloudCodes,
-  dataImmutable => dataImmutable.get('data') && dataImmutable.get('data')
+  dataImmutable => dataImmutable.get('data') && dataImmutable.get('data').toJS()
 );
 export const getStatus = createSelector(getImmutableCloudCodes, dataImmutable =>
   dataImmutable.get('status')

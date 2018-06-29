@@ -48,7 +48,7 @@ export const deleteDoc = payload => ({
 
 /**
  * putDoc
- * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh}
+ * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh, filesIncluded, fileValueHandler}
  */
 export const putDoc = payload => ({
   type: PUT_COLLECTION_DOC,
@@ -57,7 +57,7 @@ export const putDoc = payload => ({
 
 /**
  * potDoc
- * @param {*} payload {schemaName, targetName, data, autoRefresh}
+ * @param {*} payload {schemaName, targetName, data, autoRefresh, filesIncluded, fileValueHandler}
  */
 export const postDoc = payload => ({
   type: POST_COLLECTION_DOC,

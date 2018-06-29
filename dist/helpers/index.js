@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.removeImutableKeys = exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
+  exports.GetContentTypeByFileType = exports.GetFileType = exports.removeImutableKeys = exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
 
   var _isEqual2 = _interopRequireDefault(_isEqual);
 
@@ -250,6 +250,44 @@
     delete data['createdAt'];
     delete data['objectId'];
     return data;
+  };
+
+  var GetFileType = exports.GetFileType = function GetFileType(fileName) {
+    var parts = fileName.split('.');
+    var len = parts.length;
+    if (len > 0) return parts[len - 1];
+
+    return null;
+  };
+
+  var GetContentTypeByFileType = exports.GetContentTypeByFileType = function GetContentTypeByFileType(fileType) {
+    switch (fileType) {
+      case 'png':
+      case 'x-png':
+        return 'image/png';
+      case 'jpe':
+      case 'jpg':
+      case 'jpeg':
+      case 'jfif':
+        return 'image/jpeg';
+      case 'gif':
+        return 'image/gif';
+      case 'bm':
+      case 'bmp':
+        return 'image/bmp';
+      case 'tiff':
+        return 'image/tiff';
+      case 'g3':
+        return 'image/g3fax';
+      case 'pdf':
+        return 'application/pdf';
+      case 'm1v':
+      case 'm2v':
+      case 'mpg':
+        return 'video/mpeg';
+      default:
+        return 'text/plain';
+    }
   };
 
   /* eslint no-restricted-syntax: "off" */

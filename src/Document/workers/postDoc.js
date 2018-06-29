@@ -1,9 +1,7 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import { put } from 'redux-saga/effects';
-import httpRequest from '../../server/httpWrapper';
 import types from '../../types';
-import api from '../../server/api';
-import Logger from '../../server/Logger';
+import {Logger, api, httpRequest, uploadFilesFromData} from '../../server'
 import { setOnStore } from '../actions';
 import { dig } from '../../helpers';
 
@@ -13,9 +11,10 @@ const FAILED_NETWORK = types.POST_FAILED_NETWORK;
 const FINISHED = types.POST_FINISHED;
 
 export default function* postDoc(action) {
-  const { targetName, schemaName, data } = action.payload;
+  const { targetName, schemaName, data, filesIncluded, fileValueHandler } = action.payload;
   yield put(setOnStore({ targetName, status: START, error: null, loading: true }));
-  const res = yield* httpRequest(api.createObject, schemaName, data);
+  let dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
+  const res = yield* httpRequest(api.createObject, schemaName, dataToSend);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);

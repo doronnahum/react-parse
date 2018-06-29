@@ -12,7 +12,7 @@
  * Config for defaults and lodash for a couple of features
  */
 // import _ from 'lodash'
-// import {objectToQueryString} from './tools/charm-helpers.js'
+import {GetFileType, GetContentTypeByFileType} from '../helpers'
 // import {create} from 'apisauce'
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ const { create } = axios;
 const classPath = '/classes/';
 const installations = '/installations/';
 // const batchPath = "/batch"
-// const filesPath = "/files/"
+const filesPath = "/files/"
 const usersPath = '/users/';
 // const rolesPath = "/roles/"
 // const pagesPath = "/pages/"
@@ -37,6 +37,7 @@ const cloudCodePath = '/functions/';
 
 let api = null;
 let initConfig = null;
+let headers = null;
 export let handleError
 
 const createHeaders = function(res) {
@@ -50,6 +51,7 @@ const createHeaders = function(res) {
   if (res.masterKey) {
     obj['X-Parse-Master-Key'] = res.masterKey;
   }
+  headers = obj
   return obj;
 };
 const Api = {
@@ -236,6 +238,45 @@ const Api = {
   },
   logout() {
     return api.post(`${logoutPath}`);
+  },
+  /**
+   * 
+   * @param {object} file
+   * 
+   */
+  uploadFile(file) {
+    let fileName = file.name;
+    let fileType = GetFileType(fileName);
+    if (!fileType) return;
+    let contentType = GetContentTypeByFileType(fileType);
+    const _filesApi = create({
+      baseURL: initConfig.baseURL,
+      headers: Object.assign(
+        {},
+        createHeaders(initConfig),
+        {'Content-Type': contentType}
+      )
+    });
+    return _filesApi.post(`${filesPath}${fileName}`, file);
+  },
+      /**
+   * uploadFileFromReactNativeStorage
+   * @param {object} file object is : {uri: '', fileName: '', type:''}
+   * return an object with the post result, use res.text() to ger file location
+   */
+  uploadFileFromReactNativeStorage(RNFetchBlob, file) {
+    if (!file || !file.uri) {
+      console.warn('missing file parmeters')
+      return { text: () => { return 'error missing file parmeters' } }
+    }
+    return RNFetchBlob.fetch('POST', `${initConfig.baseURL}${endpoints.filesPath}${file.fileName}`, Object.assign({}, headers, {'Content-Type': 'application/octet-stream'}), RNFetchBlob.wrap(file.uri))
+      .then((res) => {
+        // console.log(res.text())
+        return res.json()
+      })
+      .catch((err) => {
+        console.log('error in getting image', err)
+      })
   }
 };
 

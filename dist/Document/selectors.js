@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getError = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getDocuments = undefined;
+  exports.getError = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getDocument = exports.getDocuments = undefined;
 
   var MAP = (0, _immutable.Map)();
 
@@ -32,6 +32,9 @@
     return documents.get(targetName) || MAP;
   });
 
+  var getDocument = exports.getDocument = (0, _reselect.createSelector)(getImmutableDoc, function (dataImmutable) {
+    return dataImmutable.toJS();
+  });
   var getData = exports.getData = (0, _reselect.createSelector)(getImmutableDoc, function (dataImmutable) {
     return dataImmutable.get('data') && dataImmutable.get('data').toJS();
   });
