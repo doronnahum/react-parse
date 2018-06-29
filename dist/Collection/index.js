@@ -144,7 +144,7 @@
       }
     }, {
       key: 'onPut',
-      value: function onPut(objectId, data) {
+      value: function onPut(objectId, data, filesIncluded, fileValueHandler) {
         var _props3 = this.props,
             fetchActions = _props3.fetchActions,
             schemaName = _props3.schemaName,
@@ -158,11 +158,11 @@
           console.warn('onUpdateDoc: missing data object ');
           return;
         }
-        fetchActions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data });
+        fetchActions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler });
       }
     }, {
       key: 'onPost',
-      value: function onPost(data) {
+      value: function onPost(data, filesIncluded, fileValueHandler) {
         var _props4 = this.props,
             fetchActions = _props4.fetchActions,
             schemaName = _props4.schemaName,
@@ -172,7 +172,7 @@
           console.warn('onPost: missing data object ');
           return;
         }
-        fetchActions.postDoc({ schemaName: schemaName, targetName: targetName, data: data });
+        fetchActions.postDoc({ schemaName: schemaName, targetName: targetName, data: data, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler });
       }
     }, {
       key: 'onRefresh',

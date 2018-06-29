@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'redux-saga/effects', './ErrorHandle'], factory);
+    define(['exports', 'redux-saga/effects', './ErrorHandle', 'regenerator-runtime'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('redux-saga/effects'), require('./ErrorHandle'));
+    factory(exports, require('redux-saga/effects'), require('./ErrorHandle'), require('regenerator-runtime'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.effects, global.ErrorHandle);
+    factory(mod.exports, global.effects, global.ErrorHandle, global.regeneratorRuntime);
     global.httpWrapper = mod.exports;
   }
-})(this, function (exports, _effects, _ErrorHandle) {
+})(this, function (exports, _effects, _ErrorHandle, regeneratorRuntime) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {

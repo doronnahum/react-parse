@@ -1,3 +1,4 @@
+import regeneratorRuntime from 'regenerator-runtime';
 import api from '../api';
 import { call } from 'redux-saga/effects';
 let RNFetchBlob = null;
@@ -16,7 +17,7 @@ const nativeFileUnloader = function* (file) {
   }
 }
 
-export default uploadFilesFromData = function* (data, fileValueHandler) {
+export default function* uploadFilesFromData(data, fileValueHandler) {
   if(!data) return;
   const isReactNative = typeof navigator != 'undefined' && navigator.product == 'ReactNative'
   for (var k in data) {

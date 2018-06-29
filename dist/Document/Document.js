@@ -141,7 +141,7 @@
       }
     }, {
       key: 'onPut',
-      value: function onPut(dataFromCall) {
+      value: function onPut(dataFromCall, filesIncluded, fileValueHandler) {
         var _props3 = this.props,
             fetchActions = _props3.fetchActions,
             targetName = _props3.targetName,
@@ -157,12 +157,14 @@
           targetName: target,
           schemaName: schemaName,
           data: dataToSend,
-          objectId: objectId
+          objectId: objectId,
+          filesIncluded: filesIncluded,
+          fileValueHandler: fileValueHandler
         });
       }
     }, {
       key: 'onPost',
-      value: function onPost(dataFromCall) {
+      value: function onPost(dataFromCall, filesIncluded, fileValueHandler) {
         var _props4 = this.props,
             fetchActions = _props4.fetchActions,
             targetName = _props4.targetName,
@@ -175,7 +177,7 @@
         var target = targetName || objectId || uniqueId;
         var dataToCrate = dataFromCall || fetchData;
         var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(dataToCrate) : dataToCrate;
-        fetchActions.postDoc({ targetName: target, schemaName: schemaName, data: dataToSend });
+        fetchActions.postDoc({ targetName: target, schemaName: schemaName, data: dataToSend, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler });
       }
     }, {
       key: 'fetchData',

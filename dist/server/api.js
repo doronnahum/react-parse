@@ -179,16 +179,30 @@
     logout: function logout() {
       return api.post('' + logoutPath);
     },
-    addFile: function addFile(file) {
+    uploadFile: function uploadFile(file) {
       var fileName = file.name;
       var fileType = (0, _helpers.GetFileType)(fileName);
       if (!fileType) return;
-      var contetType = (0, _helpers.GetContentTypeByFileType)(fileType);
+      var contentType = (0, _helpers.GetContentTypeByFileType)(fileType);
       var _filesApi = create({
         baseURL: initConfig.baseURL,
-        headers: Object.assign({}, createHeaders(initConfig), { 'Content-Type': contetType })
+        headers: Object.assign({}, createHeaders(initConfig), { 'Content-Type': contentType })
       });
       return _filesApi.post('' + filesPath + fileName, file);
+    },
+    uploadFileFromReactNativeStorage: function uploadFileFromReactNativeStorage(RNFetchBlob, file) {
+      if (!file || !file.uri) {
+        console.warn('missing file parmeters');
+        return { text: function text() {
+            return 'error missing file parmeters';
+          } };
+      }
+      return RNFetchBlob.fetch('POST', '' + initConfig.baseURL + endpoints.filesPath + file.fileName, Object.assign({}, headers, { 'Content-Type': 'application/octet-stream' }), RNFetchBlob.wrap(file.uri)).then(function (res) {
+        // console.log(res.text())
+        return res.json();
+      }).catch(function (err) {
+        console.log('error in getting image', err);
+      });
     }
   };
 

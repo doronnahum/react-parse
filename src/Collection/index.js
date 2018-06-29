@@ -68,13 +68,13 @@ class FetchCollection extends React.PureComponent {
     }
     fetchActions.putDoc({ schemaName, targetName, objectId, data, filesIncluded, fileValueHandler });
   }
-  onPost(data) {
+  onPost(data, filesIncluded, fileValueHandler) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!data || typeof data !== 'object') {
       console.warn('onPost: missing data object ');
       return;
     }
-    fetchActions.postDoc({ schemaName, targetName, data });
+    fetchActions.postDoc({ schemaName, targetName, data, filesIncluded, fileValueHandler });
   }
 
   onRefresh() {

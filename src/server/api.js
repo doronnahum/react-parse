@@ -269,10 +269,7 @@ const Api = {
       console.warn('missing file parmeters')
       return { text: () => { return 'error missing file parmeters' } }
     }
-    return RNFetchBlob.fetch('POST', `${initConfig.baseURL}${endpoints.filesPath}${file.fileName}`, {
-      ..._headers,
-      'Content-Type': 'application/octet-stream',
-    }, RNFetchBlob.wrap(file.uri))
+    return RNFetchBlob.fetch('POST', `${initConfig.baseURL}${endpoints.filesPath}${file.fileName}`, Object.assign({}, headers, {'Content-Type': 'application/octet-stream'}), RNFetchBlob.wrap(file.uri))
       .then((res) => {
         // console.log(res.text())
         return res.json()

@@ -1,28 +1,26 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'lodash/isEqual', '../types', '../server/api', 'redux-saga/effects'], factory);
+    define(['exports', 'lodash/isEqual', '../types'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('lodash/isEqual'), require('../types'), require('../server/api'), require('redux-saga/effects'));
+    factory(exports, require('lodash/isEqual'), require('../types'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.isEqual, global.types, global.api, global.effects);
+    factory(mod.exports, global.isEqual, global.types);
     global.index = mod.exports;
   }
-})(this, function (exports, _isEqual, _types, _api, _effects) {
+})(this, function (exports, _isEqual, _types) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.GetContentTypeByFileType = exports.GetFileType = exports.addFiles = exports.removeImutableKeys = exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
+  exports.GetContentTypeByFileType = exports.GetFileType = exports.removeImutableKeys = exports.removeLocalKeys = exports.isCollectionParamsChanged = exports.isDocumentParamsChanged = exports.isQueryStatusChanged = exports.isDataChanged = exports.isFetchFinish = exports.isUpdateFinish = exports.isDeleteFinish = exports.isDeleteStart = exports.isCreateFinish = exports.isLoading = exports.isCloudCodePropsChanged = exports.isTargetChanged = exports.GetPointerObject = exports.dig = exports.createUniqueId = undefined;
 
   var _isEqual2 = _interopRequireDefault(_isEqual);
 
   var _types2 = _interopRequireDefault(_types);
-
-  var _api2 = _interopRequireDefault(_api);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -253,64 +251,6 @@
     delete data['objectId'];
     return data;
   };
-
-  var addFiles = exports.addFiles = regeneratorRuntime.mark(function _callee(data) {
-    var k, fileRes;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.t0 = regeneratorRuntime.keys(data);
-
-          case 1:
-            if ((_context.t1 = _context.t0()).done) {
-              _context.next = 17;
-              break;
-            }
-
-            k = _context.t1.value;
-
-            if (!(data[k] instanceof File)) {
-              _context.next = 15;
-              break;
-            }
-
-            fileRes = void 0;
-            _context.prev = 5;
-            _context.next = 8;
-            return (0, _effects.call)(_api2.default.addFile, data[k]);
-
-          case 8:
-            fileRes = _context.sent;
-            _context.next = 14;
-            break;
-
-          case 11:
-            _context.prev = 11;
-            _context.t2 = _context['catch'](5);
-            throw _context.t2;
-
-          case 14:
-            data[k] = {
-              name: fileRes.data.name,
-              url: fileRes.data.url,
-              __type: 'File'
-            };
-
-          case 15:
-            _context.next = 1;
-            break;
-
-          case 17:
-            return _context.abrupt('return', data);
-
-          case 18:
-          case 'end':
-            return _context.stop();
-        }
-      }
-    }, _callee, this, [[5, 11]]);
-  });
 
   var GetFileType = exports.GetFileType = function GetFileType(fileName) {
     var parts = fileName.split('.');
