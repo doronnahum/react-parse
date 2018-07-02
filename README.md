@@ -171,7 +171,7 @@ If you want to use:
  - Put an action from saga
 
 You need to use action without our dispatch wrapper.
-for this, you need the call action with prefix _pure\_
+for this, you need the call action with prefix **pure\_**
 
 **For example-**
 ```jsx
@@ -180,7 +180,7 @@ import { put, select } from  'redux-saga/effects';
 import { documentActions } from 'react-parse';
 
 export  default  function*  fetchMember() {
-	yield  put(documentActions._pure_fetchData({...}));
+	yield  put(documentActions.pure_fetchData({...}));
 }
 ```
 ### payload
