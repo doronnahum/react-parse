@@ -172,6 +172,7 @@ If you want to use:
 
 You need to use action without our dispatch wrapper.
 for this, you need the call action with prefix _pure\_
+
 **For example-**
 ```jsx
 // my-saga-file.js
