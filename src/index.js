@@ -14,10 +14,14 @@ import parseReducer from './reducer';
 import parseWatcher from './saga';
 // Selectors
 import {cloudCodeSelectors, collectionSelectors, documentSelectors} from './selectors';
-// Actions
+// Actions Wrapped with dispatch
 import * as _collectionActions from './Collection/collectionActions'
 import * as _documentActions from './Document/documentActions'
 import * as _cloudCodeActions from './CloudCode/cloudCodeActions'
+// Pure actions
+import * as pureCollectionActions from './Collection/actions'
+import * as pureDocumentActions from './Document/actions'
+import * as pureCloudCodeActions from './CloudCode/actions'
 // Logger
 import {setLoggerHandlers} from './server/Logger'
 const config = api;
@@ -51,26 +55,43 @@ const selectors = {
 
 const collectionActions ={
   fetchData: _collectionActions.fetchData,
+  pure_fetchData: pureCollectionActions.fetchData, 
   cleanCollections: _collectionActions.cleanCollections,
+  pure_cleanCollections: pureCollectionActions.cleanCollections,
   cleanData: _collectionActions.cleanData,
+  pure_cleanData: pureCollectionActions.cleanData,
   deleteDoc: _collectionActions.deleteDoc,
+  pure_deleteDoc: pureCollectionActions.deleteDoc,
   putDoc: _collectionActions.putDoc,
+  pure_putDoc: pureCollectionActions.putDoc,
   refreshCollection: _collectionActions.refreshCollection,
+  pure_refreshCollection: pureCollectionActions.refreshCollection,
   postDoc: _collectionActions.postDoc,
+  pure_postDoc: pureCollectionActions.postDoc,
 }
 const documentActions ={
   fetchData: _documentActions.fetchData,
+  pure_fetchData: pureDocumentActions.fetchData,
   cleanDocuments: _documentActions.cleanDocuments,
+  pure_cleanDocuments: pureDocumentActions.cleanDocuments,
   cleanData: _documentActions.cleanData,
+  pure_cleanData: pureDocumentActions.cleanData,
   deleteDoc: _documentActions.deleteDoc,
+  pure_deleteDoc: pureDocumentActions.deleteDoc,
   putDoc: _documentActions.putDoc,
+  pure_putDoc: pureDocumentActions.putDoc,
   postDoc: _documentActions.postDoc,
+  pure_postDoc: pureDocumentActions.postDoc,
   updateField: _documentActions.updateField,
+  pure_updateField: pureDocumentActions.updateField,
 }
 const cloudCodeActions ={
   fetchData: _cloudCodeActions.fetchData,
+  pure_fetchData: pureCloudCodeActions.fetchData,
   cleanCloudsCode: _cloudCodeActions.cleanCloudsCode,
+  pure_cleanCloudsCode: pureCloudCodeActions.cleanCloudsCode,
   cleanData: _cloudCodeActions.cleanData,
+  pure_cleanData: pureCloudCodeActions.cleanData,
 }
 let dispatch = null;
 export const setReactParseDispatch = _dispatch => {
