@@ -7,7 +7,7 @@ const { SET_COLLECTION, CLEAN_COLLECTION, CLEAN_ALL_COLLECTIONS } = types;
 
 export default function reducerHandler(state, action) {
   const { payload } = action;
-  const { targetName, status, data, info, error, loading } = payload || {};
+  const { targetName, status, data, info, error, loading, dispatchId } = payload || {};
   switch (action.type) {
     case SET_COLLECTION: {
       const collection = state.collections.get(targetName);

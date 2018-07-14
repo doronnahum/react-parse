@@ -5,7 +5,7 @@ const { Map } = require('immutable');
 
 export default function reducerHandler(state, action) {
   const { payload } = action;
-  const { targetName, status, data, info, error, loading } = payload || {};
+  const { targetName, status, data, info, error, loading, dispatchId } = payload || {};
   switch (action.type) {
     // Cloud code
     case types.SET_CLOUD_CODE: {
