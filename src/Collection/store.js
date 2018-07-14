@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchData, deleteDoc, putDoc, postDoc, cleanData } from './actions';
-import { getData, getStatus, getInfo, getError } from './selectors';
+import { getData, getStatus, getInfo, getError, getDispatchId, getCount } from './selectors';
 
 function mapStateToProps(state, props) {
   const keyForData = props.targetName || props.schemaName;
@@ -9,7 +9,9 @@ function mapStateToProps(state, props) {
     fetchData: getData(state, keyForData),
     fetchStatus: getStatus(state, keyForData),
     fetchInfo: getInfo(state, keyForData),
-    fetchError: getError(state, keyForData)
+    fetchError: getError(state, keyForData),
+    fetchCount: getCount(state, keyForData),
+    fetchDispatchId: getDispatchId(state, keyForData)
   };
 }
 

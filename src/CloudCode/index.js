@@ -64,7 +64,7 @@ class FetchCloudCode extends React.Component {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchError, component } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchDispatchId,  fetchError, component } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass = Object.assign(props, {
       fetchProps: {
@@ -72,6 +72,7 @@ class FetchCloudCode extends React.Component {
       error: fetchError,
       status: fetchStatus,
       info: fetchInfo,
+      dispatchId: fetchDispatchId,
       isLoading: isLoading(fetchStatus),
       refresh: this.onRefresh,
       }

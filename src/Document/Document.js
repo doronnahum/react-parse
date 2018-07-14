@@ -145,7 +145,7 @@ class FetchDocument extends React.Component {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchError, component, objectId, uniqueId, dataHandler } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchError, fetchDispatchId, component, objectId, uniqueId, dataHandler } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass  = Object.assign(props, {
       fetchProps: {
@@ -153,6 +153,7 @@ class FetchDocument extends React.Component {
       error: fetchError,
       status: fetchStatus,
       info: fetchInfo,
+      dispatchId: fetchDispatchId,
       isLoading: isLoading(fetchStatus),
       refresh: this.onRefresh,
       deleteDoc: this.onDelete,

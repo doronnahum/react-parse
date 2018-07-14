@@ -165,6 +165,7 @@
             fetchData = _props2.fetchData,
             fetchStatus = _props2.fetchStatus,
             fetchInfo = _props2.fetchInfo,
+            fetchDispatchId = _props2.fetchDispatchId,
             fetchError = _props2.fetchError,
             component = _props2.component;
 
@@ -175,6 +176,7 @@
             error: fetchError,
             status: fetchStatus,
             info: fetchInfo,
+            dispatchId: fetchDispatchId,
             isLoading: (0, _helpers.isLoading)(fetchStatus),
             refresh: this.onRefresh
           }

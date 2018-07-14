@@ -250,6 +250,8 @@
             fetchStatus = _props5.fetchStatus,
             fetchInfo = _props5.fetchInfo,
             fetchError = _props5.fetchError,
+            fetchCount = _props5.fetchCount,
+            fetchDispatchId = _props5.fetchDispatchId,
             component = _props5.component;
 
         var props = (0, _helpers.removeLocalKeys)(this.props);
@@ -259,6 +261,8 @@
             error: fetchError,
             status: fetchStatus,
             info: fetchInfo,
+            count: fetchCount,
+            dispatchId: fetchDispatchId,
             isLoading: (0, _helpers.isLoading)(fetchStatus),
             refresh: this.onRefresh,
             deleteDoc: this.onDelete,
