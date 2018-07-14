@@ -16,11 +16,12 @@ export default function* fetchCloudCode(action) {
   const { functionName, targetName, params, digToData, dataHandler, dispatchId  } = action.payload;
   const _digToData = digToData || 'data.result'
   const target = targetName || functionName;
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId }));
+  const _dispatchId =  dispatchId || '';
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
   const res = yield httpRequest(Api.getCloudFunction, functionName, params);
   if (res.error || dig(res, 'response.data.error')) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
-    yield put(setOnStore({ targetName: target, status: errType, error: res,  loading: false, dispatchId }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res,  loading: false, dispatchId: _dispatchId }));
     console.error('getCloudFunction err: ', functionName, res.error);
     Logger.onError('CLOUD_CODE', action, errType);
   } else {
@@ -37,7 +38,7 @@ export default function* fetchCloudCode(action) {
           timestamp: Date.now()
         },
         loading: false,
-        dispatchId
+        dispatchId: _dispatchId
       })
     );
     Logger.onSuccess('CLOUD_CODE', action, FINISHED);

@@ -36,30 +36,31 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function refreshCollection(action) {
-    var _action$payload, targetName, dispatchId, info;
+    var _action$payload, targetName, dispatchId, _dispatchId, info;
 
     return _regeneratorRuntime2.default.wrap(function refreshCollection$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _action$payload = action.payload, targetName = _action$payload.targetName, dispatchId = _action$payload.dispatchId;
-            _context.next = 3;
+            _dispatchId = dispatchId || '';
+            _context.next = 4;
             return (0, _effects.select)(function (state) {
               return (0, _selectors.getInfo)(state, targetName);
             });
 
-          case 3:
+          case 4:
             info = _context.sent;
 
             if (!(info && info.schemaName)) {
-              _context.next = 7;
+              _context.next = 8;
               break;
             }
 
-            _context.next = 7;
-            return (0, _effects.put)((0, _actions.fetchData)(Object.assign({}, info, { targetName: targetName, dispatchId: dispatchId })));
+            _context.next = 8;
+            return (0, _effects.put)((0, _actions.fetchData)(Object.assign({}, info, { targetName: targetName, dispatchId: _dispatchId })));
 
-          case 7:
+          case 8:
           case 'end':
             return _context.stop();
         }

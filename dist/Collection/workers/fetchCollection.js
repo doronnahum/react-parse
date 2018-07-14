@@ -42,7 +42,7 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchCollection(action) {
-    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, dispatchId, target, res, errType, _data, data, info;
+    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, dispatchId, target, _dispatchId, res, errType, _data, data, info;
 
     return _regeneratorRuntime2.default.wrap(function fetchCollection$(_context) {
       while (1) {
@@ -50,32 +50,33 @@
           case 0:
             _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId;
             target = targetName || schemaName;
-            _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: dispatchId }));
-
-          case 4:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 5);
+            _dispatchId = dispatchId || '';
+            _context.next = 5;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 5:
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 6);
+
+          case 6:
             res = _context.t0;
 
             if (!res.error) {
-              _context.next = 14;
+              _context.next = 15;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('fetchCollection err: ', schemaName, res.error);
-            _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: dispatchId }));
+            _context.next = 12;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 11:
+          case 12:
             _Logger2.default.onError('GET', action, errType);
-            _context.next = 20;
+            _context.next = 21;
             break;
 
-          case 14:
+          case 15:
             _data = (0, _helpers.dig)(res, 'data.results');
             data = dataHandler ? dataHandler(_data) : _data;
             info = {
@@ -91,7 +92,7 @@
               count: res.data.count,
               timestamp: Date.now()
             };
-            _context.next = 19;
+            _context.next = 20;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -99,13 +100,13 @@
               data: data,
               info: info,
               loading: false,
-              dispatchId: dispatchId
+              dispatchId: _dispatchId
             }));
 
-          case 19:
+          case 20:
             _Logger2.default.onSuccess('GET', action, FINISHED);
 
-          case 20:
+          case 21:
           case 'end':
             return _context.stop();
         }

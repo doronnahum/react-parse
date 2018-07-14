@@ -13,12 +13,13 @@ const FINISHED = types.DELETE_FINISHED;
 export default function* deleteDoc(action) {
   const { targetName, schemaName, objectId, dispatchId } = action.payload;
   const target = targetName || objectId;
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId }));
+  const _dispatchId =  dispatchId || '';
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
   const res = yield* httpRequest(api.deleteObject, schemaName, objectId);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', objectId, res.error);
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
     Logger.onError('DELETE' ,action, errType)
   } else {
     const info = {
@@ -32,7 +33,7 @@ export default function* deleteDoc(action) {
         info,
         error: null,
         loading: false,
-        dispatchId
+        dispatchId: _dispatchId
       })
     );
     Logger.onSuccess('DELETE', action, FINISHED)

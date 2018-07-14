@@ -13,14 +13,15 @@ const FINISHED = types.PUT_FINISHED;
 export default function* putDoc(action) {
   const { targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId } = action.payload;
   const target = targetName || objectId;
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId }));
+  const _dispatchId =  dispatchId || '';
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
   let dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
   dataToSend = removeImutableKeys(data)
   const res = yield* httpRequest(api.updateObject, schemaName, objectId, dataToSend);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', targetName, res.error);
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
     Logger.onError('PUT', action, errType)
   } else {
     const info = {
@@ -37,7 +38,7 @@ export default function* putDoc(action) {
         info,
         error: null,
         loading: false,
-        dispatchId
+        dispatchId: _dispatchId
       })
     );
     Logger.onSuccess('PUT', action, FINISHED)
