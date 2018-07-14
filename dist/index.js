@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', './server/api', './server/httpWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './Loader', './reducer', './saga', './selectors', './Collection/collectionActions', './Document/documentActions', './CloudCode/cloudCodeActions', './server/Logger', 'babel-polyfill'], factory);
+    define(['exports', './server/api', './server/httpWrapper', './types', './helpers', './Collection', './Document', './CloudCode', './Loader', './reducer', './saga', './selectors', './Collection/collectionActions', './Document/documentActions', './CloudCode/cloudCodeActions', './Collection/actions', './Document/actions', './CloudCode/actions', './server/Logger', 'babel-polyfill'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('./server/api'), require('./server/httpWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./Loader'), require('./reducer'), require('./saga'), require('./selectors'), require('./Collection/collectionActions'), require('./Document/documentActions'), require('./CloudCode/cloudCodeActions'), require('./server/Logger'), require('babel-polyfill'));
+    factory(exports, require('./server/api'), require('./server/httpWrapper'), require('./types'), require('./helpers'), require('./Collection'), require('./Document'), require('./CloudCode'), require('./Loader'), require('./reducer'), require('./saga'), require('./selectors'), require('./Collection/collectionActions'), require('./Document/documentActions'), require('./CloudCode/cloudCodeActions'), require('./Collection/actions'), require('./Document/actions'), require('./CloudCode/actions'), require('./server/Logger'), require('babel-polyfill'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.Loader, global.reducer, global.saga, global.selectors, global.collectionActions, global.documentActions, global.cloudCodeActions, global.Logger, global.babelPolyfill);
+    factory(mod.exports, global.api, global.httpWrapper, global.types, global.helpers, global.Collection, global.Document, global.CloudCode, global.Loader, global.reducer, global.saga, global.selectors, global.collectionActions, global.documentActions, global.cloudCodeActions, global.actions, global.actions, global.actions, global.Logger, global.babelPolyfill);
     global.index = mod.exports;
   }
-})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors, _collectionActions2, _documentActions2, _cloudCodeActions2, _Logger) {
+})(this, function (exports, _api, _httpWrapper, _types, _helpers, _Collection, _Document, _CloudCode, _Loader, _reducer, _saga, _selectors, _collectionActions2, _documentActions2, _cloudCodeActions2, _actions, _actions2, _actions3, _Logger) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -44,6 +44,12 @@
 
   var _cloudCodeActions = _interopRequireWildcard(_cloudCodeActions2);
 
+  var pureCollectionActions = _interopRequireWildcard(_actions);
+
+  var pureDocumentActions = _interopRequireWildcard(_actions2);
+
+  var pureCloudCodeActions = _interopRequireWildcard(_actions3);
+
   function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
       return obj;
@@ -67,16 +73,18 @@
     };
   }
 
-  // Actions
-  // Common
-  var config = _api2.default;
-  // Logger
+  // Pure actions
 
   // Selectors
 
   // Parse
 
   // Components
+  var config = _api2.default;
+  // Logger
+
+  // Actions Wrapped with dispatch
+  // Common
 
 
   var selectors = {
@@ -108,26 +116,43 @@
 
   var collectionActions = {
     fetchData: _collectionActions.fetchData,
+    pure_fetchData: pureCollectionActions.fetchData,
     cleanCollections: _collectionActions.cleanCollections,
+    pure_cleanCollections: pureCollectionActions.cleanCollections,
     cleanData: _collectionActions.cleanData,
+    pure_cleanData: pureCollectionActions.cleanData,
     deleteDoc: _collectionActions.deleteDoc,
+    pure_deleteDoc: pureCollectionActions.deleteDoc,
     putDoc: _collectionActions.putDoc,
+    pure_putDoc: pureCollectionActions.putDoc,
     refreshCollection: _collectionActions.refreshCollection,
-    postDoc: _collectionActions.postDoc
+    pure_refreshCollection: pureCollectionActions.refreshCollection,
+    postDoc: _collectionActions.postDoc,
+    pure_postDoc: pureCollectionActions.postDoc
   };
   var documentActions = {
     fetchData: _documentActions.fetchData,
+    pure_fetchData: pureDocumentActions.fetchData,
     cleanDocuments: _documentActions.cleanDocuments,
+    pure_cleanDocuments: pureDocumentActions.cleanDocuments,
     cleanData: _documentActions.cleanData,
+    pure_cleanData: pureDocumentActions.cleanData,
     deleteDoc: _documentActions.deleteDoc,
+    pure_deleteDoc: pureDocumentActions.deleteDoc,
     putDoc: _documentActions.putDoc,
+    pure_putDoc: pureDocumentActions.putDoc,
     postDoc: _documentActions.postDoc,
-    updateField: _documentActions.updateField
+    pure_postDoc: pureDocumentActions.postDoc,
+    updateField: _documentActions.updateField,
+    pure_updateField: pureDocumentActions.updateField
   };
   var cloudCodeActions = {
     fetchData: _cloudCodeActions.fetchData,
+    pure_fetchData: pureCloudCodeActions.fetchData,
     cleanCloudsCode: _cloudCodeActions.cleanCloudsCode,
-    cleanData: _cloudCodeActions.cleanData
+    pure_cleanCloudsCode: pureCloudCodeActions.cleanCloudsCode,
+    cleanData: _cloudCodeActions.cleanData,
+    pure_cleanData: pureCloudCodeActions.cleanData
   };
   var dispatch = null;
   var setReactParseDispatch = exports.setReactParseDispatch = function setReactParseDispatch(_dispatch) {

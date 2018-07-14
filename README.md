@@ -22,7 +22,8 @@ React Parse include 3 data provider components, to make the life even easier and
 - [Examples](#examples) 
 	- [CollectionActionsExample](#collectionactionsexample)
 	-  [FetchCollectionExample](#fetchcollectionexample)
-- [Actions](#actions) 
+- [Actions](#actions)  
+	- [How to use](#how-to-use)
 	- [Payload options](#payload)
 	- [CollectionActions](#collectionactions)
 	- [DocumentActions](#documentactions)
@@ -152,15 +153,38 @@ const mapStateToProps = (state) => {
 }
 ```
 ## Actions
+### How to use
+
+import actions from react-parse
 ```jsx
 import {  collectionActions, cloudCodeActions, documentActions } from 'react-parse';
+```
+inside your component you can call an action like that:
+```jsx
+documentActions.fetchData({....})
+```
+all the action are wrapped with dispatch then you didn't need to bind a dispatch to call an action.
 
-Use like that:
-	documentActions.fetchData({....})
-** we didn't need a dispatch to play the action
+If you want to use:
+ - Call the action with dispatch
+ - Use bindActionCreators 
+ - Put an action from saga
+
+You need to use action without our dispatch wrapper.
+for this, you need the call action with prefix **pure\_**
+
+**For example-**
+```jsx
+// my-saga-file.js
+import { put, select } from  'redux-saga/effects';
+import { documentActions } from 'react-parse';
+
+export  default  function*  fetchMember() {
+	yield  put(documentActions.pure_fetchData({...}));
+}
 ```
 ### payload
-### payload
+
 
 action payload options
 
