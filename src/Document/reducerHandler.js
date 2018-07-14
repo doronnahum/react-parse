@@ -41,6 +41,9 @@ export default function reducerHandler(state, action) {
       if ('loading' in payload) {
         nextState = nextState.setIn(['documents', targetName, 'loading'], loading);
       }
+      if ('dispatchId' in payload) {
+        nextState = nextState.setIn(['documents', targetName, 'dispatchId'], dispatchId);
+      }
       return nextState;
     }
     case UPDATE_DOC_FIELD: {

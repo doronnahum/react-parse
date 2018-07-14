@@ -12,9 +12,9 @@ const FAILED_NETWORK = types.FETCH_FAILED_NETWORK;
 const FINISHED = types.FETCH_FINISHED;
 
 export default function* fetchDoc(action) {
-  const { targetName, schemaName, objectId, include, keys, dataHandler } = action.payload;
+  const { targetName, schemaName, objectId, include, keys, dataHandler, dispatchId } = action.payload;
   const target = targetName || objectId;
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId }));
   const res = yield* httpRequest(
     api.getObjectById,
     schemaName,
@@ -25,7 +25,7 @@ export default function* fetchDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('get document err', objectId, res.error);
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId }));
     Logger.onError('GET', action, errType);
   } else {
     const info = {
@@ -43,7 +43,8 @@ export default function* fetchDoc(action) {
         data,
         info,
         error: null,
-        loading: false
+        loading: false,
+        dispatchId
       })
     );
     Logger.onSuccess('GET', action, FINISHED);

@@ -26,6 +26,9 @@ export const getData = createSelector(
 export const getStatus = createSelector(getImmutableCloudCodes, dataImmutable =>
   dataImmutable.get('status')
 );
+export const getDispatchId = createSelector(getImmutableCloudCodes, dataImmutable =>
+  dataImmutable.get('dispatchId')
+);
 export const getLoading = createSelector(getImmutableCloudCodes, dataImmutable =>
   isLoading(dataImmutable.get('status'))
 );

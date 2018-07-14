@@ -13,7 +13,7 @@ const {
 
 /**
  * fetchData
- * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount, dataHandler}
+ * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount, dataHandler, dispatchId}
  */
 export const fetchData = payload => ({
   type: FETCH_COLLECTION,
@@ -21,7 +21,8 @@ export const fetchData = payload => ({
 });
 /**
  * refreshCollection
- * @param {obj} {targetName}
+ * @param {obj} {payload.targetName}
+ * @param {obj} {payload.dispatchId}
  */
 export const refreshCollection = payload => ({
   type: REFRESH_COLLECTION,
@@ -30,7 +31,7 @@ export const refreshCollection = payload => ({
 
 /**
  * setOnStore
- * @param {*} payload {targetName, status, data, info, error}
+ * @param {*} payload {targetName, status, data, info, error, dispatchId}
  */
 export const setOnStore = payload => ({
   type: SET_COLLECTION,
@@ -39,7 +40,7 @@ export const setOnStore = payload => ({
 
 /**
  * deleteDocument
- * @param {*} payload {schemaName, targetName, objectId, autoRefresh}
+ * @param {*} payload {schemaName, targetName, objectId, autoRefresh, dispatchId}
  */
 export const deleteDoc = payload => ({
   type: DELETE_COLLECTION_DOC,
@@ -48,7 +49,7 @@ export const deleteDoc = payload => ({
 
 /**
  * putDoc
- * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh, filesIncluded, fileValueHandler}
+ * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId}
  */
 export const putDoc = payload => ({
   type: PUT_COLLECTION_DOC,
@@ -57,7 +58,7 @@ export const putDoc = payload => ({
 
 /**
  * potDoc
- * @param {*} payload {schemaName, targetName, data, autoRefresh, filesIncluded, fileValueHandler}
+ * @param {*} payload {schemaName, targetName, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId}
  */
 export const postDoc = payload => ({
   type: POST_COLLECTION_DOC,

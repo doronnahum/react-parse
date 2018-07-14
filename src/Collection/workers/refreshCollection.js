@@ -10,10 +10,10 @@ const FAILED_NETWORK = types.FETCH_FAILED_NETWORK;
 const FINISHED = types.FETCH_FINISHED;
 
 export default function* refreshCollection(action) {
-  const { targetName } = action.payload;
+  const { targetName, dispatchId } = action.payload;
   const info = yield select(state => getInfo(state, targetName))
   if(info && info.schemaName){
-    yield put(fetchData(Object.assign({},info, {targetName})));
+    yield put(fetchData(Object.assign({},info, {targetName, dispatchId})));
   }
 }
 /* eslint no-unused-vars: "off" */

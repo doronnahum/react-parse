@@ -31,6 +31,9 @@ export default function reducerHandler(state, action) {
       if ('loading' in payload) {
         nextState = nextState.setIn(['cloudCodes', targetName, 'loading'], loading);
       }
+      if ('dispatchId' in payload) {
+        nextState = nextState.setIn(['cloudCodes', targetName, 'dispatchId'], dispatchId);
+      }
       return nextState;
     }
     case types.CLEAN_CLOUD_CODE: {

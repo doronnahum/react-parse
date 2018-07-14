@@ -45,7 +45,7 @@ class FetchCloudCode extends React.Component {
     this.fetchData(this.props, false);
   }
 
-  fetchData(props = this.props, localOnly = this.props.localOnly) {
+  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId) {
     const { functionName, targetName, params, digToData, dataHandler } = props;
     if (localOnly || !props.functionName) return;
     props.fetchActions.fetchData({
@@ -53,7 +53,8 @@ class FetchCloudCode extends React.Component {
       targetName,
       params,
       digToData,
-      dataHandler
+      dataHandler,
+      dispatchId
     });
   }
 
