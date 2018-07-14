@@ -1,6 +1,6 @@
 {
     "name": "react-parse",
-    "version": "1.5.2",
+    "version": "1.5.4",
     "description": "react components with redux and saga ready to use for easy and fast fetch data from and parse server",
     "main": "dist/index.js",
     "repository": {
@@ -25,6 +25,7 @@
         "mocha": "--require scripts/mocha_runner src/**/__tests__/**/*.js"
     },
     "scripts": {
+        "prepublishOnly": "npm run build",
         "build": "babel --plugins transform-es2015-modules-umd src --ignore __tests__ --out-dir ./dist",
         "lint": "eslint ./src",
         "lintfix": "eslint ./src --fix",
