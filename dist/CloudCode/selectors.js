@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getError = exports.getInfo = exports.getLoading = exports.getStatus = exports.getData = exports.getCloudCode = exports.getCloudCodes = undefined;
+  exports.getError = exports.getInfo = exports.getLoading = exports.getDispatchId = exports.getStatus = exports.getData = exports.getCloudCode = exports.getCloudCodes = undefined;
 
 
   var MAP = (0, _immutable.Map)();
@@ -41,6 +41,9 @@
   });
   var getStatus = exports.getStatus = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
     return dataImmutable.get('status');
+  });
+  var getDispatchId = exports.getDispatchId = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
+    return dataImmutable.get('dispatchId');
   });
   var getLoading = exports.getLoading = (0, _reselect.createSelector)(getImmutableCloudCodes, function (dataImmutable) {
     return (0, _helpers.isLoading)(dataImmutable.get('status'));

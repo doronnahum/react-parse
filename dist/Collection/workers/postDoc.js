@@ -36,16 +36,16 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, target, dataToSend, res, errType;
+    var _action$payload, schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, dispatchId, target, dataToSend, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, schemaName = _action$payload.schemaName, data = _action$payload.data, targetName = _action$payload.targetName, autoRefresh = _action$payload.autoRefresh, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler;
+            _action$payload = action.payload, schemaName = _action$payload.schemaName, data = _action$payload.data, targetName = _action$payload.targetName, autoRefresh = _action$payload.autoRefresh, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId;
             target = targetName || schemaName;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: dispatchId }));
 
           case 4:
             if (!filesIncluded) {
@@ -80,7 +80,7 @@
             console.error('postDoc err', schemaName, res.err);
             _server.Logger.onError('POST', action, errType);
             _context.next = 19;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: dispatchId }));
 
           case 19:
             _context.next = 27;
@@ -88,7 +88,7 @@
 
           case 21:
             _context.next = 23;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: dispatchId }));
 
           case 23:
             _server.Logger.onSuccess('POST', action, FINISHED);

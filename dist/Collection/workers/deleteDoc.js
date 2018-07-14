@@ -42,16 +42,16 @@
   var FINISHED = _types2.default.DELETE_FINISHED;
 
   function deleteDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, autoRefresh, target, res, errType;
+    var _action$payload, targetName, schemaName, objectId, autoRefresh, dispatchId, target, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function deleteDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, autoRefresh = _action$payload.autoRefresh;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, autoRefresh = _action$payload.autoRefresh, dispatchId = _action$payload.dispatchId;
             target = targetName || schemaName;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: dispatchId }));
 
           case 4:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.deleteObject, schemaName, objectId), 't0', 5);
@@ -68,7 +68,7 @@
 
             console.error('deleteDoc err', schemaName, objectId, res.err);
             _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: dispatchId }));
 
           case 11:
             _Logger2.default.onError('DELETE', action, errType);
@@ -77,7 +77,7 @@
 
           case 14:
             _context.next = 16;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: dispatchId }));
 
           case 16:
             _Logger2.default.onSuccess('DELETE', action, FINISHED);

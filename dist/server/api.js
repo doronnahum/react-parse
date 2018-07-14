@@ -188,7 +188,7 @@
         baseURL: initConfig.baseURL,
         headers: Object.assign({}, createHeaders(initConfig), { 'Content-Type': contentType })
       });
-      filename = filename.replace(/[^a-zA-Z0-9@\.\ ~_-]+/g, '');
+      fileName = fileName.replace(/[^a-zA-Z0-9@\.\ ~_-]+/g, '');
       return _filesApi.post('' + filesPath + fileName, file);
     },
     uploadFileFromReactNativeStorage: function uploadFileFromReactNativeStorage(RNFetchBlob, file) {

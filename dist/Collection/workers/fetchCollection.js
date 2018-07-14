@@ -42,16 +42,16 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchCollection(action) {
-    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, target, res, errType, _data, data, info;
+    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, dispatchId, target, res, errType, _data, data, info;
 
     return _regeneratorRuntime2.default.wrap(function fetchCollection$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit, dataHandler = _action$payload.dataHandler;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId;
             target = targetName || schemaName;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: dispatchId }));
 
           case 4:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 5);
@@ -68,7 +68,7 @@
 
             console.error('fetchCollection err: ', schemaName, res.error);
             _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: dispatchId }));
 
           case 11:
             _Logger2.default.onError('GET', action, errType);
@@ -98,7 +98,8 @@
               error: null,
               data: data,
               info: info,
-              loading: false
+              loading: false,
+              dispatchId: dispatchId
             }));
 
           case 19:

@@ -45,6 +45,7 @@
    * @param {string} payload.include
    * @param {string} payload.keys,
    * @param {function} payload.dataHandler,
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    * 
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
@@ -77,7 +78,7 @@
 
   /**
    * putDoc
-   * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler}
+   * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler, dispatchId}
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     return {
@@ -87,7 +88,7 @@
   };
   /**
    * postDoc
-   * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler}
+   * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId}
    */
   var postDoc = exports.postDoc = function postDoc(payload) {
     return {
@@ -97,7 +98,7 @@
   };
   /**
    * deleteDoc
-   * @param {*} payload {targetName, schemaName,objectId}
+   * @param {*} payload {targetName, schemaName,objectId, dispatchId}
    */
   var deleteDoc = exports.deleteDoc = function deleteDoc(payload) {
     return {

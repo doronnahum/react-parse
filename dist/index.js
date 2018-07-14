@@ -96,6 +96,7 @@
     selectCollectionStatus: _selectors.collectionSelectors.getStatus,
     selectCollectionCount: _selectors.collectionSelectors.getCount,
     selectCollectionError: _selectors.collectionSelectors.getError,
+    selectCollectionDispatchId: _selectors.collectionSelectors.getDispatchId,
 
     selectDocuments: _selectors.documentSelectors.getDocuments,
     selectDocument: _selectors.documentSelectors.getDocument,
@@ -104,6 +105,7 @@
     selectDocumentInfo: _selectors.documentSelectors.getInfo,
     selectDocumentStatus: _selectors.documentSelectors.getStatus,
     selectDocumentError: _selectors.documentSelectors.getError,
+    selectDocumentDispatchId: _selectors.documentSelectors.getDispatchId,
 
     selectCloudCodes: _selectors.cloudCodeSelectors.getCloudCodes,
     selectCloudCode: _selectors.cloudCodeSelectors.getCloudCode,
@@ -111,7 +113,8 @@
     selectCloudCodeLoading: _selectors.cloudCodeSelectors.getLoading,
     selectCloudCodeInfo: _selectors.cloudCodeSelectors.getInfo,
     selectCloudCodeStatus: _selectors.cloudCodeSelectors.getStatus,
-    selectCloudCodeError: _selectors.cloudCodeSelectors.getError
+    selectCloudCodeError: _selectors.cloudCodeSelectors.getError,
+    selectCloudCodeDispatchId: _selectors.cloudCodeSelectors.getDispatchId
   };
 
   var collectionActions = {

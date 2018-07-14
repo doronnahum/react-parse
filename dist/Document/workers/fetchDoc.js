@@ -42,16 +42,16 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, include, keys, dataHandler, target, res, errType, info, _data, data;
+    var _action$payload, targetName, schemaName, objectId, include, keys, dataHandler, dispatchId, target, res, errType, info, _data, data;
 
     return _regeneratorRuntime2.default.wrap(function fetchDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys, dataHandler = _action$payload.dataHandler;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId;
             target = targetName || objectId;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: dispatchId }));
 
           case 4:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.getObjectById, schemaName, objectId, keys, include), 't0', 5);
@@ -68,7 +68,7 @@
 
             console.error('get document err', objectId, res.error);
             _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: dispatchId }));
 
           case 11:
             _Logger2.default.onError('GET', action, errType);
@@ -91,7 +91,8 @@
               data: data,
               info: info,
               error: null,
-              loading: false
+              loading: false,
+              dispatchId: dispatchId
             }));
 
           case 19:

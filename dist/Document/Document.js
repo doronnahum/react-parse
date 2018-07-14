@@ -126,22 +126,22 @@
       }
     }, {
       key: 'onDelete',
-      value: function onDelete() {
+      value: function onDelete(dispatchId) {
         var _props2 = this.props,
             objectId = _props2.objectId,
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
-        this.props.fetchActions.deleteDoc({ targetName: targetName, schemaName: schemaName, objectId: objectId });
+        this.props.fetchActions.deleteDoc({ targetName: targetName, schemaName: schemaName, objectId: objectId, dispatchId: dispatchId });
       }
     }, {
       key: 'onRefresh',
-      value: function onRefresh() {
-        this.fetchData(this.props, false);
+      value: function onRefresh(dispatchId) {
+        this.fetchData(this.props, false, dispatchId);
       }
     }, {
       key: 'onPut',
-      value: function onPut(dataFromCall, filesIncluded, fileValueHandler) {
+      value: function onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
         var _props3 = this.props,
             fetchActions = _props3.fetchActions,
             targetName = _props3.targetName,
@@ -164,7 +164,7 @@
       }
     }, {
       key: 'onPost',
-      value: function onPost(dataFromCall, filesIncluded, fileValueHandler) {
+      value: function onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
         var _props4 = this.props,
             fetchActions = _props4.fetchActions,
             targetName = _props4.targetName,
@@ -184,6 +184,7 @@
       value: function fetchData() {
         var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
         var localOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.localOnly;
+        var dispatchId = arguments[2];
         var targetName = props.targetName,
             schemaName = props.schemaName,
             objectId = props.objectId,
@@ -198,7 +199,8 @@
           schemaName: schemaName,
           objectId: objectId,
           include: include,
-          keys: keys
+          keys: keys,
+          dispatchId: dispatchId
         });
       }
     }, {

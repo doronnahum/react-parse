@@ -36,15 +36,15 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, targetName, schemaName, data, filesIncluded, fileValueHandler, dataToSend, res, errType, info;
+    var _action$payload, targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId, dataToSend, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId;
             _context.next = 3;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null, loading: true }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null, loading: true, dispatchId: dispatchId }));
 
           case 3:
             if (!filesIncluded) {
@@ -78,7 +78,7 @@
 
             console.error('deleteDoc err', targetName, res.error);
             _context.next = 17;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false, dispatchId: dispatchId }));
 
           case 17:
             _server.Logger.onError('POST', action, errType);
@@ -99,7 +99,8 @@
               status: FINISHED,
               info: info,
               error: null,
-              loading: false
+              loading: false,
+              dispatchId: dispatchId
             }));
 
           case 23:

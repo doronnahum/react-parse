@@ -36,16 +36,16 @@
   var FINISHED = _types2.default.PUT_FINISHED;
 
   function putDoc(action) {
-    var _action$payload, targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, target, dataToSend, res, errType, info;
+    var _action$payload, targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId, target, dataToSend, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, objectId = _action$payload.objectId, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, objectId = _action$payload.objectId, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId;
             target = targetName || objectId;
             _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: dispatchId }));
 
           case 4:
             if (!filesIncluded) {
@@ -81,7 +81,7 @@
 
             console.error('putDoc err', targetName, res.error);
             _context.next = 19;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: dispatchId }));
 
           case 19:
             _server.Logger.onError('PUT', action, errType);
@@ -102,7 +102,8 @@
               status: FINISHED,
               info: info,
               error: null,
-              loading: false
+              loading: false,
+              dispatchId: dispatchId
             }));
 
           case 25:

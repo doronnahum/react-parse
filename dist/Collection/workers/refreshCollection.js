@@ -36,12 +36,13 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function refreshCollection(action) {
-    var targetName, info;
+    var _action$payload, targetName, dispatchId, info;
+
     return _regeneratorRuntime2.default.wrap(function refreshCollection$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            targetName = action.payload.targetName;
+            _action$payload = action.payload, targetName = _action$payload.targetName, dispatchId = _action$payload.dispatchId;
             _context.next = 3;
             return (0, _effects.select)(function (state) {
               return (0, _selectors.getInfo)(state, targetName);
@@ -56,7 +57,7 @@
             }
 
             _context.next = 7;
-            return (0, _effects.put)((0, _actions.fetchData)(Object.assign({}, info, { targetName: targetName })));
+            return (0, _effects.put)((0, _actions.fetchData)(Object.assign({}, info, { targetName: targetName, dispatchId: dispatchId })));
 
           case 7:
           case 'end':

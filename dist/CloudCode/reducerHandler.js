@@ -64,6 +64,9 @@
           if ('loading' in payload) {
             nextState = nextState.setIn(['cloudCodes', targetName, 'loading'], loading);
           }
+          if ('dispatchId' in payload) {
+            nextState = nextState.setIn(['cloudCodes', targetName, 'dispatchId'], dispatchId);
+          }
           return nextState;
         }
       case _types2.default.CLEAN_CLOUD_CODE:

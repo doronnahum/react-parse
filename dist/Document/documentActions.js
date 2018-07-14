@@ -48,6 +48,7 @@
    * @param {string} payload.keys keys to include
    * @param {object} payload.logger pass to your Logger relevant info
    * @param {function} payload.dataHandler pass function that manipulate data before set to store
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    * 
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
@@ -60,7 +61,8 @@
    * @param {string} payload.targetName key to find document inside redux store.parse.documents
    * @param {string} payload.key key to update
    * @param {string} payload.value value to set
-   * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   var updateField = exports.updateField = function updateField(payload) {
     (0, _index.dispatch)(actions.updateField(payload));
@@ -73,6 +75,7 @@
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
    * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   var deleteDoc = exports.deleteDoc = function deleteDoc(payload) {
     (0, _index.dispatch)(actions.deleteDoc(payload));
@@ -87,6 +90,7 @@
    * @param {object} payload.logger pass to your Logger relevant info 
    * @param {boolean} payload.filesIncluded set true if your data include file to upload
    * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   var postDoc = exports.postDoc = function postDoc(payload) {
     (0, _index.dispatch)(actions.postDoc(payload));
@@ -102,6 +106,7 @@
    * @param {object} payload.logger pass to your Logger relevant info
    * @param {boolean} payload.filesIncluded set true if your data include file to upload
    * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     (0, _index.dispatch)(actions.putDoc(payload));
