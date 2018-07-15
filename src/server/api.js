@@ -252,7 +252,8 @@ const Api = {
         {'Content-Type': contetType}
       )
     });
-    fileName = fileName.replace(/[^a-zA-Z0-9@\.\ ~_-]+/g, '');
+    fileName = fileName.replace(/[^a-zA-Z0-9.-]+/g, '');
+    if(fileName[0] === '.') fileName = 'filename' + fileName;
     return _filesApi.post(`${filesPath}${fileName}`, file);
   }
 };
