@@ -24,7 +24,9 @@
       fetchData: (0, _selectors.getData)(state, keyForData),
       fetchStatus: (0, _selectors.getStatus)(state, keyForData),
       fetchInfo: (0, _selectors.getInfo)(state, keyForData),
-      fetchError: (0, _selectors.getError)(state, keyForData)
+      fetchError: (0, _selectors.getError)(state, keyForData),
+      fetchCount: (0, _selectors.getCount)(state, keyForData),
+      fetchDispatchId: (0, _selectors.getDispatchId)(state, keyForData)
     };
   }
 

@@ -27,6 +27,9 @@ export const getData = createSelector(
 export const getStatus = createSelector(getImmutableCollection, dataImmutable =>
   dataImmutable.get('status')
 );
+export const getDispatchId = createSelector(getImmutableCollection, dataImmutable =>
+  dataImmutable.get('dispatchId')
+);
 export const getLoading = createSelector(getImmutableCollection, dataImmutable =>
   isLoading(dataImmutable.get('status'))
 );

@@ -135,6 +135,7 @@
       value: function fetchData() {
         var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
         var localOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.localOnly;
+        var dispatchId = arguments[2];
         var functionName = props.functionName,
             targetName = props.targetName,
             params = props.params,
@@ -147,7 +148,8 @@
           targetName: targetName,
           params: params,
           digToData: digToData,
-          dataHandler: dataHandler
+          dataHandler: dataHandler,
+          dispatchId: dispatchId
         });
       }
     }, {
@@ -163,6 +165,7 @@
             fetchData = _props2.fetchData,
             fetchStatus = _props2.fetchStatus,
             fetchInfo = _props2.fetchInfo,
+            fetchDispatchId = _props2.fetchDispatchId,
             fetchError = _props2.fetchError,
             component = _props2.component;
 
@@ -173,6 +176,7 @@
             error: fetchError,
             status: fetchStatus,
             info: fetchInfo,
+            dispatchId: fetchDispatchId,
             isLoading: (0, _helpers.isLoading)(fetchStatus),
             refresh: this.onRefresh
           }

@@ -47,16 +47,16 @@ class FetchCollection extends React.PureComponent {
     }
   }
 
-  onDelete(objectId) {
+  onDelete(objectId, dispatchId) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!objectId) {
       console.warn('onDelete: missing objectId ');
       return;
     }
-    fetchActions.deleteDoc({ schemaName, targetName, objectId });
+    fetchActions.deleteDoc({ schemaName, targetName, objectId, dispatchId });
   }
 
-  onPut(objectId, data, filesIncluded, fileValueHandler) {
+  onPut(objectId, data, filesIncluded, fileValueHandler, dispatchId) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!objectId) {
       console.warn('onUpdateDoc: missing objectId ');
@@ -66,22 +66,23 @@ class FetchCollection extends React.PureComponent {
       console.warn('onUpdateDoc: missing data object ');
       return;
     }
-    fetchActions.putDoc({ schemaName, targetName, objectId, data, filesIncluded, fileValueHandler });
+    fetchActions.putDoc({ schemaName, targetName, objectId, data, filesIncluded, fileValueHandler, dispatchId });
   }
-  onPost(data, filesIncluded, fileValueHandler) {
+
+  onPost(data, filesIncluded, fileValueHandler, dispatchId) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!data || typeof data !== 'object') {
       console.warn('onPost: missing data object ');
       return;
     }
-    fetchActions.postDoc({ schemaName, targetName, data, filesIncluded, fileValueHandler });
+    fetchActions.postDoc({ schemaName, targetName, data, filesIncluded, fileValueHandler, dispatchId });
   }
 
   onRefresh() {
     this.fetchData(this.props, false);
   }
 
-  fetchData(props = this.props, localOnly = this.props.localOnly) {
+  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId) {
     const {
       targetName,
       schemaName,
@@ -107,7 +108,8 @@ class FetchCollection extends React.PureComponent {
       keys,
       include,
       order,
-      dataHandler
+      dataHandler,
+      dispatchId
     });
   }
 
@@ -134,7 +136,7 @@ class FetchCollection extends React.PureComponent {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchError, component } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchError, fetchCount, fetchDispatchId, component } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass = Object.assign(props, {
       fetchProps: {
@@ -142,6 +144,8 @@ class FetchCollection extends React.PureComponent {
         error: fetchError,
         status: fetchStatus,
         info: fetchInfo,
+        count: fetchCount,
+        dispatchId: fetchDispatchId,
         isLoading: isLoading(fetchStatus),
         refresh: this.onRefresh,
         deleteDoc: this.onDelete,

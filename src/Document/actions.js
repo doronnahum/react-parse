@@ -20,6 +20,7 @@ const {
  * @param {string} payload.include
  * @param {string} payload.keys,
  * @param {function} payload.dataHandler,
+ * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
  * 
  */
 export const fetchData = payload => ({
@@ -46,7 +47,7 @@ export const updateField = payload => ({
 
 /**
  * putDoc
- * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler}
+ * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler, dispatchId}
  */
 export const putDoc = payload => ({
   type: PUT_DOCUMENT,
@@ -54,7 +55,7 @@ export const putDoc = payload => ({
 });
 /**
  * postDoc
- * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler}
+ * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId}
  */
 export const postDoc = payload => ({
   type: POST_DOCUMENT,
@@ -62,7 +63,7 @@ export const postDoc = payload => ({
 });
 /**
  * deleteDoc
- * @param {*} payload {targetName, schemaName,objectId}
+ * @param {*} payload {targetName, schemaName,objectId, dispatchId}
  */
 export const deleteDoc = payload => ({
   type: DELETE_DOCUMENT,

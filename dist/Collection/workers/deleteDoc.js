@@ -42,55 +42,56 @@
   var FINISHED = _types2.default.DELETE_FINISHED;
 
   function deleteDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, autoRefresh, target, res, errType;
+    var _action$payload, targetName, schemaName, objectId, autoRefresh, dispatchId, _dispatchId, target, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function deleteDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, autoRefresh = _action$payload.autoRefresh;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, autoRefresh = _action$payload.autoRefresh, dispatchId = _action$payload.dispatchId;
+            _dispatchId = dispatchId || '';
             target = targetName || schemaName;
-            _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
-
-          case 4:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.deleteObject, schemaName, objectId), 't0', 5);
+            _context.next = 5;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 5:
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.deleteObject, schemaName, objectId), 't0', 6);
+
+          case 6:
             res = _context.t0;
 
             if (!res.error) {
-              _context.next = 14;
+              _context.next = 15;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('deleteDoc err', schemaName, objectId, res.err);
-            _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            _context.next = 12;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 11:
+          case 12:
             _Logger2.default.onError('DELETE', action, errType);
-            _context.next = 20;
+            _context.next = 21;
             break;
 
-          case 14:
-            _context.next = 16;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false }));
+          case 15:
+            _context.next = 17;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId }));
 
-          case 16:
+          case 17:
             _Logger2.default.onSuccess('DELETE', action, FINISHED);
 
             if (!autoRefresh) {
-              _context.next = 20;
+              _context.next = 21;
               break;
             }
 
-            _context.next = 20;
+            _context.next = 21;
             return (0, _effects.put)((0, _actions.refreshCollection)({ targetName: target }));
 
-          case 20:
+          case 21:
           case 'end':
             return _context.stop();
         }

@@ -49,16 +49,16 @@ class FetchDocument extends React.Component {
     }
   }
 
-  onDelete() {
+  onDelete(dispatchId) {
     const { objectId, schemaName, targetName } = this.props;
-    this.props.fetchActions.deleteDoc({targetName, schemaName, objectId});
+    this.props.fetchActions.deleteDoc({targetName, schemaName, objectId, dispatchId});
   }
 
-  onRefresh() {
-    this.fetchData(this.props, false);
+  onRefresh(dispatchId) {
+    this.fetchData(this.props, false, dispatchId);
   }
 
-  onPut(dataFromCall, filesIncluded, fileValueHandler) {
+  onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
     const {
       fetchActions,
       targetName,
@@ -82,7 +82,7 @@ class FetchDocument extends React.Component {
     });
   }
 
-  onPost(dataFromCall, filesIncluded, fileValueHandler) {
+  onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
     const {
       fetchActions,
       targetName,
@@ -100,7 +100,7 @@ class FetchDocument extends React.Component {
     fetchActions.postDoc({ targetName: target, schemaName, data: dataToSend, filesIncluded, fileValueHandler });
   }
 
-  fetchData(props = this.props, localOnly = this.props.localOnly) {
+  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId) {
     const { targetName, schemaName, objectId, include, keys } = props;
     if (localOnly || !objectId || !schemaName) {
       return;
@@ -110,7 +110,8 @@ class FetchDocument extends React.Component {
       schemaName,
       objectId,
       include,
-      keys
+      keys,
+      dispatchId
     });
   }
 
@@ -144,7 +145,7 @@ class FetchDocument extends React.Component {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchError, component, objectId, uniqueId, dataHandler } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchError, fetchDispatchId, component, objectId, uniqueId, dataHandler } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass  = Object.assign(props, {
       fetchProps: {
@@ -152,6 +153,7 @@ class FetchDocument extends React.Component {
       error: fetchError,
       status: fetchStatus,
       info: fetchInfo,
+      dispatchId: fetchDispatchId,
       isLoading: isLoading(fetchStatus),
       refresh: this.onRefresh,
       deleteDoc: this.onDelete,

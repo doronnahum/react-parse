@@ -45,7 +45,7 @@ class FetchCloudCode extends React.Component {
     this.fetchData(this.props, false);
   }
 
-  fetchData(props = this.props, localOnly = this.props.localOnly) {
+  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId) {
     const { functionName, targetName, params, digToData, dataHandler } = props;
     if (localOnly || !props.functionName) return;
     props.fetchActions.fetchData({
@@ -53,7 +53,8 @@ class FetchCloudCode extends React.Component {
       targetName,
       params,
       digToData,
-      dataHandler
+      dataHandler,
+      dispatchId
     });
   }
 
@@ -63,7 +64,7 @@ class FetchCloudCode extends React.Component {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchError, component } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchDispatchId,  fetchError, component } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass = Object.assign(props, {
       fetchProps: {
@@ -71,6 +72,7 @@ class FetchCloudCode extends React.Component {
       error: fetchError,
       status: fetchStatus,
       info: fetchInfo,
+      dispatchId: fetchDispatchId,
       isLoading: isLoading(fetchStatus),
       refresh: this.onRefresh,
       }

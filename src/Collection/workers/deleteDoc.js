@@ -12,18 +12,19 @@ const FAILED_NETWORK = types.DELETE_FAILED_NETWORK;
 const FINISHED = types.DELETE_FINISHED;
 
 export default function* deleteDoc(action) {
-  const { targetName, schemaName, objectId, autoRefresh } = action.payload;
+  const { targetName, schemaName, objectId, autoRefresh, dispatchId } = action.payload;
+  const _dispatchId =  dispatchId || '';
   const target = targetName || schemaName;
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
   const res = yield* httpRequest(api.deleteObject, schemaName, objectId);
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', schemaName, objectId, res.err);
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
     Logger.onError('DELETE', action, errType);
   } else {
     yield put(
-      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
+      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId })
     );
     Logger.onSuccess('DELETE', action, FINISHED);
     if(autoRefresh){

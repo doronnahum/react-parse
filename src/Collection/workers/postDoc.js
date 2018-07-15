@@ -10,9 +10,10 @@ const FAILED_NETWORK = types.POST_FAILED_NETWORK;
 const FINISHED = types.POST_FINISHED;
 
 export default function* postDoc(action) {
-  const { schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler } = action.payload;
+  const { schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, dispatchId } = action.payload;
+  const _dispatchId =  dispatchId || '';
   const target = targetName || schemaName;
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
   const dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
   const res = yield* httpRequest(api.createObject, schemaName, dataToSend);
 
@@ -20,10 +21,10 @@ export default function* postDoc(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('postDoc err', schemaName, res.err);
     Logger.onError('POST', action, errType)
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
   } else {
     yield put(
-      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false })
+      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId })
     );
     Logger.onSuccess('POST', action, FINISHED);
     if(autoRefresh){

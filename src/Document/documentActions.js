@@ -12,6 +12,7 @@ import {dispatch} from '../index'
    * @param {string} payload.keys keys to include
    * @param {object} payload.logger pass to your Logger relevant info
    * @param {function} payload.dataHandler pass function that manipulate data before set to store
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    * 
    */
   export const fetchData = (payload) => {
@@ -24,7 +25,8 @@ import {dispatch} from '../index'
    * @param {string} payload.targetName key to find document inside redux store.parse.documents
    * @param {string} payload.key key to update
    * @param {string} payload.value value to set
-   * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   export const updateField = (payload) => {
     dispatch(actions.updateField(payload))
@@ -37,6 +39,7 @@ import {dispatch} from '../index'
    * @param {string} payload.targetName key to store response inside redux store
    * @param {string} payload.objectId document id
    * @param {object} payload.logger pass to your Logger relevant info 
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   export const deleteDoc = (payload) => {
     dispatch(actions.deleteDoc(payload))
@@ -51,6 +54,7 @@ import {dispatch} from '../index'
    * @param {object} payload.logger pass to your Logger relevant info 
    * @param {boolean} payload.filesIncluded set true if your data include file to upload
    * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   export const postDoc = (payload) => {
     dispatch(actions.postDoc(payload))
@@ -66,6 +70,7 @@ import {dispatch} from '../index'
    * @param {object} payload.logger pass to your Logger relevant info
    * @param {boolean} payload.filesIncluded set true if your data include file to upload
    * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    */
   export const putDoc = (payload) => {
     dispatch(actions.putDoc(payload))

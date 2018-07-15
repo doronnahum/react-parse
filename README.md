@@ -207,6 +207,7 @@ action payload options
 |logger|object|pass to your Logger relevant info |
 |filesIncluded|boolean|set true if your data include files to upload|
 |fileValueHandler|function|pass function that will get the new file URL if you didn't want to save it as File object|
+|dispatchId|string| optional, you can pass some unique key to help you follow specific query status |
 ---
 ### import all actions
 ```jsx
@@ -221,19 +222,19 @@ import { collectionActions } from  'react-parse';
 ```
 
  - GET collection from server:
-	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount, logger})
+	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount, logger, dispatchId})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, autoRefresh, logger, filesIncluded, fileValueHandler})
+ **postDoc**({schemaName, targetName, data, autoRefresh, logger, filesIncluded, fileValueHandler, dispatchId})
  
  - PUT document
- **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger, filesIncluded, fileValueHandler})
+ **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger, filesIncluded, fileValueHandler, dispatchId})
  
  - DELETE document
- **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger})
+ **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger, dispatchId})
  
  - Refresh your data
- **refreshCollection**({targetName})
+ **refreshCollection**({targetName, dispatchId})
  
  - Clean collection from your store:
  **cleanData**({targetName})
@@ -248,16 +249,16 @@ import { documentActions } from  'react-parse';
 ```
 
  - GET Document from server:
-	**fetchData**({schemaName, targetName, objectId, include, keys, logger})
+	**fetchData**({schemaName, targetName, objectId, include, keys, logger, dispatchId})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, logger, filesIncluded, fileValueHandler})
+ **postDoc**({schemaName, targetName, data, logger, filesIncluded, fileValueHandler, dispatchId})
  
  - PUT document
- **putDoc**({schemaName, targetName, objectId, data, logger, filesIncluded, fileValueHandler})
+ **putDoc**({schemaName, targetName, objectId, data, logger, filesIncluded, fileValueHandler, dispatchId})
  
  - DELETE document
- **deleteDoc**({schemaName, targetName, objectId, logger})
+ **deleteDoc**({schemaName, targetName, objectId, logger, dispatchId})
  
  - Update local data
  **updateField**({targetName, key, value, logger})
@@ -275,7 +276,7 @@ import { cloudCodeActions } from  'react-parse';
 ```
 
  - GET Document from server:
-	**fetchData**({functionName, targetName, params, digToData, logger})
+	**fetchData**({functionName, targetName, params, digToData, logger, dispatchId})
 	
  - Clean cloudCode from your store:
  **cleanData**({targetName})
@@ -297,6 +298,7 @@ import {selectors} from 'react-parse'
  5. selectors.selectCollectionStatus(state, 'TARGET_NAME') // return query status by targetName
  6. selectors.selectCollectionError(state, 'TARGET_NAME') // return query error by targetName
  7. selectors.selectCollectionCount(state, 'TARGET_NAME') // return the quantity of results by targetName
+ 7. selectors.selectCollectionDispatchId(state, 'TARGET_NAME') // return the dispatchId of the current/last query
 ### DocumentSelectors
  1. selectors.selectDocuments(state)
  2. selectors.selectDocumentData(state, 'TARGET_NAME')
@@ -304,6 +306,7 @@ import {selectors} from 'react-parse'
  4. selectors.selectDocumentInfo(state, 'TARGET_NAME')
  5. selectors.selectDocumentStatus(state, 'TARGET_NAME')
  6. selectors.selectDocumentError(state, 'TARGET_NAME')
+ 6. selectors.selectDocumentDispatchId(state, 'TARGET_NAME')
 ### CloudCodeSelectors
  1. selectors.selectCloudCodes(state)
  2. selectors.selectCloudCodeData(state, 'TARGET_NAME')
@@ -311,6 +314,7 @@ import {selectors} from 'react-parse'
  4. selectors.selectCloudCodeInfo(state, 'TARGET_NAME')
  5. selectors.selectCloudCodeStatus(state, 'TARGET_NAME')
  6. selectors.selectCloudCodeError(state, 'TARGET_NAME')
+ 6. selectors.selectCloudCodeDispatchId(state, 'TARGET_NAME')
 
 
 ## dataProviders
@@ -331,14 +335,14 @@ fetchProps include :
 - cleanData - method, run to clean data from store
 	- fetchProps.cleanData()
 - put- method, run to update the document
-	-	 from FetchCollection => fetchProps.put('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
-	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
+	-	 from FetchCollection => fetchProps.put('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
+	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
 - post- method, run to create document,
-	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
-	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler)
+	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
+	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
 - deleteDoc- method, run to delete document,
-	-	 from FetchCollection => fetchProps.deleteDoc('DOC_OBJECT_ID')
-	-  from FetchDocument => fetchProps.deleteDoc({title: 'newTitle', body: 'newBody'})
+	-	 from FetchCollection => fetchProps.deleteDoc('DOC_OBJECT_ID', dispatchId)
+	-  from FetchDocument => fetchProps.deleteDoc(, dispatchId)
 - updateField - method on FetchDocument to update filed in store
 	- fetchProps.updateField('title', 'new Title)
 

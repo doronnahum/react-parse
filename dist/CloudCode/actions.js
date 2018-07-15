@@ -36,7 +36,7 @@
    * fetchData
    * get data from parse server cloud code by function and find the data
    * on redux store by targetName
-   * @param {object} payload {functionName, targetName, params, digToData, dataHandler}
+   * @param {object} payload {functionName, targetName, params, digToData, dataHandler, dispatchId}
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
     return {
@@ -48,7 +48,7 @@
   /**
    * setOnStore
    * set and update data on store.parse.clodeCodes by targetName
-   * @param {object} payload {targetName, status, data, info, error}
+   * @param {object} payload {targetName, status, data, info, error, dispatchId}
    */
   var setOnStore = exports.setOnStore = function setOnStore(payload) {
     return {

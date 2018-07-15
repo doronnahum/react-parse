@@ -35,6 +35,7 @@ const selectors = {
   selectCollectionStatus: collectionSelectors.getStatus,
   selectCollectionCount: collectionSelectors.getCount,
   selectCollectionError: collectionSelectors.getError,
+  selectCollectionDispatchId: collectionSelectors.getDispatchId,
 
   selectDocuments: documentSelectors.getDocuments,
   selectDocument: documentSelectors.getDocument,
@@ -43,6 +44,7 @@ const selectors = {
   selectDocumentInfo: documentSelectors.getInfo,
   selectDocumentStatus: documentSelectors.getStatus,
   selectDocumentError: documentSelectors.getError,
+  selectDocumentDispatchId: documentSelectors.getDispatchId,
 
   selectCloudCodes: cloudCodeSelectors.getCloudCodes,
   selectCloudCode: cloudCodeSelectors.getCloudCode,
@@ -51,6 +53,7 @@ const selectors = {
   selectCloudCodeInfo: cloudCodeSelectors.getInfo,
   selectCloudCodeStatus: cloudCodeSelectors.getStatus,
   selectCloudCodeError: cloudCodeSelectors.getError,
+  selectCloudCodeDispatchId: cloudCodeSelectors.getDispatchId,
 }
 
 const collectionActions ={

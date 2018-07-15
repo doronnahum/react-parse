@@ -26,6 +26,9 @@ export const getData = createSelector(
 export const getStatus = createSelector(getImmutableDoc, dataImmutable =>
   dataImmutable.get('status')
 );
+export const getDispatchId = createSelector(getImmutableDoc, dataImmutable =>
+  dataImmutable.get('dispatchId')
+);
 export const getLoading = createSelector(getImmutableDoc, dataImmutable =>
   isLoading(dataImmutable.get('status'))
 );

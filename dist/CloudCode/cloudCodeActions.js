@@ -47,6 +47,7 @@
    * @param {string} payload.digToData string that help us find your data, default is data.result
    * @param {object} payload.logger pass to your Logger relevant info 
    * @param {function} payload.dataHandler pass function that manipulate data before set to store
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
    * 
    */
   var fetchData = exports.fetchData = function fetchData(payload) {

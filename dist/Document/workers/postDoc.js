@@ -36,56 +36,57 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, targetName, schemaName, data, filesIncluded, fileValueHandler, dataToSend, res, errType, info;
+    var _action$payload, targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId, _dispatchId, dataToSend, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler;
-            _context.next = 3;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null, loading: true }));
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId;
+            _dispatchId = dispatchId || '';
+            _context.next = 4;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
-          case 3:
+          case 4:
             if (!filesIncluded) {
-              _context.next = 8;
+              _context.next = 9;
               break;
             }
 
-            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 5);
+            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 6);
 
-          case 5:
+          case 6:
             _context.t0 = _context.t1;
-            _context.next = 9;
+            _context.next = 10;
             break;
 
-          case 8:
+          case 9:
             _context.t0 = data;
 
-          case 9:
+          case 10:
             dataToSend = _context.t0;
-            return _context.delegateYield((0, _server.httpRequest)(_server.api.createObject, schemaName, dataToSend), 't2', 11);
+            return _context.delegateYield((0, _server.httpRequest)(_server.api.createObject, schemaName, dataToSend), 't2', 12);
 
-          case 11:
+          case 12:
             res = _context.t2;
 
             if (!res.error) {
-              _context.next = 20;
+              _context.next = 21;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('deleteDoc err', targetName, res.error);
-            _context.next = 17;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false }));
+            _context.next = 18;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 17:
+          case 18:
             _server.Logger.onError('POST', action, errType);
-            _context.next = 24;
+            _context.next = 25;
             break;
 
-          case 20:
+          case 21:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -93,19 +94,20 @@
               data: data,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 23;
+            _context.next = 24;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: targetName,
               status: FINISHED,
               info: info,
               error: null,
-              loading: false
+              loading: false,
+              dispatchId: _dispatchId
             }));
 
-          case 23:
+          case 24:
             _server.Logger.onSuccess('POST', action, FINISHED);
 
-          case 24:
+          case 25:
           case 'end':
             return _context.stop();
         }

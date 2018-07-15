@@ -43,7 +43,8 @@
         data = _ref.data,
         info = _ref.info,
         error = _ref.error,
-        loading = _ref.loading;
+        loading = _ref.loading,
+        dispatchId = _ref.dispatchId;
 
     switch (action.type) {
       case SET_COLLECTION:
@@ -67,6 +68,9 @@
           }
           if ('loading' in payload) {
             nextState = nextState.setIn(['collections', targetName, 'loading'], loading);
+          }
+          if ('dispatchId' in payload) {
+            nextState = nextState.setIn(['collections', targetName, 'dispatchId'], dispatchId);
           }
           return nextState;
         }

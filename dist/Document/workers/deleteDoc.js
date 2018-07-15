@@ -42,57 +42,59 @@
   var FINISHED = _types2.default.DELETE_FINISHED;
 
   function deleteDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, target, res, errType, info;
+    var _action$payload, targetName, schemaName, objectId, dispatchId, target, _dispatchId, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function deleteDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, dispatchId = _action$payload.dispatchId;
             target = targetName || objectId;
-            _context.next = 4;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true }));
-
-          case 4:
-            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.deleteObject, schemaName, objectId), 't0', 5);
+            _dispatchId = dispatchId || '';
+            _context.next = 5;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 5:
+            return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.deleteObject, schemaName, objectId), 't0', 6);
+
+          case 6:
             res = _context.t0;
 
             if (!res.error) {
-              _context.next = 14;
+              _context.next = 15;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('deleteDoc err', objectId, res.error);
-            _context.next = 11;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false }));
+            _context.next = 12;
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 11:
+          case 12:
             _Logger2.default.onError('DELETE', action, errType);
-            _context.next = 18;
+            _context.next = 19;
             break;
 
-          case 14:
+          case 15:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName
             };
-            _context.next = 17;
+            _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
               info: info,
               error: null,
-              loading: false
+              loading: false,
+              dispatchId: _dispatchId
             }));
 
-          case 17:
+          case 18:
             _Logger2.default.onSuccess('DELETE', action, FINISHED);
 
-          case 18:
+          case 19:
           case 'end':
             return _context.stop();
         }
