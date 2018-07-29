@@ -26,7 +26,8 @@
     };
   }
 
-  var Map = _require.Map;
+  var Map = _require.Map,
+      fromJS = _require.fromJS;
 
   // This is not a reducer, return null if it is not a relevant action.
 
@@ -54,7 +55,7 @@
             nextState = nextState.setIn(['cloudCodes', targetName, 'status'], status);
           }
           if ('data' in payload) {
-            nextState = nextState.setIn(['cloudCodes', targetName, 'data'], data);
+            nextState = nextState.setIn(['cloudCodes', targetName, 'data'], fromJS(data));
           }
           if ('info' in payload) {
             nextState = nextState.setIn(['cloudCodes', targetName, 'info'], info);

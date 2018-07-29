@@ -1,6 +1,6 @@
 import types from '../types';
 
-const { Map } = require('immutable');
+const { Map, fromJS } = require('immutable');
 // This is not a reducer, return null if it is not a relevant action.
 
 export default function reducerHandler(state, action) {
@@ -20,7 +20,7 @@ export default function reducerHandler(state, action) {
         );
       }
       if ('data' in payload) {
-        nextState = nextState.setIn(['cloudCodes', targetName, 'data'], data);
+        nextState = nextState.setIn(['cloudCodes', targetName, 'data'], fromJS(data));
       }
       if ('info' in payload) {
         nextState = nextState.setIn(['cloudCodes', targetName, 'info'], info);
