@@ -100,14 +100,14 @@
 
           case 4:
             if ((_context3.t1 = _context3.t0()).done) {
-              _context3.next = 26;
+              _context3.next = 31;
               break;
             }
 
             k = _context3.t1.value;
 
             if (!(data[k] instanceof File)) {
-              _context3.next = 24;
+              _context3.next = 29;
               break;
             }
 
@@ -124,7 +124,7 @@
 
           case 12:
             fileRes = _context3.sent;
-            _context3.next = 18;
+            _context3.next = 20;
             break;
 
           case 15:
@@ -134,34 +134,41 @@
           case 17:
             fileRes = _context3.sent;
 
-          case 18:
-            _context3.next = 23;
-            break;
+            console.log('NEWWWWW3.33');
+            debugger;
 
           case 20:
-            _context3.prev = 20;
+            _context3.next = 27;
+            break;
+
+          case 22:
+            _context3.prev = 22;
             _context3.t2 = _context3['catch'](8);
+
+            console.log('NEWWWWW3.344', _context3.t2);
+            debugger;
             throw _context3.t2;
 
-          case 23:
+          case 27:
+            debugger;
             data[k] = fileValueHandler ? fileValueHandler(fileRes) : {
               name: isReactNative ? fileRes.name : fileRes.data.name,
               url: isReactNative ? fileRes.url : fileRes.data.url,
               __type: 'File'
             };
 
-          case 24:
+          case 29:
             _context3.next = 4;
             break;
 
-          case 26:
+          case 31:
             return _context3.abrupt('return', data);
 
-          case 27:
+          case 32:
           case 'end':
             return _context3.stop();
         }
       }
-    }, _marked, this, [[8, 20]]);
+    }, _marked, this, [[8, 22]]);
   }
 });

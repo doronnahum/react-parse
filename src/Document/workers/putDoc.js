@@ -15,9 +15,24 @@ export default function* putDoc(action) {
   const target = targetName || objectId;
   const _dispatchId =  dispatchId || '';
   yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
-  let dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
-  dataToSend = removeImutableKeys(data)
-  const res = yield* httpRequest(api.updateObject, schemaName, objectId, dataToSend);
+  let dataToSend, dataFileError, res = null;
+  console.log('NEWWWWW1111')
+  debugger
+  try {
+    dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
+    dataToSend = removeImutableKeys(data)
+    debugger
+  } catch (error) {
+    res = error;
+    res.error = true
+    dataFileError = true
+    debugger
+    console.log('NEWWWWW2222', error)
+  }
+  debugger
+  if(!dataFileError){
+    res = yield* httpRequest(api.updateObject, schemaName, objectId, dataToSend);
+  }
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', targetName, res.error);

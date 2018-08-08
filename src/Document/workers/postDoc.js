@@ -3,7 +3,7 @@ import { put } from 'redux-saga/effects';
 import types from '../../types';
 import {Logger, api, httpRequest, uploadFilesFromData} from '../../server'
 import { setOnStore } from '../actions';
-import { dig } from '../../helpers';
+import { dig, removeImutableKeys } from '../../helpers';
 
 const START = types.POST_START;
 const FAILED = types.POST_FAILED;
@@ -14,8 +14,18 @@ export default function* postDoc(action) {
   const { targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId } = action.payload;
   const _dispatchId =  dispatchId || '';
   yield put(setOnStore({ targetName, status: START, error: null, loading: true, dispatchId: _dispatchId }));
-  let dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
-  const res = yield* httpRequest(api.createObject, schemaName, dataToSend);
+  let dataToSend, dataFileError, res = null;
+  try {
+    dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
+    dataToSend = removeImutableKeys(data)
+  } catch (error) {
+    res = error;
+    res.error = true
+    dataFileError = true
+  }
+  if(!dataFileError){
+    res = yield* httpRequest(api.createObject, schemaName, dataToSend);
+  }
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);

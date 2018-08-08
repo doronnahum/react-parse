@@ -36,7 +36,7 @@
   var FINISHED = _types2.default.PUT_FINISHED;
 
   function putDoc(action) {
-    var _action$payload, targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId, target, _dispatchId, dataToSend, res, errType, info;
+    var _action$payload, targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId, target, _dispatchId, dataToSend, dataFileError, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
@@ -49,47 +49,76 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 5:
+            dataToSend = void 0, dataFileError = void 0, res = null;
+
+            console.log('NEWWWWW1111');
+            debugger;
+            _context.prev = 8;
+
             if (!filesIncluded) {
-              _context.next = 10;
+              _context.next = 14;
               break;
             }
 
-            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 7);
-
-          case 7:
-            _context.t0 = _context.t1;
-            _context.next = 11;
-            break;
-
-          case 10:
-            _context.t0 = data;
+            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 11);
 
           case 11:
+            _context.t0 = _context.t1;
+            _context.next = 15;
+            break;
+
+          case 14:
+            _context.t0 = data;
+
+          case 15:
             dataToSend = _context.t0;
 
             dataToSend = (0, _helpers.removeImutableKeys)(data);
-            return _context.delegateYield((0, _server.httpRequest)(_server.api.updateObject, schemaName, objectId, dataToSend), 't2', 14);
+            debugger;
+            _context.next = 27;
+            break;
 
-          case 14:
+          case 20:
+            _context.prev = 20;
+            _context.t2 = _context['catch'](8);
+
             res = _context.t2;
+            res.error = true;
+            dataFileError = true;
+            debugger;
+            console.log('NEWWWWW2222', _context.t2);
 
+          case 27:
+            debugger;
+
+            if (dataFileError) {
+              _context.next = 31;
+              break;
+            }
+
+            return _context.delegateYield((0, _server.httpRequest)(_server.api.updateObject, schemaName, objectId, dataToSend), 't3', 30);
+
+          case 30:
+            res = _context.t3;
+
+          case 31:
             if (!res.error) {
-              _context.next = 23;
+              _context.next = 39;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', targetName, res.error);
-            _context.next = 20;
+            _context.next = 36;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 20:
+          case 36:
             _server.Logger.onError('PUT', action, errType);
-            _context.next = 27;
+            _context.next = 43;
             break;
 
-          case 23:
+          case 39:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -97,7 +126,7 @@
               data: dataToSend,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 26;
+            _context.next = 42;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -107,15 +136,15 @@
               dispatchId: _dispatchId
             }));
 
-          case 26:
+          case 42:
             _server.Logger.onSuccess('PUT', action, FINISHED);
 
-          case 27:
+          case 43:
           case 'end':
             return _context.stop();
         }
       }
-    }, _marked, this);
+    }, _marked, this, [[8, 20]]);
   }
   /* eslint no-unused-vars: "off" */
 });
