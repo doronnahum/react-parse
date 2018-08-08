@@ -28,15 +28,10 @@ export default function* uploadFilesFromData(data, fileValueHandler) {
           fileRes = yield nativeFileUnloader(data[k]);
         }else{
           fileRes = yield browserFileUnloader(data[k]);
-          console.log('NEWWWWW3.33')
-          debugger
         }
       } catch(e) {
-        console.log('NEWWWWW3.344', e)
-        debugger
         throw e
       }
-      debugger
       data[k] = fileValueHandler
       ? fileValueHandler(fileRes)
       : {
