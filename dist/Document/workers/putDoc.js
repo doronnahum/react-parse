@@ -50,75 +50,67 @@
 
           case 5:
             dataToSend = void 0, dataFileError = void 0, res = null;
-
-            console.log('NEWWWWW1111');
-            debugger;
-            _context.prev = 8;
+            _context.prev = 6;
 
             if (!filesIncluded) {
-              _context.next = 14;
+              _context.next = 12;
               break;
             }
 
-            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 11);
+            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 9);
 
-          case 11:
+          case 9:
             _context.t0 = _context.t1;
-            _context.next = 15;
+            _context.next = 13;
             break;
 
-          case 14:
+          case 12:
             _context.t0 = data;
 
-          case 15:
+          case 13:
             dataToSend = _context.t0;
 
             dataToSend = (0, _helpers.removeImutableKeys)(data);
-            debugger;
-            _context.next = 27;
+            _context.next = 22;
             break;
 
-          case 20:
-            _context.prev = 20;
-            _context.t2 = _context['catch'](8);
+          case 17:
+            _context.prev = 17;
+            _context.t2 = _context['catch'](6);
 
             res = _context.t2;
             res.error = true;
             dataFileError = true;
-            debugger;
-            console.log('NEWWWWW2222', _context.t2);
 
-          case 27:
-            debugger;
-
+          case 22:
             if (dataFileError) {
-              _context.next = 31;
+              _context.next = 25;
               break;
             }
 
-            return _context.delegateYield((0, _server.httpRequest)(_server.api.updateObject, schemaName, objectId, dataToSend), 't3', 30);
+            return _context.delegateYield((0, _server.httpRequest)(_server.api.updateObject, schemaName, objectId, dataToSend), 't3', 24);
 
-          case 30:
+          case 24:
             res = _context.t3;
 
-          case 31:
+          case 25:
             if (!res.error) {
-              _context.next = 39;
+              _context.next = 33;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', targetName, res.error);
-            _context.next = 36;
+            _context.next = 30;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 36:
+          case 30:
             _server.Logger.onError('PUT', action, errType);
-            _context.next = 43;
+            _context.next = 37;
             break;
 
-          case 39:
+          case 33:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -126,7 +118,7 @@
               data: dataToSend,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 42;
+            _context.next = 36;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: target,
               status: FINISHED,
@@ -136,15 +128,15 @@
               dispatchId: _dispatchId
             }));
 
-          case 42:
+          case 36:
             _server.Logger.onSuccess('PUT', action, FINISHED);
 
-          case 43:
+          case 37:
           case 'end':
             return _context.stop();
         }
       }
-    }, _marked, this, [[8, 20]]);
+    }, _marked, this, [[6, 17]]);
   }
   /* eslint no-unused-vars: "off" */
 });

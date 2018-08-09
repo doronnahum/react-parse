@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../types', '../../server', '../actions'], factory);
+    define(['exports', 'regenerator-runtime', 'redux-saga/effects', '../../types', '../../server', '../actions', '../../helpers'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../types'), require('../../server'), require('../actions'));
+    factory(exports, require('regenerator-runtime'), require('redux-saga/effects'), require('../../types'), require('../../server'), require('../actions'), require('../../helpers'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.regeneratorRuntime, global.effects, global.types, global.server, global.actions);
+    factory(mod.exports, global.regeneratorRuntime, global.effects, global.types, global.server, global.actions, global.helpers);
     global.postDoc = mod.exports;
   }
-})(this, function (exports, _regeneratorRuntime, _effects, _types, _server, _actions) {
+})(this, function (exports, _regeneratorRuntime, _effects, _types, _server, _actions, _helpers) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -36,7 +36,7 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, dispatchId, _dispatchId, target, dataToSend, res, errType;
+    var _action$payload, schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, dispatchId, _dispatchId, target, dataToSend, dataFileError, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
@@ -49,30 +49,53 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 5:
+            dataToSend = void 0, dataFileError = void 0, res = null;
+            _context.prev = 6;
+
             if (!filesIncluded) {
-              _context.next = 10;
+              _context.next = 12;
               break;
             }
 
-            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 7);
+            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 9);
 
-          case 7:
+          case 9:
             _context.t0 = _context.t1;
-            _context.next = 11;
+            _context.next = 13;
             break;
 
-          case 10:
+          case 12:
             _context.t0 = data;
 
-          case 11:
-            dataToSend = _context.t0;
-            return _context.delegateYield((0, _server.httpRequest)(_server.api.createObject, schemaName, dataToSend), 't2', 13);
-
           case 13:
-            res = _context.t2;
+            dataToSend = _context.t0;
 
+            dataToSend = (0, _helpers.removeImutableKeys)(data);
+            _context.next = 22;
+            break;
+
+          case 17:
+            _context.prev = 17;
+            _context.t2 = _context['catch'](6);
+
+            res = _context.t2;
+            res.error = true;
+            dataFileError = true;
+
+          case 22:
+            if (dataFileError) {
+              _context.next = 25;
+              break;
+            }
+
+            return _context.delegateYield((0, _server.httpRequest)(_server.api.createObject, schemaName, dataToSend), 't3', 24);
+
+          case 24:
+            res = _context.t3;
+
+          case 25:
             if (!res.error) {
-              _context.next = 22;
+              _context.next = 33;
               break;
             }
 
@@ -80,34 +103,34 @@
 
             console.error('postDoc err', schemaName, res.err);
             _server.Logger.onError('POST', action, errType);
-            _context.next = 20;
+            _context.next = 31;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 20:
-            _context.next = 28;
+          case 31:
+            _context.next = 39;
             break;
 
-          case 22:
-            _context.next = 24;
+          case 33:
+            _context.next = 35;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId }));
 
-          case 24:
+          case 35:
             _server.Logger.onSuccess('POST', action, FINISHED);
 
             if (!autoRefresh) {
-              _context.next = 28;
+              _context.next = 39;
               break;
             }
 
-            _context.next = 28;
+            _context.next = 39;
             return (0, _effects.put)((0, _actions.refreshCollection)({ targetName: target }));
 
-          case 28:
+          case 39:
           case 'end':
             return _context.stop();
         }
       }
-    }, _marked, this);
+    }, _marked, this, [[6, 17]]);
   }
   /* eslint no-unused-vars: "off" */
 });

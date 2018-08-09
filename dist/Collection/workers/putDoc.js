@@ -36,7 +36,7 @@
   var FINISHED = _types2.default.PUT_FINISHED;
 
   function putDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId, target, _dispatchId, dataToSend, res, errType;
+    var _action$payload, targetName, schemaName, objectId, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId, target, _dispatchId, dataToSend, dataFileError, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
@@ -49,67 +49,88 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 5:
+            dataToSend = void 0, dataFileError = void 0, res = null;
+            _context.prev = 6;
+
             if (!filesIncluded) {
-              _context.next = 10;
+              _context.next = 12;
               break;
             }
 
-            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 7);
+            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 9);
 
-          case 7:
+          case 9:
             _context.t0 = _context.t1;
-            _context.next = 11;
+            _context.next = 13;
             break;
 
-          case 10:
+          case 12:
             _context.t0 = data;
 
-          case 11:
+          case 13:
             dataToSend = _context.t0;
 
             dataToSend = (0, _helpers.removeImutableKeys)(data);
-            return _context.delegateYield((0, _server.httpRequest)(_server.api.updateObject, schemaName, objectId, dataToSend), 't2', 14);
+            _context.next = 22;
+            break;
 
-          case 14:
+          case 17:
+            _context.prev = 17;
+            _context.t2 = _context['catch'](6);
+
             res = _context.t2;
+            res.error = true;
+            dataFileError = true;
 
+          case 22:
+            if (dataFileError) {
+              _context.next = 25;
+              break;
+            }
+
+            return _context.delegateYield((0, _server.httpRequest)(_server.api.updateObject, schemaName, objectId, dataToSend), 't3', 24);
+
+          case 24:
+            res = _context.t3;
+
+          case 25:
             if (!res.error) {
-              _context.next = 23;
+              _context.next = 33;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('putDoc err', schemaName, objectId, res.err);
-            _context.next = 20;
+            _context.next = 30;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 20:
+          case 30:
             _server.Logger.onError('PUT', action, errType);
-            _context.next = 29;
+            _context.next = 39;
             break;
 
-          case 23:
-            _context.next = 25;
+          case 33:
+            _context.next = 35;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId }));
 
-          case 25:
+          case 35:
             _server.Logger.onSuccess('PUT', action, FINISHED);
 
             if (!autoRefresh) {
-              _context.next = 29;
+              _context.next = 39;
               break;
             }
 
-            _context.next = 29;
+            _context.next = 39;
             return (0, _effects.put)((0, _actions.refreshCollection)({ targetName: target }));
 
-          case 29:
+          case 39:
           case 'end':
             return _context.stop();
         }
       }
-    }, _marked, this);
+    }, _marked, this, [[6, 17]]);
   }
   /* eslint no-unused-vars: "off" */
 });

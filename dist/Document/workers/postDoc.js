@@ -36,7 +36,7 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId, _dispatchId, dataToSend, res, errType, info;
+    var _action$payload, targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId, _dispatchId, dataToSend, dataFileError, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
@@ -48,45 +48,68 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: START, error: null, loading: true, dispatchId: _dispatchId }));
 
           case 4:
+            dataToSend = void 0, dataFileError = void 0, res = null;
+            _context.prev = 5;
+
             if (!filesIncluded) {
-              _context.next = 9;
+              _context.next = 11;
               break;
             }
 
-            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 6);
+            return _context.delegateYield((0, _server.uploadFilesFromData)(data, fileValueHandler), 't1', 8);
 
-          case 6:
+          case 8:
             _context.t0 = _context.t1;
-            _context.next = 10;
+            _context.next = 12;
             break;
 
-          case 9:
+          case 11:
             _context.t0 = data;
 
-          case 10:
-            dataToSend = _context.t0;
-            return _context.delegateYield((0, _server.httpRequest)(_server.api.createObject, schemaName, dataToSend), 't2', 12);
-
           case 12:
-            res = _context.t2;
+            dataToSend = _context.t0;
 
+            dataToSend = (0, _helpers.removeImutableKeys)(data);
+            _context.next = 21;
+            break;
+
+          case 16:
+            _context.prev = 16;
+            _context.t2 = _context['catch'](5);
+
+            res = _context.t2;
+            res.error = true;
+            dataFileError = true;
+
+          case 21:
+            if (dataFileError) {
+              _context.next = 24;
+              break;
+            }
+
+            return _context.delegateYield((0, _server.httpRequest)(_server.api.createObject, schemaName, dataToSend), 't3', 23);
+
+          case 23:
+            res = _context.t3;
+
+          case 24:
             if (!res.error) {
-              _context.next = 21;
+              _context.next = 32;
               break;
             }
 
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('deleteDoc err', targetName, res.error);
-            _context.next = 18;
+            _context.next = 29;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
 
-          case 18:
+          case 29:
             _server.Logger.onError('POST', action, errType);
-            _context.next = 25;
+            _context.next = 36;
             break;
 
-          case 21:
+          case 32:
             info = {
               timestamp: Date.now(),
               schemaName: schemaName,
@@ -94,7 +117,7 @@
               data: data,
               resData: (0, _helpers.dig)(res, 'data.results[0]')
             };
-            _context.next = 24;
+            _context.next = 35;
             return (0, _effects.put)((0, _actions.setOnStore)({
               targetName: targetName,
               status: FINISHED,
@@ -104,15 +127,15 @@
               dispatchId: _dispatchId
             }));
 
-          case 24:
+          case 35:
             _server.Logger.onSuccess('POST', action, FINISHED);
 
-          case 25:
+          case 36:
           case 'end':
             return _context.stop();
         }
       }
-    }, _marked, this);
+    }, _marked, this, [[5, 16]]);
   }
   /* eslint no-unused-vars: "off" */
 });
