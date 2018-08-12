@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getData, getStatus, getInfo, getError, getDispatchId } from './selectors';
+import { getData, getStatus, getInfo, getError, getDispatchId, getBoomerang } from './selectors';
 import {
   fetchData,
   deleteDoc,
@@ -18,7 +18,9 @@ function mapStateToProps(state, props) {
     fetchStatus: getStatus(state, target),
     fetchInfo: getInfo(state, target),
     fetchError: getError(state, target),
-    fetchDispatchId: getDispatchId(state, target)
+    fetchDispatchId: getDispatchId(state, target),
+    fetchBoomerang: getBoomerang(state, target),
+
   };
 }
 

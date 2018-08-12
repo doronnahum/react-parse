@@ -224,9 +224,11 @@
             fetchData = nextProps.fetchData,
             fetchInfo = nextProps.fetchInfo,
             fetchError = nextProps.fetchError,
-            autoRefresh = nextProps.autoRefresh;
+            autoRefresh = nextProps.autoRefresh,
+            fetchBoomerang = nextProps.fetchBoomerang,
+            fetchDispatchId = nextProps.fetchDispatchId;
 
-        var callBackData = { error: fetchError, status: fetchStatus, data: fetchData, info: fetchInfo };
+        var callBackData = { error: fetchError, status: fetchStatus, data: fetchData, info: fetchInfo, boomerang: fetchBoomerang, dispatchId: fetchDispatchId };
         if ((0, _helpers.isFetchFinish)(props, nextProps)) {
           props.onFetchEnd(callBackData);
         } else if ((0, _helpers.isDeleteFinish)(props, nextProps)) {

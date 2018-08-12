@@ -115,8 +115,8 @@ class FetchCollection extends React.PureComponent {
   }
 
   handleCallBacks(props, nextProps) {
-    const { fetchStatus, fetchData, fetchInfo, fetchError, autoRefresh } = nextProps;
-    const callBackData = {error: fetchError, status: fetchStatus, data: fetchData, info: fetchInfo }
+    const { fetchStatus, fetchData, fetchInfo, fetchError, autoRefresh, fetchBoomerang, fetchDispatchId, fetchCount } = nextProps;
+    const callBackData = {error: fetchError, status: fetchStatus, data: fetchData, info: fetchInfo, boomerang: fetchBoomerang, dispatchId: fetchDispatchId, count: fetchCount }
     if (isFetchFinish(props, nextProps)) {
       props.onFetchEnd(callBackData);
     } else if (isDeleteFinish(props, nextProps)) {

@@ -29,7 +29,9 @@
       fetchStatus: (0, _selectors.getStatus)(state, target),
       fetchInfo: (0, _selectors.getInfo)(state, target),
       fetchError: (0, _selectors.getError)(state, target),
-      fetchDispatchId: (0, _selectors.getDispatchId)(state, target)
+      fetchDispatchId: (0, _selectors.getDispatchId)(state, target),
+      fetchBoomerang: (0, _selectors.getBoomerang)(state, target)
+
     };
   }
 
