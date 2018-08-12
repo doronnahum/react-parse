@@ -52,6 +52,7 @@
    * @param {object} payload.logger pass to your Logger relevant info 
    * @param {function} payload.dataHandler pass function that manipulate data before set to store
    * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
+   * @param {function} payload.boomerang optional, you can pass some data that help you manage your things with this async query
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
     (0, _index.dispatch)(actions.fetchData(payload));
@@ -105,6 +106,7 @@
    * @param {boolean} payload.filesIncluded set true if your data include file to upload
    * @param {function} payload.fileValueHandler pass function that will get the new file URL if you didn't want to save it as File object
    * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
+  * @param {function} payload.boomerang optional, you can pass some data that help you manage your things with this async query
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     (0, _index.dispatch)(actions.putDoc(payload));

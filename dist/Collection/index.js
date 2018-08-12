@@ -130,7 +130,7 @@
       }
     }, {
       key: 'onDelete',
-      value: function onDelete(objectId, dispatchId) {
+      value: function onDelete(objectId, dispatchId, boomerang) {
         var _props2 = this.props,
             fetchActions = _props2.fetchActions,
             schemaName = _props2.schemaName,
@@ -140,11 +140,11 @@
           console.warn('onDelete: missing objectId ');
           return;
         }
-        fetchActions.deleteDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, dispatchId: dispatchId });
+        fetchActions.deleteDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, dispatchId: dispatchId, boomerang: boomerang });
       }
     }, {
       key: 'onPut',
-      value: function onPut(objectId, data, filesIncluded, fileValueHandler, dispatchId) {
+      value: function onPut(objectId, data, filesIncluded, fileValueHandler, dispatchId, boomerang) {
         var _props3 = this.props,
             fetchActions = _props3.fetchActions,
             schemaName = _props3.schemaName,
@@ -158,11 +158,11 @@
           console.warn('onUpdateDoc: missing data object ');
           return;
         }
-        fetchActions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler, dispatchId: dispatchId });
+        fetchActions.putDoc({ schemaName: schemaName, targetName: targetName, objectId: objectId, data: data, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler, dispatchId: dispatchId, boomerang: boomerang });
       }
     }, {
       key: 'onPost',
-      value: function onPost(data, filesIncluded, fileValueHandler, dispatchId) {
+      value: function onPost(data, filesIncluded, fileValueHandler, dispatchId, boomerang) {
         var _props4 = this.props,
             fetchActions = _props4.fetchActions,
             schemaName = _props4.schemaName,
@@ -172,7 +172,7 @@
           console.warn('onPost: missing data object ');
           return;
         }
-        fetchActions.postDoc({ schemaName: schemaName, targetName: targetName, data: data, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler, dispatchId: dispatchId });
+        fetchActions.postDoc({ schemaName: schemaName, targetName: targetName, data: data, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler, dispatchId: dispatchId, boomerang: boomerang });
       }
     }, {
       key: 'onRefresh',
@@ -185,6 +185,7 @@
         var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
         var localOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.localOnly;
         var dispatchId = arguments[2];
+        var boomerang = arguments[3];
         var targetName = props.targetName,
             schemaName = props.schemaName,
             query = props.query,
@@ -210,7 +211,8 @@
           include: include,
           order: order,
           dataHandler: dataHandler,
-          dispatchId: dispatchId
+          dispatchId: dispatchId,
+          boomerang: boomerang
         });
       }
     }, {

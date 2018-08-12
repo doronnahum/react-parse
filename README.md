@@ -1,4 +1,5 @@
 
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -208,6 +209,8 @@ action payload options
 |filesIncluded|boolean|set true if your data include files to upload|
 |fileValueHandler|function|pass function that will get the new file URL if you didn't want to save it as File object|
 |dispatchId|string| optional, you can pass some unique key to help you follow specific query status |
+boomerang|any|You can transfer all the data you want it to come back with a Ccallbackquery from data providers or you can choose it from a store, this is just data that can help you mange your stuff
+
 ---
 ### import all actions
 ```jsx
@@ -222,16 +225,16 @@ import { collectionActions } from  'react-parse';
 ```
 
  - GET collection from server:
-	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount, logger, dispatchId})
+	**fetchData**({schemaName, targetName, query, limit, skip, include, keys, enableCount, logger, dispatchId, boomerang})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, autoRefresh, logger, filesIncluded, fileValueHandler, dispatchId})
+ **postDoc**({schemaName, targetName, data, autoRefresh, logger, filesIncluded, fileValueHandler, dispatchId, boomerang})
  
  - PUT document
- **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger, filesIncluded, fileValueHandler, dispatchId})
+ **putDoc**({schemaName, targetName, objectId, data, autoRefresh, logger, filesIncluded, fileValueHandler, dispatchId, boomerang})
  
  - DELETE document
- **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger, dispatchId})
+ **deleteDoc**({schemaName, targetName, objectId, autoRefresh, logger, dispatchId, boomerang})
  
  - Refresh your data
  **refreshCollection**({targetName, dispatchId})
@@ -249,16 +252,16 @@ import { documentActions } from  'react-parse';
 ```
 
  - GET Document from server:
-	**fetchData**({schemaName, targetName, objectId, include, keys, logger, dispatchId})
+	**fetchData**({schemaName, targetName, objectId, include, keys, logger, dispatchId, boomerang})
 	
  - POST  document
- **postDoc**({schemaName, targetName, data, logger, filesIncluded, fileValueHandler, dispatchId})
+ **postDoc**({schemaName, targetName, data, logger, filesIncluded, fileValueHandler, dispatchId, boomerang})
  
  - PUT document
- **putDoc**({schemaName, targetName, objectId, data, logger, filesIncluded, fileValueHandler, dispatchId})
+ **putDoc**({schemaName, targetName, objectId, data, logger, filesIncluded, fileValueHandler, dispatchId, boomerang})
  
  - DELETE document
- **deleteDoc**({schemaName, targetName, objectId, logger, dispatchId})
+ **deleteDoc**({schemaName, targetName, objectId, logger, dispatchId, boomerang})
  
  - Update local data
  **updateField**({targetName, key, value, logger})
@@ -276,7 +279,7 @@ import { cloudCodeActions } from  'react-parse';
 ```
 
  - GET Document from server:
-	**fetchData**({functionName, targetName, params, digToData, logger, dispatchId})
+	**fetchData**({functionName, targetName, params, digToData, logger, dispatchId, boomerang})
 	
  - Clean cloudCode from your store:
  **cleanData**({targetName})
@@ -298,7 +301,8 @@ import {selectors} from 'react-parse'
  5. selectors.selectCollectionStatus(state, 'TARGET_NAME') // return query status by targetName
  6. selectors.selectCollectionError(state, 'TARGET_NAME') // return query error by targetName
  7. selectors.selectCollectionCount(state, 'TARGET_NAME') // return the quantity of results by targetName
- 7. selectors.selectCollectionDispatchId(state, 'TARGET_NAME') // return the dispatchId of the current/last query
+ 8. selectors.selectCollectionDispatchId(state, 'TARGET_NAME') // return the dispatchId of the current/last query
+ 9. selectors.selectCollectionBoomerang(state, 'TARGET_NAME') // return your  last Boomerang data
 ### DocumentSelectors
  1. selectors.selectDocuments(state)
  2. selectors.selectDocumentData(state, 'TARGET_NAME')
@@ -306,7 +310,8 @@ import {selectors} from 'react-parse'
  4. selectors.selectDocumentInfo(state, 'TARGET_NAME')
  5. selectors.selectDocumentStatus(state, 'TARGET_NAME')
  6. selectors.selectDocumentError(state, 'TARGET_NAME')
- 6. selectors.selectDocumentDispatchId(state, 'TARGET_NAME')
+ 7. selectors.selectDocumentDispatchId(state, 'TARGET_NAME')
+ 8. selectors.selectDocumentBoomerang(state, 'TARGET_NAME')
 ### CloudCodeSelectors
  1. selectors.selectCloudCodes(state)
  2. selectors.selectCloudCodeData(state, 'TARGET_NAME')
@@ -314,7 +319,7 @@ import {selectors} from 'react-parse'
  4. selectors.selectCloudCodeInfo(state, 'TARGET_NAME')
  5. selectors.selectCloudCodeStatus(state, 'TARGET_NAME')
  6. selectors.selectCloudCodeError(state, 'TARGET_NAME')
- 6. selectors.selectCloudCodeDispatchId(state, 'TARGET_NAME')
+ 7. selectors.selectCloudCodeDispatchId(state, 'TARGET_NAME')
 
 
 ## dataProviders
@@ -336,12 +341,12 @@ fetchProps include :
 	- fetchProps.cleanData()
 - put- method, run to update the document
 	-	 from FetchCollection => fetchProps.put('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
-	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
+	-  from FetchDocument => fetchProps.put({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId, boomerang)
 - post- method, run to create document,
-	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
-	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId)
+	-	 from FetchCollection => fetchProps.post('DOC_OBJECT_ID',{title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId, boomerang)
+	-  from FetchDocument => fetchProps.post({title: 'newTitle', body: 'newBody'},filesIncluded, fileValueHandler, dispatchId, boomerang)
 - deleteDoc- method, run to delete document,
-	-	 from FetchCollection => fetchProps.deleteDoc('DOC_OBJECT_ID', dispatchId)
+	-	 from FetchCollection => fetchProps.deleteDoc('DOC_OBJECT_ID', dispatchId, boomerang)
 	-  from FetchDocument => fetchProps.deleteDoc(, dispatchId)
 - updateField - method on FetchDocument to update filed in store
 	- fetchProps.updateField('title', 'new Title)
@@ -361,9 +366,9 @@ import {FetchDocument} from 'react-parse'
 	keys='title,body,owner'
 	include='Owner'
 	onFetchEnd={({error, status, data, info })=>{}}
-	onPostEnd={({error, status, data, info })=>{}}
-	onPutEnd={({error, status, data, info })=>{}}
-	onDeleteEnd={({error, status, data, info })=>{}}
+	onPostEnd={({error, status, data, info, boomerang })=>{}}
+	onPutEnd={({error, status, data, info, boomerang })=>{}}
+	onDeleteEnd={({error, status, data, info, boomerang })=>{}}
 	leaveClean={true} // remove data from store on componentWillUnmount
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
@@ -387,9 +392,9 @@ import {FetchCollection} from 'react-parse'
 	keys=''
 	include=''
 	onFetchEnd={({error, status, data, info })=>{}}
-	onPostEnd={({error, status, data, info })=>{}}
-	onPutEnd={({error, status, data, info })=>{}}
-	onDeleteEnd={({error, status, data, info })=>{}}
+	onPostEnd={({error, status, data, info, boomerang })=>{}}
+	onPutEnd={({error, status, data, info, boomerang })=>{}}
+	onDeleteEnd={({error, status, data, info, boomerang })=>{}}
 	leaveClean={true} // remove data from store on componentWillUnmount
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store
@@ -415,7 +420,7 @@ import {FetchCloudCode} from 'react-parse'
 	targetName='GetPostsCloud'
 	component={MyComponent} // or user render={(props)=> <MyComponent ...props/>}
 	// optional:
-	onFetchEnd={({error, status, data, info })=>{}}
+	onFetchEnd={({error, status, data, info, boomerang })=>{}}
 	leaveClean={true} // remove data from store on componentWillUnmount
 	localFirst={false} // fetch data from server only if we can found your data on local store
 	localOnly={false} // never fetch data from server, only find in store

@@ -38,7 +38,7 @@
 
   /**
    * fetchData
-   * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount, dataHandler, dispatchId}
+   * @param {obj} {schemaName, targetName, query, perPage, page, include, keys, enableCount, dataHandler, dispatchId, boomerang}
    */
   var fetchData = exports.fetchData = function fetchData(payload) {
     return {
@@ -60,7 +60,7 @@
 
   /**
    * setOnStore
-   * @param {*} payload {targetName, status, data, info, error, dispatchId}
+   * @param {*} payload {targetName, status, data, info, error, dispatchId, boomerang}
    */
   var setOnStore = exports.setOnStore = function setOnStore(payload) {
     return {
@@ -71,7 +71,7 @@
 
   /**
    * deleteDocument
-   * @param {*} payload {schemaName, targetName, objectId, autoRefresh, dispatchId}
+   * @param {*} payload {schemaName, targetName, objectId, autoRefresh, dispatchId, boomerang}
    */
   var deleteDoc = exports.deleteDoc = function deleteDoc(payload) {
     return {
@@ -82,7 +82,7 @@
 
   /**
    * putDoc
-   * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId}
+   * @param {*} payload {schemaName, targetName, objectId, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId, boomerang}
    */
   var putDoc = exports.putDoc = function putDoc(payload) {
     return {
@@ -93,7 +93,7 @@
 
   /**
    * potDoc
-   * @param {*} payload {schemaName, targetName, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId}
+   * @param {*} payload {schemaName, targetName, data, autoRefresh, filesIncluded, fileValueHandler, dispatchId, boomerang}
    */
   var postDoc = exports.postDoc = function postDoc(payload) {
     return {

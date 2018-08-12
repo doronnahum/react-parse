@@ -97,6 +97,7 @@
     selectCollectionCount: _selectors.collectionSelectors.getCount,
     selectCollectionError: _selectors.collectionSelectors.getError,
     selectCollectionDispatchId: _selectors.collectionSelectors.getDispatchId,
+    selectCollectionBoomerang: _selectors.collectionSelectors.getBoomerang,
 
     selectDocuments: _selectors.documentSelectors.getDocuments,
     selectDocument: _selectors.documentSelectors.getDocument,
@@ -106,6 +107,7 @@
     selectDocumentStatus: _selectors.documentSelectors.getStatus,
     selectDocumentError: _selectors.documentSelectors.getError,
     selectDocumentDispatchId: _selectors.documentSelectors.getDispatchId,
+    selectDocumentBoomerang: _selectors.documentSelectors.getBoomerang,
 
     selectCloudCodes: _selectors.cloudCodeSelectors.getCloudCodes,
     selectCloudCode: _selectors.cloudCodeSelectors.getCloudCode,

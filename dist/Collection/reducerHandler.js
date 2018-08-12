@@ -44,7 +44,8 @@
         info = _ref.info,
         error = _ref.error,
         loading = _ref.loading,
-        dispatchId = _ref.dispatchId;
+        dispatchId = _ref.dispatchId,
+        boomerang = _ref.boomerang;
 
     switch (action.type) {
       case SET_COLLECTION:
@@ -71,6 +72,9 @@
           }
           if ('dispatchId' in payload) {
             nextState = nextState.setIn(['collections', targetName, 'dispatchId'], dispatchId);
+          }
+          if ('boomerang' in payload) {
+            nextState = nextState.setIn(['documents', targetName, 'boomerang'], boomerang);
           }
           return nextState;
         }

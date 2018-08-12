@@ -30,6 +30,9 @@ export const getStatus = createSelector(getImmutableCollection, dataImmutable =>
 export const getDispatchId = createSelector(getImmutableCollection, dataImmutable =>
   dataImmutable.get('dispatchId')
 );
+export const getBoomerang = createSelector(getImmutableCollection, dataImmutable =>
+  dataImmutable.get('boomerang')
+);
 export const getLoading = createSelector(getImmutableCollection, dataImmutable =>
   isLoading(dataImmutable.get('status'))
 );

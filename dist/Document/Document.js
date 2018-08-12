@@ -126,22 +126,22 @@
       }
     }, {
       key: 'onDelete',
-      value: function onDelete(dispatchId) {
+      value: function onDelete(dispatchId, boomerang) {
         var _props2 = this.props,
             objectId = _props2.objectId,
             schemaName = _props2.schemaName,
             targetName = _props2.targetName;
 
-        this.props.fetchActions.deleteDoc({ targetName: targetName, schemaName: schemaName, objectId: objectId, dispatchId: dispatchId });
+        this.props.fetchActions.deleteDoc({ targetName: targetName, schemaName: schemaName, objectId: objectId, dispatchId: dispatchId, boomerang: boomerang });
       }
     }, {
       key: 'onRefresh',
-      value: function onRefresh(dispatchId) {
-        this.fetchData(this.props, false, dispatchId);
+      value: function onRefresh(dispatchId, boomerang) {
+        this.fetchData(this.props, false, dispatchId, boomerang);
       }
     }, {
       key: 'onPut',
-      value: function onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
+      value: function onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId, boomerang) {
         var _props3 = this.props,
             fetchActions = _props3.fetchActions,
             targetName = _props3.targetName,
@@ -165,7 +165,7 @@
       }
     }, {
       key: 'onPost',
-      value: function onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
+      value: function onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId, boomerang) {
         var _props4 = this.props,
             fetchActions = _props4.fetchActions,
             targetName = _props4.targetName,
@@ -178,7 +178,7 @@
         var target = targetName || objectId || uniqueId;
         var dataToCrate = dataFromCall || fetchData;
         var dataToSend = parseDataBeforeSubmit ? parseDataBeforeSubmit(dataToCrate) : dataToCrate;
-        fetchActions.postDoc({ targetName: target, schemaName: schemaName, data: dataToSend, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler, dispatchId: dispatchId });
+        fetchActions.postDoc({ targetName: target, schemaName: schemaName, data: dataToSend, filesIncluded: filesIncluded, fileValueHandler: fileValueHandler, dispatchId: dispatchId, boomerang: boomerang });
       }
     }, {
       key: 'fetchData',
@@ -186,6 +186,7 @@
         var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
         var localOnly = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props.localOnly;
         var dispatchId = arguments[2];
+        var boomerang = arguments[3];
         var targetName = props.targetName,
             schemaName = props.schemaName,
             objectId = props.objectId,
@@ -201,7 +202,8 @@
           objectId: objectId,
           include: include,
           keys: keys,
-          dispatchId: dispatchId
+          dispatchId: dispatchId,
+          boomerang: boomerang
         });
       }
     }, {

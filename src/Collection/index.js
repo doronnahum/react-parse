@@ -47,16 +47,16 @@ class FetchCollection extends React.PureComponent {
     }
   }
 
-  onDelete(objectId, dispatchId) {
+  onDelete(objectId, dispatchId, boomerang) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!objectId) {
       console.warn('onDelete: missing objectId ');
       return;
     }
-    fetchActions.deleteDoc({ schemaName, targetName, objectId, dispatchId });
+    fetchActions.deleteDoc({ schemaName, targetName, objectId, dispatchId, boomerang });
   }
 
-  onPut(objectId, data, filesIncluded, fileValueHandler, dispatchId) {
+  onPut(objectId, data, filesIncluded, fileValueHandler, dispatchId, boomerang) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!objectId) {
       console.warn('onUpdateDoc: missing objectId ');
@@ -66,23 +66,23 @@ class FetchCollection extends React.PureComponent {
       console.warn('onUpdateDoc: missing data object ');
       return;
     }
-    fetchActions.putDoc({ schemaName, targetName, objectId, data, filesIncluded, fileValueHandler, dispatchId });
+    fetchActions.putDoc({ schemaName, targetName, objectId, data, filesIncluded, fileValueHandler, dispatchId, boomerang });
   }
 
-  onPost(data, filesIncluded, fileValueHandler, dispatchId) {
+  onPost(data, filesIncluded, fileValueHandler, dispatchId, boomerang) {
     const { fetchActions, schemaName, targetName } = this.props;
     if (!data || typeof data !== 'object') {
       console.warn('onPost: missing data object ');
       return;
     }
-    fetchActions.postDoc({ schemaName, targetName, data, filesIncluded, fileValueHandler, dispatchId });
+    fetchActions.postDoc({ schemaName, targetName, data, filesIncluded, fileValueHandler, dispatchId, boomerang });
   }
 
   onRefresh() {
     this.fetchData(this.props, false);
   }
 
-  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId) {
+  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId, boomerang) {
     const {
       targetName,
       schemaName,
@@ -109,7 +109,8 @@ class FetchCollection extends React.PureComponent {
       include,
       order,
       dataHandler,
-      dispatchId
+      dispatchId,
+      boomerang
     });
   }
 

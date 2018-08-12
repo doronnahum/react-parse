@@ -49,16 +49,16 @@ class FetchDocument extends React.Component {
     }
   }
 
-  onDelete(dispatchId) {
+  onDelete(dispatchId, boomerang) {
     const { objectId, schemaName, targetName } = this.props;
-    this.props.fetchActions.deleteDoc({targetName, schemaName, objectId, dispatchId});
+    this.props.fetchActions.deleteDoc({targetName, schemaName, objectId, dispatchId, boomerang});
   }
 
-  onRefresh(dispatchId) {
-    this.fetchData(this.props, false, dispatchId);
+  onRefresh(dispatchId, boomerang) {
+    this.fetchData(this.props, false, dispatchId, boomerang);
   }
 
-  onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
+  onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId, boomerang) {
     const {
       fetchActions,
       targetName,
@@ -83,7 +83,7 @@ class FetchDocument extends React.Component {
     });
   }
 
-  onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId) {
+  onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId, boomerang) {
     const {
       fetchActions,
       targetName,
@@ -98,10 +98,10 @@ class FetchDocument extends React.Component {
     const dataToSend = parseDataBeforeSubmit
       ? parseDataBeforeSubmit(dataToCrate)
       : dataToCrate;
-    fetchActions.postDoc({ targetName: target, schemaName, data: dataToSend, filesIncluded, fileValueHandler, dispatchId });
+    fetchActions.postDoc({ targetName: target, schemaName, data: dataToSend, filesIncluded, fileValueHandler, dispatchId, boomerang });
   }
 
-  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId) {
+  fetchData(props = this.props, localOnly = this.props.localOnly, dispatchId, boomerang) {
     const { targetName, schemaName, objectId, include, keys } = props;
     if (localOnly || !objectId || !schemaName) {
       return;
@@ -112,7 +112,8 @@ class FetchDocument extends React.Component {
       objectId,
       include,
       keys,
-      dispatchId
+      dispatchId,
+      boomerang
     });
   }
 

@@ -21,6 +21,7 @@ const {
  * @param {string} payload.keys,
  * @param {function} payload.dataHandler,
  * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
+ * @param {function} payload.boomerang optional, you can pass some data that help you manage your things with this async query
  * 
  */
 export const fetchData = payload => ({
@@ -47,7 +48,7 @@ export const updateField = payload => ({
 
 /**
  * putDoc
- * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler, dispatchId}
+ * @param {*} payload {targetName, schemaName, objectId, data, filesIncluded, fileValueHandler, dispatchId, boomerang}
  */
 export const putDoc = payload => ({
   type: PUT_DOCUMENT,
@@ -55,7 +56,7 @@ export const putDoc = payload => ({
 });
 /**
  * postDoc
- * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId}
+ * @param {*} payload {targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId, boomerang}
  */
 export const postDoc = payload => ({
   type: POST_DOCUMENT,
@@ -63,7 +64,7 @@ export const postDoc = payload => ({
 });
 /**
  * deleteDoc
- * @param {*} payload {targetName, schemaName,objectId, dispatchId}
+ * @param {*} payload {targetName, schemaName,objectId, dispatchId, boomerang}
  */
 export const deleteDoc = payload => ({
   type: DELETE_DOCUMENT,

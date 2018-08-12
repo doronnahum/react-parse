@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.getError = exports.getCount = exports.getInfo = exports.getLoading = exports.getDispatchId = exports.getStatus = exports.getData = exports.getCollection = exports.getCollections = undefined;
+  exports.getError = exports.getCount = exports.getInfo = exports.getLoading = exports.getBoomerang = exports.getDispatchId = exports.getStatus = exports.getData = exports.getCollection = exports.getCollections = undefined;
 
 
   var MAP = (0, _immutable.Map)();
@@ -45,6 +45,9 @@
   });
   var getDispatchId = exports.getDispatchId = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
     return dataImmutable.get('dispatchId');
+  });
+  var getBoomerang = exports.getBoomerang = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
+    return dataImmutable.get('boomerang');
   });
   var getLoading = exports.getLoading = (0, _reselect.createSelector)(getImmutableCollection, function (dataImmutable) {
     return (0, _helpers.isLoading)(dataImmutable.get('status'));

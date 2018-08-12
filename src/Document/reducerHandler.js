@@ -12,7 +12,7 @@ const {
 
 export default function reducerHandler(state, action) {
   const { payload } = action;
-  const { targetName, status, data, info, error, key, value, loading, dispatchId } = payload || {};
+  const { targetName, status, data, info, error, key, value, loading, dispatchId, boomerang } = payload || {};
   switch (action.type) {
     case SET_DOCUMENT: {
       const documents = state.documents.get(targetName);
@@ -43,6 +43,9 @@ export default function reducerHandler(state, action) {
       }
       if ('dispatchId' in payload) {
         nextState = nextState.setIn(['documents', targetName, 'dispatchId'], dispatchId);
+      }
+      if ('boomerang' in payload) {
+        nextState = nextState.setIn(['documents', targetName, 'boomerang'], boomerang);
       }
       return nextState;
     }
