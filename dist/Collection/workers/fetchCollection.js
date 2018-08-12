@@ -42,17 +42,17 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchCollection(action) {
-    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, dispatchId, target, _dispatchId, res, errType, _data, data, info;
+    var _action$payload, targetName, schemaName, query, skip, page, enableCount, keys, include, order, limit, dataHandler, dispatchId, boomerang, target, _dispatchId, res, errType, _data, data, info;
 
     return _regeneratorRuntime2.default.wrap(function fetchCollection$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, query = _action$payload.query, skip = _action$payload.skip, page = _action$payload.page, enableCount = _action$payload.enableCount, keys = _action$payload.keys, include = _action$payload.include, order = _action$payload.order, limit = _action$payload.limit, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId, boomerang = _action$payload.boomerang;
             target = targetName || schemaName;
             _dispatchId = dispatchId || '';
             _context.next = 5;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 5:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.query, schemaName, query, limit, skip, enableCount, keys, include, order), 't0', 6);
@@ -69,7 +69,7 @@
 
             console.error('fetchCollection err: ', schemaName, res.error);
             _context.next = 12;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 12:
             _Logger2.default.onError('GET', action, errType);
@@ -100,7 +100,8 @@
               data: data,
               info: info,
               loading: false,
-              dispatchId: _dispatchId
+              dispatchId: _dispatchId,
+              boomerang: boomerang
             }));
 
           case 20:

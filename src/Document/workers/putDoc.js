@@ -11,10 +11,10 @@ const FAILED_NETWORK = types.PUT_FAILED_NETWORK;
 const FINISHED = types.PUT_FINISHED;
 
 export default function* putDoc(action) {
-  const { targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId } = action.payload;
+  const { targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId, boomerang } = action.payload;
   const target = targetName || objectId;
   const _dispatchId =  dispatchId || '';
-  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
+  yield put(setOnStore({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId, boomerang }));
   let dataToSend, dataFileError, res = null;
   try {
     dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
@@ -30,7 +30,7 @@ export default function* putDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', targetName, res.error);
-    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
+    yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
     Logger.onError('PUT', action, errType)
   } else {
     const info = {
@@ -47,7 +47,8 @@ export default function* putDoc(action) {
         info,
         error: null,
         loading: false,
-        dispatchId: _dispatchId
+        dispatchId: _dispatchId,
+        boomerang
       })
     );
     Logger.onSuccess('PUT', action, FINISHED)

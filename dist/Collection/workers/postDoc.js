@@ -36,17 +36,17 @@
   var FINISHED = _types2.default.POST_FINISHED;
 
   function postDoc(action) {
-    var _action$payload, schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, dispatchId, _dispatchId, target, dataToSend, dataFileError, res, errType;
+    var _action$payload, schemaName, data, targetName, autoRefresh, filesIncluded, fileValueHandler, dispatchId, boomerang, _dispatchId, target, dataToSend, dataFileError, res, errType;
 
     return _regeneratorRuntime2.default.wrap(function postDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, schemaName = _action$payload.schemaName, data = _action$payload.data, targetName = _action$payload.targetName, autoRefresh = _action$payload.autoRefresh, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId;
+            _action$payload = action.payload, schemaName = _action$payload.schemaName, data = _action$payload.data, targetName = _action$payload.targetName, autoRefresh = _action$payload.autoRefresh, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId, boomerang = _action$payload.boomerang;
             _dispatchId = dispatchId || '';
             target = targetName || schemaName;
             _context.next = 5;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 5:
             dataToSend = void 0, dataFileError = void 0, res = null;
@@ -104,7 +104,7 @@
             console.error('postDoc err', schemaName, res.err);
             _server.Logger.onError('POST', action, errType);
             _context.next = 31;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 31:
             _context.next = 39;
@@ -112,7 +112,7 @@
 
           case 33:
             _context.next = 35;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 35:
             _server.Logger.onSuccess('POST', action, FINISHED);

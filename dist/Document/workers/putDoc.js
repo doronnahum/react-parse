@@ -36,17 +36,17 @@
   var FINISHED = _types2.default.PUT_FINISHED;
 
   function putDoc(action) {
-    var _action$payload, targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId, target, _dispatchId, dataToSend, dataFileError, res, errType, info;
+    var _action$payload, targetName, schemaName, data, objectId, filesIncluded, fileValueHandler, dispatchId, boomerang, target, _dispatchId, dataToSend, dataFileError, res, errType, info;
 
     return _regeneratorRuntime2.default.wrap(function putDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, objectId = _action$payload.objectId, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, data = _action$payload.data, objectId = _action$payload.objectId, filesIncluded = _action$payload.filesIncluded, fileValueHandler = _action$payload.fileValueHandler, dispatchId = _action$payload.dispatchId, boomerang = _action$payload.boomerang;
             target = targetName || objectId;
             _dispatchId = dispatchId || '';
             _context.next = 5;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 5:
             dataToSend = void 0, dataFileError = void 0, res = null;
@@ -103,7 +103,7 @@
 
             console.error('putDoc err', targetName, res.error);
             _context.next = 30;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 30:
             _server.Logger.onError('PUT', action, errType);
@@ -125,7 +125,8 @@
               info: info,
               error: null,
               loading: false,
-              dispatchId: _dispatchId
+              dispatchId: _dispatchId,
+              boomerang: boomerang
             }));
 
           case 36:

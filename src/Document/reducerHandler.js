@@ -44,7 +44,7 @@ export default function reducerHandler(state, action) {
       if ('dispatchId' in payload) {
         nextState = nextState.setIn(['documents', targetName, 'dispatchId'], dispatchId);
       }
-      if ('boomerang' in payload) {
+      if (boomerang) {
         nextState = nextState.setIn(['documents', targetName, 'boomerang'], boomerang);
       }
       return nextState;

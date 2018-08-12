@@ -42,17 +42,17 @@
   var FINISHED = _types2.default.FETCH_FINISHED;
 
   function fetchDoc(action) {
-    var _action$payload, targetName, schemaName, objectId, include, keys, dataHandler, dispatchId, target, _dispatchId, res, errType, info, _data, data;
+    var _action$payload, targetName, schemaName, objectId, include, keys, dataHandler, dispatchId, boomerang, target, _dispatchId, res, errType, info, _data, data;
 
     return _regeneratorRuntime2.default.wrap(function fetchDoc$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId;
+            _action$payload = action.payload, targetName = _action$payload.targetName, schemaName = _action$payload.schemaName, objectId = _action$payload.objectId, include = _action$payload.include, keys = _action$payload.keys, dataHandler = _action$payload.dataHandler, dispatchId = _action$payload.dispatchId, boomerang = _action$payload.boomerang;
             target = targetName || objectId;
             _dispatchId = dispatchId || '';
             _context.next = 5;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: START, error: null, loading: true, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 5:
             return _context.delegateYield((0, _httpWrapper2.default)(_api2.default.getObjectById, schemaName, objectId, keys, include), 't0', 6);
@@ -69,7 +69,7 @@
 
             console.error('get document err', objectId, res.error);
             _context.next = 12;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 12:
             _Logger2.default.onError('GET', action, errType);
@@ -93,7 +93,8 @@
               info: info,
               error: null,
               loading: false,
-              dispatchId: _dispatchId
+              dispatchId: _dispatchId,
+              boomerang: boomerang
             }));
 
           case 20:

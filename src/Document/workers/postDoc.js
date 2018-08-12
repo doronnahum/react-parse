@@ -11,9 +11,9 @@ const FAILED_NETWORK = types.POST_FAILED_NETWORK;
 const FINISHED = types.POST_FINISHED;
 
 export default function* postDoc(action) {
-  const { targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId } = action.payload;
+  const { targetName, schemaName, data, filesIncluded, fileValueHandler, dispatchId, boomerang } = action.payload;
   const _dispatchId =  dispatchId || '';
-  yield put(setOnStore({ targetName, status: START, error: null, loading: true, dispatchId: _dispatchId }));
+  yield put(setOnStore({ targetName, status: START, error: null, loading: true, dispatchId: _dispatchId, boomerang }));
   let dataToSend, dataFileError, res = null;
   try {
     dataToSend = filesIncluded ? yield* uploadFilesFromData(data, fileValueHandler) : data;
@@ -29,7 +29,7 @@ export default function* postDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);
-    yield put(setOnStore({ targetName, status: errType, error: res, loading: false, dispatchId: _dispatchId }));
+    yield put(setOnStore({ targetName, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
     Logger.onError('POST', action, errType)
   } else {
     const info = {
@@ -46,7 +46,8 @@ export default function* postDoc(action) {
         info,
         error: null,
         loading: false,
-        dispatchId: _dispatchId
+        dispatchId: _dispatchId,
+        boomerang
       })
     );
     Logger.onSuccess('POST', action, FINISHED)
