@@ -209,7 +209,7 @@ action payload options
 |filesIncluded|boolean|set true if your data include files to upload|
 |fileValueHandler|function|pass function that will get the new file URL if you didn't want to save it as File object|
 |dispatchId|string| optional, you can pass some unique key to help you follow specific query status |
-boomerang|any|You can transfer all the data you want it to come back with a Ccallbackquery from data providers or you can choose it from a store, this is just data that can help you mange your stuff
+boomerang|any| You can transfer anything and it will come back to you with data providers callbacks. this is just data that can help you manage your stuff
 
 ---
 ### import all actions
