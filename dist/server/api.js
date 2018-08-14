@@ -84,6 +84,12 @@
       var config = Object.assign(initConfig, { sessionToken: token });
       Api.init(config);
     },
+    getSessionToken: function getSessionToken(token) {
+      if (!initConfig) {
+        return '';
+      }
+      return initConfig.sessionToken;
+    },
     removeSessionToken: function removeSessionToken() {
       delete initConfig.sessionToken;
       Api.init(initConfig);
