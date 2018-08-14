@@ -139,8 +139,8 @@
     },
     getObjectById: function getObjectById(schemaName, objectId, keys, include) {
       var p = { params: {} };
-      if (keys) p.keys = keys;
-      if (include) p.include = include;
+      if (keys) p.params.keys = keys;
+      if (include) p.params.include = include;
       return api.get('' + classPath + schemaName + '/' + objectId, p);
     },
     updateObject: function updateObject(schemaName, objectId, data) {
