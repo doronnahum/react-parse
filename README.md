@@ -1,5 +1,6 @@
 
 
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -42,6 +43,7 @@ React Parse include 3 data provider components, to make the life even easier and
 -  [Enum](#enum)
 -  [Logger](#logger)
 - [Global Loader](#loader)
+- [Clean State](#cleanstate)
 
 ## Installation
 
@@ -516,5 +518,26 @@ class MyComponent extends React.Component {
 		)
 
 ```
+
+## CleanState
+
+Need to clean the state ?
+
+ - Option 1
+ Add lister to your logout action type:
+	 ```
+	 import {setClearStateActionType} from 'react-parse
+	 setClearStateActionType('USER_LOGOUT')
+	 ```
+ - Option 2
+ Call react-parse cleanAllState action
+	 ```
+	 import {cleanAllState} from 'react-parse
+	 cleanAllState()
+	 ```
+- Option 3
+dispatch action with this type 'CLEAN_ALL_PARSE_STATE'
+
  # Contribute
 You can help improving this project sending PRs and helping with issues.  
+
