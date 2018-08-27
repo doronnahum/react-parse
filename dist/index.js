@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.documentActions = exports.cloudCodeActions = exports.collectionActions = exports.actions = exports.documentSelectors = exports.collectionSelectors = exports.cloudCodeSelectors = exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.setLoggerHandlers = exports.helpers = exports.constants = exports.httpRequest = exports.api = exports.config = exports.dispatch = exports.setReactParseDispatch = undefined;
+  exports.documentActions = exports.cloudCodeActions = exports.collectionActions = exports.actions = exports.documentSelectors = exports.collectionSelectors = exports.cloudCodeSelectors = exports.selectors = exports.parseReducer = exports.parseWatcher = exports.ShowLoader = exports.FetchCloudCode = exports.FetchDocument = exports.FetchCollection = exports.setLoggerHandlers = exports.cleanAllState = exports.setClearStateActionType = exports.helpers = exports.constants = exports.httpRequest = exports.api = exports.config = exports.dispatch = exports.setReactParseDispatch = undefined;
 
   var _api2 = _interopRequireDefault(_api);
 
@@ -175,6 +175,8 @@
   exports.httpRequest = _httpWrapper2.default;
   exports.constants = _types2.default;
   exports.helpers = helpers;
+  exports.setClearStateActionType = _reducer.setClearStateActionType;
+  exports.cleanAllState = _reducer.cleanAllState;
   exports.setLoggerHandlers = _Logger.setLoggerHandlers;
   exports.FetchCollection = _Collection2.default;
   exports.FetchDocument = _Document2.default;

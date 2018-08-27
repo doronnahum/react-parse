@@ -10,7 +10,7 @@ import FetchDocument from './Document';
 import FetchCloudCode from './CloudCode';
 import ShowLoader from './Loader';
 // Parse
-import parseReducer from './reducer';
+import parseReducer, {setClearStateActionType, cleanAllState} from './reducer';
 import parseWatcher from './saga';
 // Selectors
 import {cloudCodeSelectors, collectionSelectors, documentSelectors} from './selectors';
@@ -115,6 +115,8 @@ export {
   httpRequest,
   constants,
   helpers,
+  setClearStateActionType,
+  cleanAllState,
   // Logger
   setLoggerHandlers,
   // Components
@@ -134,5 +136,5 @@ export {
   actions,
   collectionActions,
   cloudCodeActions,
-  documentActions
+  documentActions,
 };
