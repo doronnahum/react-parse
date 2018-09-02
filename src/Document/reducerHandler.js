@@ -68,9 +68,8 @@ export default function reducerHandler(state, action) {
       if (!documents) {
         nextState = nextState.setIn(['documents', targetName], Map({data}));
       }else{
-
+        nextState = nextState.mergeIn(['documents', targetName, 'data'], data);
       }
-      nextState = nextState.mergeIn(['documents', targetName, 'data'], data);
       return nextState;
     }
     case CLEAN_DOCUMENT: {

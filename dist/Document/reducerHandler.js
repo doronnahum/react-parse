@@ -97,8 +97,9 @@
           var _nextState2 = state;
           if (!_documents2) {
             _nextState2 = _nextState2.setIn(['documents', targetName], Map({ data: data }));
-          } else {}
-          _nextState2 = _nextState2.mergeIn(['documents', targetName, 'data'], data);
+          } else {
+            _nextState2 = _nextState2.mergeIn(['documents', targetName, 'data'], data);
+          }
           return _nextState2;
         }
       case CLEAN_DOCUMENT:
