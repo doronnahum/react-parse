@@ -508,7 +508,7 @@ setLoggerHandlers({
 ```
 
 ## loader
-need a global loader?
+need a global loader? 
 ```bash
 import {ShowLoader} from 'react-parse'
 class MyComponent extends React.Component {
