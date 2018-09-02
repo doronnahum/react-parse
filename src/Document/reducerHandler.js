@@ -66,7 +66,7 @@ export default function reducerHandler(state, action) {
       const documents = state.documents.get(targetName);
       let nextState = state;
       if (!documents) {
-        nextState = nextState.setIn(['documents', targetName], Map({data}));
+        nextState = nextState.setIn(['documents', targetName], Map({data: Map(data)}));
       }else{
         nextState = nextState.mergeIn(['documents', targetName, 'data'], data);
       }

@@ -96,7 +96,7 @@
           var _documents2 = state.documents.get(targetName);
           var _nextState2 = state;
           if (!_documents2) {
-            _nextState2 = _nextState2.setIn(['documents', targetName], Map({ data: data }));
+            _nextState2 = _nextState2.setIn(['documents', targetName], Map({ data: Map(data) }));
           } else {
             _nextState2 = _nextState2.mergeIn(['documents', targetName, 'data'], data);
           }
