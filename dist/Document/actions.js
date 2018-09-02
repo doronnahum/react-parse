@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.cleanDocuments = exports.clearDocuments = exports.cleanData = exports.deleteDoc = exports.postDoc = exports.putDoc = exports.updateField = exports.setOnStore = exports.fetchData = undefined;
+  exports.cleanDocuments = exports.clearDocuments = exports.cleanData = exports.deleteDoc = exports.postDoc = exports.putDoc = exports.updateFields = exports.updateField = exports.setOnStore = exports.fetchData = undefined;
 
   var _types2 = _interopRequireDefault(_types);
 
@@ -33,7 +33,8 @@
       DELETE_DOCUMENT = _types2.default.DELETE_DOCUMENT,
       CLEAN_DOCUMENT = _types2.default.CLEAN_DOCUMENT,
       CLEAN_ALL_DOCUMENTS = _types2.default.CLEAN_ALL_DOCUMENTS,
-      UPDATE_DOC_FIELD = _types2.default.UPDATE_DOC_FIELD;
+      UPDATE_DOC_FIELD = _types2.default.UPDATE_DOC_FIELD,
+      UPDATE_DOC_FIELDS = _types2.default.UPDATE_DOC_FIELDS;
 
 
   /**
@@ -66,6 +67,7 @@
       payload: payload
     };
   };
+
   /**
    * updateField
    * @param {*} payload {targetName, key, value}
@@ -73,6 +75,17 @@
   var updateField = exports.updateField = function updateField(payload) {
     return {
       type: UPDATE_DOC_FIELD,
+      payload: payload
+    };
+  };
+
+  /**
+   * updateFields
+   * @param {*} payload {targetName, key, value}
+   */
+  var updateFields = exports.updateFields = function updateFields(payload) {
+    return {
+      type: UPDATE_DOC_FIELDS,
       payload: payload
     };
   };

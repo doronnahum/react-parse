@@ -43,7 +43,8 @@
         putDoc: _actions.putDoc,
         postDoc: _actions.postDoc,
         cleanData: _actions.cleanData,
-        updateField: _actions.updateField
+        updateField: _actions.updateField,
+        updateFields: _actions.updateFields
       }, dispatch)
     };
   }

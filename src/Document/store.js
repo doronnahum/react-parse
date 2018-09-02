@@ -7,7 +7,8 @@ import {
   putDoc,
   postDoc,
   cleanData,
-  updateField
+  updateField,
+  updateFields
 } from './actions';
 
 function mapStateToProps(state, props) {
@@ -33,7 +34,8 @@ function mapDispatchToProps(dispatch) {
         putDoc,
         postDoc,
         cleanData,
-        updateField
+        updateField,
+        updateFields
       },
       dispatch
     )

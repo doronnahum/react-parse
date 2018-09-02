@@ -86,6 +86,7 @@
       _this.fetchData = _this.fetchData.bind(_this);
       _this.onDelete = _this.onDelete.bind(_this);
       _this.updateField = _this.updateField.bind(_this);
+      _this.updateFields = _this.updateFields.bind(_this);
       _this.onRefresh = _this.onRefresh.bind(_this);
       _this.onPost = _this.onPost.bind(_this);
       _this.onPut = _this.onPut.bind(_this);
@@ -103,6 +104,17 @@
 
         if (objectId && (!localFirst || localFirst && !fetchData)) {
           this.fetchData();
+        }
+      }
+    }, {
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _props2 = this.props,
+            objectId = _props2.objectId,
+            initialValue = _props2.initialValue;
+
+        if (!objectId && initialValue) {
+          this.updateFields(initialValue);
         }
       }
     }, {
@@ -127,10 +139,10 @@
     }, {
       key: 'onDelete',
       value: function onDelete(dispatchId, boomerang) {
-        var _props2 = this.props,
-            objectId = _props2.objectId,
-            schemaName = _props2.schemaName,
-            targetName = _props2.targetName;
+        var _props3 = this.props,
+            objectId = _props3.objectId,
+            schemaName = _props3.schemaName,
+            targetName = _props3.targetName;
 
         this.props.fetchActions.deleteDoc({ targetName: targetName, schemaName: schemaName, objectId: objectId, dispatchId: dispatchId, boomerang: boomerang });
       }
@@ -142,13 +154,13 @@
     }, {
       key: 'onPut',
       value: function onPut(dataFromCall, filesIncluded, fileValueHandler, dispatchId, boomerang) {
-        var _props3 = this.props,
-            fetchActions = _props3.fetchActions,
-            targetName = _props3.targetName,
-            schemaName = _props3.schemaName,
-            fetchData = _props3.fetchData,
-            objectId = _props3.objectId,
-            parseDataBeforeSubmit = _props3.parseDataBeforeSubmit;
+        var _props4 = this.props,
+            fetchActions = _props4.fetchActions,
+            targetName = _props4.targetName,
+            schemaName = _props4.schemaName,
+            fetchData = _props4.fetchData,
+            objectId = _props4.objectId,
+            parseDataBeforeSubmit = _props4.parseDataBeforeSubmit;
 
         var dataToUpdate = dataFromCall || fetchData;
         var target = targetName || objectId;
@@ -166,14 +178,14 @@
     }, {
       key: 'onPost',
       value: function onPost(dataFromCall, filesIncluded, fileValueHandler, dispatchId, boomerang) {
-        var _props4 = this.props,
-            fetchActions = _props4.fetchActions,
-            targetName = _props4.targetName,
-            schemaName = _props4.schemaName,
-            fetchData = _props4.fetchData,
-            objectId = _props4.objectId,
-            uniqueId = _props4.uniqueId,
-            parseDataBeforeSubmit = _props4.parseDataBeforeSubmit;
+        var _props5 = this.props,
+            fetchActions = _props5.fetchActions,
+            targetName = _props5.targetName,
+            schemaName = _props5.schemaName,
+            fetchData = _props5.fetchData,
+            objectId = _props5.objectId,
+            uniqueId = _props5.uniqueId,
+            parseDataBeforeSubmit = _props5.parseDataBeforeSubmit;
 
         var target = targetName || objectId || uniqueId;
         var dataToCrate = dataFromCall || fetchData;
@@ -209,13 +221,24 @@
     }, {
       key: 'updateField',
       value: function updateField(key, value) {
-        var _props5 = this.props,
-            targetName = _props5.targetName,
-            objectId = _props5.objectId,
-            uniqueId = _props5.uniqueId;
+        var _props6 = this.props,
+            targetName = _props6.targetName,
+            objectId = _props6.objectId,
+            uniqueId = _props6.uniqueId;
 
         var target = targetName || objectId || uniqueId;
         this.props.fetchActions.updateField({ targetName: target, key: key, value: value });
+      }
+    }, {
+      key: 'updateFields',
+      value: function updateFields(data) {
+        var _props7 = this.props,
+            targetName = _props7.targetName,
+            objectId = _props7.objectId,
+            uniqueId = _props7.uniqueId;
+
+        var target = targetName || objectId || uniqueId;
+        this.props.fetchActions.updateFields({ targetName: target, data: data });
       }
     }, {
       key: 'handleCallBacks',
@@ -245,10 +268,10 @@
     }, {
       key: 'cleanData',
       value: function cleanData() {
-        var _props6 = this.props,
-            targetName = _props6.targetName,
-            objectId = _props6.objectId,
-            uniqueId = _props6.uniqueId;
+        var _props8 = this.props,
+            targetName = _props8.targetName,
+            objectId = _props8.objectId,
+            uniqueId = _props8.uniqueId;
 
         var target = targetName || objectId || uniqueId;
         this.props.fetchActions.cleanData({ targetName: target });
@@ -256,16 +279,16 @@
     }, {
       key: 'render',
       value: function render() {
-        var _props7 = this.props,
-            fetchData = _props7.fetchData,
-            fetchStatus = _props7.fetchStatus,
-            fetchInfo = _props7.fetchInfo,
-            fetchError = _props7.fetchError,
-            fetchDispatchId = _props7.fetchDispatchId,
-            component = _props7.component,
-            objectId = _props7.objectId,
-            uniqueId = _props7.uniqueId,
-            dataHandler = _props7.dataHandler;
+        var _props9 = this.props,
+            fetchData = _props9.fetchData,
+            fetchStatus = _props9.fetchStatus,
+            fetchInfo = _props9.fetchInfo,
+            fetchError = _props9.fetchError,
+            fetchDispatchId = _props9.fetchDispatchId,
+            component = _props9.component,
+            objectId = _props9.objectId,
+            uniqueId = _props9.uniqueId,
+            dataHandler = _props9.dataHandler;
 
         var props = (0, _helpers.removeLocalKeys)(this.props);
         var propsToPass = Object.assign(props, {
@@ -282,6 +305,7 @@
             post: this.onPost,
             cleanData: this.cleanData,
             updateField: this.updateField,
+            updateFields: this.updateFields,
             id: objectId || uniqueId,
             dataHandler: dataHandler
           }

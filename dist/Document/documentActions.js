@@ -16,7 +16,7 @@
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.cleanDocuments = exports.cleanData = exports.putDoc = exports.postDoc = exports.deleteDoc = exports.updateField = exports.fetchData = undefined;
+  exports.cleanDocuments = exports.cleanData = exports.putDoc = exports.postDoc = exports.deleteDoc = exports.updateFields = exports.updateField = exports.fetchData = undefined;
 
   var actions = _interopRequireWildcard(_actions);
 
@@ -68,6 +68,18 @@
    */
   var updateField = exports.updateField = function updateField(payload) {
     (0, _index.dispatch)(actions.updateField(payload));
+  };
+  /**
+   * Dispatch action to update local data inside document
+   * @param {object} payload
+   * @param {string} payload.targetName key to find document inside redux store.parse.documents
+   * @param {string} payload.data data to merge inside current doc data
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
+   * @param {function} payload.boomerang optional, you can pass some data that help you manage your things with this async query
+   */
+  var updateFields = exports.updateFields = function updateFields(payload) {
+    (0, _index.dispatch)(actions.updateFields(payload));
   };
 
   /**

@@ -8,7 +8,8 @@ const {
   DELETE_DOCUMENT,
   CLEAN_DOCUMENT,
   CLEAN_ALL_DOCUMENTS,
-  UPDATE_DOC_FIELD
+  UPDATE_DOC_FIELD,
+  UPDATE_DOC_FIELDS
 } = types;
 
 /**
@@ -37,12 +38,22 @@ export const setOnStore = payload => ({
   type: SET_DOCUMENT,
   payload
 });
+
 /**
  * updateField
  * @param {*} payload {targetName, key, value}
  */
 export const updateField = payload => ({
   type: UPDATE_DOC_FIELD,
+  payload
+});
+
+/**
+ * updateFields
+ * @param {*} payload {targetName, key, value}
+ */
+export const updateFields = payload => ({
+  type: UPDATE_DOC_FIELDS,
   payload
 });
 

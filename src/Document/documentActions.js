@@ -33,6 +33,18 @@ import {dispatch} from '../index'
   export const updateField = (payload) => {
     dispatch(actions.updateField(payload))
   }
+  /**
+   * Dispatch action to update local data inside document
+   * @param {object} payload
+   * @param {string} payload.targetName key to find document inside redux store.parse.documents
+   * @param {string} payload.data data to merge inside current doc data
+   * @param {object} payload.logger pass to your Logger relevant info
+   * @param {function} payload.dispatchId optional, you can pass some unique key to help you follow specific query status
+   * @param {function} payload.boomerang optional, you can pass some data that help you manage your things with this async query
+   */
+  export const updateFields = (payload) => {
+    dispatch(actions.updateFields(payload))
+  }
 
   /**
    * Dispatch action to delete document from collection

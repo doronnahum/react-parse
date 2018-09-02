@@ -30,7 +30,8 @@
   var SET_DOCUMENT = _types2.default.SET_DOCUMENT,
       CLEAN_DOCUMENT = _types2.default.CLEAN_DOCUMENT,
       CLEAN_ALL_DOCUMENTS = _types2.default.CLEAN_ALL_DOCUMENTS,
-      UPDATE_DOC_FIELD = _types2.default.UPDATE_DOC_FIELD;
+      UPDATE_DOC_FIELD = _types2.default.UPDATE_DOC_FIELD,
+      UPDATE_DOC_FIELDS = _types2.default.UPDATE_DOC_FIELDS;
 
   // This is not a reducer, return null if it is not a relevant action.
 
@@ -90,10 +91,20 @@
           _nextState = _nextState.setIn(['documents', targetName, 'data', key], value);
           return _nextState;
         }
+      case UPDATE_DOC_FIELDS:
+        {
+          var _documents2 = state.documents.get(targetName);
+          var _nextState2 = state;
+          if (!_documents2) {
+            _nextState2 = _nextState2.setIn(['documents', targetName], Map({ data: data }));
+          } else {}
+          _nextState2 = _nextState2.mergeIn(['documents', targetName, 'data'], data);
+          return _nextState2;
+        }
       case CLEAN_DOCUMENT:
         {
-          var _documents2 = state.documents.delete(targetName);
-          return state.set('documents', _documents2);
+          var _documents3 = state.documents.delete(targetName);
+          return state.set('documents', _documents3);
         }
       case CLEAN_ALL_DOCUMENTS:
         {

@@ -6,7 +6,8 @@ const {
   SET_DOCUMENT,
   CLEAN_DOCUMENT,
   CLEAN_ALL_DOCUMENTS,
-  UPDATE_DOC_FIELD
+  UPDATE_DOC_FIELD,
+  UPDATE_DOC_FIELDS
 } = types;
 // This is not a reducer, return null if it is not a relevant action.
 
@@ -59,6 +60,17 @@ export default function reducerHandler(state, action) {
         ['documents', targetName, 'data', key],
         value
       );
+      return nextState;
+    }
+    case UPDATE_DOC_FIELDS: {
+      const documents = state.documents.get(targetName);
+      let nextState = state;
+      if (!documents) {
+        nextState = nextState.setIn(['documents', targetName], Map({data}));
+      }else{
+
+      }
+      nextState = nextState.mergeIn(['documents', targetName, 'data'], data);
       return nextState;
     }
     case CLEAN_DOCUMENT: {

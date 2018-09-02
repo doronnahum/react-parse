@@ -19,6 +19,7 @@ class FetchDocument extends React.Component {
     this.fetchData = this.fetchData.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.updateField = this.updateField.bind(this);
+    this.updateFields = this.updateFields.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.onPost = this.onPost.bind(this);
     this.onPut = this.onPut.bind(this);
@@ -29,6 +30,12 @@ class FetchDocument extends React.Component {
     const { localFirst, fetchData, objectId } = this.props;
     if (objectId && (!localFirst || (localFirst && !fetchData))) {
       this.fetchData();
+    }
+  }
+  componentDidMount() {
+    const { objectId, initialValue } = this.props;
+    if(!objectId && initialValue ){
+      this.updateFields(initialValue)
     }
   }
 
@@ -123,6 +130,12 @@ class FetchDocument extends React.Component {
     this.props.fetchActions.updateField({ targetName: target, key, value });
   }
 
+  updateFields(data) {
+    const { targetName, objectId, uniqueId } = this.props;
+    const target = targetName || (objectId || uniqueId);
+    this.props.fetchActions.updateFields({ targetName: target, data });
+  }
+
   handleCallBacks(props, nextProps) {
     const { fetchStatus, fetchData, fetchInfo, fetchError, autoRefresh, fetchBoomerang, fetchDispatchId } = nextProps;
     const callBackData = {error: fetchError, status: fetchStatus, data: fetchData, info: fetchInfo, boomerang: fetchBoomerang, dispatchId: fetchDispatchId }
@@ -163,6 +176,7 @@ class FetchDocument extends React.Component {
       post: this.onPost,
       cleanData: this.cleanData,
       updateField: this.updateField,
+      updateFields: this.updateFields,
       id: objectId || uniqueId,
       dataHandler
       }
