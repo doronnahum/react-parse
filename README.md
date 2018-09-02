@@ -1,5 +1,6 @@
 
 
+
 <img align="right" width="75" height="75"
      title="Size Limit logo" src="./logo.svg">
 
@@ -42,6 +43,7 @@ React Parse include 3 data provider components, to make the life even easier and
 -  [Enum](#enum)
 -  [Logger](#logger)
 - [Global Loader](#loader)
+- [Clean State](#cleanstate)
 
 ## Installation
 
@@ -265,6 +267,9 @@ import { documentActions } from  'react-parse';
  
  - Update local data
  **updateField**({targetName, key, value, logger})
+ 
+  - Update local data
+ **updateFields**({targetName,  data, logger})
 
  - Clean document from your store:
  **cleanData**({targetName})
@@ -374,6 +379,7 @@ import {FetchDocument} from 'react-parse'
 	localOnly={false} // never fetch data from server, only find in store
 	autoRefresh={false} // Fetch data after each create/update/delete doc
 	dataHandler={data => data} // Function to manipulate the data before set to store. 
+	initialValue={{title: 'default title'}}
 	// Want to pass something to your component, add here
 	userName='Dan' // MyComponent will get this.props.userName
 />
@@ -516,5 +522,26 @@ class MyComponent extends React.Component {
 		)
 
 ```
+
+## CleanState
+
+Need to clean the state ?
+
+ - Option 1
+ Add lister to your logout action type:
+	 ```
+	 import {setClearStateActionType} from 'react-parse
+	 setClearStateActionType('USER_LOGOUT')
+	 ```
+ - Option 2
+ Call react-parse cleanAllState action
+	 ```
+	 import {cleanAllState} from 'react-parse
+	 cleanAllState()
+	 ```
+- Option 3
+dispatch action with this type 'CLEAN_ALL_PARSE_STATE'
+
  # Contribute
 You can help improving this project sending PRs and helping with issues.  
+
