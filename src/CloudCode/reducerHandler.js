@@ -1,6 +1,8 @@
 import types from '../types';
 
 const { Map, fromJS } = require('immutable');
+import isObject from 'lodash/isObject';
+
 // This is not a reducer, return null if it is not a relevant action.
 
 export default function reducerHandler(state, action) {
@@ -20,6 +22,12 @@ export default function reducerHandler(state, action) {
         );
       }
       if ('data' in payload) {
+        let _data // Cloud code can return a dynamic value, not only arr/obj
+        if(isObject(data)){
+          _data = data
+        }else{
+          _data = {value: data}
+        }
         nextState = nextState.setIn(['cloudCodes', targetName, 'data'], fromJS(data));
       }
       if ('info' in payload) {

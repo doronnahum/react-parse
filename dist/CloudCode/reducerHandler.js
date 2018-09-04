@@ -1,16 +1,16 @@
 (function (global, factory) {
   if (typeof define === "function" && define.amd) {
-    define(['exports', '../types', 'immutable'], factory);
+    define(['exports', '../types', 'lodash/isObject', 'immutable'], factory);
   } else if (typeof exports !== "undefined") {
-    factory(exports, require('../types'), require('immutable'));
+    factory(exports, require('../types'), require('lodash/isObject'), require('immutable'));
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, global.types, global.immutable);
+    factory(mod.exports, global.types, global.isObject, global.immutable);
     global.reducerHandler = mod.exports;
   }
-})(this, function (exports, _types, _require) {
+})(this, function (exports, _types, _isObject, _require) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -20,6 +20,8 @@
 
   var _types2 = _interopRequireDefault(_types);
 
+  var _isObject2 = _interopRequireDefault(_isObject);
+
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
       default: obj
@@ -28,6 +30,7 @@
 
   var Map = _require.Map,
       fromJS = _require.fromJS;
+
 
   // This is not a reducer, return null if it is not a relevant action.
 
@@ -55,6 +58,12 @@
             nextState = nextState.setIn(['cloudCodes', targetName, 'status'], status);
           }
           if ('data' in payload) {
+            var _data = void 0; // Cloud code can return a dynamic value, not only arr/obj
+            if ((0, _isObject2.default)(data)) {
+              _data = data;
+            } else {
+              _data = { value: data };
+            }
             nextState = nextState.setIn(['cloudCodes', targetName, 'data'], fromJS(data));
           }
           if ('info' in payload) {
