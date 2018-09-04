@@ -7,7 +7,7 @@ function mapStateToProps(state, props) {
   const keyForData = props.targetName || props.functionName;
   return {
     fetchData: getData(state, keyForData),
-    fetchyStatus: getStatus(state, keyForData),
+    fetchStatus: getStatus(state, keyForData),
     fetchInfo: getInfo(state, keyForData),
     fetchError: getError(state, keyForData),
     fetchDispatchId: getDispatchId(state, keyForData)
