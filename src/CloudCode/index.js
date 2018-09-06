@@ -64,10 +64,10 @@ class FetchCloudCode extends React.Component {
   }
 
   render() {
-    const { fetchData, fetchStatus, fetchInfo, fetchDispatchId,  fetchError, component } = this.props;
+    const { fetchData, fetchStatus, fetchInfo, fetchDispatchId,  fetchError, component, fetchPropsKey } = this.props;
     let props = removeLocalKeys(this.props);
     let propsToPass = Object.assign(props, {
-      fetchProps: {
+      [fetchPropsKey]: {
       data: fetchData,
       error: fetchError,
       status: fetchStatus,

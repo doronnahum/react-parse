@@ -32,7 +32,8 @@
     onFetchEnd: function onFetchEnd() {},
     onPostEnd: function onPostEnd() {},
     onPutEnd: function onPutEnd() {},
-    onDeleteEnd: function onDeleteEnd() {}
+    onDeleteEnd: function onDeleteEnd() {},
+    fetchPropsKey: 'fetchProps'
   };
 
   var propTypes = exports.propTypes = {

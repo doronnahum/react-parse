@@ -27,6 +27,21 @@
     };
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -288,28 +303,27 @@
             component = _props9.component,
             objectId = _props9.objectId,
             uniqueId = _props9.uniqueId,
-            dataHandler = _props9.dataHandler;
+            dataHandler = _props9.dataHandler,
+            fetchPropsKey = _props9.fetchPropsKey;
 
         var props = (0, _helpers.removeLocalKeys)(this.props);
-        var propsToPass = Object.assign(props, {
-          fetchProps: {
-            data: fetchData,
-            error: fetchError,
-            status: fetchStatus,
-            info: fetchInfo,
-            dispatchId: fetchDispatchId,
-            isLoading: (0, _helpers.isLoading)(fetchStatus),
-            refresh: this.onRefresh,
-            deleteDoc: this.onDelete,
-            put: objectId && this.onPut,
-            post: this.onPost,
-            cleanData: this.cleanData,
-            updateField: this.updateField,
-            updateFields: this.updateFields,
-            id: objectId || uniqueId,
-            dataHandler: dataHandler
-          }
-        });
+        var propsToPass = Object.assign(props, _defineProperty({}, fetchPropsKey, {
+          data: fetchData,
+          error: fetchError,
+          status: fetchStatus,
+          info: fetchInfo,
+          dispatchId: fetchDispatchId,
+          isLoading: (0, _helpers.isLoading)(fetchStatus),
+          refresh: this.onRefresh,
+          deleteDoc: this.onDelete,
+          put: objectId && this.onPut,
+          post: this.onPost,
+          cleanData: this.cleanData,
+          updateField: this.updateField,
+          updateFields: this.updateFields,
+          id: objectId || uniqueId,
+          dataHandler: dataHandler
+        }));
         if (component) {
           return (0, _react.createElement)(component, propsToPass);
         }

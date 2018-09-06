@@ -6,7 +6,8 @@ export const defaultProps = {
   onFetchEnd: () => {},
   onPostEnd: () => {},
   onPutEnd: () => {},
-  onDeleteEnd: () => {}
+  onDeleteEnd: () => {},
+  fetchPropsKey: 'fetchProps'
 };
 
 export const propTypes = {

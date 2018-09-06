@@ -27,6 +27,21 @@
     };
   }
 
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
+
   var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
     return typeof obj;
   } : function (obj) {
@@ -257,24 +272,23 @@
             fetchError = _props5.fetchError,
             fetchCount = _props5.fetchCount,
             fetchDispatchId = _props5.fetchDispatchId,
-            component = _props5.component;
+            component = _props5.component,
+            fetchPropsKey = _props5.fetchPropsKey;
 
         var props = (0, _helpers.removeLocalKeys)(this.props);
-        var propsToPass = Object.assign(props, {
-          fetchProps: {
-            data: fetchData,
-            error: fetchError,
-            status: fetchStatus,
-            info: fetchInfo,
-            count: fetchCount,
-            dispatchId: fetchDispatchId,
-            isLoading: (0, _helpers.isLoading)(fetchStatus),
-            refresh: this.onRefresh,
-            deleteDoc: this.onDelete,
-            put: this.onPut,
-            post: this.onPost
-          }
-        });
+        var propsToPass = Object.assign(props, _defineProperty({}, fetchPropsKey, {
+          data: fetchData,
+          error: fetchError,
+          status: fetchStatus,
+          info: fetchInfo,
+          count: fetchCount,
+          dispatchId: fetchDispatchId,
+          isLoading: (0, _helpers.isLoading)(fetchStatus),
+          refresh: this.onRefresh,
+          deleteDoc: this.onDelete,
+          put: this.onPut,
+          post: this.onPost
+        }));
         if (component) {
           return (0, _react.createElement)(component, propsToPass);
         }

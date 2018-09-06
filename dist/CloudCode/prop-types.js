@@ -94,6 +94,7 @@
   var defaultProps = exports.defaultProps = {
     digToData: 'data.result',
     leaveClean: true,
-    onFetchEnd: function onFetchEnd() {}
+    onFetchEnd: function onFetchEnd() {},
+    fetchPropsKey: 'fetchProps'
   };
 });

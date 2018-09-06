@@ -68,5 +68,6 @@ export const propTypes = {
 export const defaultProps = {
   digToData: 'data.result',
   leaveClean: true,
-  onFetchEnd: () => {}
+  onFetchEnd: () => {},
+  fetchPropsKey: 'fetchProps'
 };
