@@ -334,6 +334,10 @@ Seamlessly bring Parse data into your Component with the ability to POST, PUT, D
 
 ### FetchProps
 Data provider component will render you component with all the props you pass to the dataComponent and with fetchProps object.
+
+> fetchProps is the default key but you can set your key, just pass fetchPropsKey inside dataProviders
+> <   [FetchCollection](https://stackedit.io/app#fetchcollection) fetchPropsKey='res'
+
 fetchProps include :
 - data - response from the server
 - error - error object from query
@@ -508,7 +512,7 @@ setLoggerHandlers({
 ```
 
 ## loader
-need a global loader? 
+need a global loader?
 ```bash
 import {ShowLoader} from 'react-parse'
 class MyComponent extends React.Component {
