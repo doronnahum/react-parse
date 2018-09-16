@@ -37,15 +37,15 @@
 		if (_onSuccess) {
 			_onSuccess(action, status);
 		}
-		if (action.onSuccess) {
-			action.onSuccess({ type: type, action: action, status: status, res: res });
+		if (action.payload.onSuccess) {
+			action.payload.onSuccess({ type: type, action: action, status: status, res: res });
 		}
 	};
 	var onError = function onError(type, action, status, res) {
 		if (_onError) {
 			_onError(action, status);
 		}
-		if (action.onSuccess) {
+		if (action.payload.onError) {
 			action.onError({ type: type, action: action, status: status, res: res });
 		}
 	};

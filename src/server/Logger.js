@@ -20,15 +20,15 @@ const onSuccess = function(type, action, status, res){
 	if(_onSuccess){
 		_onSuccess(action, status)
 	}
-	if(action.onSuccess){
-		action.onSuccess({type, action, status, res})
+	if(action.payload.onSuccess){
+		action.payload.onSuccess({type, action, status, res})
 	}
 }
 const onError = function(type, action, status, res){
 	if(_onError){
 		_onError(action, status)
 	}
-	if(action.onSuccess){
+	if(action.payload.onError){
 		action.onError({type, action, status, res})
 	}
 }
