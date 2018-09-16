@@ -30,13 +30,13 @@ export default function* postDoc(action) {
   if (res.error) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('postDoc err', schemaName, res.err);
-    Logger.onError('POST', action, errType)
+    Logger.onError('POST', action, errType, res)
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
   } else {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang })
     );
-    Logger.onSuccess('POST', action, FINISHED);
+    Logger.onSuccess('POST', action, FINISHED, res);
     if(autoRefresh){
       yield put(
         refreshCollection({ targetName: target })

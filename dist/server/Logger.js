@@ -33,14 +33,20 @@
 		}
 	};
 
-	var onSuccess = function onSuccess(type, action, status) {
+	var onSuccess = function onSuccess(type, action, status, res) {
 		if (_onSuccess) {
 			_onSuccess(action, status);
 		}
+		if (action.onSuccess) {
+			action.onSuccess({ type: type, action: action, status: status, res: res });
+		}
 	};
-	var onError = function onError(type, action, status) {
+	var onError = function onError(type, action, status, res) {
 		if (_onError) {
 			_onError(action, status);
+		}
+		if (action.onSuccess) {
+			action.onError({ type: type, action: action, status: status, res: res });
 		}
 	};
 

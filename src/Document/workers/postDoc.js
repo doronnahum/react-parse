@@ -30,7 +30,7 @@ export default function* postDoc(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', targetName, res.error);
     yield put(setOnStore({ targetName, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
-    Logger.onError('POST', action, errType)
+    Logger.onError('POST', action, errType, res)
   } else {
     const info = {
       timestamp: Date.now(),
@@ -50,7 +50,7 @@ export default function* postDoc(action) {
         boomerang
       })
     );
-    Logger.onSuccess('POST', action, FINISHED)
+    Logger.onSuccess('POST', action, FINISHED, res)
   }
 }
 /* eslint no-unused-vars: "off" */

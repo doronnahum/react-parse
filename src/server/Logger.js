@@ -16,14 +16,20 @@ export const setLoggerHandlers = function(payload){
 }
 
 
-const onSuccess = function(type, action, status){
+const onSuccess = function(type, action, status, res){
 	if(_onSuccess){
 		_onSuccess(action, status)
-	}	
+	}
+	if(action.onSuccess){
+		action.onSuccess({type, action, status, res})
+	}
 }
-const onError = function(type, action, status){
+const onError = function(type, action, status, res){
 	if(_onError){
 		_onError(action, status)
+	}
+	if(action.onSuccess){
+		action.onError({type, action, status, res})
 	}
 }
 

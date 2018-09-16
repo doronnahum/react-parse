@@ -23,7 +23,7 @@ export default function* fetchCloudCode(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     yield put(setOnStore({ targetName: target, status: errType, error: res,  loading: false, dispatchId: _dispatchId }));
     console.error('getCloudFunction err: ', functionName, res.error);
-    Logger.onError('CLOUD_CODE', action, errType);
+    Logger.onError('CLOUD_CODE', action, errType, res);
   } else {
     const _data = dig(res, _digToData);
     const data = dataHandler ? dataHandler(_data) : _data
@@ -41,7 +41,7 @@ export default function* fetchCloudCode(action) {
         dispatchId: _dispatchId
       })
     );
-    Logger.onSuccess('CLOUD_CODE', action, FINISHED);
+    Logger.onSuccess('CLOUD_CODE', action, FINISHED, res);
   }
 }
 /* eslint no-unused-vars: "off" */

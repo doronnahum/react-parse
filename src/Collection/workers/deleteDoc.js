@@ -21,12 +21,12 @@ export default function* deleteDoc(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('deleteDoc err', schemaName, objectId, res.err);
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
-    Logger.onError('DELETE', action, errType);
+    Logger.onError('DELETE', action, errType, res);
   } else {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang })
     );
-    Logger.onSuccess('DELETE', action, FINISHED);
+    Logger.onSuccess('DELETE', action, FINISHED, res);
     if(autoRefresh){
       yield put(
         refreshCollection({ targetName: target })

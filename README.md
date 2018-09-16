@@ -212,6 +212,8 @@ action payload options
 |fileValueHandler|function|pass function that will get the new file URL if you didn't want to save it as File object|
 |dispatchId|string| optional, you can pass some unique key to help you follow specific query status |
 boomerang|any| You can transfer anything and it will come back to you with data providers callbacks. this is just data that can help you manage your stuff
+onSuccess| function| onSuccess will be called on query end successfully with this parameter ({type, action, status, res}) <br/> *res is the network response
+onError| function| onError will be called on query end successfully with this parameter ({type, action, status, res}) <br/> *res is the network response
 
 ---
 ### import all actions

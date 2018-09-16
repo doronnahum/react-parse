@@ -105,7 +105,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: targetName, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 29:
-            _server.Logger.onError('POST', action, errType);
+            _server.Logger.onError('POST', action, errType, res);
             _context.next = 36;
             break;
 
@@ -129,7 +129,7 @@
             }));
 
           case 35:
-            _server.Logger.onSuccess('POST', action, FINISHED);
+            _server.Logger.onSuccess('POST', action, FINISHED, res);
 
           case 36:
           case 'end':

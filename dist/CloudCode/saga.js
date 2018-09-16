@@ -73,7 +73,7 @@
 
           case 13:
             console.error('getCloudFunction err: ', functionName, res.error);
-            _Logger2.default.onError('CLOUD_CODE', action, errType);
+            _Logger2.default.onError('CLOUD_CODE', action, errType, res);
             _context.next = 22;
             break;
 
@@ -95,7 +95,7 @@
             }));
 
           case 21:
-            _Logger2.default.onSuccess('CLOUD_CODE', action, FINISHED);
+            _Logger2.default.onSuccess('CLOUD_CODE', action, FINISHED, res);
 
           case 22:
           case 'end':

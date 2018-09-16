@@ -27,7 +27,7 @@ export default function* fetchDoc(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('get document err', objectId, res.error);
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
-    Logger.onError('GET', action, errType);
+    Logger.onError('GET', action, errType, res);
   } else {
     const info = {
       timestamp: Date.now(),
@@ -49,7 +49,7 @@ export default function* fetchDoc(action) {
         boomerang
       })
     );
-    Logger.onSuccess('GET', action, FINISHED);
+    Logger.onSuccess('GET', action, FINISHED, res);
   }
 }
 /* eslint no-unused-vars: "off" */

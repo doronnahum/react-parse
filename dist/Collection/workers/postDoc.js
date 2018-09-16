@@ -102,7 +102,7 @@
             errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
 
             console.error('postDoc err', schemaName, res.err);
-            _server.Logger.onError('POST', action, errType);
+            _server.Logger.onError('POST', action, errType, res);
             _context.next = 31;
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
@@ -115,7 +115,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 35:
-            _server.Logger.onSuccess('POST', action, FINISHED);
+            _server.Logger.onSuccess('POST', action, FINISHED, res);
 
             if (!autoRefresh) {
               _context.next = 39;

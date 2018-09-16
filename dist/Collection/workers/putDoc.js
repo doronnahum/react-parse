@@ -106,7 +106,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 30:
-            _server.Logger.onError('PUT', action, errType);
+            _server.Logger.onError('PUT', action, errType, res);
             _context.next = 39;
             break;
 
@@ -115,7 +115,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 35:
-            _server.Logger.onSuccess('PUT', action, FINISHED);
+            _server.Logger.onSuccess('PUT', action, FINISHED, res);
 
             if (!autoRefresh) {
               _context.next = 39;

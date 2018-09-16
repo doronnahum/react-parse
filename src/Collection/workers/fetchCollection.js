@@ -46,7 +46,7 @@ export default function* fetchCollection(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('fetchCollection err: ', schemaName, res.error);
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
-    Logger.onError('GET', action, errType);
+    Logger.onError('GET', action, errType, res);
   } else {
     const _data = dig(res, 'data.results')
     const data = dataHandler ? dataHandler(_data) : _data;
@@ -75,7 +75,7 @@ export default function* fetchCollection(action) {
         boomerang
       })
     );
-    Logger.onSuccess('GET', action, FINISHED);
+    Logger.onSuccess('GET', action, FINISHED, res);
   }
 }
 /* eslint no-unused-vars: "off" */

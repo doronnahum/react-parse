@@ -31,12 +31,12 @@ export default function* putDoc(action) {
     const errType = res.message === 'Network Error' ? FAILED_NETWORK : FAILED;
     console.error('putDoc err', schemaName, objectId, res.err);
     yield put(setOnStore({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang }));
-    Logger.onError('PUT', action, errType)
+    Logger.onError('PUT', action, errType, res)
   } else {
     yield put(
       setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang })
     );
-    Logger.onSuccess('PUT', action, FINISHED);
+    Logger.onSuccess('PUT', action, FINISHED, res);
     if(autoRefresh){
       yield put(
         refreshCollection({ targetName: target })

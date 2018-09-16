@@ -72,7 +72,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: errType, error: res, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 12:
-            _Logger2.default.onError('DELETE', action, errType);
+            _Logger2.default.onError('DELETE', action, errType, res);
             _context.next = 21;
             break;
 
@@ -81,7 +81,7 @@
             return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
 
           case 17:
-            _Logger2.default.onSuccess('DELETE', action, FINISHED);
+            _Logger2.default.onSuccess('DELETE', action, FINISHED, res);
 
             if (!autoRefresh) {
               _context.next = 21;
