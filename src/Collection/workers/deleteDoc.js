@@ -24,7 +24,7 @@ export default function* deleteDoc(action) {
     Logger.onError('DELETE', action, errType, res);
   } else {
     yield put(
-      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang })
+      setOnStore({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang, info: {deleteDocId: objectId} })
     );
     Logger.onSuccess('DELETE', action, FINISHED, res);
     if(autoRefresh){

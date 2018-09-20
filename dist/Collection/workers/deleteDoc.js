@@ -78,7 +78,7 @@
 
           case 15:
             _context.next = 17;
-            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang: boomerang }));
+            return (0, _effects.put)((0, _actions.setOnStore)({ targetName: target, status: FINISHED, error: null, loading: false, dispatchId: _dispatchId, boomerang: boomerang, info: { deleteDocId: objectId } }));
 
           case 17:
             _Logger2.default.onSuccess('DELETE', action, FINISHED, res);

@@ -79,7 +79,8 @@
           case 15:
             info = {
               timestamp: Date.now(),
-              schemaName: schemaName
+              schemaName: schemaName,
+              deleteDocId: objectId
             };
             _context.next = 18;
             return (0, _effects.put)((0, _actions.setOnStore)({

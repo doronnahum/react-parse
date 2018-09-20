@@ -24,7 +24,8 @@ export default function* deleteDoc(action) {
   } else {
     const info = {
       timestamp: Date.now(),
-      schemaName
+      schemaName,
+      deleteDocId: objectId
     };
     yield put(
       setOnStore({
